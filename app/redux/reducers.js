@@ -26,6 +26,9 @@ import signIn from './modules/signIn';
 import resetpasword from './modules/resetPassword';
 
 import bank from './modules/bank';
+import paymentMethod from './modules/paymentMethod';
+import packageInfo from './modules/package';
+import category from './modules/category';
 
 /**
  * Branching reducers to use one reducer for many components
@@ -50,16 +53,21 @@ export default function createReducer(injectedReducers = {}) {
     form,
     ui: uiReducer,
     initval,
+    //Login Register reducer
     login,
     register,
     signIn,
-    //resetPassword
+    //resetPassword        //TODO
     socmed,
     calendar,
     ecommerce,
     contact,
-
+    //Bank, category, payment method, package reducer
     bank,
+    category,
+    paymentMethod,
+    packageInfo,
+
     chat,
     email,
     taskboard,

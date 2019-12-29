@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
@@ -10,17 +9,12 @@ import Bookmark from '@material-ui/icons/Bookmark';
 import Work from '@material-ui/icons/Work';
 import Language from '@material-ui/icons/Language';
 import css from 'dan-styles/Form.scss';
-import { TextFieldRedux, renderToggleInput } from '../Forms/ReduxFormMUI';
-import { required } from '../Forms/helpers/formValidation'
+import { TextFieldRedux, renderToggleInput, RegularTextFieldRedux } from '../Forms/ReduxFormMUI';
+import { validate } from '../../components/Forms/helpers/formValidation';
 import styles from './contact-jss';
 
 
 class AddBankForm extends React.Component {
-    saveRef = ref => {
-        this.ref = ref;
-        return this.ref;
-    };
-
     render() {
         const {
             classes,
@@ -39,7 +33,6 @@ class AddBankForm extends React.Component {
                                 component={TextFieldRedux}
                                 placeholder="Account Number"
                                 label="Account Number"
-                                validate={required}
                                 required
                                 ref={this.saveRef}
                                 className={classes.field}
@@ -58,6 +51,7 @@ class AddBankForm extends React.Component {
                                 component={TextFieldRedux}
                                 placeholder="Bank Name"
                                 label="Bank Name"
+                                required
                                 className={classes.field}
                                 InputProps={{
                                     startAdornment: (
@@ -75,6 +69,7 @@ class AddBankForm extends React.Component {
                                 placeholder="IFSC e.g HDFC001"
                                 label="IFSC e.g HDFC001"
                                 className={classes.field}
+                                required
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -87,7 +82,7 @@ class AddBankForm extends React.Component {
                         <div>
                             <Field
                                 name="upi"
-                                component={TextFieldRedux}
+                                component={RegularTextFieldRedux}
                                 placeholder="UPI e.g. 000121"
                                 label="UPI e.g. 000121"
                                 className={classes.field}
@@ -106,6 +101,7 @@ class AddBankForm extends React.Component {
                                 component={TextFieldRedux}
                                 placeholder="Account Holder"
                                 label="Account Holder"
+                                required
                                 className={classes.field}
                                 InputProps={{
                                     startAdornment: (
@@ -142,24 +138,9 @@ class AddBankForm extends React.Component {
     }
 }
 
-AddBankForm.propTypes = {
-    classes: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
-    onDrop: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired
-};
-
-const AddBankFormRedux = reduxForm({
+export default withStyles(styles)(reduxForm({
     form: 'addBankForm',
-    enableReinitialize: true,
-})(AddBankForm);
+    validate,
+    enableReinitialize: true
+})(AddBankForm));
 
-const AddBank = connect(
-    state => ({
-        initialValues: state.getIn(['contact', 'formValues'])
-    })
-)(AddBankFormRedux);
-
-export default withStyles(styles)(AddBank);

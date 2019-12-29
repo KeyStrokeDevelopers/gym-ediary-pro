@@ -8,18 +8,13 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import PermContactCalendar from '@material-ui/icons/PermContactCalendar';
 import Bookmark from '@material-ui/icons/Bookmark';
 import Work from '@material-ui/icons/Work';
-import Language from '@material-ui/icons/Language';
 import css from 'dan-styles/Form.scss';
-import { TextFieldRedux, renderToggleInput } from '../Forms/ReduxFormMUI';
-import { required } from '../Forms/helpers/formValidation'
+import { TextFieldRedux, RegularTextFieldRedux } from '../Forms/ReduxFormMUI';
+import { validate, number } from '../../components/Forms/helpers/formValidation';
 import styles from './contact-jss';
 
 
 class AddPackageForm extends React.Component {
-    saveRef = ref => {
-        this.ref = ref;
-        return this.ref;
-    };
 
     render() {
         const {
@@ -39,7 +34,6 @@ class AddPackageForm extends React.Component {
                                 component={TextFieldRedux}
                                 placeholder="Package Name e.g. Monthly, Yearly"
                                 label="Package Name e.g. Monthly, Yearly"
-                                validate={required}
                                 required
                                 ref={this.saveRef}
                                 className={classes.field}
@@ -58,6 +52,8 @@ class AddPackageForm extends React.Component {
                                 component={TextFieldRedux}
                                 placeholder="Duration Months- 1, 12"
                                 label="Duration Months- 1, 12"
+                                required
+                                validate={number}
                                 className={classes.field}
                                 InputProps={{
                                     startAdornment: (
@@ -74,6 +70,8 @@ class AddPackageForm extends React.Component {
                                 component={TextFieldRedux}
                                 placeholder="Package Price - 1000, 3000"
                                 label="Package Price - 1000, 3000"
+                                required
+                                validate={number}
                                 className={classes.field}
                                 InputProps={{
                                     startAdornment: (
@@ -87,9 +85,10 @@ class AddPackageForm extends React.Component {
                         <div>
                             <Field
                                 name="packDetails"
-                                component={TextFieldRedux}
+                                component={RegularTextFieldRedux}
                                 placeholder="Package Details - If Any"
                                 label="Package Details - If Any"
+                                required
                                 className={classes.field}
                                 InputProps={{
                                     startAdornment: (
@@ -118,24 +117,8 @@ class AddPackageForm extends React.Component {
     }
 }
 
-AddPackageForm.propTypes = {
-    classes: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
-    onDrop: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired
-};
-
-const AddPackageFormRedux = reduxForm({
+export default withStyles(styles)(reduxForm({
     form: 'addPackageForm',
-    enableReinitialize: true,
-})(AddPackageForm);
-
-const AddPackage = connect(
-    state => ({
-        initialValues: state.getIn(['contact', 'formValues'])
-    })
-)(AddPackageFormRedux);
-
-export default withStyles(styles)(AddPackage);
+    validate,
+    enableReinitialize: true
+})(AddPackageForm));

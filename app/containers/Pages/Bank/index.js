@@ -8,38 +8,46 @@ import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
 import dummy from 'dan-api/dummy/dummyContents';
 import {
-    fetchAction,
-    showDetailAction,
-    hideDetailAction,
-    submitAction,
-    editAction,
-    addAction,
+    getBankData,
+    submitBankData,
+    addBankData,
     closeAction,
-    removeAction,
-    addToFavoriteAction,
-    searchAction,
-    closeNotifAction
-} from 'dan-actions/ContactActions';
+    //     showDetailAction,
+    //     hideDetailAction,
+    //     submitAction,
+    //     editAction,
+    //     addAction,
+    //     closeAction,
+    //     removeAction,
+    //     addToFavoriteAction,
+    //     searchAction,
+    //     closeNotifAction
+} from 'dan-actions/BankActions';
 import {
     ContactList,
     ContactDetail,
+    // BankDataList,
     AddContact,
+    AddBank,
     Notification
 } from 'dan-components';
+import BankDataList from '../../../components/Contact/BankDataList';
+import BankDetail from '../../../components/Contact/BankDetail';
 import styles from 'dan-components/Contact/contact-jss';
 
 class Bank extends React.Component {
     componentDidMount() {
         const { fetchData } = this.props;
-        fetchData(data);
+        fetchData();
     }
 
-    submitContact = (item, avatar) => {
-        console.log('item in submit contact ------', item);
-        const { submit } = this.props;
-        const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-        const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
-        submit(item, avatarPreview);
+    submitBankData = (data, avatar) => {
+        console.log('item in submit bank form -----submit ------ ------', data);
+        // this.props.addBankData(item)
+        const { submitData } = this.props;
+        // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
+        // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
+        submitData(data);
     }
 
     render() {
@@ -48,6 +56,7 @@ class Bank extends React.Component {
         const {
             classes,
             dataContact,
+            bankData,
             itemSelected,
             showDetail,
             hideDetail,
@@ -64,6 +73,7 @@ class Bank extends React.Component {
             closeNotif,
             messageNotif
         } = this.props;
+        console.log('bank data ------', bankData);
         return (
             <div>
                 <Helmet>
@@ -76,21 +86,21 @@ class Bank extends React.Component {
                 </Helmet>
                 <Notification close={() => closeNotif()} message={messageNotif} />
                 <div className={classes.root}>
-                    <ContactList
+                    <BankDataList
                         addFn
-                        total={dataContact.size}
+                        total={bankData && bankData.length}
                         addContact={add}
                         clippedRight
                         itemSelected={itemSelected}
-                        dataContact={dataContact}
+                        bankData={bankData}
                         showDetail={showDetail}
                         search={search}
                         keyword={keyword}
                     />
-                    <ContactDetail
+                    <BankDetail
                         showMobileDetail={showMobileDetail}
                         hideDetail={hideDetail}
-                        dataContact={dataContact}
+                        bankData={bankData}
                         itemSelected={itemSelected}
                         edit={edit}
                         remove={remove}
@@ -102,7 +112,7 @@ class Bank extends React.Component {
                     openForm={open}
                     formType='bank'
                     closeForm={close}
-                    submit={this.submitContact}
+                    submit={this.submitBankData}
                     avatarInit={avatarInit}
                 />
             </div>
@@ -110,52 +120,58 @@ class Bank extends React.Component {
     }
 }
 
-Bank.propTypes = {
-    classes: PropTypes.object.isRequired,
-    avatarInit: PropTypes.string.isRequired,
-    fetchData: PropTypes.func.isRequired,
-    showDetail: PropTypes.func.isRequired,
-    hideDetail: PropTypes.func.isRequired,
-    keyword: PropTypes.string.isRequired,
-    open: PropTypes.bool.isRequired,
-    showMobileDetail: PropTypes.bool.isRequired,
-    add: PropTypes.func.isRequired,
-    close: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired,
-    edit: PropTypes.func.isRequired,
-    remove: PropTypes.func.isRequired,
-    favorite: PropTypes.func.isRequired,
-    search: PropTypes.func.isRequired,
-    dataContact: PropTypes.object.isRequired,
-    itemSelected: PropTypes.number.isRequired,
-    closeNotif: PropTypes.func.isRequired,
-    messageNotif: PropTypes.string.isRequired,
-};
+// Bank.propTypes = {
+//     classes: PropTypes.object.isRequired,
+//     avatarInit: PropTypes.string.isRequired,
+//     fetchData: PropTypes.func.isRequired,
+//     showDetail: PropTypes.func.isRequired,
+//     hideDetail: PropTypes.func.isRequired,
+//     keyword: PropTypes.string.isRequired,
+//     open: PropTypes.bool.isRequired,
+//     showMobileDetail: PropTypes.bool.isRequired,
+//     add: PropTypes.func.isRequired,
+//     close: PropTypes.func.isRequired,
+//     //submit: PropTypes.func.isRequired,
+//     edit: PropTypes.func.isRequired,
+//     remove: PropTypes.func.isRequired,
+//     favorite: PropTypes.func.isRequired,
+//     search: PropTypes.func.isRequired,
+//     dataContact: PropTypes.object.isRequired,
+//     itemSelected: PropTypes.number.isRequired,
+//     closeNotif: PropTypes.func.isRequired,
+//     messageNotif: PropTypes.string.isRequired,
+// };
 
-const reducer = 'contact';
-const mapStateToProps = state => ({
-    force: state, // force state from reducer
-    avatarInit: state.getIn([reducer, 'avatarInit']),
-    dataContact: state.getIn([reducer, 'contactList']),
-    itemSelected: state.getIn([reducer, 'selectedIndex']),
-    keyword: state.getIn([reducer, 'keywordValue']),
-    open: state.getIn([reducer, 'openFrm']),
-    showMobileDetail: state.getIn([reducer, 'showMobileDetail']),
-    messageNotif: state.getIn([reducer, 'notifMsg']),
-});
+const reducer = 'bank';
+const mapStateToProps = state => {
+    const bankReducer = state.get('bank');
+    console.log('bank record ----', bankReducer);
+    return ({
+
+        // force: state, // force state from reducer
+        avatarInit: bankReducer.avatarInit,
+        bankData: bankReducer.bankList,
+        itemSelected: bankReducer.selectedIndex,
+        keyword: bankReducer.keywordValue,
+        open: bankReducer.openFrm,
+        showMobileDetail: bankReducer.showMobileDetail,
+        messageNotif: bankReducer.notifMsg,
+    });
+}
 
 const constDispatchToProps = dispatch => ({
-    fetchData: bindActionCreators(fetchAction, dispatch),
-    showDetail: bindActionCreators(showDetailAction, dispatch),
-    hideDetail: () => dispatch(hideDetailAction),
-    submit: bindActionCreators(submitAction, dispatch),
-    edit: bindActionCreators(editAction, dispatch),
-    add: () => dispatch(addAction),
-    close: () => dispatch(closeAction),
-    remove: bindActionCreators(removeAction, dispatch),
-    favorite: bindActionCreators(addToFavoriteAction, dispatch),
-    search: bindActionCreators(searchAction, dispatch),
-    closeNotif: () => dispatch(closeNotifAction),
+    submitData: (data) => dispatch(submitBankData(data)),
+    fetchData: () => dispatch(getBankData()),
+    // showDetail: bindActionCreators(showDetailAction, dispatch),
+    // hideDetail: () => dispatch(hideDetailAction),
+    // submit: bindActionCreators(submitAction, dispatch),
+    // edit: bindActionCreators(editAction, dispatch),
+    add: () => dispatch(addBankData()),
+    close: () => dispatch(closeAction()),
+    // remove: bindActionCreators(removeAction, dispatch),
+    // favorite: bindActionCreators(addToFavoriteAction, dispatch),
+    // search: bindActionCreators(searchAction, dispatch),
+    // closeNotif: () => dispatch(closeNotifAction),
 });
 
 const BankMapped = connect(
@@ -164,3 +180,5 @@ const BankMapped = connect(
 )(Bank);
 
 export default withStyles(styles)(BankMapped);
+
+

@@ -9,7 +9,7 @@ import MomentUtils from '@date-io/moment';
 import Toggle from 'react-toggle';
 import "react-toggle/style.css";
 /* Textfield */
-export const TextFieldRedux = ({ meta: { touched, error }, input, ...rest }) => {
+export const RegularTextFieldRedux = ({ meta: { touched, error }, input, ...rest }) => {
   const [val, setVal] = useState('');
   return (
     <>
@@ -17,6 +17,26 @@ export const TextFieldRedux = ({ meta: { touched, error }, input, ...rest }) => 
         {...rest}
         {...input}
         value={val || input.value}
+        error={touched && Boolean(error)}
+      />
+      {
+        touched &&
+        <div style={{ textAlign: 'left', fontSize: '10px', color: 'red', paddingLeft: '10px' }}>{error}</div>
+      }
+    </>
+  );
+};
+
+export const TextFieldRedux = ({ meta: { touched, error }, input, ...rest }) => {
+  const [val, setVal] = useState('');
+  let enterValue = val || input.value;
+  enterValue = enterValue.toUpperCase();
+  return (
+    <>
+      <TextField
+        {...rest}
+        {...input}
+        value={enterValue}
         error={touched && Boolean(error)}
       />
       {

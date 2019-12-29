@@ -40,29 +40,33 @@ class ContactList extends React.Component {
       addFn, total
     } = this.props;
     const { filter } = this.state;
-    const favoriteData = dataContact.filter(item => item.get('favorited') === true);
-    const getItem = dataArray => dataArray.map(data => {
-      const index = dataContact.indexOf(data);
-      if (data.get('name').toLowerCase().indexOf(keyword) === -1) {
-        return false;
-      }
-      return (
-        <ListItem
-          button
-          key={data.get('id')}
-          className={index === itemSelected ? classes.selected : ''}
-          onClick={() => showDetail(data)}
-        >
-          <ListItemAvatar>
-            <Avatar alt={data.get('name')} src={data.get('avatar')} className={classes.avatar} />
-          </ListItemAvatar>
-          <ListItemText primary={data.get('name')} secondary={data.get('title')} />
-        </ListItem>
-      );
-    });
+    // const favoriteData = dataContact.filter(item => item.get('favorited') === true);
+
+    // const getItem = dataArray => dataArray.map(data => {
+    //   const index = dataContact.indexOf(data);
+    //   if (data.get('name').toLowerCase().indexOf(keyword) === -1) {
+    //     return false;
+    //   }
+    //   return (
+    //     <ListItem
+    //       button
+    //       key={data.get('id')}
+    //       className={index === itemSelected ? classes.selected : ''}
+    //       onClick={() => showDetail(data)}
+    //     >
+    //       <ListItemAvatar>
+    //         <Avatar alt={data.get('name')} src={data.get('avatar')} className={classes.avatar} />
+    //       </ListItemAvatar>
+    //       <ListItemText primary={data.get('name')} secondary={data.get('title')} />
+    //     </ListItem>
+    //   );
+    // });
+
+
     return (
       <Fragment>
-        <Drawer
+        <div>contact list</div>
+        {/* <Drawer
           variant="permanent"
           anchor="left"
           open
@@ -101,24 +105,24 @@ class ContactList extends React.Component {
         <BottomNavigation value={filter} onChange={this.handleChange} className={classes.bottomFilter}>
           <BottomNavigationAction label="All" value="all" icon={<PermContactCalendar />} />
           <BottomNavigationAction label="Favorites" value="favorites" icon={<Star />} />
-        </BottomNavigation>
+        </BottomNavigation> */}
       </Fragment>
     );
   }
 }
 
-ContactList.propTypes = {
-  classes: PropTypes.object.isRequired,
-  total: PropTypes.number.isRequired,
-  dataContact: PropTypes.object.isRequired,
-  keyword: PropTypes.string.isRequired,
-  itemSelected: PropTypes.number.isRequired,
-  addContact: PropTypes.func,
-  addFn: PropTypes.bool,
-  showDetail: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired,
-  clippedRight: PropTypes.bool,
-};
+// ContactList.propTypes = {
+//   classes: PropTypes.object.isRequired,
+//   total: PropTypes.number.isRequired,
+//   dataContact: PropTypes.object.isRequired,
+//   keyword: PropTypes.string.isRequired,
+//   itemSelected: PropTypes.number.isRequired,
+//   addContact: PropTypes.func,
+//   addFn: PropTypes.bool,
+//   showDetail: PropTypes.func.isRequired,
+//   search: PropTypes.func.isRequired,
+//   clippedRight: PropTypes.bool,
+// };
 
 ContactList.defaultProps = {
   clippedRight: false,

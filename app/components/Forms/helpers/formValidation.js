@@ -8,6 +8,19 @@ const validate = values => {
         'ifsc',
         'accountHolder',
 
+        //Payment Method Form Field
+        'paymentMethod',
+
+        //Category Form Field
+        'categoryType',
+        'category',
+
+        //Package Form Field
+        'packName',
+        'packDuration',
+        'packPrice',
+        'packDetails',
+
         'registerNumber',
         'userNumber',
         'branchPin',
@@ -27,7 +40,7 @@ const validate = values => {
     ]
     requiredFields.forEach(field => {
         if (!values[field]) {
-            errors[field] = 'Required'
+            errors[field] = ' '
         }
     })
     if (values.confirmPassword && values.password !== values.confirmPassword) {
@@ -54,10 +67,14 @@ const pinNumber = value =>
         ? 'Invalid pin number, must be 6 digits'
         : undefined
 
+const number = value =>
+    isNaN(value) ? 'Invalid number, characters or symbols is not allow' : undefined
+
 
 export {
     email,
     phoneNumber,
     pinNumber,
+    number,
     validate
 }
