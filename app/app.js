@@ -14,13 +14,14 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import FontFaceObserver from 'fontfaceobserver';
+import { ToastContainer } from 'react-toastify';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
 import './styles/layout/base.scss';
-
+import 'react-toastify/dist/ReactToastify.css';
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
 
@@ -55,6 +56,7 @@ const render = messages => {
           <App />
         </ConnectedRouter>
       </LanguageProvider>
+      <ToastContainer />
     </Provider>,
     MOUNT_NODE,
   );
