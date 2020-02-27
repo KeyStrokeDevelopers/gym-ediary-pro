@@ -94,6 +94,7 @@ class SideReview extends Component {
   render() {
     const { classes, cartData } = this.props;
     // const { openMenu } = this.state;
+    let totalPrice = 0;
     const getCartItem = dataArray => dataArray.map((item, index) => {
       totalPrice += (item.costPrice);
       return (

@@ -39,9 +39,11 @@ class BillInfo extends Component {
       gymInfoState = gymInfoData[0].branchState;
       if (gymInfoState === 'Chandigarh' || gymInfoState === 'Dadra and Nagar Haveli' || gymInfoState === 'Lakshadweep' || gymInfoState === 'Daman and Diu' || gymInfoState === 'Puducherry' || gymInfoState === 'Delhi' || gymInfoState === 'Andaman and Nicobar Islands') {
         gstLabel = 'UGST';
-      } else if (gymInfoState === accountData.get('state')) {
-        gstLabel = 'SGST+CGST';
-      } else {
+      }
+      // else if (gymInfoState === accountData.get('state')) {
+      //   gstLabel = 'SGST+CGST';
+      // } 
+      else {
         gstLabel = 'IGST';
       }
     }
