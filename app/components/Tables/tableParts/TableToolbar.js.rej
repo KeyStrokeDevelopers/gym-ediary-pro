@@ -1,0 +1,67 @@
+diff a/app/components/Tables/tableParts/TableToolbar.js b/app/components/Tables/tableParts/TableToolbar.js	(rejected hunks)
+@@ -60,2 +60,2 @@ class TableToolbar extends React.Component {
+-              <Typography variant="h6">{title}</Typography>
+-            )}
++            <Typography variant="h6">{title}</Typography>
++          )}
+@@ -84,30 +84,30 @@ class TableToolbar extends React.Component {
+-              <div className={classes.actions}>
+-                {showSearch && (
+-                  <FormControl className={classNames(classes.textField)}>
+-                    <Input
+-                      id="search_filter"
+-                      type="text"
+-                      placeholder={placeholder}
+-                      value={filterText}
+-                      onChange={(event) => this.handleChange(event)}
+-                      endAdornment={(
+-                        <InputAdornment position="end">
+-                          <IconButton aria-label="Search filter">
+-                            <SearchIcon />
+-                          </IconButton>
+-                        </InputAdornment>
+-                      )}
+-                    />
+-                  </FormControl>
+-                )}
+-                <Tooltip title="Filter list">
+-                  <IconButton
+-                    aria-label="Filter list"
+-                    className={classes.filterBtn}
+-                    onClick={() => this.toggleSearch()}
+-                  >
+-                    <FilterListIcon />
+-                  </IconButton>
+-                </Tooltip>
+-              </div>
+-            )}
++            <div className={classes.actions}>
++              {showSearch && (
++                <FormControl className={classNames(classes.textField)}>
++                  <Input
++                    id="search_filter"
++                    type="text"
++                    placeholder={placeholder}
++                    value={filterText}
++                    onChange={(event) => this.handleChange(event)}
++                    endAdornment={(
++                      <InputAdornment position="end">
++                        <IconButton aria-label="Search filter">
++                          <SearchIcon />
++                        </IconButton>
++                      </InputAdornment>
++                    )}
++                  />
++                </FormControl>
++              )}
++              <Tooltip title="Filter list">
++                <IconButton
++                  aria-label="Filter list"
++                  className={classes.filterBtn}
++                  onClick={() => this.toggleSearch()}
++                >
++                  <FilterListIcon />
++                </IconButton>
++              </Tooltip>
++            </div>
++          )}

@@ -4,41 +4,39 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
-import Typography from '@material-ui/core/Typography';
 import {
-  getCategoryData,
-  submitCategoryData,
-  addCategoryData,
+  getPurposeData,
+  submitPurposeData,
+  addPurposeData,
   closeAction,
   showDetailAction,
-  editCategoryData,
-  searchCategoryData,
-  updateCategoryData,
-  deleteCategoryData,
+  editPurposeData,
+  searchPurposeData,
+  updatePurposeData,
+  deletePurposeData,
   setDetailField,
   loadingAction,
   hideDetailAction
-} from 'dan-actions/CategoryActions';
+} from 'dan-actions/PurposeActions';
 import {
   AddContact,
   Notification
 } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
-import CategoryDataList from '../../../components/Contact/CategoryDataList';
-import CategoryDetail from '../../../components/Contact/CategoryDetail';
+import PurposeDataList from '../../../components/Contact/PurposeDataList';
+import PurposeDetail from '../../../components/Contact/PurposeDetail';
 
-class Category extends React.Component {
+class Purpose extends React.Component {
   componentDidMount() {
     const { fetchData } = this.props;
     fetchData();
   }
 
-  submitCategoryData = (data, avatar) => {
+  submitPurposeData = (data, avatar) => {
     const {
       submitData, formValue, updateData, loading
     } = this.props;
     if (Object.keys(formValue).length >= 1) {
-      console.log('updated data hit-----');
       updateData(data);
     } else {
       loading();
@@ -53,7 +51,7 @@ class Category extends React.Component {
     const description = brand.desc;
     const {
       classes,
-      categoryData,
+      purposeData,
       itemSelected,
       showDetail,
       hideDetail,
@@ -61,8 +59,8 @@ class Category extends React.Component {
       open,
       showMobileDetail,
       add,
-      edit,
       formValue,
+      edit,
       isActive,
       is_active,
       close,
@@ -70,12 +68,12 @@ class Category extends React.Component {
       favorite,
       keyword,
       search,
+      initValue,
       closeNotif,
       messageNotif,
-      deleteCategoryData,
+      deletePurposeData,
       isLoading
     } = this.props;
-    const isCategoryData = categoryData.length >= 1;
     return (
       <div>
         <Helmet>
@@ -88,24 +86,25 @@ class Category extends React.Component {
         </Helmet>
         <Notification close={() => closeNotif()} message={messageNotif} />
         <div className={classes.root}>
-          <CategoryDataList
+          <PurposeDataList
             addFn
-            total={categoryData && categoryData.length}
-            addCategoryData={add}
+            total={purposeData && purposeData.length}
+            addPurposeData={add}
             clippedRight
             itemSelected={itemSelected}
-            categoryDataList={categoryData}
+            purposeDataList={purposeData}
+            is_active={is_active}
             isActive={isActive}
             showDetail={showDetail}
             search={search}
-            is_active={is_active}
+            isFollowUp={is_active}
             keyword={keyword}
           />
-          <CategoryDetail
+          <PurposeDetail
             showMobileDetail={showMobileDetail}
             hideDetail={hideDetail}
-            categoryData={categoryData}
-            deleteCategoryData={deleteCategoryData}
+            purposeData={purposeData}
+            deletePurposeData={deletePurposeData}
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
@@ -116,10 +115,11 @@ class Category extends React.Component {
         <AddContact
           addContact={add}
           openForm={open}
-          formType="category"
+          formType="purpose"
+          initFormValue={initValue}
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
-          submit={this.submitCategoryData}
+          submit={this.submitPurposeData}
           avatarInit={avatarInit}
           isLoading={isLoading}
         />
@@ -129,44 +129,46 @@ class Category extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const categoryReducer = state.get('category');
+  const purposeReducer = state.get('purpose');
   return ({
 
     // force: state, // force state from reducer
-    avatarInit: categoryReducer.avatarInit,
-    categoryData: categoryReducer.categoryList,
-    itemSelected: categoryReducer.selectedIndex,
-    keyword: categoryReducer.keywordValue,
-    open: categoryReducer.openFrm,
-    showMobileDetail: categoryReducer.showMobileDetail,
-    messageNotif: categoryReducer.notifMsg,
-    formValue: categoryReducer.formValues,
-    is_active: categoryReducer.isActive,
-    isLoading: categoryReducer.isLoading
+    avatarInit: purposeReducer.avatarInit,
+    purposeData: purposeReducer.purposeList,
+    accessData: purposeReducer.accessList,
+    itemSelected: purposeReducer.selectedIndex,
+    keyword: purposeReducer.keywordValue,
+    open: purposeReducer.openFrm,
+    showMobileDetail: purposeReducer.showMobileDetail,
+    messageNotif: purposeReducer.notifMsg,
+    formValue: purposeReducer.formValues,
+    is_active: purposeReducer.isActive,
+    isLoading: purposeReducer.isLoading,
+    initValue: purposeReducer.formValues
   });
 };
 
 const constDispatchToProps = dispatch => ({
-  submitData: (data) => dispatch(submitCategoryData(data)),
-  updateData: (data) => dispatch(updateCategoryData(data)),
-  fetchData: () => dispatch(getCategoryData()),
+  submitData: (data) => dispatch(submitPurposeData(data)),
+  updateData: (data) => dispatch(updatePurposeData(data)),
+  fetchData: () => dispatch(getPurposeData()),
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
-  edit: (data) => dispatch(editCategoryData(data)),
-  add: () => dispatch(addCategoryData()),
+  edit: (data) => dispatch(editPurposeData(data)),
+  add: () => dispatch(addPurposeData()),
   close: () => dispatch(closeAction()),
-  deleteCategoryData: (data) => dispatch(deleteCategoryData(data)),
+  deletePurposeData: (data) => dispatch(deletePurposeData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
-  search: (data) => dispatch(searchCategoryData(data)),
+  search: (data) => dispatch(searchPurposeData(data)),
   loading: () => dispatch(loadingAction())
   // closeNotif: () => dispatch(closeNotifAction),
 });
 
-const CategoryMapped = connect(
+const PurposeMapped = connect(
   mapStateToProps,
   constDispatchToProps
-)(Category);
+)(Purpose);
 
-export default withStyles(styles)(CategoryMapped);
+export default withStyles(styles)(PurposeMapped);

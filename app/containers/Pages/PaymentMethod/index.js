@@ -1,165 +1,170 @@
+/* eslint-disable */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import data from 'dan-api/apps/contactData';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
-import dummy from 'dan-api/dummy/dummyContents';
 import {
-    fetchAction,
-    showDetailAction,
-    hideDetailAction,
-    submitAction,
-    editAction,
-    addAction,
-    closeAction,
-    removeAction,
-    addToFavoriteAction,
-    searchAction,
-    closeNotifAction
-} from 'dan-actions/ContactActions';
+  getPaymentMethodData,
+  submitPaymentMethodData,
+  addPaymentMethodData,
+  closeAction,
+  showDetailAction,
+  editPaymentMethodData,
+  searchPaymentMethodData,
+  updatePaymentMethodData,
+  deletePaymentMethodData,
+  setDetailField,
+  loadingAction,
+  hideDetailAction
+} from 'dan-actions/paymentMethodActions';
 import {
-    ContactList,
-    ContactDetail,
-    AddContact,
-    Notification
+  AddContact,
+  Notification
 } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
+import PaymentMethodDataList from '../../../components/Contact/PaymentMethodDataList';
+import PaymentMethodDetail from '../../../components/Contact/PaymentMethodDetail';
 
 class PaymentMethod extends React.Component {
-    componentDidMount() {
-        const { fetchData } = this.props;
-        fetchData(data);
-    }
+  componentDidMount() {
+    const { fetchData } = this.props;
+    fetchData();
+  }
 
-    submitContact = (item, avatar) => {
-        const { submit } = this.props;
-        const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-        const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
-        submit(item, avatarPreview);
+  submitPaymentMethodData = (data, avatar) => {
+    const {
+      submitData, formValue, updateData, loading
+    } = this.props;
+    if (Object.keys(formValue).length >= 1) {
+      updateData(data);
+    } else {
+      loading();
+      submitData(data);
     }
+    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
+    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
+  }
 
-    render() {
-        const title = brand.name + ' - Contact';
-        const description = brand.desc;
-        const {
-            classes,
-            dataContact,
-            itemSelected,
-            showDetail,
-            hideDetail,
-            avatarInit,
-            open,
-            showMobileDetail,
-            add,
-            edit,
-            close,
-            remove,
-            favorite,
-            keyword,
-            search,
-            closeNotif,
-            messageNotif
-        } = this.props;
-        return (
-            <div>
-                <Helmet>
-                    <title>{title}</title>
-                    <meta name="description" content={description} />
-                    <meta property="og:title" content={title} />
-                    <meta property="og:description" content={description} />
-                    <meta property="twitter:title" content={title} />
-                    <meta property="twitter:description" content={description} />
-                </Helmet>
-                <Notification close={() => closeNotif()} message={messageNotif} />
-                <div className={classes.root}>
-                    <ContactList
-                        addFn
-                        total={dataContact.size}
-                        addContact={add}
-                        clippedRight
-                        itemSelected={itemSelected}
-                        dataContact={dataContact}
-                        showDetail={showDetail}
-                        search={search}
-                        keyword={keyword}
-                    />
-                    <ContactDetail
-                        showMobileDetail={showMobileDetail}
-                        hideDetail={hideDetail}
-                        dataContact={dataContact}
-                        itemSelected={itemSelected}
-                        edit={edit}
-                        remove={remove}
-                        favorite={favorite}
-                    />
-                </div>
-                <AddContact
-                    addContact={add}
-                    openForm={open}
-                    closeForm={close}
-                    formType='paymentMethod'
-                    submit={this.submitContact}
-                    avatarInit={avatarInit}
-                />
-            </div>
-        );
-    }
+  render() {
+    const title = brand.name + ' - Contact';
+    const description = brand.desc;
+    const {
+      classes,
+      paymentMethodData,
+      itemSelected,
+      showDetail,
+      hideDetail,
+      avatarInit,
+      open,
+      showMobileDetail,
+      add,
+      edit,
+      formValue,
+      isActive,
+      is_active,
+      close,
+      remove,
+      favorite,
+      keyword,
+      search,
+      closeNotif,
+      messageNotif,
+      deletePaymentMethodData,
+      isLoading
+    } = this.props;
+    const isPaymentMethodData = paymentMethodData.length >= 1;
+    return (
+      <div>
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="twitter:title" content={title} />
+          <meta property="twitter:description" content={description} />
+        </Helmet>
+        <Notification close={() => closeNotif()} message={messageNotif} />
+        <div className={classes.root}>
+          <PaymentMethodDataList
+            addFn
+            total={paymentMethodData && paymentMethodData.length}
+            addPaymentMethodData={add}
+            clippedRight
+            itemSelected={itemSelected}
+            paymentMethodDataList={paymentMethodData}
+            isActive={isActive}
+            showDetail={showDetail}
+            search={search}
+            is_active={is_active}
+            keyword={keyword}
+          />
+          <PaymentMethodDetail
+            showMobileDetail={showMobileDetail}
+            hideDetail={hideDetail}
+            paymentMethodData={paymentMethodData}
+            deletePaymentMethodData={deletePaymentMethodData}
+            itemSelected={itemSelected}
+            edit={edit}
+            isActive={is_active}
+            remove={remove}
+            favorite={favorite}
+          />
+        </div>
+        <AddContact
+          addContact={add}
+          openForm={open}
+          formType="paymentMethod"
+          edit={(Object.keys(formValue).length >= 1)}
+          closeForm={close}
+          submit={this.submitPaymentMethodData}
+          avatarInit={avatarInit}
+          isLoading={isLoading}
+        />
+      </div>
+    );
+  }
 }
 
-PaymentMethod.propTypes = {
-    classes: PropTypes.object.isRequired,
-    avatarInit: PropTypes.string.isRequired,
-    fetchData: PropTypes.func.isRequired,
-    showDetail: PropTypes.func.isRequired,
-    hideDetail: PropTypes.func.isRequired,
-    keyword: PropTypes.string.isRequired,
-    open: PropTypes.bool.isRequired,
-    showMobileDetail: PropTypes.bool.isRequired,
-    add: PropTypes.func.isRequired,
-    close: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired,
-    edit: PropTypes.func.isRequired,
-    remove: PropTypes.func.isRequired,
-    favorite: PropTypes.func.isRequired,
-    search: PropTypes.func.isRequired,
-    dataContact: PropTypes.object.isRequired,
-    itemSelected: PropTypes.number.isRequired,
-    closeNotif: PropTypes.func.isRequired,
-    messageNotif: PropTypes.string.isRequired,
+const mapStateToProps = state => {
+  const paymentMethodReducer = state.get('paymentMethod');
+  return ({
+
+    // force: state, // force state from reducer
+    avatarInit: paymentMethodReducer.avatarInit,
+    paymentMethodData: paymentMethodReducer.paymentMethodList,
+    itemSelected: paymentMethodReducer.selectedIndex,
+    keyword: paymentMethodReducer.keywordValue,
+    open: paymentMethodReducer.openFrm,
+    showMobileDetail: paymentMethodReducer.showMobileDetail,
+    messageNotif: paymentMethodReducer.notifMsg,
+    formValue: paymentMethodReducer.formValues,
+    is_active: paymentMethodReducer.isActive,
+    isLoading: paymentMethodReducer.isLoading
+  });
 };
 
-const reducer = 'contact';
-const mapStateToProps = state => ({
-    force: state, // force state from reducer
-    avatarInit: state.getIn([reducer, 'avatarInit']),
-    dataContact: state.getIn([reducer, 'contactList']),
-    itemSelected: state.getIn([reducer, 'selectedIndex']),
-    keyword: state.getIn([reducer, 'keywordValue']),
-    open: state.getIn([reducer, 'openFrm']),
-    showMobileDetail: state.getIn([reducer, 'showMobileDetail']),
-    messageNotif: state.getIn([reducer, 'notifMsg']),
-});
-
 const constDispatchToProps = dispatch => ({
-    fetchData: bindActionCreators(fetchAction, dispatch),
-    showDetail: bindActionCreators(showDetailAction, dispatch),
-    hideDetail: () => dispatch(hideDetailAction),
-    submit: bindActionCreators(submitAction, dispatch),
-    edit: bindActionCreators(editAction, dispatch),
-    add: () => dispatch(addAction),
-    close: () => dispatch(closeAction),
-    remove: bindActionCreators(removeAction, dispatch),
-    favorite: bindActionCreators(addToFavoriteAction, dispatch),
-    search: bindActionCreators(searchAction, dispatch),
-    closeNotif: () => dispatch(closeNotifAction),
+  submitData: (data) => dispatch(submitPaymentMethodData(data)),
+  updateData: (data) => dispatch(updatePaymentMethodData(data)),
+  fetchData: () => dispatch(getPaymentMethodData()),
+  showDetail: (data) => dispatch(showDetailAction(data)),
+  hideDetail: () => dispatch(hideDetailAction()),
+  edit: (data) => dispatch(editPaymentMethodData(data)),
+  add: () => dispatch(addPaymentMethodData()),
+  close: () => dispatch(closeAction()),
+  deletePaymentMethodData: (data) => dispatch(deletePaymentMethodData(data)),
+  // remove: bindActionCreators(removeAction, dispatch),
+  // favorite: bindActionCreators(addToFavoriteAction, dispatch),
+  isActive: (data) => dispatch(setDetailField(data)),
+  search: (data) => dispatch(searchPaymentMethodData(data)),
+  loading: () => dispatch(loadingAction())
+  // closeNotif: () => dispatch(closeNotifAction),
 });
 
 const PaymentMethodMapped = connect(
-    mapStateToProps,
-    constDispatchToProps
+  mapStateToProps,
+  constDispatchToProps
 )(PaymentMethod);
 
 export default withStyles(styles)(PaymentMethodMapped);

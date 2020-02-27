@@ -4,48 +4,43 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
-import Typography from '@material-ui/core/Typography';
 import {
-  getCategoryData,
-  submitCategoryData,
-  addCategoryData,
+  getProductTypeData,
+  submitProductTypeData,
   closeAction,
   showDetailAction,
-  editCategoryData,
-  searchCategoryData,
-  updateCategoryData,
-  deleteCategoryData,
+  editProductTypeData,
+  searchProductTypeData,
+  updateProductTypeData,
+  deleteProductTypeData,
+  addProductTypeData,
   setDetailField,
   loadingAction,
-  hideDetailAction
-} from 'dan-actions/CategoryActions';
-import {
-  AddContact,
-  Notification
-} from 'dan-components';
+  hideDetailAction,
+  setFilterValue,
+} from 'dan-actions/productTypeActions';
 import styles from 'dan-components/Contact/contact-jss';
-import CategoryDataList from '../../../components/Contact/CategoryDataList';
-import CategoryDetail from '../../../components/Contact/CategoryDetail';
+import { Notification } from 'dan-components';
+import ProductType from '../../../components/ProductType/ProductType';
+import ProductTypeDataList from '../../../components/ProductType/ProductTypeDataList';
+import ProductTypeDetail from '../../../components/ProductType/ProductTypeDetails';
 
-class Category extends React.Component {
+class Member extends React.Component {
   componentDidMount() {
     const { fetchData } = this.props;
     fetchData();
   }
 
-  submitCategoryData = (data, avatar) => {
+  submitProductTypeData = (data) => {
     const {
       submitData, formValue, updateData, loading
     } = this.props;
     if (Object.keys(formValue).length >= 1) {
-      console.log('updated data hit-----');
       updateData(data);
     } else {
       loading();
       submitData(data);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
@@ -53,29 +48,29 @@ class Category extends React.Component {
     const description = brand.desc;
     const {
       classes,
-      categoryData,
+      productTypeData,
       itemSelected,
       showDetail,
       hideDetail,
-      avatarInit,
       open,
       showMobileDetail,
       add,
       edit,
-      formValue,
       isActive,
+      filterValue,
+      filter_value,
       is_active,
       close,
       remove,
       favorite,
+      showDetails,
       keyword,
       search,
       closeNotif,
       messageNotif,
-      deleteCategoryData,
+      deleteProductTypeData,
       isLoading
     } = this.props;
-    const isCategoryData = categoryData.length >= 1;
     return (
       <div>
         <Helmet>
@@ -88,39 +83,40 @@ class Category extends React.Component {
         </Helmet>
         <Notification close={() => closeNotif()} message={messageNotif} />
         <div className={classes.root}>
-          <CategoryDataList
+          <ProductTypeDataList
             addFn
-            total={categoryData && categoryData.length}
-            addCategoryData={add}
+            total={productTypeData && productTypeData.length}
+            addProductTypeData={add}
+            filterValue={filterValue}
             clippedRight
             itemSelected={itemSelected}
-            categoryDataList={categoryData}
+            productTypeData={productTypeData}
             isActive={isActive}
             showDetail={showDetail}
             search={search}
             is_active={is_active}
             keyword={keyword}
           />
-          <CategoryDetail
+          <ProductTypeDetail
             showMobileDetail={showMobileDetail}
             hideDetail={hideDetail}
-            categoryData={categoryData}
-            deleteCategoryData={deleteCategoryData}
+            productTypeData={productTypeData}
+            deleteProductTypeData={deleteProductTypeData}
             itemSelected={itemSelected}
+            showDetails={showDetails}
+            filterValue={filter_value}
             edit={edit}
             isActive={is_active}
             remove={remove}
             favorite={favorite}
           />
         </div>
-        <AddContact
-          addContact={add}
+        <ProductType
+          productType={add}
           openForm={open}
-          formType="category"
-          edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
-          submit={this.submitCategoryData}
-          avatarInit={avatarInit}
+          productTypeData={productTypeData}
+          submit={this.submitProductTypeData}
           isLoading={isLoading}
         />
       </div>
@@ -129,44 +125,46 @@ class Category extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const categoryReducer = state.get('category');
+  const productTypeReducer = state.get('productType');
   return ({
-
     // force: state, // force state from reducer
-    avatarInit: categoryReducer.avatarInit,
-    categoryData: categoryReducer.categoryList,
-    itemSelected: categoryReducer.selectedIndex,
-    keyword: categoryReducer.keywordValue,
-    open: categoryReducer.openFrm,
-    showMobileDetail: categoryReducer.showMobileDetail,
-    messageNotif: categoryReducer.notifMsg,
-    formValue: categoryReducer.formValues,
-    is_active: categoryReducer.isActive,
-    isLoading: categoryReducer.isLoading
+    avatarInit: productTypeReducer.avatarInit,
+    productTypeData: productTypeReducer.productTypeList,
+    itemSelected: productTypeReducer.selectedIndex,
+    keyword: productTypeReducer.keywordValue,
+    open: productTypeReducer.openFrm,
+    showMobileDetail: productTypeReducer.showMobileDetail,
+    messageNotif: productTypeReducer.notifMsg,
+    formValue: productTypeReducer.formValues,
+    is_active: productTypeReducer.isActive,
+    isLoading: productTypeReducer.isLoading,
+    showDetails: productTypeReducer.showDetails,
+    filter_value: productTypeReducer.filterValue,
   });
 };
 
 const constDispatchToProps = dispatch => ({
-  submitData: (data) => dispatch(submitCategoryData(data)),
-  updateData: (data) => dispatch(updateCategoryData(data)),
-  fetchData: () => dispatch(getCategoryData()),
+  submitData: (data) => dispatch(submitProductTypeData(data)),
+  updateData: (data) => dispatch(updateProductTypeData(data)),
+  fetchData: () => dispatch(getProductTypeData()),
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
-  edit: (data) => dispatch(editCategoryData(data)),
-  add: () => dispatch(addCategoryData()),
+  edit: (data) => dispatch(editProductTypeData(data)),
+  add: () => dispatch(addProductTypeData()),
   close: () => dispatch(closeAction()),
-  deleteCategoryData: (data) => dispatch(deleteCategoryData(data)),
+  deleteProductTypeData: (data) => dispatch(deleteProductTypeData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
-  search: (data) => dispatch(searchCategoryData(data)),
-  loading: () => dispatch(loadingAction())
+  search: (data) => dispatch(searchProductTypeData(data)),
+  loading: () => dispatch(loadingAction()),
+  filterValue: (value) => dispatch(setFilterValue(value))
   // closeNotif: () => dispatch(closeNotifAction),
 });
 
-const CategoryMapped = connect(
+const ProductTypeMapped = connect(
   mapStateToProps,
   constDispatchToProps
-)(Category);
+)(Member);
 
-export default withStyles(styles)(CategoryMapped);
+export default withStyles(styles)(ProductTypeMapped);

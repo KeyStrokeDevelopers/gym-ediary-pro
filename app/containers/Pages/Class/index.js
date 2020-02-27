@@ -4,41 +4,41 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
-import Typography from '@material-ui/core/Typography';
 import {
-  getCategoryData,
-  submitCategoryData,
-  addCategoryData,
+  getClassData,
+  submitClassData,
+  addClassData,
   closeAction,
   showDetailAction,
-  editCategoryData,
-  searchCategoryData,
-  updateCategoryData,
-  deleteCategoryData,
+  editClassData,
+  searchClassData,
+  updateClassData,
+  deleteClassData,
   setDetailField,
   loadingAction,
   hideDetailAction
-} from 'dan-actions/CategoryActions';
+} from 'dan-actions/ClassActions';
+import { getStaffData } from 'dan-actions/StaffActions';
 import {
   AddContact,
   Notification
 } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
-import CategoryDataList from '../../../components/Contact/CategoryDataList';
-import CategoryDetail from '../../../components/Contact/CategoryDetail';
+import ClassDataList from '../../../components/Contact/ClassDataList';
+import ClassDetail from '../../../components/Contact/ClassDetail';
 
-class Category extends React.Component {
+class Classes extends React.Component {
   componentDidMount() {
-    const { fetchData } = this.props;
+    const { fetchData, fetchStaffData } = this.props;
     fetchData();
+    fetchStaffData();
   }
 
-  submitCategoryData = (data, avatar) => {
+  submitClassData = (data, avatar) => {
     const {
       submitData, formValue, updateData, loading
     } = this.props;
     if (Object.keys(formValue).length >= 1) {
-      console.log('updated data hit-----');
       updateData(data);
     } else {
       loading();
@@ -53,7 +53,7 @@ class Category extends React.Component {
     const description = brand.desc;
     const {
       classes,
-      categoryData,
+      classData,
       itemSelected,
       showDetail,
       hideDetail,
@@ -72,10 +72,11 @@ class Category extends React.Component {
       search,
       closeNotif,
       messageNotif,
-      deleteCategoryData,
+      deleteClassData,
+      staffData,
       isLoading
     } = this.props;
-    const isCategoryData = categoryData.length >= 1;
+    const isClassData = classData.length >= 1;
     return (
       <div>
         <Helmet>
@@ -88,24 +89,24 @@ class Category extends React.Component {
         </Helmet>
         <Notification close={() => closeNotif()} message={messageNotif} />
         <div className={classes.root}>
-          <CategoryDataList
+          <ClassDataList
             addFn
-            total={categoryData && categoryData.length}
-            addCategoryData={add}
+            total={classData && classData.length}
+            addClassData={add}
             clippedRight
             itemSelected={itemSelected}
-            categoryDataList={categoryData}
+            classDataList={classData}
             isActive={isActive}
             showDetail={showDetail}
             search={search}
             is_active={is_active}
             keyword={keyword}
           />
-          <CategoryDetail
+          <ClassDetail
             showMobileDetail={showMobileDetail}
             hideDetail={hideDetail}
-            categoryData={categoryData}
-            deleteCategoryData={deleteCategoryData}
+            classData={classData}
+            deleteClassData={deleteClassData}
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
@@ -116,12 +117,13 @@ class Category extends React.Component {
         <AddContact
           addContact={add}
           openForm={open}
-          formType="category"
+          formType="class"
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
-          submit={this.submitCategoryData}
+          submit={this.submitClassData}
           avatarInit={avatarInit}
           isLoading={isLoading}
+          staffData={staffData}
         />
       </div>
     );
@@ -129,44 +131,46 @@ class Category extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const categoryReducer = state.get('category');
+  const classReducer = state.get('classInfo');
+  const staffReducer = state.get('staff');
   return ({
-
     // force: state, // force state from reducer
-    avatarInit: categoryReducer.avatarInit,
-    categoryData: categoryReducer.categoryList,
-    itemSelected: categoryReducer.selectedIndex,
-    keyword: categoryReducer.keywordValue,
-    open: categoryReducer.openFrm,
-    showMobileDetail: categoryReducer.showMobileDetail,
-    messageNotif: categoryReducer.notifMsg,
-    formValue: categoryReducer.formValues,
-    is_active: categoryReducer.isActive,
-    isLoading: categoryReducer.isLoading
+    avatarInit: classReducer.avatarInit,
+    classData: classReducer.classList,
+    staffData: staffReducer.staffList,
+    itemSelected: classReducer.selectedIndex,
+    keyword: classReducer.keywordValue,
+    open: classReducer.openFrm,
+    showMobileDetail: classReducer.showMobileDetail,
+    messageNotif: classReducer.notifMsg,
+    formValue: classReducer.formValues,
+    is_active: classReducer.isActive,
+    isLoading: classReducer.isLoading
   });
 };
 
 const constDispatchToProps = dispatch => ({
-  submitData: (data) => dispatch(submitCategoryData(data)),
-  updateData: (data) => dispatch(updateCategoryData(data)),
-  fetchData: () => dispatch(getCategoryData()),
+  submitData: (data) => dispatch(submitClassData(data)),
+  updateData: (data) => dispatch(updateClassData(data)),
+  fetchData: () => dispatch(getClassData()),
+  fetchStaffData: () => dispatch(getStaffData()),
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
-  edit: (data) => dispatch(editCategoryData(data)),
-  add: () => dispatch(addCategoryData()),
+  edit: (data) => dispatch(editClassData(data)),
+  add: () => dispatch(addClassData()),
   close: () => dispatch(closeAction()),
-  deleteCategoryData: (data) => dispatch(deleteCategoryData(data)),
+  deleteClassData: (data) => dispatch(deleteClassData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
-  search: (data) => dispatch(searchCategoryData(data)),
+  search: (data) => dispatch(searchClassData(data)),
   loading: () => dispatch(loadingAction())
   // closeNotif: () => dispatch(closeNotifAction),
 });
 
-const CategoryMapped = connect(
+const ClassMapped = connect(
   mapStateToProps,
   constDispatchToProps
-)(Category);
+)(Classes);
 
-export default withStyles(styles)(CategoryMapped);
+export default withStyles(styles)(ClassMapped);

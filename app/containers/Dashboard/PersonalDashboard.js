@@ -1,15 +1,15 @@
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import brand from 'dan-api/dummy/brand';
 import { Helmet } from 'react-helmet';
 import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
+import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import {
   SliderWidget,
-  CounterIconsWidget,
-  PerformanceChartWidget,
   DateWidget,
   TaskWidget,
   WeatherWidget,
@@ -17,10 +17,15 @@ import {
   TimelineWidget,
   FilesWidget,
 } from 'dan-components';
+import { initialData } from '../../actions/signIn';
 import styles from './dashboard-jss';
 
 
 class PersonalDashboard extends PureComponent {
+  componentDidMount() {
+    this.props.sign_in();
+  }
+
   render() {
     const title = brand.name + ' - Personal Dashboard';
     const description = brand.desc;
@@ -37,9 +42,7 @@ class PersonalDashboard extends PureComponent {
         </Helmet>
         {/* 1st Section */}
         <Grid container spacing={3} className={classes.root}>
-          <Grid item md={6} xs={12}>
-            <CounterIconsWidget />
-          </Grid>
+
           <Grid item md={6} sm={12} xs={12}>
             <div className={classes.sliderWrap}>
               <SliderWidget />
@@ -48,11 +51,7 @@ class PersonalDashboard extends PureComponent {
         </Grid>
         <Divider className={classes.divider} />
         {/* 2nd Section */}
-        <Grid container spacing={2} className={classes.root}>
-          <Grid item xs={12}>
-            <PerformanceChartWidget />
-          </Grid>
-        </Grid>
+
         {/* 3rd Section */}
         <Grid container spacing={3} className={classes.root}>
           <Grid item md={6} xs={12}>
@@ -83,4 +82,16 @@ PersonalDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PersonalDashboard);
+
+const mapStateToProps = state => ({});
+
+const constDispatchToProps = dispatch => ({
+  sign_in: () => dispatch(initialData())
+});
+
+const PersonalDashboardMapped = connect(
+  mapStateToProps,
+  constDispatchToProps
+)(PersonalDashboard);
+
+export default withStyles(styles)(PersonalDashboardMapped);

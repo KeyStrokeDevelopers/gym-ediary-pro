@@ -1,5 +1,5 @@
+/* eslint-disable */
 import React from 'react';
-import { PropTypes } from 'prop-types';
 import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -7,10 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { GuideSlider } from 'dan-components';
 import { toggleAction, openAction, playTransitionAction } from 'dan-actions/UiActions';
 import LeftSidebarLayout from './layouts/LeftSidebarLayout';
-import RightSidebarLayout from './layouts/RightSidebarLayout';
-import LeftSidebarBigLayout from './layouts/LeftSidebarBigLayout';
-import DropMenuLayout from './layouts/DropMenuLayout';
-import MegaMenuLayout from './layouts/MegaMenuLayout';
 import styles from './appStyles-jss';
 
 class Dashboard extends React.Component {
@@ -100,129 +96,110 @@ class Dashboard extends React.Component {
           )
         }
         { /* Left Big-Sidebar Layout */
-          layout === 'big-sidebar' && (
-            <LeftSidebarBigLayout
-              history={history}
-              userData={userData}
-              toggleDrawer={toggleDrawer}
-              loadTransition={loadTransition}
-              changeMode={changeMode}
-              sidebarOpen={sidebarOpen}
-              pageLoaded={pageLoaded}
-              gradient={gradient}
-              deco={deco}
-              bgPosition={bgPosition}
-              mode={mode}
-              place={place}
-              titleException={titleException}
-              handleOpenGuide={this.handleOpenGuide}
-            >
-              {children}
-            </LeftSidebarBigLayout>
-          )
+          // layout === 'big-sidebar' && (
+          //   <LeftSidebarBigLayout
+          //     history={history}
+          //     userData={userData}
+          //     toggleDrawer={toggleDrawer}
+          //     loadTransition={loadTransition}
+          //     changeMode={changeMode}
+          //     sidebarOpen={sidebarOpen}
+          //     pageLoaded={pageLoaded}
+          //     gradient={gradient}
+          //     deco={deco}
+          //     bgPosition={bgPosition}
+          //     mode={mode}
+          //     place={place}
+          //     titleException={titleException}
+          //     handleOpenGuide={this.handleOpenGuide}
+          //   >
+          //     {children}
+          //   </LeftSidebarBigLayout>
+          // )
         }
         { /* Right Sidebar Layout */
-          layout === 'right-sidebar' && (
-            <RightSidebarLayout
-              history={history}
-              toggleDrawer={toggleDrawer}
-              userData={userData}
-              loadTransition={loadTransition}
-              changeMode={changeMode}
-              sidebarOpen={sidebarOpen}
-              pageLoaded={pageLoaded}
-              mode={mode}
-              gradient={gradient}
-              deco={deco}
-              bgPosition={bgPosition}
-              place={place}
-              titleException={titleException}
-              handleOpenGuide={this.handleOpenGuide}
-            >
-              {children}
-            </RightSidebarLayout>
-          )
+          // layout === 'right-sidebar' && (
+          //   <RightSidebarLayout
+          //     history={history}
+          //     toggleDrawer={toggleDrawer}
+          //     userData={userData}
+          //     loadTransition={loadTransition}
+          //     changeMode={changeMode}
+          //     sidebarOpen={sidebarOpen}
+          //     pageLoaded={pageLoaded}
+          //     mode={mode}
+          //     gradient={gradient}
+          //     deco={deco}
+          //     bgPosition={bgPosition}
+          //     place={place}
+          //     titleException={titleException}
+          //     handleOpenGuide={this.handleOpenGuide}
+          //   >
+          //     {children}
+          //   </RightSidebarLayout>
+          // )
         }
         { /* Top Bar with Dropdown Menu */
-          layout === 'top-navigation' && (
-            <DropMenuLayout
-              history={history}
-              toggleDrawer={toggleDrawer}
-              loadTransition={loadTransition}
-              userData={userData}
-              changeMode={changeMode}
-              sidebarOpen={sidebarOpen}
-              pageLoaded={pageLoaded}
-              mode={mode}
-              gradient={gradient}
-              deco={deco}
-              bgPosition={bgPosition}
-              place={place}
-              titleException={titleException}
-              handleOpenGuide={this.handleOpenGuide}
-            >
-              {children}
-            </DropMenuLayout>
-          )
+          // layout === 'top-navigation' && (
+          //   <DropMenuLayout
+          //     history={history}
+          //     toggleDrawer={toggleDrawer}
+          //     loadTransition={loadTransition}
+          //     userData={userData}
+          //     changeMode={changeMode}
+          //     sidebarOpen={sidebarOpen}
+          //     pageLoaded={pageLoaded}
+          //     mode={mode}
+          //     gradient={gradient}
+          //     deco={deco}
+          //     bgPosition={bgPosition}
+          //     place={place}
+          //     titleException={titleException}
+          //     handleOpenGuide={this.handleOpenGuide}
+          //   >
+          //     {children}
+          //   </DropMenuLayout>
+          // )
         }
         { /* Top Bar with Mega Menu */
-          layout === 'mega-menu' && (
-            <MegaMenuLayout
-              history={history}
-              toggleDrawer={toggleDrawer}
-              loadTransition={loadTransition}
-              userData={userData}
-              changeMode={changeMode}
-              sidebarOpen={sidebarOpen}
-              pageLoaded={pageLoaded}
-              mode={mode}
-              gradient={gradient}
-              deco={deco}
-              bgPosition={bgPosition}
-              place={place}
-              titleException={titleException}
-              handleOpenGuide={this.handleOpenGuide}
-            >
-              {children}
-            </MegaMenuLayout>
-          )
+          // layout === 'mega-menu' && (
+          //   <MegaMenuLayout
+          //     history={history}
+          //     toggleDrawer={toggleDrawer}
+          //     loadTransition={loadTransition}
+          //     userData={userData}
+          //     changeMode={changeMode}
+          //     sidebarOpen={sidebarOpen}
+          //     pageLoaded={pageLoaded}
+          //     mode={mode}
+          //     gradient={gradient}
+          //     deco={deco}
+          //     bgPosition={bgPosition}
+          //     place={place}
+          //     titleException={titleException}
+          //     handleOpenGuide={this.handleOpenGuide}
+          //   >
+          //     {children}
+          //   </MegaMenuLayout>
+          // )
         }
       </div>
     );
   }
 }
 
-Dashboard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
-  history: PropTypes.object.isRequired,
-  initialOpen: PropTypes.func.isRequired,
-  toggleDrawer: PropTypes.func.isRequired,
-  loadTransition: PropTypes.func.isRequired,
-  changeMode: PropTypes.func.isRequired,
-  sidebarOpen: PropTypes.bool.isRequired,
-  pageLoaded: PropTypes.bool.isRequired,
-  mode: PropTypes.string.isRequired,
-  gradient: PropTypes.bool.isRequired,
-  deco: PropTypes.bool.isRequired,
-  bgPosition: PropTypes.string.isRequired,
-  layout: PropTypes.string.isRequired
-};
-
 const reducer = 'ui';
-const mapStateToProps = state => {
-  return ({
-    userData: state.get('signIn'),
-    sidebarOpen: state.getIn([reducer, 'sidebarOpen']),
-    pageLoaded: state.getIn([reducer, 'pageLoaded']),
-    mode: state.getIn([reducer, 'type']),
-    gradient: state.getIn([reducer, 'gradient']),
-    deco: state.getIn([reducer, 'decoration']),
-    layout: state.getIn([reducer, 'layout']),
-    bgPosition: state.getIn([reducer, 'bgPosition']),
-    ...state,
-  });
-}
+const mapStateToProps = state => ({
+  userData: state.get('signIn'),
+  sidebarOpen: state.getIn([reducer, 'sidebarOpen']),
+  pageLoaded: state.getIn([reducer, 'pageLoaded']),
+  mode: state.getIn([reducer, 'type']),
+  gradient: state.getIn([reducer, 'gradient']),
+  deco: state.getIn([reducer, 'decoration']),
+  layout: state.getIn([reducer, 'layout']),
+  bgPosition: state.getIn([reducer, 'bgPosition']),
+  ...state,
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleDrawer: () => dispatch(toggleAction),

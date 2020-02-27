@@ -4,45 +4,56 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
-import Typography from '@material-ui/core/Typography';
 import {
-  getCategoryData,
-  submitCategoryData,
-  addCategoryData,
+  getStaffData,
+  submitStaffData,
+  addStaffData,
   closeAction,
   showDetailAction,
-  editCategoryData,
-  searchCategoryData,
-  updateCategoryData,
-  deleteCategoryData,
+  editStaffData,
+  searchStaffData,
+  updateStaffData,
+  deleteStaffData,
   setDetailField,
   loadingAction,
-  hideDetailAction
-} from 'dan-actions/CategoryActions';
+  hideDetailAction,
+  fetchAccessData,
+  changePassword
+} from 'dan-actions/StaffActions';
 import {
   AddContact,
   Notification
 } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
-import CategoryDataList from '../../../components/Contact/CategoryDataList';
-import CategoryDetail from '../../../components/Contact/CategoryDetail';
+import StaffDataList from '../../../components/Contact/StaffDataList';
+import StaffDetail from '../../../components/Contact/StaffDetail';
+import staffDataField from '../../../components/Contact/FieldData.js';
 
-class Category extends React.Component {
+class Staff extends React.Component {
   componentDidMount() {
-    const { fetchData } = this.props;
+    const { fetchData, fetchAccess } = this.props;
     fetchData();
+    fetchAccess();
   }
 
-  submitCategoryData = (data, avatar) => {
+  submitStaffData = (data, avatar) => {
     const {
       submitData, formValue, updateData, loading
     } = this.props;
     if (Object.keys(formValue).length >= 1) {
-      console.log('updated data hit-----');
       updateData(data);
     } else {
+      const formData = new FormData();
+      formData.append('staffImage', avatar);
+      staffDataField.map((staffData) => {
+        if (data.get(staffData.primary)) {
+          formData.set(staffData.primary, data.get(staffData.primary));
+        }
+        return null;
+      });
       loading();
-      submitData(data);
+      submitData(formData);
+      return null;
     }
     // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
     // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
@@ -53,7 +64,8 @@ class Category extends React.Component {
     const description = brand.desc;
     const {
       classes,
-      categoryData,
+      staffData,
+      accessData,
       itemSelected,
       showDetail,
       hideDetail,
@@ -63,8 +75,9 @@ class Category extends React.Component {
       add,
       edit,
       formValue,
+      changePasswordData,
       isActive,
-      is_active,
+      isActiveData,
       close,
       remove,
       favorite,
@@ -72,10 +85,9 @@ class Category extends React.Component {
       search,
       closeNotif,
       messageNotif,
-      deleteCategoryData,
+      delete_Staff_Data,
       isLoading
     } = this.props;
-    const isCategoryData = categoryData.length >= 1;
     return (
       <div>
         <Helmet>
@@ -88,27 +100,28 @@ class Category extends React.Component {
         </Helmet>
         <Notification close={() => closeNotif()} message={messageNotif} />
         <div className={classes.root}>
-          <CategoryDataList
+          <StaffDataList
             addFn
-            total={categoryData && categoryData.length}
-            addCategoryData={add}
+            total={staffData && staffData.length}
+            addStaffData={add}
             clippedRight
             itemSelected={itemSelected}
-            categoryDataList={categoryData}
+            staffDataList={staffData}
             isActive={isActive}
             showDetail={showDetail}
             search={search}
-            is_active={is_active}
+            is_active={isActiveData}
             keyword={keyword}
           />
-          <CategoryDetail
+          <StaffDetail
             showMobileDetail={showMobileDetail}
             hideDetail={hideDetail}
-            categoryData={categoryData}
-            deleteCategoryData={deleteCategoryData}
+            changePassword={changePasswordData}
+            staffData={staffData}
+            deleteStaffData={delete_Staff_Data}
             itemSelected={itemSelected}
             edit={edit}
-            isActive={is_active}
+            isActive={isActive}
             remove={remove}
             favorite={favorite}
           />
@@ -116,10 +129,14 @@ class Category extends React.Component {
         <AddContact
           addContact={add}
           openForm={open}
-          formType="category"
           edit={(Object.keys(formValue).length >= 1)}
+          formType="staff"
           closeForm={close}
-          submit={this.submitCategoryData}
+          accessData={accessData}
+          staffData={staffData}
+          initFormValue={formValue}
+          itemSelected={itemSelected}
+          submit={this.submitStaffData}
           avatarInit={avatarInit}
           isLoading={isLoading}
         />
@@ -129,44 +146,46 @@ class Category extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const categoryReducer = state.get('category');
+  const staffReducer = state.get('staff');
   return ({
-
     // force: state, // force state from reducer
-    avatarInit: categoryReducer.avatarInit,
-    categoryData: categoryReducer.categoryList,
-    itemSelected: categoryReducer.selectedIndex,
-    keyword: categoryReducer.keywordValue,
-    open: categoryReducer.openFrm,
-    showMobileDetail: categoryReducer.showMobileDetail,
-    messageNotif: categoryReducer.notifMsg,
-    formValue: categoryReducer.formValues,
-    is_active: categoryReducer.isActive,
-    isLoading: categoryReducer.isLoading
+    avatarInit: staffReducer.avatarInit,
+    staffData: staffReducer.staffList,
+    accessData: staffReducer.accessList,
+    itemSelected: staffReducer.selectedIndex,
+    keyword: staffReducer.keywordValue,
+    open: staffReducer.openFrm,
+    showMobileDetail: staffReducer.showMobileDetail,
+    messageNotif: staffReducer.notifMsg,
+    formValue: staffReducer.formValues,
+    isActive: staffReducer.isActive,
+    isLoading: staffReducer.isLoading
   });
 };
 
 const constDispatchToProps = dispatch => ({
-  submitData: (data) => dispatch(submitCategoryData(data)),
-  updateData: (data) => dispatch(updateCategoryData(data)),
-  fetchData: () => dispatch(getCategoryData()),
+  submitData: (data) => dispatch(submitStaffData(data)),
+  updateData: (data) => dispatch(updateStaffData(data)),
+  fetchData: () => dispatch(getStaffData()),
+  fetchAccess: () => dispatch(fetchAccessData()),
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
-  edit: (data) => dispatch(editCategoryData(data)),
-  add: () => dispatch(addCategoryData()),
+  edit: (data) => dispatch(editStaffData(data)),
+  add: () => dispatch(addStaffData()),
   close: () => dispatch(closeAction()),
-  deleteCategoryData: (data) => dispatch(deleteCategoryData(data)),
+  delete_Staff_Data: (data) => dispatch(deleteStaffData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
-  isActive: (data) => dispatch(setDetailField(data)),
-  search: (data) => dispatch(searchCategoryData(data)),
-  loading: () => dispatch(loadingAction())
+  isActiveData: (data) => dispatch(setDetailField(data)),
+  search: (data) => dispatch(searchStaffData(data)),
+  loading: () => dispatch(loadingAction()),
+  changePasswordData: (newPassword, staffId) => dispatch(changePassword(newPassword, staffId))
   // closeNotif: () => dispatch(closeNotifAction),
 });
 
-const CategoryMapped = connect(
+const StaffMapped = connect(
   mapStateToProps,
   constDispatchToProps
-)(Category);
+)(Staff);
 
-export default withStyles(styles)(CategoryMapped);
+export default withStyles(styles)(StaffMapped);

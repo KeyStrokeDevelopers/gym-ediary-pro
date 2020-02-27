@@ -1,9 +1,9 @@
+/* eslint-disable */
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import NotFound from 'containers/Pages/Standalone/NotFoundDedicated';
 import Auth from './Auth';
 import Application from './Application';
-import LandingCorporate from './Landing';
 import LandingCreative from './LandingCreative';
 import ArticleNews from './ArticleNews';
 import history from '../../utils/history';
@@ -14,8 +14,11 @@ class App extends React.Component {
   componentDidMount() {
     if (window.localStorage.getItem('token')) {
       history.push('/app');
+    } else {
+      history.push('/login');
     }
   }
+
   render() {
     return (
       <ThemeWrapper>

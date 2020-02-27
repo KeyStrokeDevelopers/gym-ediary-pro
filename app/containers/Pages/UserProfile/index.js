@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
@@ -6,9 +7,12 @@ import AppBar from '@material-ui/core/AppBar';
 import dummy from 'dan-api/dummy/dummyContents';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Hidden from '@material-ui/core/Hidden';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
+import WallpaperIcon from '@material-ui/icons/Wallpaper';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import Favorite from '@material-ui/icons/Favorite';
 import PhotoLibrary from '@material-ui/icons/PhotoLibrary';
 import { withStyles } from '@material-ui/core/styles';
@@ -16,15 +20,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import data from 'dan-api/apps/timelineData';
 import { fetchAction } from 'dan-actions/SocmedActions';
-import {
-  Cover,
-  About,
-  Connection,
-  Favorites,
-  Albums
-} from 'dan-components';
+import { Cover, About } from 'dan-components';
 import bgCover from 'dan-images/petal_bg.svg';
 import styles from 'dan-components/SocialMedia/jss/cover-jss';
+import PackageProfile from '../PackageProfile';
+import ClassProfile from '../ClassProfile';
+import MeasurementProfile from '../MeasurementProfile';
+import MediaProfile from '../MediaProfile';
+import AccountProfile from '../AccountProfile';
+import Attendance from '../AttendanceProfile';
+import WorkoutNutritionProfile from '../WorkoutNutritionProfile';
 
 function TabContainer(props) {
   const { children } = props;
@@ -38,6 +43,7 @@ function TabContainer(props) {
 TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
 
 class UserProfile extends React.Component {
   state = {
@@ -59,7 +65,7 @@ class UserProfile extends React.Component {
     const { dataProps, classes } = this.props;
     const { value } = this.state;
     return (
-      <div>
+      <div className={classes.root}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -74,52 +80,43 @@ class UserProfile extends React.Component {
           name={dummy.user.name}
           desc="Consectetur adipiscing elit."
         />
-        <AppBar position="static" className={classes.profileTab}>
-          <Hidden mdUp>
-            <Tabs
-              value={value}
-              onChange={this.handleChange}
-              variant="fullWidth"
-              indicatorColor="primary"
-              textColor="primary"
-              centered
-            >
-              <Tab icon={<AccountCircle />} />
-              <Tab icon={<SupervisorAccount />} />
-              <Tab icon={<Favorite />} />
-              <Tab icon={<PhotoLibrary />} />
-            </Tabs>
-          </Hidden>
-          <Hidden smDown>
-            <Tabs
-              value={value}
-              onChange={this.handleChange}
-              variant="fullWidth"
-              indicatorColor="primary"
-              textColor="primary"
-              centered
-            >
-              <Tab icon={<AccountCircle />} label="ABOUT" />
-              <Tab icon={<SupervisorAccount />} label="20 CONNECTIONS" />
-              <Tab icon={<Favorite />} label="18 FAVORITES" />
-              <Tab icon={<PhotoLibrary />} label="4 ALBUMS" />
-            </Tabs>
-          </Hidden>
+        <AppBar position="static" className={classes.profileTab} style={{ zIndex: 1 }}>
+          <Tabs
+            value={value}
+            onChange={this.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            <Tab label="ABOUT" icon={<AccountCircle />} />
+            <Tab label="ACCOUNT" icon={<AccountTreeIcon />} />
+            <Tab label="PACKAGE" icon={<SupervisorAccount />} />
+            <Tab label="CLASS" icon={<Favorite />} />
+            <Tab label="MEASUREMENTS" icon={<PhotoLibrary />} />
+            <Tab label="Media" icon={<WallpaperIcon />} />
+            <Tab label="WORKOUT/NUTRITION" icon={<FitnessCenterIcon />} />
+            <Tab label="ATTENDANCE" icon={<HowToRegIcon />} />
+          </Tabs>
         </AppBar>
         {value === 0 && <TabContainer><About data={dataProps} /></TabContainer>}
-        {value === 1 && <TabContainer><Connection /></TabContainer>}
-        {value === 2 && <TabContainer><Favorites /></TabContainer>}
-        {value === 3 && <TabContainer><Albums /></TabContainer>}
+        {value === 1 && <TabContainer><AccountProfile /></TabContainer>}
+        {value === 2 && <TabContainer><PackageProfile /></TabContainer>}
+        {value === 3 && <TabContainer><ClassProfile /></TabContainer>}
+        {value === 4 && <TabContainer><MeasurementProfile /></TabContainer>}
+        {value === 5 && <TabContainer><MediaProfile /></TabContainer>}
+        {value === 6 && <TabContainer><WorkoutNutritionProfile /></TabContainer>}
+        {value === 7 && <TabContainer><Attendance /></TabContainer>}
       </div>
     );
   }
 }
 
-UserProfile.propTypes = {
-  classes: PropTypes.object.isRequired,
-  dataProps: PropTypes.object.isRequired,
-  fetchData: PropTypes.func.isRequired,
-};
+// UserProfile.propTypes = {
+//   classes: PropTypes.object.isRequired,
+//   dataProps: PropTypes.object.isRequired,
+//   fetchData: PropTypes.func.isRequired,
+// };
 
 const reducer = 'socmed';
 const mapStateToProps = state => ({

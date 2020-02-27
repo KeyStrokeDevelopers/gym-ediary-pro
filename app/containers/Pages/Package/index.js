@@ -1,165 +1,173 @@
+/* eslint-disable */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import data from 'dan-api/apps/contactData';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
-import dummy from 'dan-api/dummy/dummyContents';
+import Typography from '@material-ui/core/Typography';
 import {
-    fetchAction,
-    showDetailAction,
-    hideDetailAction,
-    submitAction,
-    editAction,
-    addAction,
-    closeAction,
-    removeAction,
-    addToFavoriteAction,
-    searchAction,
-    closeNotifAction
-} from 'dan-actions/ContactActions';
+  getPackageData,
+  submitPackageData,
+  addPackageData,
+  closeAction,
+  showDetailAction,
+  editPackageData,
+  searchPackageData,
+  updatePackageData,
+  deletePackageData,
+  setDetailField,
+  loadingAction,
+  hideDetailAction
+} from 'dan-actions/vendorPackageActions';
 import {
-    ContactList,
-    ContactDetail,
-    AddContact,
-    Notification
+  AddContact,
+  Notification
 } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
+import PackageDataList from '../../../components/Contact/PackageDataList';
+import PackageDetail from '../../../components/Contact/PackageDetail';
 
 class Package extends React.Component {
-    componentDidMount() {
-        const { fetchData } = this.props;
-        fetchData(data);
-    }
+  componentDidMount() {
+    const { fetchData } = this.props;
+    fetchData();
+  }
 
-    submitContact = (item, avatar) => {
-        const { submit } = this.props;
-        const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-        const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
-        submit(item, avatarPreview);
+  submitPackageData = (data, avatar) => {
+    const {
+      submitData, formValue, updateData, loading
+    } = this.props;
+    if (Object.keys(formValue).length >= 1) {
+      updateData(data);
+    } else {
+      loading();
+      submitData(data);
     }
+    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
+    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
+  }
 
-    render() {
-        const title = brand.name + ' - Contact';
-        const description = brand.desc;
-        const {
-            classes,
-            dataContact,
-            itemSelected,
-            showDetail,
-            hideDetail,
-            avatarInit,
-            open,
-            showMobileDetail,
-            add,
-            edit,
-            close,
-            remove,
-            favorite,
-            keyword,
-            search,
-            closeNotif,
-            messageNotif
-        } = this.props;
-        return (
-            <div>
-                <Helmet>
-                    <title>{title}</title>
-                    <meta name="description" content={description} />
-                    <meta property="og:title" content={title} />
-                    <meta property="og:description" content={description} />
-                    <meta property="twitter:title" content={title} />
-                    <meta property="twitter:description" content={description} />
-                </Helmet>
-                <Notification close={() => closeNotif()} message={messageNotif} />
-                <div className={classes.root}>
-                    <ContactList
-                        addFn
-                        total={dataContact.size}
-                        addContact={add}
-                        clippedRight
-                        itemSelected={itemSelected}
-                        dataContact={dataContact}
-                        showDetail={showDetail}
-                        search={search}
-                        keyword={keyword}
-                    />
-                    <ContactDetail
-                        showMobileDetail={showMobileDetail}
-                        hideDetail={hideDetail}
-                        dataContact={dataContact}
-                        itemSelected={itemSelected}
-                        edit={edit}
-                        remove={remove}
-                        favorite={favorite}
-                    />
-                </div>
-                <AddContact
-                    addContact={add}
-                    openForm={open}
-                    closeForm={close}
-                    formType='package'
-                    submit={this.submitContact}
-                    avatarInit={avatarInit}
-                />
-            </div>
-        );
-    }
+  render() {
+    const title = brand.name + ' - Contact';
+    const description = brand.desc;
+    const {
+      classes,
+      dataContact,
+      packageData,
+      itemSelected,
+      showDetail,
+      hideDetail,
+      avatarInit,
+      open,
+      showMobileDetail,
+      add,
+      edit,
+      formValue,
+      isActive,
+      is_active,
+      close,
+      remove,
+      favorite,
+      keyword,
+      search,
+      closeNotif,
+      messageNotif,
+      deletePackageData,
+      isLoading
+    } = this.props;
+    const isPackageData = packageData.length >= 1;
+    return (
+      <div>
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="twitter:title" content={title} />
+          <meta property="twitter:description" content={description} />
+        </Helmet>
+        <Notification close={() => closeNotif()} message={messageNotif} />
+        <div className={classes.root}>
+          <PackageDataList
+            addFn
+            total={packageData && packageData.length}
+            addPackageData={add}
+            clippedRight
+            itemSelected={itemSelected}
+            packageDataList={packageData}
+            isActive={isActive}
+            showDetail={showDetail}
+            search={search}
+            is_active={is_active}
+            keyword={keyword}
+          />
+          <PackageDetail
+            showMobileDetail={showMobileDetail}
+            hideDetail={hideDetail}
+            packageData={packageData}
+            deletePackageData={deletePackageData}
+            itemSelected={itemSelected}
+            edit={edit}
+            isActive={is_active}
+            remove={remove}
+            favorite={favorite}
+          />
+        </div>
+        <AddContact
+          addContact={add}
+          openForm={open}
+          formType="package"
+          edit={(Object.keys(formValue).length >= 1)}
+          closeForm={close}
+          submit={this.submitPackageData}
+          avatarInit={avatarInit}
+          isLoading={isLoading}
+        />
+      </div>
+    );
+  }
 }
 
-Package.propTypes = {
-    classes: PropTypes.object.isRequired,
-    avatarInit: PropTypes.string.isRequired,
-    fetchData: PropTypes.func.isRequired,
-    showDetail: PropTypes.func.isRequired,
-    hideDetail: PropTypes.func.isRequired,
-    keyword: PropTypes.string.isRequired,
-    open: PropTypes.bool.isRequired,
-    showMobileDetail: PropTypes.bool.isRequired,
-    add: PropTypes.func.isRequired,
-    close: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired,
-    edit: PropTypes.func.isRequired,
-    remove: PropTypes.func.isRequired,
-    favorite: PropTypes.func.isRequired,
-    search: PropTypes.func.isRequired,
-    dataContact: PropTypes.object.isRequired,
-    itemSelected: PropTypes.number.isRequired,
-    closeNotif: PropTypes.func.isRequired,
-    messageNotif: PropTypes.string.isRequired,
+
+const mapStateToProps = state => {
+  const packageReducer = state.get('packageInfo');
+  return ({
+
+    // force: state, // force state from reducer
+    avatarInit: packageReducer.avatarInit,
+    packageData: packageReducer.packageList,
+    itemSelected: packageReducer.selectedIndex,
+    keyword: packageReducer.keywordValue,
+    open: packageReducer.openFrm,
+    showMobileDetail: packageReducer.showMobileDetail,
+    messageNotif: packageReducer.notifMsg,
+    formValue: packageReducer.formValues,
+    is_active: packageReducer.isActive,
+    isLoading: packageReducer.isLoading
+  });
 };
 
-const reducer = 'contact';
-const mapStateToProps = state => ({
-    force: state, // force state from reducer
-    avatarInit: state.getIn([reducer, 'avatarInit']),
-    dataContact: state.getIn([reducer, 'contactList']),
-    itemSelected: state.getIn([reducer, 'selectedIndex']),
-    keyword: state.getIn([reducer, 'keywordValue']),
-    open: state.getIn([reducer, 'openFrm']),
-    showMobileDetail: state.getIn([reducer, 'showMobileDetail']),
-    messageNotif: state.getIn([reducer, 'notifMsg']),
-});
-
 const constDispatchToProps = dispatch => ({
-    fetchData: bindActionCreators(fetchAction, dispatch),
-    showDetail: bindActionCreators(showDetailAction, dispatch),
-    hideDetail: () => dispatch(hideDetailAction),
-    submit: bindActionCreators(submitAction, dispatch),
-    edit: bindActionCreators(editAction, dispatch),
-    add: () => dispatch(addAction),
-    close: () => dispatch(closeAction),
-    remove: bindActionCreators(removeAction, dispatch),
-    favorite: bindActionCreators(addToFavoriteAction, dispatch),
-    search: bindActionCreators(searchAction, dispatch),
-    closeNotif: () => dispatch(closeNotifAction),
+  submitData: (data) => dispatch(submitPackageData(data)),
+  updateData: (data) => dispatch(updatePackageData(data)),
+  fetchData: () => dispatch(getPackageData()),
+  showDetail: (data) => dispatch(showDetailAction(data)),
+  hideDetail: () => dispatch(hideDetailAction()),
+  edit: (data) => dispatch(editPackageData(data)),
+  add: () => dispatch(addPackageData()),
+  close: () => dispatch(closeAction()),
+  deletePackageData: (data) => dispatch(deletePackageData(data)),
+  // remove: bindActionCreators(removeAction, dispatch),
+  // favorite: bindActionCreators(addToFavoriteAction, dispatch),
+  isActive: (data) => dispatch(setDetailField(data)),
+  search: (data) => dispatch(searchPackageData(data)),
+  loading: () => dispatch(loadingAction())
+  // closeNotif: () => dispatch(closeNotifAction),
 });
 
 const PackageMapped = connect(
-    mapStateToProps,
-    constDispatchToProps
+  mapStateToProps,
+  constDispatchToProps
 )(Package);
 
 export default withStyles(styles)(PackageMapped);
