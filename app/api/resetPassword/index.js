@@ -1,22 +1,11 @@
-import axios from 'axios'
+import axios from 'axios';
+import { API_URL, getConfig } from '../../components/Common/constant';
 
-const SERVER_URL = 'http://localhost:4000/api'
-const config = {
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json; charset=utf-8'
-    }
-};
+const resetPasswordApi = (data) => axios.post(`${API_URL}/resetPassword`, data, getConfig());
 
-const resetPasswordApi = (data) => {
-    return axios.post(`${SERVER_URL}/user`, data, config)
-}
-
-const userData = () => {
-    return axios.get(`${SERVER_URL}/user`, config)
-}
+const userData = () => axios.get(`${API_URL}/staff`, getConfig());
 
 export {
-    resetPasswordApi,
-    userData
-}
+  resetPasswordApi,
+  userData
+};

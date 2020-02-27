@@ -2,11 +2,7 @@
 import { LOGIN_STAFF, LOGIN_ERROR } from '../../actions/actionConstants';
 
 const initialState = {
-  staffInfo: {
-    'empName': 'Virender Maira',
-    'empEmail': 'viru@gmail.com',
-    'empContact': '1111111111'
-  },
+  staffInfo: {},
   gymInfo: {},
   accessInfo: {},
   subscriptionInfo: {}

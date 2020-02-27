@@ -1,22 +1,20 @@
-import axios from 'axios'
+import axios from 'axios';
+import { API_URL, getConfig } from '../../components/Common/constant';
 
-const SERVER_URL = 'http://localhost:4000/api'
-const config = {
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json; charset=utf-8',
-    }
+const addPackageApi = (data) => axios.post(`${API_URL}/package`, data, getConfig());
+
+const getPackageApi = () => axios.get(`${API_URL}/package`, getConfig());
+
+const updatePackageDataApi = (data) => axios.put(`${API_URL}/package`, data, getConfig());
+
+const deletePackageDataApi = (dataId) => {
+  const config = getConfig();
+  config.data = { dataId };
+  return axios.delete(`${API_URL}/package`, config);
 };
-
-const addPackageApi = (data) => {
-    return axios.post(`${SERVER_URL}/package`, data, config)
-}
-
-const getPackageApi = () => {
-    return axios.get(`${SERVER_URL}/package`, config)
-}
-
 export {
-    addPackageApi,
-    getPackageApi
-}
+  addPackageApi,
+  getPackageApi,
+  updatePackageDataApi,
+  deletePackageDataApi
+};

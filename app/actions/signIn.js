@@ -1,38 +1,52 @@
+import { toast } from 'react-toastify';
 import * as types from './actionConstants';
-import { signInApi } from '../api/signIn'
-import history from '../utils/history'
+import { signInApi, getInitialData } from '../api/signIn';
+import history from '../utils/history';
 
 export const toggleAction = { type: types.TOGGLE_SIDEBAR };
 export const openMenuAction = { type: types.OPEN_MENU };
 
 const setStaffInfo = staffData => {
-    if (staffData.token) {
-        window.localStorage.setItem('token', staffData.token)
-        history.push('/app/dashboard');
-    }
-    return {
-        type: types.LOGIN_STAFF,
-        payload: staffData
-    }
-}
+  if (staffData.token) {
+    window.localStorage.setItem('token', staffData.token);
+    history.push('/app');
+  }
+  return {
+    type: types.LOGIN_STAFF,
+    payload: staffData
+  };
+};
 
 const loginError = err => {
-    console.log('erro in login ', err);
-    return {
-        type: types.LOGIN_ERROR,
-        payload: err
-    }
-}
+  console.log('erro in login ', err);
+  return {
+    type: types.LOGIN_ERROR,
+    payload: err
+  };
+};
 
-export const signIn = (data) => {
-    return (dispatch) => {
-        signInApi(data).then((response) => {
-            console.log('response data --------', response.data);
-            dispatch(setStaffInfo(response.data))
-        })
-            .catch((err) => {
-                console.log('error-----', err);
-                dispatch(loginError(err));
-            })
-    }
-}
+export const signIn = (data) => (dispatch) => {
+  signInApi(data).then((response) => {
+    toast.success('Sigin in success', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000
+    });
+    dispatch(setStaffInfo(response.data));
+  })
+    .catch((err) => {
+      toast.error('Registered, Contact or password is incorrect', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000
+      });
+      dispatch(loginError(err));
+    });
+};
+
+export const initialData = () => (dispatch) => {
+  getInitialData().then((response) => {
+    dispatch(setStaffInfo(response.data));
+  })
+    .catch((err) => {
+      dispatch(loginError(err));
+    });
+};

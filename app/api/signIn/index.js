@@ -1,22 +1,11 @@
-import axios from 'axios'
+import axios from 'axios';
+import { API_URL, getConfig, configWithoutToken } from '../../components/Common/constant';
 
-const SERVER_URL = 'http://localhost:4000/api'
-const config = {
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json; charset=utf-8',
-    }
-};
+const signInApi = (data) => axios.post(`${API_URL}/staffInfo/signIn`, data, configWithoutToken());
 
-const signInApi = (data) => {
-    return axios.post(`${SERVER_URL}/staff/signIn`, data, config)
-}
-
-const userData = () => {
-    return axios.get(`${SERVER_URL}/staff`, config)
-}
+const getInitialData = () => axios.get(`${API_URL}/staffInfo`, getConfig());
 
 export {
-    signInApi,
-    userData
-}
+  signInApi,
+  getInitialData
+};

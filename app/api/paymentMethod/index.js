@@ -1,22 +1,20 @@
-import axios from 'axios'
+import axios from 'axios';
+import { API_URL, getConfig } from '../../components/Common/constant';
 
-const SERVER_URL = 'http://localhost:4000/api'
-const config = {
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json; charset=utf-8',
-    }
+const addPaymentMethodApi = (data) => axios.post(`${API_URL}/paymentMethod`, data, getConfig());
+
+const getPaymentMethodApi = () => axios.get(`${API_URL}/paymentMethod`, getConfig());
+
+const updatePaymentMethodDataApi = (data) => axios.put(`${API_URL}/paymentMethod`, data, getConfig());
+
+const deletePaymentMethodDataApi = (dataId) => {
+  const config = getConfig();
+  config.data = { dataId };
+  return axios.delete(`${API_URL}/paymentMethod`, config);
 };
-
-const addPaymentMethodApi = (data) => {
-    return axios.post(`${SERVER_URL}/paymentMethod`, data, config)
-}
-
-const getPaymentMethodApi = () => {
-    return axios.get(`${SERVER_URL}/paymentMethod`, config)
-}
-
 export {
-    addPaymentMethodApi,
-    getPaymentMethodApi
-}
+  addPaymentMethodApi,
+  getPaymentMethodApi,
+  updatePaymentMethodDataApi,
+  deletePaymentMethodDataApi
+};

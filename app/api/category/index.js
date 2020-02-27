@@ -1,22 +1,20 @@
-import axios from 'axios'
+import axios from 'axios';
+import { API_URL, getConfig } from '../../components/Common/constant';
 
-const SERVER_URL = 'http://localhost:4000/api'
-const config = {
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json; charset=utf-8',
-    }
+const addCategoryApi = (data) => axios.post(`${API_URL}/category`, data, getConfig());
+
+const getCategoryApi = () => axios.get(`${API_URL}/category`, getConfig());
+
+const updateCategoryDataApi = (data) => axios.put(`${API_URL}/category`, data, getConfig());
+
+const deleteCategoryDataApi = (dataId) => {
+  const config = getConfig();
+  config.data = { dataId };
+  return axios.delete(`${API_URL}/category`, config);
 };
-
-const addCategoryApi = (data) => {
-    return axios.post(`${SERVER_URL}/category`, data, config)
-}
-
-const getCategoryApi = () => {
-    return axios.get(`${SERVER_URL}/category`, config)
-}
-
 export {
-    addCategoryApi,
-    getCategoryApi
-}
+  addCategoryApi,
+  getCategoryApi,
+  updateCategoryDataApi,
+  deleteCategoryDataApi
+};

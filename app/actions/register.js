@@ -1,30 +1,34 @@
-import * as types from './actionConstants';
-import { registerationApi, userData } from '../api/register'
+import { toast } from 'react-toastify';
+import { REGISTRATION_FAILED, REGISTRATION_SUCCESS } from './actionConstants';
+import history from '../utils/history';
+import { registerationApi } from '../api/register';
 
-export const toggleAction = { type: types.TOGGLE_SIDEBAR };
-export const openMenuAction = { type: types.OPEN_MENU };
+const registrationSuccess = () => {
+  history.push('/login');
+  return {
+    type: REGISTRATION_SUCCESS
+  };
+};
 
-const openAction = initialLocation => {
-    console.log('response in opein action ', initialLocation);
-}
-
-// ({
-//     type: types.OPEN_SUBMENU,
-//     initialLocation
-// });
-
-const changeThemeAction = theme => ({
-    type: types.CHANGE_THEME,
-    theme
+const registrationFailed = () => ({
+  type: REGISTRATION_FAILED
 });
 
-export const registration = (data) => {
-    return (dispatch) => {
-        registerationApi(data).then((response) => {
-            dispatch(openAction(response))
-        })
-            .catch((err) => {
-                console.log('error-----', err);
-            })
-    }
-}
+const registration = (data) => (dispatch) => {
+  registerationApi(data).then(() => {
+    toast.success('Registration success', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000
+    });
+    dispatch(registrationSuccess());
+  })
+    .catch(() => {
+      toast.error('Request Failed', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000
+      });
+      dispatch(registrationFailed());
+    });
+};
+
+export default registration;
