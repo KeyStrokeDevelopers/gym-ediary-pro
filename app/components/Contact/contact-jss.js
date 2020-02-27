@@ -10,6 +10,16 @@ const drawerWidth = 300;
 const drawerHeight = 680;
 
 const styles = theme => ({
+  bg: {
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(4),
+    backgroundImage: `linear-gradient(-45deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 33%, ${theme.palette.secondary.dark} 100%);`,
+    textAlign: 'center',
+    borderRadius: theme.rounded.small,
+    '& h3': {
+      color: theme.palette.secondary.light
+    }
+  },
   root: {
     flexGrow: 1,
     height: drawerHeight,
@@ -306,6 +316,18 @@ const styles = theme => ({
     position: 'absolute',
     top: '50%',
     left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
+  buttonUploadEdit: {
+    position: 'absolute',
+    top: '50%',
+    left: '30%',
+    transform: 'translate(-50%, -50%)'
+  },
+  buttonUploadDelete: {
+    position: 'absolute',
+    top: '50%',
+    left: '70%',
     transform: 'translate(-50%, -50%)'
   },
   navIconHide: {

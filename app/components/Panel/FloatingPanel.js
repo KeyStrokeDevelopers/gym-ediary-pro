@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -29,9 +30,11 @@ class FloatingPanel extends React.Component {
       branch,
       title,
       extraSize,
+      edit,
       width
     } = this.props;
     const { expanded } = this.state;
+    const viewTitle = edit ? 'Edit Info' : title;
     return (
       <div>
         <div className={
@@ -50,7 +53,7 @@ class FloatingPanel extends React.Component {
           )}
         >
           <header>
-            { title }
+            {viewTitle}
             <div className={classes.btnOpt}>
               <Tooltip title={expanded ? 'Exit Full Screen' : 'Full Screen'}>
                 <IconButton className={classes.expandButton} onClick={() => this.toggleExpand()} aria-label="Expand">
@@ -83,7 +86,7 @@ FloatingPanel.propTypes = {
 };
 
 FloatingPanel.defaultProps = {
-  title: 'Add New Item',
+  title: 'Add New Info',
   extraSize: false,
 };
 

@@ -1,15 +1,17 @@
+/* eslint-disable */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import Add from '@material-ui/icons/Add';
-import AddContactForm from './AddContactForm';
 import AddBankForm from './AddBankForm';
 import AddCategoryForm from './AddCategoryForm';
 import AddPackageForm from './AddPackageForm';
 import AddPaymentMethodForm from './AddPaymentMethodForm';
+import AddPurposeForm from './AddPurposeForm';
 import FloatingPanel from '../Panel/FloatingPanel';
+import AddStaffForm from './AddStaffForm';
+import AddClassForm from './AddClassForm';
 import styles from './contact-jss';
 
 class AddContact extends React.Component {
@@ -34,6 +36,10 @@ class AddContact extends React.Component {
     }
   }
 
+  handleDeleteImdage = () => {
+    this.setState({ files: [], img: null });
+  }
+
   sendValues = (values) => {
     const { submit } = this.props;
     const { img } = this.state;
@@ -52,46 +58,109 @@ class AddContact extends React.Component {
       closeForm,
       avatarInit,
       addContact,
-      formType
+      formType,
+      accessData,
+      edit,
+      itemSelected,
+      initFormValue,
+      isLoading,
+      staffData,
+      formTest
     } = this.props;
     const { img } = this.state;
     const branch = '';
-    console.log('form type ----', formType);
     return (
       <div>
-        <Tooltip title="Add New Contact">
+        <Tooltip title={`Add new ${formType}`}>
           <Fab color="secondary" onClick={() => addContact()} className={classes.addBtn}>
             <Add />
           </Fab>
         </Tooltip>
-        <FloatingPanel openForm={openForm} branch={branch} closeForm={closeForm}>
-          {(formType === 'bank') &&
-            <AddBankForm
-              onSubmit={this.sendValues}
-              onDrop={this.onDrop}
-              imgAvatar={img === null ? avatarInit : img}
-            />
+        <FloatingPanel openForm={openForm} branch={branch} closeForm={closeForm} edit={edit}>
+          {/* <AddContactForm
+            onSubmit={this.sendValues}
+            onDrop={this.onDrop}
+            imgAvatar={img === null ? avatarInit : img}
+            isLoading={isLoading}
+          /> */}
+          {(formType === 'bank')
+            && (
+              <AddBankForm
+                onSubmit={this.sendValues}
+                onDrop={this.onDrop}
+                imgAvatar={img === null ? avatarInit : img}
+                isLoading={isLoading}
+              />
+            )
           }
-          {(formType === 'package') &&
-            <AddPackageForm
-              onSubmit={this.sendValues}
-              onDrop={this.onDrop}
-              imgAvatar={img === null ? avatarInit : img}
-            />
+          {(formType === 'package')
+            && (
+              <AddPackageForm
+                onSubmit={this.sendValues}
+                onDrop={this.onDrop}
+                imgAvatar={img === null ? avatarInit : img}
+                isLoading={isLoading}
+              />
+            )
           }
-          {(formType === 'category') &&
-            < AddCategoryForm
-              onSubmit={this.sendValues}
-              onDrop={this.onDrop}
-              imgAvatar={img === null ? avatarInit : img}
-            />
+          {(formType === 'category')
+            && (
+              <AddCategoryForm
+                onSubmit={this.sendValues}
+                onDrop={this.onDrop}
+                imgAvatar={img === null ? avatarInit : img}
+                isLoading={isLoading}
+              />
+            )
           }
-          {(formType === 'paymentMethod') &&
-            < AddPaymentMethodForm
-              onSubmit={this.sendValues}
-              onDrop={this.onDrop}
-              imgAvatar={img === null ? avatarInit : img}
-            />
+          {(formType === 'paymentMethod')
+            && (
+              <AddPaymentMethodForm
+                onSubmit={this.sendValues}
+                onDrop={this.onDrop}
+                imgAvatar={img === null ? avatarInit : img}
+                isLoading={isLoading}
+              />
+            )
+          }
+          {(formType === 'staff')
+            && (
+              <AddStaffForm
+                onSubmit={this.sendValues}
+                onDrop={this.onDrop}
+                imgAvatar={img === null ? avatarInit : img}
+                isLoading={isLoading}
+                staffData={staffData}
+                itemSelected={itemSelected}
+                onDeleteImage={this.handleDeleteImdage}
+                formValues={initFormValue}
+                accessData={accessData}
+              />
+            )
+          }
+          {(formType === 'class')
+            && (
+              <AddClassForm
+                onSubmit={this.sendValues}
+                onDrop={this.onDrop}
+                imgAvatar={img === null ? avatarInit : img}
+                isLoading={isLoading}
+                staffData={staffData}
+                onDeleteImage={this.handleDeleteImdage}
+              />
+            )
+          }
+          {(formType === 'purpose')
+            && (
+              <AddPurposeForm
+                onSubmit={this.sendValues}
+                onDrop={this.onDrop}
+                formTest={formTest}
+                initFormValue={initFormValue}
+                imgAvatar={img === null ? avatarInit : img}
+                isLoading={isLoading}
+              />
+            )
           }
         </FloatingPanel>
       </div>
@@ -99,13 +168,5 @@ class AddContact extends React.Component {
   }
 }
 
-AddContact.propTypes = {
-  classes: PropTypes.object.isRequired,
-  submit: PropTypes.func.isRequired,
-  addContact: PropTypes.func.isRequired,
-  openForm: PropTypes.bool.isRequired,
-  avatarInit: PropTypes.string.isRequired,
-  closeForm: PropTypes.func.isRequired,
-};
 
 export default withStyles(styles)(AddContact);

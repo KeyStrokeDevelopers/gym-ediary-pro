@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -43,7 +44,6 @@ class LoginForm extends React.Component {
   };
 
   handleSignIn = (signInData) => {
-    console.log('sing in data ----', signInData);
     this.props.signIn(signInData);
   }
 
@@ -85,7 +85,7 @@ class LoginForm extends React.Component {
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="gymContact"
+                    name="branchContact"
                     component={TextFieldRedux}
                     placeholder="Registered Contact Number"
                     label="Registered Contact Number"
@@ -99,11 +99,11 @@ class LoginForm extends React.Component {
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="empContact"
+                    name="staffContact"
                     component={TextFieldRedux}
                     autoComplete="off"
-                    placeholder="User Contact Number"
-                    label="User Contact Number"
+                    placeholder="Staff/User Contact Number"
+                    label="Staff/User Contact Number"
                     required
                     validate={phoneNumber}
                     className={classes.field}
@@ -113,7 +113,7 @@ class LoginForm extends React.Component {
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="empPassword"
+                    name="staffPassword"
                     component={TextFieldRedux}
                     autoComplete="off"
                     type={showPassword ? 'text' : 'password'}
@@ -163,20 +163,15 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {}
-}
+const mapStateToProps = (state) => ({});
 
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signIn: (userData) => dispatch(signIn(userData)),
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  signIn: (userData) => dispatch(signIn(userData)),
+});
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   form: 'signIn',
   validate,
   enableReinitialize: true
 })(LoginForm)));
-

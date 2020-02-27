@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,6 +13,7 @@ import dummy from 'dan-api/dummy/dummyContents';
 import logo from 'dan-images/logo.png';
 import MainMenu from './MainMenu';
 import styles from './sidebar-jss';
+import { SERVER_URL } from '../Common/constant';
 
 class SidebarContent extends React.Component {
   state = {
@@ -67,6 +69,10 @@ class SidebarContent extends React.Component {
           return classes.offline;
       }
     };
+    let staffImage;
+    if (staffInfo) {
+      staffImage = staffInfo.staffImage ? `${SERVER_URL}${staffInfo.staffImage}` : '';
+    }
     return (
       <div className={classNames(classes.drawerInner, !drawerPaper ? classes.drawerPaperClose : '')}>
         <div className={classes.drawerHeader}>
@@ -80,12 +86,12 @@ class SidebarContent extends React.Component {
               style={{ opacity: 1 - (transform / 100), marginTop: transform * -0.3 }}
             >
               <Avatar
-                alt={staffInfo ? staffInfo.empName : dummy.user.name}
-                src={dummy.user.avatar}
+                alt={staffInfo ? staffInfo.staffName : dummy.user.name}
+                src={staffImage || dummy.user.avatar}
                 className={classNames(classes.avatar, classes.bigAvatar)}
               />
               <div>
-                <h4>{staffInfo ? staffInfo.empName : dummy.user.name}</h4>
+                <h4>{staffInfo ? staffInfo.staffName : dummy.user.name}</h4>
                 <Button size="small" onClick={openMenuStatus}>
                   <i className={classNames(classes.dotStatus, setStatus(status))} />
                   {status}

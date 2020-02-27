@@ -1,23 +1,27 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import ProductCard from '../CardPaper/ProductCard';
 import ProductDetail from './ProductDetail';
 
 class ProductGallery extends React.Component {
   state = {
-    open: false,
+    open: true,
   }
 
   handleDetailOpen = (product) => {
-    const { showDetail } = this.props;
+    // const { showDetail } = this.props;
     this.setState({ open: true });
-    showDetail(product);
+    // showDetail(product);
   };
 
   handleClose = () => {
     this.setState({ open: false });
   };
+
+  handleDetails = () => {
+    this.setState({ open: true });
+  }
 
 
   render() {
@@ -26,8 +30,7 @@ class ProductGallery extends React.Component {
       dataProduct,
       handleAddToCart,
       productIndex,
-      keyword,
-      listView
+      keyword
     } = this.props;
 
     return (
@@ -59,20 +62,21 @@ class ProductGallery extends React.Component {
                 quantity: 1
               };
               return (
-                <Grid item md={listView === 'list' ? 12 : 4} sm={listView === 'list' ? 12 : 6} xs={12} key={index.toString()}>
-                  <ProductCard
-                    list={listView === 'list'}
-                    name={product.get('name')}
-                    thumbnail={product.get('thumbnail')}
-                    desc={product.get('desc')}
-                    ratting={product.get('ratting')}
-                    price={product.get('price')}
-                    prevPrice={product.get('prevPrice')}
-                    discount={product.get('discount')}
-                    soldout={product.get('soldout')}
-                    detailOpen={() => this.handleDetailOpen(product)}
-                    addToCart={() => handleAddToCart(itemAttr)}
-                  />
+                <Grid item md={12} sm={12} xs={12} key={index.toString()}>
+                  {/* <ProductCard
+                    // list={listView === 'list'}
+                    // name={product.get('name')}
+                    // thumbnail={product.get('thumbnail')}
+                    // desc={product.get('desc')}
+                    // ratting={product.get('ratting')}
+                    // price={product.get('price')}
+                    // prevPrice={product.get('prevPrice')}
+                    // discount={product.get('discount')}
+                    // soldout={product.get('soldout')}
+                    //detailOpen={() => this.handleDetailOpen(product)}
+                  // addToCart={() => handleAddToCart(itemAttr)}
+                  /> */}
+                  {/* <Button onClick={() => this.handleDetails}></Button> */}
                 </Grid>
               );
             })

@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell';
@@ -42,6 +43,7 @@ class TableHeader extends React.Component {
               key={column.id}
               align={column.numeric ? 'right' : 'left'}
               sortDirection={orderBy === column.id ? order : false}
+              style={{ wordBreak: 'initial', whiteSpace: 'nowrap' }}
             >
               <Tooltip
                 title="Sort"
@@ -65,7 +67,6 @@ class TableHeader extends React.Component {
 }
 
 TableHeader.propTypes = {
-  numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func,
   order: PropTypes.string.isRequired,
@@ -76,7 +77,7 @@ TableHeader.propTypes = {
 };
 
 TableHeader.defaultProps = {
-  onSelectAllClick: () => {},
+  onSelectAllClick: () => { },
   checkcell: false
 };
 

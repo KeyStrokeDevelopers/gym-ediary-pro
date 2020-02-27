@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Fragment, Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -10,13 +11,18 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ArrowForward from '@material-ui/icons/ArrowForward';
 import Type from 'dan-styles/Typography.scss';
-import { GradientDivider } from '../../components/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import brand from 'dan-api/dummy/brand';
+import { GradientDivider } from '../Divider';
 import logo from '../../../public/images/logo.png';
-import { TextFieldRedux, DatePickerInput } from './ReduxFormMUI';
-import { validate, email, phoneNumber, pinNumber } from './helpers/formValidation'
-import { registration } from '../../actions/register'
+import {
+  TextFieldRedux, DatePickerInput, RegularTextFieldRedux, SearchableSelect
+} from './ReduxFormMUI';
+import {
+  validate, email, phoneNumber, pinNumber
+} from './helpers/formValidation';
+import { allIndianState } from '../Common/constant';
+import registration from '../../actions/register';
 import styles from './user-jss';
 
 const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
@@ -26,7 +32,6 @@ const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disabl
 // eslint-disable-next-line
 class RegisterForm extends React.Component {
   state = {
-    selectedDate: new Date().getTime(),
     tab: 0,
   };
 
@@ -43,16 +48,8 @@ class RegisterForm extends React.Component {
     this.setState({ tab: value });
   };
 
-  handleDateChange = (date) => {
-    let dob = new Date(date).getTime();
-    this.setState({ selectedDate: dob })
-  }
-
   handleRegisteration = (registerationData) => {
-    const { selectedDate } = this.state
-    registerationData.empDob = selectedDate;
     this.props.register(registerationData);
-
   }
 
   render() {
@@ -63,7 +60,6 @@ class RegisterForm extends React.Component {
       submitting,
       deco
     } = this.props;
-    const { selectedDate } = this.state
 
     return (
       <Fragment>
@@ -140,10 +136,13 @@ class RegisterForm extends React.Component {
                 <FormControl className={classes.formControl}>
                   <Field
                     name="branchState"
-                    component={TextFieldRedux}
-                    autoComplete="off"
+                    component={SearchableSelect}
                     placeholder="State"
+                    autoComplete="off"
                     label="State"
+                    options={allIndianState}
+                    labelKey="value"
+                    valueKey="value"
                     required
                     className={classes.field}
                   />
@@ -181,7 +180,7 @@ class RegisterForm extends React.Component {
                 <FormControl className={classes.formControl}>
                   <Field
                     name="branchEmail"
-                    component={TextFieldRedux}
+                    component={RegularTextFieldRedux}
                     autoComplete="off"
                     placeholder="Your Email"
                     label="Your Email"
@@ -192,13 +191,13 @@ class RegisterForm extends React.Component {
                 </FormControl>
               </div>
               <div style={{ marginTop: '20px' }}>
-                <Typography variant="button"  >Owner's Information</Typography>
+                <Typography variant="button">Owner's Information</Typography>
                 <GradientDivider />
               </div>
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="empName"
+                    name="staffName"
                     component={TextFieldRedux}
                     autoComplete="off"
                     placeholder="Owner's Name"
@@ -211,7 +210,7 @@ class RegisterForm extends React.Component {
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="empContact"
+                    name="staffContact"
                     component={TextFieldRedux}
                     placeholder="Contact Number"
                     autoComplete="off"
@@ -225,8 +224,8 @@ class RegisterForm extends React.Component {
               <div>
                 <FormControl className={classes.formControl}>
                   <Field
-                    name="empEmail"
-                    component={TextFieldRedux}
+                    name="staffEmail"
+                    component={RegularTextFieldRedux}
                     autoComplete="off"
                     placeholder="Email Id"
                     label="Email Id"
@@ -238,16 +237,16 @@ class RegisterForm extends React.Component {
               </div>
               <div className={classes.picker}>
                 <Field
-                  name='empDob'
-                  label='Date Of Birth'
+                  name="staffDob"
+                  label="Date Of Birth"
+                  disableFuture
                   component={DatePickerInput}
-                  change={this.handleDateChange}
                 />
               </div>
               <div className={classes.optArea} style={{ justifyContent: 'center', marginTop: '20px' }}>
                 <Button variant="contained" color="primary" type="submit" style={{ width: '80%' }}>
                   Continue
-                    <ArrowForward className={classNames(classes.rightIcon, classes.iconSmall)} disabled={submitting || pristine} />
+                  <ArrowForward className={classNames(classes.rightIcon, classes.iconSmall)} disabled={submitting || pristine} />
                 </Button>
               </div>
               <div className={classes.optArea} style={{ justifyContent: 'center', marginTop: '20px' }}>
@@ -258,25 +257,22 @@ class RegisterForm extends React.Component {
             </form>
           </section>
         </Paper>
-      </Fragment >
+      </Fragment>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userInfo: state
-  }
-  //return state
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    register: (userData) => dispatch(registration(userData)),
-  }
-}
+const mapStateToProps = (state) => ({
+  userInfo: state
+});
+// return state
+
+const mapDispatchToProps = (dispatch) => ({
+  register: (userData) => dispatch(registration(userData)),
+});
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   form: 'register',
   validate,
   enableReinitialize: true,
-})(RegisterForm)))
+})(RegisterForm)));

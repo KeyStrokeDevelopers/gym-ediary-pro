@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -47,6 +48,7 @@ class TableToolbar extends React.Component {
         className={classNames(classes.toolbar, {
           [classes.highlight]: numSelected > 0,
         })}
+        style={{ position: 'sticky', left: 0 }}
       >
         <div className={classes.title}>
           {numSelected > 0 ? (
@@ -121,7 +123,6 @@ TableToolbar.propTypes = {
   title: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   onUserInput: PropTypes.func.isRequired,
-  numSelected: PropTypes.number.isRequired,
 };
 
 export default withStyles(styles)(TableToolbar);

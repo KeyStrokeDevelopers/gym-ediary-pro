@@ -20,19 +20,11 @@ export Technology from './LandingPage/Technology';
 export Testimonials from './LandingPage/Testimonials';
 export SideNav from './LandingPage/SideNav';
 // Dashboard and Widget
-export CounterWidget from './Counter/CounterWidget';
-export CounterTrading from './Counter/CounterTrading';
 export SliderWidget from './Widget/SliderWidget';
-export CounterChartWidget from './Widget/CounterChartWidget';
-export CounterIconsWidget from './Widget/CounterIconsWidget';
-export CounterCryptoWidget from './Widget/CounterCryptoWidget';
-export PerformanceChartWidget from './Widget/PerformanceChartWidget';
 export TableWidget from './Widget/TableWidget';
-export MarketPlaceWIdget from './Widget/MarketPlaceWIdget';
 export TaskWidget from './Widget/TaskWidget';
 export ProfileWidget from './Widget/ProfileWidget';
 export ProgressWidget from './Widget/ProgressWidget';
-export SalesChartWidget from './Widget/SalesChartWidget';
 export CarouselWidget from './Widget/CarouselWidget';
 export AlbumWidget from './Widget/AlbumWidget';
 export MapWidget from './Widget/MapWidget';
@@ -41,9 +33,7 @@ export WeatherWidget from './Widget/WeatherWidget';
 export DateWidget from './Widget/DateWidget';
 export FilesWidget from './Widget/FilesWidget';
 export NewsWidget from './Widget/NewsWidget';
-export CalculatorWidget from './Widget/CalculatorWidget';
 export TimelineWidget from './Widget/TimelineWidget';
-export CryptoChartWidget from './Widget/CryptoChartWidget';
 export TradingFormWidget from './Widget/TradingFormWidget';
 export LatestTransactionWidget from './Widget/LatestTransactionWidget';
 export CryptoWalletWidget from './Widget/CryptoWalletWidget';
@@ -51,31 +41,18 @@ export TransferCryptoWidget from './Widget/TransferCryptoWidget';
 export HistoryWidget from './Widget/HistoryWidget';
 export NewsListWidget from './Widget/NewsListWidget';
 export PerformanceWidget from './Widget/PerformanceWidget';
-// Calculator
-export Calculator from './Calculator';
+
 // Guide
 export GuideSlider from './GuideSlider';
 // Table Components
-export TreeTable from './Tables/TreeTable';
-export CrudTable from './Tables/CrudTable';
-export CrudTableForm from './Tables/CrudTableForm';
 export AdvTable from './Tables/AdvTable';
-export TradingTable from './Tables/TradingTable';
-export EmptyData from './Tables/EmptyData';
 // Form
 export Notification from './Notification/Notification';
 export MaterialDropZone from './Forms/MaterialDropZone';
 export LoginForm from './Forms/LoginForm';
-export LoginFormV2 from './Forms/LoginFormV2';
-export LoginFormV3 from './Forms/LoginFormV3';
 export RegisterForm from './Forms/RegisterForm';
-export RegisterFormV2 from './Forms/RegisterFormV2';
-export RegisterFormV3 from './Forms/RegisterFormV3';
-export ResetForm from './Forms/ResetForm';
+
 export LockForm from './Forms/LockForm';
-export AddressForm from './Forms/AddressForm';
-export PaymentForm from './Forms/PaymentForm';
-export Review from './Forms/Review';
 export SideReview from './Forms/SideReview';
 // Texteditor Toolbar
 export HeadlinesButton from './TextEditor/HeadlinesButton';

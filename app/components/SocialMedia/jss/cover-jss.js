@@ -2,6 +2,8 @@ import { fade, darken } from '@material-ui/core/styles/colorManipulator';
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    maxWidth: '100%',
+    backgroundColor: theme.palette.background.paper,
   },
   cover: {
     '& $name, & $subheading': {
@@ -23,9 +25,9 @@ const styles = theme => ({
   },
   profileTab: {
     marginTop: -72,
-    [theme.breakpoints.down('sm')]: {
-      marginTop: -48,
-    },
+    // [theme.breakpoints.down('sm')]: {
+    //   marginTop: -48,
+    // },
     borderRadius: `0 0 ${theme.rounded.medium} ${theme.rounded.medium}`,
     background: fade(theme.palette.background.paper, 0.8),
     position: 'relative'
