@@ -4,13 +4,11 @@ import React from 'react';
 import Loading from 'dan-components/Loading';
 import loadable from '../utils/loadable';
 
-
 // Dashboard
 export const PersonalDashboard = loadable(() =>
   import('./Dashboard/PersonalDashboard'), {
   fallback: <Loading />,
 });
-
 
 export const Contact = loadable(() =>
   import('./Pages/Contact'), {
@@ -23,7 +21,6 @@ export const NotFound = loadable(() =>
   import('./NotFound/NotFound'), {
   fallback: <Loading />,
 });
-
 
 //Bank Page
 
@@ -64,6 +61,21 @@ export const Purpose = loadable(() =>
 
 export const Enquiry = loadable(() =>
   import('./Pages/Enquiry'), {
+  fallback: <Loading />
+})
+
+export const GymInfo = loadable(() =>
+  import('./Pages/GymInfo'), {
+  fallback: <Loading />
+})
+
+export const Sms = loadable(() =>
+  import('./Pages/Sms'), {
+  fallback: <Loading />
+})
+
+export const Subscription = loadable(() =>
+  import('./Pages/Subscription'), {
   fallback: <Loading />
 })
 
@@ -138,13 +150,10 @@ export const CheckoutPage = loadable(() =>
   fallback: <Loading />,
 });
 
-
 export const Ecommerce = loadable(() =>
   import('./Pages/Ecommerce'), {
   fallback: <Loading />,
 });
-
-
 
 export const Wishes = loadable(() =>
   import('./Pages/Reports/wishes'), {
@@ -163,8 +172,22 @@ export const RenewalReport = loadable(() =>
   fallback: <Loading />,
 });
 
-
 export const ProductPage = loadable(() =>
   import('./Pages/Ecommerce/ProductPage'), {
+  fallback: <Loading />,
+});
+
+export const Login = loadable(() =>
+  import('./Pages/Users/Login'), {
+  fallback: <Loading />,
+});
+
+export const Register = loadable(() =>
+  import('./Pages/Users/Register'), {
+  fallback: <Loading />,
+});
+
+export const Master = loadable(() =>
+  import('./Pages/Master'), {
   fallback: <Loading />,
 });

@@ -60,7 +60,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
-        productList: [...state.productList, action.payload],
+        productList: action.payload,
         isLoading: false
       };
     case LOADING_ACTION_PRODUCT_SHOPING:

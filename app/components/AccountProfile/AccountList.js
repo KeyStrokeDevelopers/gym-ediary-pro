@@ -23,6 +23,10 @@ class AccountList extends Component {
     tableData: [],
     columnData: [
       {
+        id: 'print',
+        label: 'Print'
+      },
+      {
         id: 'transactionDate',
         disablePadding: true,
         label: 'Date'
@@ -163,7 +167,7 @@ class AccountList extends Component {
       toDate,
       title
     } = this.state;
-    const { paymentMethodData, classes } = this.props;
+    const { paymentMethodData, classes, handlePrint } = this.props;
     return (
       <div style={{ width: '100%' }}>
         <Helmet>
@@ -210,6 +214,7 @@ class AccountList extends Component {
                 page={page}
                 title={title}
                 rowsPerPage={rowsPerPage}
+                handlePrint={handlePrint}
                 defaultPerPage={defaultPerPage}
                 filterText={filterText}
                 columnData={columnData}

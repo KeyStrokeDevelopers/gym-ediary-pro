@@ -157,7 +157,6 @@ const mapStateToProps = state => ({
   currentPage: state.getIn([reducer, 'currentPage']),
   openFrm: state.getIn([reducer, 'openFrm']),
   messageNotif: state.getIn([reducer, 'notifMsg']),
-  memberData: state.get('addMember').viewProfileData,
   availableClassData: state.get('classInfo').classList,
   paymentMethodData: state.get('paymentMethod').paymentMethodList,
   openFrm: state.get('classSubscription').openFrm,

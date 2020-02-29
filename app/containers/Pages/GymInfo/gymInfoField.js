@@ -1,0 +1,25 @@
+const gymInfoField = [
+  { primary: 'branchTerms' },
+  { primary: 'branchName' },
+  { primary: 'branchAddress' },
+  { primary: 'branchCity' },
+  { primary: 'branchState' },
+  { primary: 'branchPin' },
+  { primary: 'branchContact' },
+  { primary: 'branchEmail' },
+  { primary: 'branchDetails' },
+  { primary: 'regFee' },
+  { primary: 'autoBirth' },
+  { primary: 'autoAnniv' },
+  { primary: 'autoExpiring' },
+  { primary: 'autoExpired' },
+  { primary: 'appId' },
+  { primary: 'authId' },
+  { primary: 'smsApi' },
+  { primary: 'smsBalance' },
+  { primary: 'biometric' },
+  { primary: 'walletBalance' },
+  { primary: 'status' },
+];
+
+export default gymInfoField;

@@ -140,8 +140,7 @@ const mapStateToProps = state => {
     is_active: mediaReducer.isActive,
     isLoading: mediaReducer.isLoading,
     showDetails: mediaReducer.showDetails,
-    filter_value: mediaReducer.filterValue,
-    memberData: memberReducer.viewProfileData,
+    filter_value: mediaReducer.filterValue
   });
 };
 

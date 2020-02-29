@@ -303,15 +303,19 @@ class EnquiryDetail extends React.Component {
                     </ListItemAvatar>
                     <ListItemText primary={viewEnquiryData[itemSelected].email} secondary="Email" />
                   </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewEnquiryData[itemSelected].dob} secondary="DATE OF BIRTH" />
-                  </ListItem>
+                  {viewEnquiryData[itemSelected].dob &&
+                    <>
+                      <Divider variant="inset" />
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar className={classes.amberIcon}>
+                            <Work />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={new Date(viewEnquiryData[itemSelected].dob).toLocaleDateString()} secondary="DATE OF BIRTH" />
+                      </ListItem>
+                    </>
+                  }
                   <Divider variant="inset" />
                   <ListItem>
                     <ListItemAvatar>

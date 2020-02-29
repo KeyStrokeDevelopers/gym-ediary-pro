@@ -17,6 +17,8 @@ const deleteAddMemberDataApi = (dataId) => {
 
 const getGymInfoApi = () => axios.get(`${API_URL}/gymInfo`, getConfig());
 
+const updateGymInfoApi = (data) => axios.put(`${API_URL}/gymInfo`, data, getConfig());
+
 const sendWishApi = (data) => axios.post(`${API_URL}/addMember/wishes`, data, getConfig());
 
 export {
@@ -26,5 +28,6 @@ export {
   getOccupationDataApi,
   deleteAddMemberDataApi,
   getGymInfoApi,
+  updateGymInfoApi,
   sendWishApi
 };

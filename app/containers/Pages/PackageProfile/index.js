@@ -107,7 +107,6 @@ class PackageProfile extends React.Component {
       close,
       submitData,
     } = this.props;
-
     const title = brand.name + ' - Email';
     const description = brand.desc;
     return (
@@ -153,7 +152,6 @@ class PackageProfile extends React.Component {
 
 const mapStateToProps = state => ({
   force: state,
-  memberData: state.get('addMember').viewProfileData,
   availablePackageData: state.get('packageInfo').packageList,
   paymentMethodData: state.get('paymentMethod').paymentMethodList,
   openFrm: state.get('vendorPackageSubscription').openFrm,

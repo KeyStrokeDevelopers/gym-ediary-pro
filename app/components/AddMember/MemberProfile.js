@@ -1,0 +1,60 @@
+/* eslint-disable */
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+import imgData from 'dan-api/images/imgData';
+import 'dan-styles/vendors/slick-carousel/slick-carousel.css';
+import 'dan-styles/vendors/slick-carousel/slick.css';
+import 'dan-styles/vendors/slick-carousel/slick-theme.css';
+import UserProfile from '../../containers/Pages/UserProfile';
+import styles from './product-jss';
+
+const getThumb = imgData.map(a => a.thumb);
+
+const Transition = React.forwardRef(function Transition(props, ref) { // eslint-disable-line
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+class MemberProfile extends React.Component { // eslint-disable-line
+
+    render() {
+        const {
+            classes,
+            open,
+            close,
+            memberData,
+            paymentMethodData
+        } = this.props;
+
+        return (
+            <Dialog
+                fullScreen
+                open={open}
+                onClose={close}
+                TransitionComponent={Transition}
+            >
+                <AppBar className={classes.appBar}>
+                    <Toolbar>
+                        <Typography variant="h6" noWrap color="inherit" className={classes.flex}>
+                        </Typography>
+                        <IconButton color="inherit" onClick={() => close()} aria-label="Close">
+                            <CloseIcon />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+                <section className={classes.wrapper}>
+                    <UserProfile memberData={memberData} paymentMethodData={paymentMethodData} />
+                </section>
+            </Dialog>
+        );
+    }
+}
+
+
+export default withStyles(styles)(MemberProfile);

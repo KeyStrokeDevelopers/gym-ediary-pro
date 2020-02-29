@@ -19,10 +19,13 @@ import { getPaymentMethodData } from 'dan-actions/paymentMethodActions';
 import styles from 'dan-components/Email/email-jss';
 import AccountList from '../../../components/AccountProfile/AccountList';
 import Account from '../../../components/AccountProfile/Account';
+import PrintDetail from './printDetail'
 
 class AccountProfile extends React.Component {
   state = {
     mobileOpen: false,
+    openPrint: false,
+    printData: null
   };
 
   componentDidMount() {
@@ -48,13 +51,20 @@ class AccountProfile extends React.Component {
     }
   }
 
+  handlePrint = (data) => {
+    this.setState({ printData: data, openPrint: true });
+  }
+
+  handleClose = () => {
+    this.setState({ openPrint: false });
+  }
+
 
   render() {
     const {
       classes,
       currentPage,
-      open,
-      search, keyword, remove,
+      open, keyword, remove,
       moveTo, toggleStar,
       closeNotif, messageNotif,
       accountData,
@@ -63,7 +73,7 @@ class AccountProfile extends React.Component {
       add, close,
       paymentMethodData
     } = this.props;
-
+    const { openPrint, printData } = this.state;
     const title = brand.name + ' - Email';
     const description = brand.desc;
     return (
@@ -78,6 +88,12 @@ class AccountProfile extends React.Component {
         </Helmet>
         <Notification close={() => closeNotif()} message={messageNotif} />
         <div className={classes.root}>
+          <PrintDetail
+            open={openPrint}
+            close={this.handleClose}
+            printData={printData}
+            memberData={memberData}
+          />
           <AccountList
             filterPage={currentPage}
             accountData={accountData}
@@ -85,6 +101,7 @@ class AccountProfile extends React.Component {
             deleteAccount={deleteAccount}
             keyword={keyword}
             paymentMethodData={paymentMethodData}
+            handlePrint={this.handlePrint}
             moveTo={moveTo}
             remove={remove}
             toggleStar={toggleStar}
@@ -121,7 +138,6 @@ const mapStateToProps = state => {
     isLoading: accountReducer.isLoading,
     showDetails: accountReducer.showDetails,
     filter_value: accountReducer.filterValue,
-    memberData: memberReducer.viewProfileData,
     paymentMethodData: paymentMethodReducer.paymentMethodList,
   });
 };

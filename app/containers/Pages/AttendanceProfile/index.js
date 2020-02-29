@@ -100,10 +100,8 @@ class Attendance extends Component {
 }
 
 const mapStateToProps = state => {
-  const memberReducer = state.get('addMember');
   const reportReducer = state.get('reports');
   return ({
-    memberData: memberReducer.viewProfileData,
     attendanceData: reportReducer.attendanceList
   });
 };

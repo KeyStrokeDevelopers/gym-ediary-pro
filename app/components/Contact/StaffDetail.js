@@ -353,33 +353,45 @@ class StaffDetail extends React.Component {
                   </ListItemAvatar>
                   <ListItemText primary={viewStaffData[itemSelected].staffCode} secondary="STAFF CODE" />
                 </ListItem>
-                <Divider variant="inset" />
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar className={classes.amberIcon}>
-                      <Work />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={viewStaffData[itemSelected].salaryDate} secondary="SALARY DATE" />
-                </ListItem>
-                <Divider variant="inset" />
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar className={classes.amberIcon}>
-                      <Work />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={viewStaffData[itemSelected].staffDob} secondary="STAFF DATE OF BIRTH" />
-                </ListItem>
-                <Divider variant="inset" />
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar className={classes.amberIcon}>
-                      <Work />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={viewStaffData[itemSelected].deactiveDate} secondary="DEACTIVE DATE" />
-                </ListItem>
+                {viewStaffData[itemSelected].salaryDate &&
+                  <>
+                    <Divider variant="inset" />
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar className={classes.amberIcon}>
+                          <Work />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={new Date(viewStaffData[itemSelected].salaryDate).toLocaleDateString()} secondary="SALARY DATE" />
+                    </ListItem>
+                  </>
+                }
+                {viewStaffData[itemSelected].staffDob &&
+                  <>
+                    <Divider variant="inset" />
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar className={classes.amberIcon}>
+                          <Work />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={new Date(viewStaffData[itemSelected].staffDob).toLocaleDateString()} secondary="STAFF DATE OF BIRTH" />
+                    </ListItem>
+                  </>
+                }
+                {viewStaffData[itemSelected].deactiveDate &&
+                  <>
+                    <Divider variant="inset" />
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar className={classes.amberIcon}>
+                          <Work />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={new Date(viewStaffData[itemSelected].deactiveDate).toLocaleDateString()} secondary="DEACTIVE DATE" />
+                    </ListItem>
+                  </>
+                }
                 <Divider variant="inset" />
 
               </List>

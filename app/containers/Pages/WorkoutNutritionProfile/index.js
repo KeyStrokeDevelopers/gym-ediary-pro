@@ -143,7 +143,6 @@ const mapStateToProps = state => {
     formValues: workoutNutritionReducer.formValues,
     is_active: workoutNutritionReducer.isActive,
     isLoading: workoutNutritionReducer.isLoading,
-    memberData: state.get('addMember').viewProfileData,
     purposeData: state.get('purpose').purposeList
   });
 };

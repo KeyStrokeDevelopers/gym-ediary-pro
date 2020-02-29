@@ -8,10 +8,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
+import Slide from '@material-ui/core/Slide';
 import imgData from 'dan-api/images/imgData';
 import 'dan-styles/vendors/slick-carousel/slick-carousel.css';
 import 'dan-styles/vendors/slick-carousel/slick.css';
 import 'dan-styles/vendors/slick-carousel/slick-theme.css';
+import ReactToPrint from 'react-to-print';
+import CommercialInvoice from '../../../components/DynamicInvoice/CommercialInvoice';
 import PrintIcon from '@material-ui/icons/Print';
 import styles from './product-jss';
 
@@ -21,7 +24,7 @@ const Transition = React.forwardRef(function Transition(props, ref) { // eslint-
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-class ProductDetail extends React.Component { // eslint-disable-line
+class InvoiceDetail extends React.Component { // eslint-disable-line
   state = {
     qty: 1,
   }
@@ -113,4 +116,4 @@ class ProductDetail extends React.Component { // eslint-disable-line
 }
 
 
-export default withStyles(styles)(ProductDetail);
+export default withStyles(styles)(InvoiceDetail);

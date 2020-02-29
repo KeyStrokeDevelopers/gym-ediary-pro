@@ -29,6 +29,7 @@ import Button from '@material-ui/core/Button';
 import addMemberDataField from './addMemberField';
 import { SERVER_URL } from '../Common/constant';
 import styles from './addMember-jss';
+import MemberProfile from './MemberProfile';
 
 const optionsOpt = [
   'Block Contact',
@@ -45,6 +46,7 @@ class AddMemberDetail extends React.Component {
     anchorElOpt: null,
     open: false,
     deletedId: null,
+    openProfile: false
   };
 
   handleClickOpt = event => {
@@ -61,9 +63,12 @@ class AddMemberDetail extends React.Component {
     this.setState({ anchorElOpt: null });
   }
 
-  handleDelete = (data) => {
-    const { deleteAddMemberData } = this.props;
-    deleteAddMemberData(data);
+  handleViewProfile = () => {
+    this.setState({ openProfile: true })
+  }
+
+  handleClose = () => {
+    this.setState({ openProfile: false })
   }
 
   handleDisagree = () => {
@@ -92,10 +97,11 @@ class AddMemberDetail extends React.Component {
       filterValue,
       edit,
       showMobileDetail,
+      paymentMethodData,
       isActive,
       hideDetail,
     } = this.props;
-    const { anchorElOpt, open } = this.state;
+    const { anchorElOpt, open, openProfile } = this.state;
 
     let addMemberFilterData;
     if (addMemberData && addMemberData.length >= 1) {
@@ -127,10 +133,16 @@ class AddMemberDetail extends React.Component {
         {viewAddMemberData && viewAddMemberData.length >= 1
           ? (
             <main className={classNames(classes.content, showMobileDetail ? classes.detailPopup : '')}>
+              <MemberProfile
+                open={openProfile}
+                close={this.handleClose}
+                memberData={viewAddMemberData[itemSelected]}
+              />
               <div>
                 <Dialog
                   open={open}
                   onClose={this.handleDisagree}
+                  paymentMethodData={paymentMethodData}
                   aria-labelledby="alert-dialog-title"
                   aria-describedby="alert-dialog-description"
                 >
@@ -156,7 +168,7 @@ class AddMemberDetail extends React.Component {
                 <div className={classes.opt}>
                   <>
                     <Tooltip title="View Profile">
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewAddMemberData[itemSelected])}>
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleViewProfile()}>
                         <MoodIcon />
                       </IconButton>
                     </Tooltip>

@@ -33,6 +33,7 @@ const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disabl
 class RegisterForm extends React.Component {
   state = {
     tab: 0,
+    dob: null
   };
 
   handleClickShowPassword = () => {
@@ -52,6 +53,10 @@ class RegisterForm extends React.Component {
     this.props.register(registerationData);
   }
 
+  handleDateOfBirth = (e, date) => {
+    this.setState({ dob: date });
+  }
+
   render() {
     const {
       classes,
@@ -60,7 +65,7 @@ class RegisterForm extends React.Component {
       submitting,
       deco
     } = this.props;
-
+    const { dob } = this.state
     return (
       <Fragment>
         <Hidden mdUp>
@@ -240,6 +245,8 @@ class RegisterForm extends React.Component {
                   name="staffDob"
                   label="Date Of Birth"
                   disableFuture
+                  onChange={this.handleDateOfBirth}
+                  dateValue={dob}
                   component={DatePickerInput}
                 />
               </div>

@@ -19,7 +19,6 @@ import Type from 'dan-styles/Typography.scss';
 import 'dan-styles/vendors/slick-carousel/slick-carousel.css';
 import 'dan-styles/vendors/slick-carousel/slick.css';
 import 'dan-styles/vendors/slick-carousel/slick-theme.css';
-import Rating from '../Rating/Rating';
 import styles from './product-jss';
 
 const getThumb = imgData.map(a => a.thumb);
@@ -140,9 +139,6 @@ class ProductDetail extends React.Component { // eslint-disable-line
                   {detailContent.getIn([productIndex, 'soldout']) && (
                     <Chip label="Sold Out" className={classes.chipSold} />
                   )}
-                </div>
-                <div className={classes.ratting}>
-                  <Rating value={detailContent.getIn([productIndex, 'ratting'])} max={5} readOnly />
                 </div>
                 <Typography component="p" className={classes.desc}>
                   {detailContent.getIn([productIndex, 'desc'])}

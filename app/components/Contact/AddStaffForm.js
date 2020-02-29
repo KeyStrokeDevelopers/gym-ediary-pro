@@ -27,6 +27,7 @@ import { validate, phoneNumber, email } from '../Forms/helpers/formValidation';
 import {
   TextFieldRedux, RegularTextFieldRedux, DatePickerInput, SelectRedux
 } from '../Forms/ReduxFormMUI';
+import { SERVER_URL } from '../Common/constant';
 
 
 class AddStaffForm extends React.Component {
@@ -262,7 +263,7 @@ class AddStaffForm extends React.Component {
             <div className={classes.picker}>
               <Field
                 name="salaryDate"
-                label="Salary Date"
+                label="Next Salary Date"
                 onChange={this.handleSalaryDate}
                 dateValue={salaryDate}
                 component={DatePickerInput}

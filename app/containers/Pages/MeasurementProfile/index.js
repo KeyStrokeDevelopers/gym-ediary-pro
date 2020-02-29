@@ -124,7 +124,6 @@ const mapStateToProps = state => ({
   openFrm: state.getIn([reducer, 'openFrm']),
   messageNotif: state.getIn([reducer, 'notifMsg']),
   measurementData: state.get('measurement').measurementList,
-  memberData: state.get('addMember').viewProfileData,
   open: state.get('measurement').openFrm,
 });
 

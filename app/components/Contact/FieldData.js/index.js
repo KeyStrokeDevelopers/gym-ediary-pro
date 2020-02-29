@@ -8,7 +8,7 @@ const staffDataField = [
   { primary: 'salaryDate', secondary: 'SALARY DATE' },
   { primary: 'staffCode', secondary: 'STAFF CODE' },
   { primary: 'accessLevel', secondary: 'ACCESS LEVEL' },
-  { primary: 'staffPassword', secondary: 'STAFF PASSWORD' },
+  { primary: 'staffPassword', secondary: 'STAFF PASSWORD' }
 ];
 
 export default staffDataField;

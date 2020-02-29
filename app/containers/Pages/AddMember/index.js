@@ -13,7 +13,7 @@ import {
   editAddMemberData,
   searchAddMemberData,
   updateAddMemberData,
-  deleteAddMemberData,
+  viewProfile,
   setDetailField,
   loadingAction,
   hideDetailAction,
@@ -63,8 +63,6 @@ class Member extends React.Component {
       loading();
       submitData(formData);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
@@ -101,7 +99,6 @@ class Member extends React.Component {
       search,
       closeNotif,
       messageNotif,
-      deleteAddMemberData,
       isLoading
     } = this.props;
     return (
@@ -134,7 +131,7 @@ class Member extends React.Component {
             showMobileDetail={showMobileDetail}
             hideDetail={hideDetail}
             addMemberData={addMemberData}
-            deleteAddMemberData={deleteAddMemberData}
+            paymentMethodData={paymentMethodData}
             itemSelected={itemSelected}
             showDetails={showDetails}
             filterValue={filter_value}
@@ -213,9 +210,6 @@ const constDispatchToProps = dispatch => ({
   edit: (data) => dispatch(editAddMemberData(data)),
   add: () => dispatch(addMemberData()),
   close: () => dispatch(closeAction()),
-  deleteAddMemberData: (data) => dispatch(deleteAddMemberData(data)),
-  // remove: bindActionCreators(removeAction, dispatch),
-  // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchAddMemberData(data)),
   loading: () => dispatch(loadingAction()),
@@ -226,7 +220,6 @@ const constDispatchToProps = dispatch => ({
   fetchPaymentMethodData: () => dispatch(getPaymentMethodData()),
   fetchGymInfoData: () => dispatch(getGymInfoData()),
   filterValue: (value) => dispatch(setFilterValue(value))
-  // closeNotif: () => dispatch(closeNotifAction),
 });
 
 const AddMemberMapped = connect(

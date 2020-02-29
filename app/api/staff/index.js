@@ -5,7 +5,7 @@ const addStaffApi = (data) => axios.post(`${API_URL}/staffInfo`, data, configFor
 
 const getStaffApi = () => axios.get(`${API_URL}/staffInfo`, getConfig());
 
-const updateStaffDataApi = (data) => axios.put(`${API_URL}/staffInfo`, data, getConfig());
+const updateStaffDataApi = (data) => axios.put(`${API_URL}/staffInfo`, data, configForFilePost());
 
 const deleteStaffDataApi = (dataId) => {
   const config = getConfig();

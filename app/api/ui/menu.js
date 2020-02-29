@@ -4,57 +4,12 @@ module.exports = [
     name: 'Dashboard',
     link: '/app',
     icon: 'ios-menu-outline',
-  },
-  {
+  }, {
     key: 'master',
     name: 'Master',
-    icon: 'ios-contact-outline',
-    child: [
-      {
-        key: 'bank',
-        name: 'Bank',
-        link: '/app/pages/bank',
-        icon: 'ios-contact-outline'
-      },
-      {
-        key: 'paymentMethod',
-        name: 'Payment Method',
-        link: '/app/pages/paymentMethod',
-        icon: 'ios-contact-outline'
-      },
-      {
-        key: 'package',
-        name: 'Package',
-        link: '/app/pages/package',
-        icon: 'ios-contact-outline'
-      },
-      {
-        key: 'category',
-        name: 'Category',
-        link: '/app/pages/category',
-        icon: 'ios-contact-outline'
-      },
-      {
-        key: 'staff',
-        name: 'Staff',
-        link: '/app/pages/staff',
-        icon: 'ios-contact-outline'
-      },
-      {
-        key: 'class',
-        name: 'Class',
-        link: '/app/pages/class',
-        icon: 'ios-contact-outline'
-      },
-      {
-        key: 'purpose',
-        name: 'Purpose',
-        link: '/app/pages/purpose',
-        icon: 'ios-contact-outline'
-      },
-    ]
-  },
-  {
+    link: '/app/pages/master',
+    icon: 'ios-menu-outline',
+  }, {
     key: 'enquiry',
     name: 'Enquiry',
     icon: 'ios-menu-outline',
@@ -64,8 +19,7 @@ module.exports = [
         name: 'Add Enquiry',
         link: '/app/enquiry',
         icon: 'ios-menu-outline',
-      },
-      {
+      }, {
         key: 'addMember',
         name: 'Add Member',
         link: '/app/addMember',
@@ -78,14 +32,12 @@ module.exports = [
     name: 'Expense/Income',
     link: '/app/expenseIncome',
     icon: 'ios-menu-outline',
-  },
-  {
+  }, {
     key: 'taskBoard',
     name: 'TaskBoard',
     link: '/app/taskboard',
     icon: 'ios-menu-outline',
-  },
-  {
+  }, {
     key: 'shoping',
     name: 'Shoping',
     icon: 'ios-menu-outline',

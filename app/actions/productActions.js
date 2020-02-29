@@ -75,7 +75,9 @@ const viewError = (error) => {
 };
 
 export const submitProductData = (data) => (dispatch) => {
+  console.log('hit submit product data ----');
   addProductApi(data).then((response) => {
+    console.log('response in submit product data ------', response);
     toast.success('Product Data Add Successfully !', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 2000

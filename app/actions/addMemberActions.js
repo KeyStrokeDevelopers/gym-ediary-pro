@@ -5,7 +5,7 @@ import {
 } from './actionConstants';
 import history from '../utils/history';
 import {
-  addAddMemberApi, getAddMemberApi, updateAddMemberDataApi, getOccupationDataApi, getGymInfoApi, sendWishApi
+  addAddMemberApi, getAddMemberApi, updateAddMemberDataApi, getOccupationDataApi, getGymInfoApi, sendWishApi, updateGymInfoApi
 } from '../api/addMember';
 
 const fetchAddMemberData = addMemberData => ({
@@ -33,7 +33,7 @@ export const closeAction = () => ({
 });
 
 // need to be name change of method     todo
-export const deleteAddMemberData = (data) => {
+export const viewProfile = (data) => {
   history.push('/app/profile');
   return ({
     type: VIEW_PROFILE,
@@ -120,6 +120,16 @@ export const getGymInfoData = () => (dispatch) => {
     dispatch(errorAddMemberData(err));
   });
 };
+
+export const updateGymInfoData = (data) => (dispatch) => {
+  updateGymInfoApi(data).then((response) => {
+    dispatch(fetchGymInfoData(response.data));
+  }).catch((err) => {
+    viewError(err);
+    dispatch(errorAddMemberData(err));
+  });
+};
+
 
 export const updateAddMemberData = (data) => (dispatch) => {
   updateAddMemberDataApi(data).then((response) => {

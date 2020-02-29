@@ -62,7 +62,7 @@ class UserProfile extends React.Component {
   render() {
     const title = brand.name + ' - Profile';
     const description = brand.desc;
-    const { dataProps, classes } = this.props;
+    const { dataProps, classes, memberData } = this.props;
     const { value } = this.state;
     return (
       <div className={classes.root}>
@@ -99,24 +99,18 @@ class UserProfile extends React.Component {
             <Tab label="ATTENDANCE" icon={<HowToRegIcon />} />
           </Tabs>
         </AppBar>
-        {value === 0 && <TabContainer><About data={dataProps} /></TabContainer>}
-        {value === 1 && <TabContainer><AccountProfile /></TabContainer>}
-        {value === 2 && <TabContainer><PackageProfile /></TabContainer>}
-        {value === 3 && <TabContainer><ClassProfile /></TabContainer>}
-        {value === 4 && <TabContainer><MeasurementProfile /></TabContainer>}
-        {value === 5 && <TabContainer><MediaProfile /></TabContainer>}
-        {value === 6 && <TabContainer><WorkoutNutritionProfile /></TabContainer>}
-        {value === 7 && <TabContainer><Attendance /></TabContainer>}
+        {value === 0 && <TabContainer><About data={dataProps} memberData={memberData} /></TabContainer>}
+        {value === 1 && <TabContainer><AccountProfile memberData={memberData} /></TabContainer>}
+        {value === 2 && <TabContainer><PackageProfile memberData={memberData} /></TabContainer>}
+        {value === 3 && <TabContainer><ClassProfile memberData={memberData} /></TabContainer>}
+        {value === 4 && <TabContainer><MeasurementProfile memberData={memberData} /></TabContainer>}
+        {value === 5 && <TabContainer><MediaProfile memberData={memberData} /></TabContainer>}
+        {value === 6 && <TabContainer><WorkoutNutritionProfile memberData={memberData} /></TabContainer>}
+        {value === 7 && <TabContainer><Attendance memberData={memberData} /></TabContainer>}
       </div>
     );
   }
 }
-
-// UserProfile.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   dataProps: PropTypes.object.isRequired,
-//   fetchData: PropTypes.func.isRequired,
-// };
 
 const reducer = 'socmed';
 const mapStateToProps = state => ({

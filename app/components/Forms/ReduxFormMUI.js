@@ -203,6 +203,19 @@ export const renderToggleAnniversaryWishes = (field) => (
   </div>
 );
 
+export const renderToggle = (field) => {
+  return (
+    <div style={{ marginTop: '15px' }}>
+      <div style={{ textAlign: 'center', width: '100%' }}>
+        <Toggle checked={Boolean(field.input.value)} onChange={field.input.onChange} icons />
+      </div>
+      <div style={{ textAlign: 'center', color: 'gray', width: '100%' }}>
+        {field.label}
+      </div>
+    </div>
+  );
+}
+
 export const renderFollowUpInput = (field) => <Toggle checked={Boolean(field.input.value)} onChange={field.input.onChange} icons />;
 
 export const renderDaysToggleInput = (field) => (

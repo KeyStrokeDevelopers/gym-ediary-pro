@@ -91,7 +91,6 @@ class PurposeDetail extends React.Component {
     if (purposeData && purposeData.length >= 1) {
       viewPurposeData = isActive ? purposeData.filter(item => item.status === 1) : purposeData.filter(item => item.status === 0);
     }
-    console.log('view purpose data ---------', viewPurposeData);
 
     return (
       <>

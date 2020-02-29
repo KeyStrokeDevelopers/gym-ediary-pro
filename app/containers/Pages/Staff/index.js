@@ -36,21 +36,33 @@ class Staff extends React.Component {
     fetchAccess();
   }
 
+  createFormData = (data, avatar) => {
+    const formData = new FormData();
+    console.log('avatar-------***----', avatar)
+    if (avatar) {
+      console.log('enter in avatar if ---')
+      formData.append('staffImage', avatar);
+    }
+    staffDataField.map((staffData) => {
+      if (data.get(staffData.primary)) {
+        formData.set(staffData.primary, data.get(staffData.primary));
+      }
+      return null;
+    });
+    return formData;
+  }
+
+
   submitStaffData = (data, avatar) => {
     const {
       submitData, formValue, updateData, loading
     } = this.props;
     if (Object.keys(formValue).length >= 1) {
-      updateData(data);
+      let formData = this.createFormData(data, avatar);
+      formData.set('_id', data.get('_id'));
+      updateData(formData);
     } else {
-      const formData = new FormData();
-      formData.append('staffImage', avatar);
-      staffDataField.map((staffData) => {
-        if (data.get(staffData.primary)) {
-          formData.set(staffData.primary, data.get(staffData.primary));
-        }
-        return null;
-      });
+      const formData = this.createFormData(data, avatar);
       loading();
       submitData(formData);
       return null;
@@ -170,7 +182,10 @@ const constDispatchToProps = dispatch => ({
   fetchAccess: () => dispatch(fetchAccessData()),
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
-  edit: (data) => dispatch(editStaffData(data)),
+  edit: (data) => {
+    console.log('data in edit -----', data);
+    return dispatch(editStaffData(data))
+  },
   add: () => dispatch(addStaffData()),
   close: () => dispatch(closeAction()),
   delete_Staff_Data: (data) => dispatch(deleteStaffData(data)),

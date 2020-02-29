@@ -15,6 +15,7 @@ import { green, grey } from '@material-ui/core/colors';
 import Radio from '@material-ui/core/Radio';
 import EnhancedTableToolbar from './tableParts/TableToolbar';
 import EnhancedTableHead from './tableParts/TableHeader';
+import PrintIcon from '@material-ui/icons/Print';
 
 const RadioButton = withStyles({
   root: {
@@ -190,7 +191,6 @@ class AdvTable extends React.Component {
     const {
       order,
       orderBy,
-      selected,
       rowsPerPage,
       data,
       page,
@@ -198,7 +198,7 @@ class AdvTable extends React.Component {
     } = this.state;
 
     const {
-      columnData, paymentMethodData, title, checkbox, attendance, wished, handleCall, toggleChange, editPurchaseData, editSaleData
+      columnData, paymentMethodData, title, checkbox, attendance, wished, handleCall, toggleChange, editPurchaseData, editSaleData, handlePrint
     } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - (page * rowsPerPage));
 
@@ -240,7 +240,6 @@ class AdvTable extends React.Component {
       } else if (itemCell.id === 'regDate') {
         cellValue = new Date(dataArray[itemCell.id]).toLocaleDateString();
       } else if (itemCell.id === 'birthWish' || itemCell.id === 'anniversaryWish') {
-        console.log('dataArray[itemCell.id] -- for birth with --', dataArray[itemCell.id]);
         if (parseInt(dataArray[itemCell.id]) === new Date().getFullYear()) {
           cellValue = (
             <p style={{
@@ -337,6 +336,14 @@ class AdvTable extends React.Component {
             </p>
           </TableCell>
         );
+      } else if (itemCell.id === 'print') {
+        if (dataArray.transactionStatus === 'Credit' && dataArray.amount > 0) {
+          const paymentMeth = paymentMethodData.filter((item) => item._id === dataArray['paymentModeDescription']);
+          dataArray.paymentMethod = paymentMeth[0]['paymentMethod'];
+          cellValue = (
+            <PrintIcon onClick={() => handlePrint(dataArray)} color="secondary" style={{ cursor: 'pointer' }} />
+          );
+        }
       } else {
         cellValue = dataArray[itemCell.id];
       }
