@@ -7,7 +7,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import DeleteIcon from '@material-ui/icons/Delete';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 import Tooltip from '@material-ui/core/Tooltip';
 import Avatar from '@material-ui/core/Avatar';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -18,7 +18,7 @@ import Add from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import styles from './contact-jss';
 
-class CategoryDataList extends React.Component {
+class SmsDataList extends React.Component {
   state = {
     filter: 1,
   };
@@ -30,11 +30,11 @@ class CategoryDataList extends React.Component {
     isActive(is_active);
   };
 
-  sortByName = (a, b) => {
-    if (a.category < a.category) {
+  sortByPrice = (a, b) => {
+    if (a.smsPackPrice < b.smsPackPrice) {
       return -1;
     }
-    if (a.category > a.category) {
+    if (a.smsPackPrice > b.smsPackPrice) {
       return 1;
     }
     return 0;
@@ -44,28 +44,28 @@ class CategoryDataList extends React.Component {
     const {
       classes,
       itemSelected,
-      categoryDataList,
+      smsDataList,
       showDetail,
       search,
       keyword,
       clippedRight,
-      addCategoryData,
+      addSmsData,
       is_active,
       addFn
     } = this.props;
     const { filter } = this.state;
-    let categoryData;
-    if (categoryDataList && categoryDataList.length >= 1) {
-      categoryData = is_active ? categoryDataList.filter(item => item.status === 1) : categoryDataList.filter(item => item.status === 0);
+    let smsData;
+    if (smsDataList && smsDataList.length >= 1) {
+      smsData = is_active ? smsDataList.filter(item => item.status === 1) : smsDataList.filter(item => item.status === 2);
     }
 
-    if (categoryData && categoryData.length >= 1) {
-      categoryData.sort(this.sortByName);
+    if (smsData && smsData.length >= 1) {
+      smsData.sort(this.sortByPrice);
     }
 
     const getItem = dataArray => dataArray.map((data, ind) => {
-      const index = categoryData.indexOf(data);
-      if (data.category.toLowerCase().indexOf(keyword) === -1) {
+      const index = smsData.indexOf(data);
+      if (data.smsPackage.toLowerCase().indexOf(keyword) === -1) {
         return false;
       }
       return (
@@ -73,12 +73,12 @@ class CategoryDataList extends React.Component {
           button
           key={ind}
           className={index === itemSelected ? classes.selected : ''}
-          onClick={() => showDetail(data)}
+          onClick={() => showDetail(index)}
         >
           <ListItemAvatar>
             <Avatar alt="Vfgf" src="" className={classes.avatar} />
           </ListItemAvatar>
-          <ListItemText primary={data.category} secondary={data.categoryType} />
+          <ListItemText primary={data.smsPackage} secondary={data.smsPackPrice} />
         </ListItem>
       );
     });
@@ -104,8 +104,8 @@ class CategoryDataList extends React.Component {
                   <input className={classes.input} onChange={(event) => search(event.target.value)} placeholder="Search" />
                 </div>
                 {addFn && (
-                  <Tooltip title="Add New Category">
-                    <IconButton className={classes.buttonAdd} onClick={() => addCategoryData()} color="secondary" aria-label="Delete">
+                  <Tooltip title="Add New Sms">
+                    <IconButton className={classes.buttonAdd} onClick={() => addSmsData()} color="secondary" aria-label="Delete">
                       <Add />
                     </IconButton>
                   </Tooltip>
@@ -113,28 +113,28 @@ class CategoryDataList extends React.Component {
               </div>
             </div>
             <div className={classes.total}>
-              {categoryData ? categoryData.length : '0'}
+              {smsData ? smsData.length : '0'}
               &nbsp;
-              Categorys
+              Smss
             </div>
             <List>
-              {categoryData && categoryData.length >= 1 && getItem(categoryData)}
+              {smsData && smsData.length >= 1 && getItem(smsData)}
             </List>
           </div>
         </Drawer>
         <BottomNavigation value={filter} onChange={this.handleChange} className={classes.bottomFilter}>
           <BottomNavigationAction label="Active" value={1} icon={<PermContactCalendar />} />
-          <BottomNavigationAction label="Deleted" value={0} icon={<DeleteIcon />} />
+          <BottomNavigationAction label="Pending" value={0} icon={<AutorenewIcon />} />
         </BottomNavigation>
       </Fragment>
     );
   }
 }
 
-CategoryDataList.defaultProps = {
+SmsDataList.defaultProps = {
   clippedRight: false,
   addContact: () => { },
   addFn: false,
 };
 
-export default withStyles(styles)(CategoryDataList);
+export default withStyles(styles)(SmsDataList);

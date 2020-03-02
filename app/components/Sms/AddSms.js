@@ -22,6 +22,7 @@ class AddSms extends React.Component {
       closeForm,
       addContact,
       formType,
+      smsData,
       edit
     } = this.props;
     const branch = '';
@@ -35,6 +36,7 @@ class AddSms extends React.Component {
         <FloatingPanel openForm={openForm} branch={branch} closeForm={closeForm} edit={edit}>
           <AddSmsForm
             onSubmit={this.sendValues}
+            smsData={smsData}
           />
         </FloatingPanel>
       </div>

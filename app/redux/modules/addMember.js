@@ -9,7 +9,7 @@ const initialState = {
   addMemberList: {},
   occupation: {},
   formValues: {},
-  gymInfo: [],
+  gymInfo: {},
   selectedIndex: 0,
   selectedId: '',
   keywordValue: '',
@@ -123,6 +123,7 @@ export default function reducer(state = initialState, action = {}) {
     }
 
     case FETCH_GYM_INFO: {
+      console.log('fetch gym info hit -----reducer--');
       return {
         ...state,
         gymInfo: action.payload

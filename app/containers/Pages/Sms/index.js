@@ -5,36 +5,38 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
 import {
-  getCategoryData,
-  submitCategoryData,
-  addCategoryData,
+  getSmsData,
+  getSmsActiveData,
+  submitSmsData,
+  addSmsData,
   closeAction,
   showDetailAction,
-  editCategoryData,
-  searchCategoryData,
-  updateCategoryData,
-  deleteCategoryData,
+  editSmsData,
+  searchSmsData,
+  updateSmsData,
+  deleteSmsData,
   setDetailField,
   loadingAction,
   hideDetailAction
-} from 'dan-actions/CategoryActions';
+} from 'dan-actions/SmsActions';
 import {
-  AddContact,
   Notification
 } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
-import CategoryDataList from '../../../components/Sms/CategoryDataList';
-import CategoryDetail from '../../../components/Sms/CategoryDetail';
+import SmsDataList from '../../../components/Sms/SmsDataList';
+import SmsDetail from '../../../components/Sms/SmsDetail';
 import AddSms from '../../../components/Sms/AddSms';
+import { getSmsActiveApi } from '../../../api/sms';
 
 
-class Category extends React.Component {
+class Sms extends React.Component {
   componentDidMount() {
-    const { fetchData } = this.props;
+    const { fetchData, fetchActiveSmsData } = this.props;
     fetchData();
+    fetchActiveSmsData();
   }
 
-  submitCategoryData = (data, avatar) => {
+  submitSmsData = (data, avatar) => {
     const {
       submitData, formValue, updateData, loading
     } = this.props;
@@ -53,7 +55,8 @@ class Category extends React.Component {
     const description = brand.desc;
     const {
       classes,
-      categoryData,
+      smsData,
+      smsActiveData,
       itemSelected,
       showDetail,
       hideDetail,
@@ -72,10 +75,10 @@ class Category extends React.Component {
       search,
       closeNotif,
       messageNotif,
-      deleteCategoryData,
+      deleteSmsData,
       isLoading
     } = this.props;
-    const isCategoryData = categoryData.length >= 1;
+    console.log('smsActiveData--  ******-----', smsActiveData)
     return (
       <div>
         <Helmet>
@@ -88,24 +91,24 @@ class Category extends React.Component {
         </Helmet>
         <Notification close={() => closeNotif()} message={messageNotif} />
         <div className={classes.root}>
-          <CategoryDataList
+          <SmsDataList
             addFn
-            total={categoryData && categoryData.length}
-            addCategoryData={add}
+            total={smsActiveData && smsActiveData.length}
+            addSmsData={add}
             clippedRight
             itemSelected={itemSelected}
-            categoryDataList={categoryData}
+            smsDataList={smsActiveData}
             isActive={isActive}
             showDetail={showDetail}
             search={search}
             is_active={is_active}
             keyword={keyword}
           />
-          <CategoryDetail
+          <SmsDetail
             showMobileDetail={showMobileDetail}
             hideDetail={hideDetail}
-            categoryData={categoryData}
-            deleteCategoryData={deleteCategoryData}
+            smsData={smsActiveData}
+            deleteSmsData={deleteSmsData}
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
@@ -116,10 +119,10 @@ class Category extends React.Component {
         <AddSms
           addContact={add}
           openForm={open}
-          formType="category"
+          smsData={smsData}
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
-          submit={this.submitCategoryData}
+          submit={this.submitSmsData}
           avatarInit={avatarInit}
           isLoading={isLoading}
         />
@@ -129,44 +132,46 @@ class Category extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const categoryReducer = state.get('category');
+  const smsReducer = state.get('sms');
   return ({
 
     // force: state, // force state from reducer
-    avatarInit: categoryReducer.avatarInit,
-    categoryData: categoryReducer.categoryList,
-    itemSelected: categoryReducer.selectedIndex,
-    keyword: categoryReducer.keywordValue,
-    open: categoryReducer.openFrm,
-    showMobileDetail: categoryReducer.showMobileDetail,
-    messageNotif: categoryReducer.notifMsg,
-    formValue: categoryReducer.formValues,
-    is_active: categoryReducer.isActive,
-    isLoading: categoryReducer.isLoading
+    avatarInit: smsReducer.avatarInit,
+    smsData: smsReducer.smsList,
+    smsActiveData: smsReducer.smsActiveList,
+    itemSelected: smsReducer.selectedIndex,
+    keyword: smsReducer.keywordValue,
+    open: smsReducer.openFrm,
+    showMobileDetail: smsReducer.showMobileDetail,
+    messageNotif: smsReducer.notifMsg,
+    formValue: smsReducer.formValues,
+    is_active: smsReducer.isActive,
+    isLoading: smsReducer.isLoading
   });
 };
 
 const constDispatchToProps = dispatch => ({
-  submitData: (data) => dispatch(submitCategoryData(data)),
-  updateData: (data) => dispatch(updateCategoryData(data)),
-  fetchData: () => dispatch(getCategoryData()),
+  submitData: (data) => dispatch(submitSmsData(data)),
+  updateData: (data) => dispatch(updateSmsData(data)),
+  fetchData: () => dispatch(getSmsData()),
+  fetchActiveSmsData: () => dispatch(getSmsActiveData()),
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
-  edit: (data) => dispatch(editCategoryData(data)),
-  add: () => dispatch(addCategoryData()),
+  edit: (data) => dispatch(editSmsData(data)),
+  add: () => dispatch(addSmsData()),
   close: () => dispatch(closeAction()),
-  deleteCategoryData: (data) => dispatch(deleteCategoryData(data)),
+  deleteSmsData: (data) => dispatch(deleteSmsData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
-  search: (data) => dispatch(searchCategoryData(data)),
+  search: (data) => dispatch(searchSmsData(data)),
   loading: () => dispatch(loadingAction())
   // closeNotif: () => dispatch(closeNotifAction),
 });
 
-const CategoryMapped = connect(
+const SmsMapped = connect(
   mapStateToProps,
   constDispatchToProps
-)(Category);
+)(Sms);
 
-export default withStyles(styles)(CategoryMapped);
+export default withStyles(styles)(SmsMapped);

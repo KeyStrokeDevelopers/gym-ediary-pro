@@ -7,7 +7,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import DeleteIcon from '@material-ui/icons/Delete';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 import Tooltip from '@material-ui/core/Tooltip';
 import Avatar from '@material-ui/core/Avatar';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -16,10 +16,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import PermContactCalendar from '@material-ui/icons/PermContactCalendar';
 import Add from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
-import AccountBalance from '@material-ui/icons/AccountBalance';
 import styles from './contact-jss';
 
-class BankDataList extends React.Component {
+class SubscriptionDataList extends React.Component {
   state = {
     filter: 1,
   };
@@ -31,27 +30,42 @@ class BankDataList extends React.Component {
     isActive(is_active);
   };
 
+  sortByPrice = (a, b) => {
+    if (a.packPrice < b.packPrice) {
+      return -1;
+    }
+    if (a.packPrice > b.packPrice) {
+      return 1;
+    }
+    return 0;
+  }
+
   render() {
     const {
       classes,
       itemSelected,
-      bankDataList,
+      activePackage,
       showDetail,
       search,
       keyword,
       clippedRight,
-      addBankData,
+      addSubscriptionData,
       is_active,
-      addFn, total
+      addFn
     } = this.props;
     const { filter } = this.state;
-    let bankData;
-    if (bankDataList && bankDataList.length >= 1) {
-      bankData = is_active ? bankDataList.filter(item => item.status === 1) : bankDataList.filter(item => item.status === 0);
+    let subscriptionData;
+    if (activePackage && activePackage.length >= 1) {
+      subscriptionData = is_active ? activePackage.filter(item => item.status === 1) : activePackage.filter(item => item.status === 2);
     }
+
+    if (subscriptionData && subscriptionData.length >= 1) {
+      subscriptionData.sort(this.sortByPrice);
+    }
+
     const getItem = dataArray => dataArray.map((data, ind) => {
-      const index = bankData.indexOf(data);
-      if (data.accountHolder.toLowerCase().indexOf(keyword) === -1) {
+      const index = subscriptionData.indexOf(data);
+      if (data.packageName.toLowerCase().indexOf(keyword) === -1) {
         return false;
       }
       return (
@@ -59,17 +73,16 @@ class BankDataList extends React.Component {
           button
           key={ind}
           className={index === itemSelected ? classes.selected : ''}
-          onClick={() => showDetail(data)}
+          onClick={() => showDetail(index)}
         >
           <ListItemAvatar>
-            <Avatar className={classes.blueIcon}>
-              <AccountBalance />
-            </Avatar>
+            <Avatar alt="Vfgf" src="" className={classes.avatar} />
           </ListItemAvatar>
-          <ListItemText primary={data.accountNumber} secondary={data.accountHolder} />
+          <ListItemText primary={data.packageName} secondary={data.packPrice} />
         </ListItem>
       );
     });
+
 
     return (
       <Fragment>
@@ -91,8 +104,8 @@ class BankDataList extends React.Component {
                   <input className={classes.input} onChange={(event) => search(event.target.value)} placeholder="Search" />
                 </div>
                 {addFn && (
-                  <Tooltip title="Add New Contact">
-                    <IconButton className={classes.buttonAdd} onClick={() => addBankData()} color="secondary" aria-label="Delete">
+                  <Tooltip title="Add New Subscription">
+                    <IconButton className={classes.buttonAdd} onClick={() => addSubscriptionData()} color="secondary" aria-label="Delete">
                       <Add />
                     </IconButton>
                   </Tooltip>
@@ -100,28 +113,28 @@ class BankDataList extends React.Component {
               </div>
             </div>
             <div className={classes.total}>
-              {bankData && bankData.length >= 1 ? bankData.length : '0'}
+              {subscriptionData ? subscriptionData.length : '0'}
               &nbsp;
-              Banks
+              Subscriptions
             </div>
             <List>
-              {bankData && getItem(bankData)}
+              {subscriptionData && subscriptionData.length >= 1 && getItem(subscriptionData)}
             </List>
           </div>
         </Drawer>
         <BottomNavigation value={filter} onChange={this.handleChange} className={classes.bottomFilter}>
           <BottomNavigationAction label="Active" value={1} icon={<PermContactCalendar />} />
-          <BottomNavigationAction label="Deleted" value={0} icon={<DeleteIcon />} />
+          <BottomNavigationAction label="Pending" value={0} icon={<AutorenewIcon />} />
         </BottomNavigation>
       </Fragment>
     );
   }
 }
 
-BankDataList.defaultProps = {
+SubscriptionDataList.defaultProps = {
   clippedRight: false,
   addContact: () => { },
   addFn: false,
 };
 
-export default withStyles(styles)(BankDataList);
+export default withStyles(styles)(SubscriptionDataList);

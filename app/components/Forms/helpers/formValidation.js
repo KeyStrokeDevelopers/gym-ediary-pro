@@ -3,12 +3,6 @@
 const validate = values => {
   const errors = {};
   const requiredFields = [
-    // Add Bank Form Field
-    'accountNumber',
-    'bankName',
-    'ifsc',
-    'accountHolder',
-
     // Payment Method Form Field
     'paymentMethod',
 

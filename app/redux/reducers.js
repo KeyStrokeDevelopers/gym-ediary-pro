@@ -19,7 +19,6 @@ import email from './modules/email';
 import calendar from './modules/calendar';
 import taskboard from './modules/taskboard';
 import register from './modules/signIn';
-import bank from './modules/bank';
 import paymentMethod from './modules/paymentMethod';
 import packageInfo from './modules/package';
 import classInfo from './modules/class';
@@ -45,6 +44,8 @@ import invoiceIn from './modules/invoiceIn';
 import account from './modules/account';
 import reports from './modules/reports';
 import sale from './modules/sale';
+import sms from './modules/sms';
+import subscription from './modules/subscription';
 
 /**
  * Branching reducers to use one reducer for many components
@@ -79,8 +80,7 @@ export default function createReducer(injectedReducers = {}) {
     calendar,
     ecommerce,
     contact,
-    // Bank, category, payment method, package reducer
-    bank,
+    // category, payment method, package reducer
     category,
     paymentMethod,
     packageInfo,
@@ -106,6 +106,8 @@ export default function createReducer(injectedReducers = {}) {
     account,
     reports,
     sale,
+    sms,
+    subscription,
 
     chat,
     email,

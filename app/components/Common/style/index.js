@@ -121,6 +121,31 @@ const styles = theme => ({
     color: theme.palette.text.disabled,
     textTransform: 'uppercase'
   },
+  formBody: {
+    marginLeft: '20px',
+    marginRight: '20px'
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    '@media (max-width:600px)': {
+      flexDirection: 'column',
+    }
+  },
+  col_1: {
+    width: '50%',
+    marginRight: '10px',
+    '@media (max-width:600px)': {
+      width: '100%',
+      marginRight: '0px'
+    }
+  },
+  col_2: {
+    width: '50%',
+    '@media (max-width:600px)': {
+      width: '100%'
+    }
+  },
   drawerPaper: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,

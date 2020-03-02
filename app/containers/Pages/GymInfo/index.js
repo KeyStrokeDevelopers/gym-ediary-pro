@@ -36,6 +36,7 @@ class GymInfo extends React.Component {
       gymInfoData,
       isLoading
     } = this.props;
+    console.log('gym info data ---in main index ---', gymInfoData)
     return (
       <div>
         <Helmet>
@@ -46,15 +47,13 @@ class GymInfo extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        {gymInfoData.length >= 1
-          && (
-            <GymInfoEdit
-              gymInfoData={gymInfoData}
-              submit={this.updateGymInfoData}
-              avatarInit={avatarInit}
-              isLoading={isLoading}
-            />
-          )
+        {Object.keys(gymInfoData).length >= 1 &&
+          <GymInfoEdit
+            gymInfoData={gymInfoData}
+            submit={this.updateGymInfoData}
+            avatarInit={avatarInit}
+            isLoading={isLoading}
+          />
         }
       </div>
     );

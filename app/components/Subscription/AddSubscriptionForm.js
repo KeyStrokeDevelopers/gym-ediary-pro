@@ -4,13 +4,11 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { connect } from 'react-redux';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import Bookmark from '@material-ui/icons/Bookmark';
 import css from 'dan-styles/Form.scss';
-import { TextFieldRedux, SelectRedux } from '../Forms/ReduxFormMUI';
+import { SelectRedux, DatePickerInput } from '../Forms/ReduxFormMUI';
 import { validate } from '../Forms/helpers/formValidation';
 import styles from './contact-jss';
 
@@ -18,6 +16,7 @@ import styles from './contact-jss';
 class AddSubscriptionForm extends React.Component {
   state = {
     age: '',
+    date: new Date(),
     // name: 'hai',
   };
 
@@ -25,55 +24,53 @@ class AddSubscriptionForm extends React.Component {
     this.setState({ age: event.target.value });
   };
 
+  handleDate = date => {
+    this.setState({ date })
+  }
+
   render() {
     const {
       classes,
       reset,
       pristine,
       submitting,
-      handleSubmit
+      handleSubmit,
+      masterPackageData
     } = this.props;
+    const { date } = this.state;
     return (
       <div>
         <form onSubmit={handleSubmit}>
           <section className={css.bodyForm}>
             <div>
               <FormControl className={classes.field} style={{ width: '100%' }}>
-                <InputLabel htmlFor="selection">Select Category Type</InputLabel>
+                <InputLabel htmlFor="selection">Select Package</InputLabel>
                 <Field
-                  name="categoryType"
+                  name="package"
                   component={SelectRedux}
-                  placeholder="Select Category Type"
+                  placeholder="Select Package"
                 >
-                  <MenuItem value="">
-                    {' '}
-                    <em>None</em>
-                    {' '}
-                  </MenuItem>
-                  <MenuItem value="Expenditure">EXPENDITURE CATEGORY</MenuItem>
-                  <MenuItem value="Income">EXTRA INCOME CATEGORY</MenuItem>
-
+                  {(masterPackageData && masterPackageData.length >= 1) &&
+                    masterPackageData.map((item) => {
+                      if (item.packPrice > 0) {
+                        return <MenuItem value={item} key={Math.random()}>{item.packName}</MenuItem>
+                      }
+                    })
+                  }
                 </Field>
               </FormControl>
             </div>
             <div>
               <Field
-                name="category"
-                component={TextFieldRedux}
-                autoComplete="off"
-                placeholder="Category e.g Commission"
-                label="Category e.g Commission"
-                className={classes.field}
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Bookmark />
-                    </InputAdornment>
-                  )
-                }}
+                name="activationDate"
+                label="Package Activation Date"
+                disablePast
+                component={DatePickerInput}
+                onChange={this.handleDate}
+                dateValue={date}
               />
             </div>
+
           </section>
           <div className={css.buttonArea}>
             <Button variant="contained" color="secondary" type="submit" disabled={submitting}>
@@ -103,7 +100,7 @@ const AddSubscriptionRedux = reduxForm({
 
 const AddSubscriptionInit = connect(
   state => ({
-    initialValues: state.get('category').formValues
+    initialValues: state.get('subscription').formValues
   })
 )(AddSubscriptionRedux);
 

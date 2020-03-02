@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import Add from '@material-ui/icons/Add';
-import AddBankForm from './AddBankForm';
 import AddCategoryForm from './AddCategoryForm';
 import AddPackageForm from './AddPackageForm';
 import AddPaymentMethodForm from './AddPaymentMethodForm';
@@ -83,16 +82,6 @@ class AddContact extends React.Component {
             imgAvatar={img === null ? avatarInit : img}
             isLoading={isLoading}
           /> */}
-          {(formType === 'bank')
-            && (
-              <AddBankForm
-                onSubmit={this.sendValues}
-                onDrop={this.onDrop}
-                imgAvatar={img === null ? avatarInit : img}
-                isLoading={isLoading}
-              />
-            )
-          }
           {(formType === 'package')
             && (
               <AddPackageForm

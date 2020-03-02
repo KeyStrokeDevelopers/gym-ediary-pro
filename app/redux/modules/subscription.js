@@ -1,17 +1,13 @@
 import { Map } from 'immutable';
 import {
-  FETCH_BANK_DATA, SEARCH_BANK_DATA, EDIT_BANK_DATA, ADD_BANK_DATA, SET_BANK_DETAILS_FIELD,
-  ERROR_BANK_DATA, SHOW_DETAIL_BANK, HIDE_DETAIL_BANK, SUBMIT_BANK_DATA, CLOSE_BANK_FORM, LOADING_ACTION_BANK
+  FETCH_SUBSCRIPTION_DATA, FETCH_SUBSCRIPTION_ACTIVE_DATA, SEARCH_SUBSCRIPTION_DATA, EDIT_SUBSCRIPTION_DATA, ADD_SUBSCRIPTION_DATA, SET_SUBSCRIPTION_DETAILS_FIELD,
+  SHOW_DETAIL_SUBSCRIPTION, HIDE_DETAIL_SUBSCRIPTION, SUBMIT_SUBSCRIPTION_DATA, CLOSE_SUBSCRIPTION_FORM, LOADING_ACTION_SUBSCRIPTION
 } from '../../actions/actionConstants';
 
 
 const initialState = {
-  bankList: [{
-    bankName: 'sbi', accountNumber: '7897898', ifsc: '369565', upi: 'oksbi@12', accountHolder: 'Test1', swipe: 'yes', status: '1'
-  },
-  {
-    bankName: 'hdfc', accountNumber: '1234565', ifsc: '1245', upi: 'okdfa@12', accountHolder: 'Test2', swipe: 'yes', status: '1'
-  }],
+  masterPackageList: {},
+  activePackage: {},
   formValues: {},
   selectedIndex: 0,
   selectedId: '',
@@ -26,21 +22,29 @@ const initialState = {
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case FETCH_BANK_DATA:
+    case FETCH_SUBSCRIPTION_DATA:
       return {
         ...state,
-        bankList: action.payload,
+        masterPackageList: action.payload,
         formValues: {},
         openFrm: false,
         isLoading: false
       };
-    case SEARCH_BANK_DATA:
+    case FETCH_SUBSCRIPTION_ACTIVE_DATA:
+      return {
+        ...state,
+        activePackage: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false
+      };
+    case SEARCH_SUBSCRIPTION_DATA:
       return {
         ...state,
         keywordValue: action.payload.toLowerCase(),
         isLoading: false
       };
-    case EDIT_BANK_DATA:
+    case EDIT_SUBSCRIPTION_DATA:
       return {
         ...state,
         openFrm: true,
@@ -49,7 +53,7 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
-    case ADD_BANK_DATA:
+    case ADD_SUBSCRIPTION_DATA:
       return {
         ...state,
         openFrm: true,
@@ -58,32 +62,30 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false
       };
 
-    case SUBMIT_BANK_DATA:
+    case SUBMIT_SUBSCRIPTION_DATA:
       return {
         ...state,
         openFrm: false,
         formValues: {},
         avatarInit: '',
-        bankList: [...state.bankList, action.payload],
+        masterPackageList: [...state.masterPackageList, action.payload],
         isLoading: false
       };
-    case LOADING_ACTION_BANK:
+    case LOADING_ACTION_SUBSCRIPTION:
       return {
         ...state,
         isLoading: true
       };
 
-    case SHOW_DETAIL_BANK: {
-      const bankData = state.isActive ? state.bankList.filter(item => item.status === 1) : state.bankList.filter(item => item.status === 0);
-      const index = bankData.indexOf(action.payload);
+    case SHOW_DETAIL_SUBSCRIPTION: {
       return {
         ...state,
-        selectedIndex: index,
+        selectedIndex: action.payload,
         showMobileDetail: true,
       };
     }
 
-    case CLOSE_BANK_FORM:
+    case CLOSE_SUBSCRIPTION_FORM:
       return {
         ...state,
         openFrm: false,
@@ -91,7 +93,7 @@ export default function reducer(state = initialState, action = {}) {
         avatarInit: ''
       };
 
-    case SET_BANK_DETAILS_FIELD: {
+    case SET_SUBSCRIPTION_DETAILS_FIELD: {
       return {
         ...state,
         isActive: action.payload,
@@ -100,20 +102,12 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
 
-    case HIDE_DETAIL_BANK: {
+    case HIDE_DETAIL_SUBSCRIPTION: {
       return {
         ...state,
         showMobileDetail: false
       };
     }
-
-    case ERROR_BANK_DATA: {
-      return {
-        ...state,
-        isLoading: false
-      };
-    }
-
 
     default:
       return state;

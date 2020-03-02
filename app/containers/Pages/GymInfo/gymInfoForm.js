@@ -40,12 +40,7 @@ class GymInfoForm extends React.Component {
 
   componentDidMount() {
     const { gymInfoData } = this.props;
-    if (gymInfoData && gymInfoData.length >= 1) {
-      const isBiometic = gymInfoData[0].biometric;
-      const { regFee } = gymInfoData[0];
-      this.props.initialize({ isFingerRequired: isBiometic, regFee });
-      this.setState({ isBiometic, regFee });
-    }
+    this.props.initialize(gymInfoData);
   }
 
   handleEditImage = () => {
@@ -69,6 +64,7 @@ class GymInfoForm extends React.Component {
       handleSubmit,
       onDrop,
       formValue,
+      gymInfoData,
       imgAvatar
     } = this.props;
     const { fillValueFromEnquiry, editImage, deleteImage } = this.state;
@@ -97,7 +93,7 @@ class GymInfoForm extends React.Component {
     return (
       <div>
         <form onSubmit={handleSubmit}>
-          <section className={css.bodyForm}>
+          <section className={classes.formBody}>
             <div>
               <Typography display="block" variant="button" className={Type.textCenter}>Upload Logo</Typography>
               <Dropzone
@@ -143,161 +139,206 @@ class GymInfoForm extends React.Component {
                 </Tooltip>
               </div>
             </div>
-            <div>
-              <Field
-                name="branchName"
-                placeholder="Firm Name e.g. KSD"
-                label="Firm Name"
-                component={RegularTextFieldRedux}
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermContactCalendar />
-                    </InputAdornment>
-                  )
-                }}
-              />
+            <div className={classes.row}>
+              <div className={classes.col_1}>
+                <Field
+                  name="branchName"
+                  placeholder="Firm Name e.g. KSD"
+                  label="Firm Name"
+                  component={RegularTextFieldRedux}
+                  className={classes.field}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermContactCalendar />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+              <div className={classes.col_2}>
+                <Field
+                  name="branchContact"
+                  placeholder="Firm Contact Number"
+                  label="Firm Contact Number"
+                  component={RegularTextFieldRedux}
+                  className={classes.field}
+                  validate={phoneNumber}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermContactCalendar />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div>
-              <Field
-                name="branchContact"
-                placeholder="Firm Contact Number"
-                label="Firm Contact Number"
-                component={RegularTextFieldRedux}
-                className={classes.field}
-                validate={phoneNumber}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermContactCalendar />
-                    </InputAdornment>
-                  )
-                }}
-              />
+            <div className={classes.row}>
+              <div className={classes.col_1}>
+                <Field
+                  name="branchDetails"
+                  placeholder="Firm Details e.g. My Shop"
+                  label="Firm Details e.g. My Shop"
+                  component={RegularTextFieldRedux}
+                  className={classes.field}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermContactCalendar />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+              <div className={classes.col_2}>
+                <Field
+                  name="branchAltContact"
+                  component={RegularTextFieldRedux}
+                  placeholder="Firm Alternate Contact"
+                  label="Firm Alternate Contact"
+                  autoComplete="off"
+                  validate={phoneNumber}
+                  className={classes.field}
+                  className={classes.field}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermContactCalendar />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div>
-              <Field
-                name="branchDetails"
-                placeholder="Firm Details e.g. My Shop"
-                label="Firm Details e.g. My Shop"
-                component={RegularTextFieldRedux}
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermContactCalendar />
-                    </InputAdornment>
-                  )
-                }}
-              />
+            <div className={classes.row}>
+              <div className={classes.col_1}>
+                <Field
+                  name="branchAddress"
+                  component={RegularTextFieldRedux}
+                  placeholder="Postal Address"
+                  label="Address"
+                  autoComplete="off"
+                  required
+                  multiline
+                  className={classes.field}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Work />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+              <div className={classes.col_2}>
+                <Field
+                  name="branchEmail"
+                  component={RegularTextFieldRedux}
+                  placeholder="Email"
+                  autoComplete="off"
+                  label="Email"
+                  validate={email}
+                  className={classes.field}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Bookmark />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div>
-              <Field
-                name="contact2"
-                component={RegularTextFieldRedux}
-                placeholder="Firm Contact2"
-                label="Firm Contact2"
-                autoComplete="off"
-                validate={phoneNumber}
-                className={classes.field}
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermContactCalendar />
-                    </InputAdornment>
-                  )
-                }}
-              />
+            <div className={classes.row}>
+              <div className={classes.col_1}>
+                <div>
+                  <Field
+                    name="branchState"
+                    component={SearchableSelect}
+                    placeholder="State"
+                    autoComplete="off"
+                    label="State"
+                    options={allIndianState}
+                    labelKey="value"
+                    valueKey="value"
+                    required
+                    className={classes.field}
+                  />
+                </div>
+              </div>
+              <div className={classes.col_2}>
+                <Field
+                  name="preFix"
+                  placeholder="Form Prefix e.g. ksd"
+                  label="Form Prefix"
+                  component={RegularTextFieldRedux}
+                  className={classes.field}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermContactCalendar />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div>
-              <Field
-                name="branchAddress"
-                component={RegularTextFieldRedux}
-                placeholder="Postal Address"
-                label="Address"
-                autoComplete="off"
-                required
-                multiline
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Work />
-                    </InputAdornment>
-                  )
-                }}
-              />
+            <div className={classes.row}>
+              <div className={classes.col_1}>
+                <Field
+                  name="regFee"
+                  placeholder="Registration Fee"
+                  label="Registration Fee"
+                  component={RegularTextFieldRedux}
+                  className={classes.field}
+                  validate={number}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermContactCalendar />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+              <div className={classes.col_2}>
+                <Field
+                  name="gstNumber"
+                  placeholder="GST Number"
+                  label="GST Number"
+                  component={RegularTextFieldRedux}
+                  className={classes.field}
+                  validate={number}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermContactCalendar />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div>
-              <Field
-                name="branchEmail"
-                component={RegularTextFieldRedux}
-                placeholder="Email"
-                autoComplete="off"
-                label="Email"
-                validate={email}
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Bookmark />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </div>
-
-            <div>
-              <Field
-                name="branchState"
-                component={SearchableSelect}
-                placeholder="State"
-                autoComplete="off"
-                label="State"
-                options={allIndianState}
-                labelKey="value"
-                valueKey="value"
-                required
-                className={classes.field}
-              />
-            </div>
-
-            <div>
-              <Field
-                name="preFix"
-                placeholder="Firm Details e.g. My Shop"
-                label="Firm Details e.g. My Shop"
-                component={RegularTextFieldRedux}
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermContactCalendar />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </div>
-
-            <div>
-              <Field
-                name="regFee"
-                placeholder="Firm Details e.g. My Shop"
-                label="Firm Details e.g. My Shop"
-                component={RegularTextFieldRedux}
-                className={classes.field}
-                validate={number}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermContactCalendar />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </div>
+            {!gymInfoData.isCounterOn &&
+              <div>
+                <Field
+                  name="seriesStartFrom"
+                  placeholder="Series Start From"
+                  label="Series Start From"
+                  component={RegularTextFieldRedux}
+                  className={classes.field}
+                  validate={number}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PermContactCalendar />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+            }
             <div style={{ display: 'flex' }}>
               <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
                 <Field
@@ -314,7 +355,6 @@ class GymInfoForm extends React.Component {
                 />
               </div>
             </div>
-
             <div style={{ display: 'flex' }}>
               <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
                 <Field
@@ -328,6 +368,31 @@ class GymInfoForm extends React.Component {
                   name="autoExpired"
                   component={renderToggle}
                   label='Automatic Expired Reminder For 2 Days'
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
+                <Field
+                  name="isStaffAttendance"
+                  component={renderToggle}
+                  label='Staff Attendance'
+                />
+              </div>
+              <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
+                <Field
+                  name="isMemberAttendance"
+                  component={renderToggle}
+                  label='Member Attendance'
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
+                <Field
+                  name="printLogo"
+                  component={renderToggle}
+                  label='Print Logo'
                 />
               </div>
             </div>

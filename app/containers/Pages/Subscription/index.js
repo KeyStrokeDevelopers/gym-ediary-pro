@@ -5,32 +5,34 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
 import {
-  getCategoryData,
-  submitCategoryData,
-  addCategoryData,
+  getMasterPackageData,
+  getSubscriptionActiveData,
+  submitSubscriptionData,
+  addSubscriptionData,
   closeAction,
   showDetailAction,
-  editCategoryData,
-  searchCategoryData,
-  updateCategoryData,
-  deleteCategoryData,
+  editSubscriptionData,
+  searchSubscriptionData,
+  updateSubscriptionData,
+  deleteSubscriptionData,
   setDetailField,
   loadingAction,
   hideDetailAction
-} from 'dan-actions/CategoryActions';
+} from 'dan-actions/SubscriptionActions';
 import { Notification } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
-import CategoryDataList from '../../../components/Subscription/CategoryDataList';
-import CategoryDetail from '../../../components/Subscription/CategoryDetail';
+import SubscriptionDataList from '../../../components/Subscription/SubscriptionDataList';
+import SubscriptionDetail from '../../../components/Subscription/SubscriptionDetail';
 import AddSubscription from '../../../components/Subscription/AddSubscription';
 
-class Category extends React.Component {
+class Subscription extends React.Component {
   componentDidMount() {
-    const { fetchData } = this.props;
+    const { fetchData, fetchActiveSubscription } = this.props;
     fetchData();
+    fetchActiveSubscription();
   }
 
-  submitCategoryData = (data, avatar) => {
+  submitSubscriptionData = (data, avatar) => {
     const {
       submitData, formValue, updateData, loading
     } = this.props;
@@ -49,7 +51,8 @@ class Category extends React.Component {
     const description = brand.desc;
     const {
       classes,
-      categoryData,
+      masterPackageData,
+      activePackage,
       itemSelected,
       showDetail,
       hideDetail,
@@ -68,7 +71,7 @@ class Category extends React.Component {
       search,
       closeNotif,
       messageNotif,
-      deleteCategoryData,
+      deleteSubscriptionData,
       isLoading
     } = this.props;
     return (
@@ -83,24 +86,24 @@ class Category extends React.Component {
         </Helmet>
         <Notification close={() => closeNotif()} message={messageNotif} />
         <div className={classes.root}>
-          <CategoryDataList
+          <SubscriptionDataList
             addFn
-            total={categoryData && categoryData.length}
-            addCategoryData={add}
+            total={activePackage && activePackage.length}
+            addSubscriptionData={add}
             clippedRight
             itemSelected={itemSelected}
-            categoryDataList={categoryData}
+            activePackage={activePackage}
             isActive={isActive}
             showDetail={showDetail}
             search={search}
             is_active={is_active}
             keyword={keyword}
           />
-          <CategoryDetail
+          <SubscriptionDetail
             showMobileDetail={showMobileDetail}
             hideDetail={hideDetail}
-            categoryData={categoryData}
-            deleteCategoryData={deleteCategoryData}
+            activePackage={activePackage}
+            deleteSubscriptionData={deleteSubscriptionData}
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
@@ -111,10 +114,9 @@ class Category extends React.Component {
         <AddSubscription
           addContact={add}
           openForm={open}
-          formType="category"
-          edit={(Object.keys(formValue).length >= 1)}
+          masterPackageData={masterPackageData}
           closeForm={close}
-          submit={this.submitCategoryData}
+          submit={this.submitSubscriptionData}
           avatarInit={avatarInit}
           isLoading={isLoading}
         />
@@ -124,44 +126,46 @@ class Category extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const categoryReducer = state.get('category');
+  const subscriptionReducer = state.get('subscription');
   return ({
 
     // force: state, // force state from reducer
-    avatarInit: categoryReducer.avatarInit,
-    categoryData: categoryReducer.categoryList,
-    itemSelected: categoryReducer.selectedIndex,
-    keyword: categoryReducer.keywordValue,
-    open: categoryReducer.openFrm,
-    showMobileDetail: categoryReducer.showMobileDetail,
-    messageNotif: categoryReducer.notifMsg,
-    formValue: categoryReducer.formValues,
-    is_active: categoryReducer.isActive,
-    isLoading: categoryReducer.isLoading
+    avatarInit: subscriptionReducer.avatarInit,
+    masterPackageData: subscriptionReducer.masterPackageList,
+    activePackage: subscriptionReducer.activePackage,
+    itemSelected: subscriptionReducer.selectedIndex,
+    keyword: subscriptionReducer.keywordValue,
+    open: subscriptionReducer.openFrm,
+    showMobileDetail: subscriptionReducer.showMobileDetail,
+    messageNotif: subscriptionReducer.notifMsg,
+    formValue: subscriptionReducer.formValues,
+    is_active: subscriptionReducer.isActive,
+    isLoading: subscriptionReducer.isLoading
   });
 };
 
 const constDispatchToProps = dispatch => ({
-  submitData: (data) => dispatch(submitCategoryData(data)),
-  updateData: (data) => dispatch(updateCategoryData(data)),
-  fetchData: () => dispatch(getCategoryData()),
+  submitData: (data) => dispatch(submitSubscriptionData(data)),
+  updateData: (data) => dispatch(updateSubscriptionData(data)),
+  fetchData: () => dispatch(getMasterPackageData()),
+  fetchActiveSubscription: () => dispatch(getSubscriptionActiveData()),
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
-  edit: (data) => dispatch(editCategoryData(data)),
-  add: () => dispatch(addCategoryData()),
+  edit: (data) => dispatch(editSubscriptionData(data)),
+  add: () => dispatch(addSubscriptionData()),
   close: () => dispatch(closeAction()),
-  deleteCategoryData: (data) => dispatch(deleteCategoryData(data)),
+  deleteSubscriptionData: (data) => dispatch(deleteSubscriptionData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
-  search: (data) => dispatch(searchCategoryData(data)),
+  search: (data) => dispatch(searchSubscriptionData(data)),
   loading: () => dispatch(loadingAction())
   // closeNotif: () => dispatch(closeNotifAction),
 });
 
-const CategoryMapped = connect(
+const SubscriptionMapped = connect(
   mapStateToProps,
   constDispatchToProps
-)(Category);
+)(Subscription);
 
-export default withStyles(styles)(CategoryMapped);
+export default withStyles(styles)(SubscriptionMapped);

@@ -22,13 +22,6 @@ export const NotFound = loadable(() =>
   fallback: <Loading />,
 });
 
-//Bank Page
-
-export const Bank = loadable(() =>
-  import('./Pages/Bank'), {
-  fallback: <Loading />
-});
-
 export const PaymentMethod = loadable(() =>
   import('./Pages/PaymentMethod'), {
   fallback: <Loading />

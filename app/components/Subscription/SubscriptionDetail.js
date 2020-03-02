@@ -8,22 +8,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Hidden from '@material-ui/core/Hidden';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import Bookmark from '@material-ui/icons/Bookmark';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Edit from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
 import AccountBalance from '@material-ui/icons/AccountBalance';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
 
 
 import styles from './contact-jss';
@@ -38,7 +30,7 @@ const optionsOpt = [
 
 const ITEM_HEIGHT = 48;
 
-class CategoryDetail extends React.Component {
+class SubscriptionDetail extends React.Component {
   state = {
     anchorElOpt: null,
     open: false,
@@ -68,17 +60,17 @@ class CategoryDetail extends React.Component {
   }
 
   handleAgree = () => {
-    const { deleteCategoryData } = this.props;
+    const { deleteSubscriptionData } = this.props;
     const { deletedId } = this.state;
-    deleteCategoryData(deletedId);
+    deleteSubscriptionData(deletedId);
     this.setState({ open: false });
   }
 
-  sortByName = (a, b) => {
-    if (a.category < a.category) {
+  sortByPrice = (a, b) => {
+    if (a.packPrice < b.packPrice) {
       return -1;
     }
-    if (a.category > a.category) {
+    if (a.packPrice > b.packPrice) {
       return 1;
     }
     return 0;
@@ -87,67 +79,29 @@ class CategoryDetail extends React.Component {
   render() {
     const {
       classes,
-      categoryData,
+      activePackage,
       itemSelected,
-      edit,
       showMobileDetail,
       isActive,
       hideDetail,
     } = this.props;
     const { anchorElOpt, open } = this.state;
-    let viewCategoryData;
-    if (categoryData && categoryData.length >= 1) {
-      viewCategoryData = isActive ? categoryData.filter(item => item.status === 1) : categoryData.filter(item => item.status === 0);
+    let viewSubscriptionData;
+    if (activePackage && activePackage.length >= 1) {
+      viewSubscriptionData = isActive ? activePackage.filter(item => item.status === 1) : activePackage.filter(item => item.status === 2);
     }
-
-    if (viewCategoryData && viewCategoryData.length >= 1) {
-      viewCategoryData.sort(this.sortByName);
+    if (viewSubscriptionData && viewSubscriptionData.length >= 1) {
+      viewSubscriptionData.sort(this.sortByPrice);
     }
 
     return (
       <>
-        {viewCategoryData && (viewCategoryData.length >= 1)
+        {viewSubscriptionData && (viewSubscriptionData.length >= 1)
           ? (
             <main className={classNames(classes.content, showMobileDetail ? classes.detailPopup : '')}>
-              <div>
-                <Dialog
-                  open={open}
-                  onClose={this.handleDisagree}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                >
-                  <DialogTitle id="alert-dialog-title">
-                    {'Delete Category Data'}
-                  </DialogTitle>
-                  <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                      Are you sure for deletion ?
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={this.handleDisagree} color="primary">
-                      Disagree
-                    </Button>
-                    <Button onClick={this.handleAgree} color="primary" autoFocus>
-                      Agree
-                    </Button>
-                  </DialogActions>
-                </Dialog>
 
-              </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
-                  {isActive && (
-                    <>
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewCategoryData[itemSelected]._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton aria-label="Edit" onClick={() => edit(viewCategoryData[itemSelected])}>
-                        <Edit />
-                      </IconButton>
-                    </>
-                  )
-                  }
                   <Menu
                     id="long-menu"
                     anchorEl={anchorElOpt}
@@ -163,7 +117,7 @@ class CategoryDetail extends React.Component {
                     {optionsOpt.map(option => {
                       if (option === 'Delete Contact') {
                         return (
-                          <MenuItem key={option} selected={option === 'Edit Profile'} onClick={() => this.deleteContact(viewCategoryData[itemSelected])}>
+                          <MenuItem key={option} selected={option === 'Edit Profile'} onClick={() => this.deleteContact(viewSubscriptionData[itemSelected])}>
                             {option}
                           </MenuItem>
                         );
@@ -190,9 +144,9 @@ class CategoryDetail extends React.Component {
                     </Avatar>
                   </ListItemAvatar>
                   <Typography className={classes.userName} variant="h6">
-                    {viewCategoryData[itemSelected].category}
+                    {viewSubscriptionData[itemSelected].packageName}
                     <Typography display="block" variant="caption">
-                      {viewCategoryData[itemSelected].categoryType}
+                      {viewSubscriptionData[itemSelected].packPrice}
                     </Typography>
                   </Typography>
                 </Hidden>
@@ -206,21 +160,21 @@ class CategoryDetail extends React.Component {
                       </Avatar>
                     </ListItemAvatar>
                     <Typography variant="h5">
-                      {viewCategoryData[itemSelected].category}
+                      {viewSubscriptionData[itemSelected].packageName}
                       <Typography display="block" variant="caption">
-                        {viewCategoryData[itemSelected].categoryType}
+                        {viewSubscriptionData[itemSelected].packPrice}
                       </Typography>
                     </Typography>
                   </div>
                 </Hidden>
-                <List>
+                <List style={{ height: '500px', overflow: 'scroll' }}>
                   <ListItem>
                     <ListItemAvatar>
                       <Avatar className={classes.blueIcon}>
                         <Bookmark />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={viewCategoryData[itemSelected].categoryType} secondary="CATEGORY TYPE" />
+                    <ListItemText primary={viewSubscriptionData[itemSelected].packageName} secondary="PACK NAME" />
                   </ListItem>
                   <Divider variant="inset" />
                   <ListItem>
@@ -229,9 +183,75 @@ class CategoryDetail extends React.Component {
                         <Bookmark />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={viewCategoryData[itemSelected].category} secondary="category" />
+                    <ListItemText primary={viewSubscriptionData[itemSelected].packPrice} secondary="PACK PRICE" />
                   </ListItem>
                   <Divider variant="inset" />
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar className={classes.blueIcon}>
+                        <Bookmark />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={viewSubscriptionData[itemSelected].packDisc} secondary="PACK DISCOUNT" />
+                  </ListItem>
+                  <Divider variant="inset" />
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar className={classes.blueIcon}>
+                        <Bookmark />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={`${viewSubscriptionData[itemSelected].packDuration} Days`} secondary="PACK DURATION" />
+                  </ListItem>
+                  <Divider variant="inset" />
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar className={classes.blueIcon}>
+                        <Bookmark />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={`${viewSubscriptionData[itemSelected].packDetail} Days`} secondary="PACK DETAIL" />
+                  </ListItem>
+                  <Divider variant="inset" />
+                  {viewSubscriptionData[itemSelected].purchaseDate &&
+                    <>
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar className={classes.blueIcon}>
+                            <Bookmark />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={new Date(viewSubscriptionData[itemSelected].purchaseDate).toLocaleDateString()} secondary="PACK PURCHASE DATE" />
+                      </ListItem>
+                      <Divider variant="inset" />
+                    </>
+                  }
+                  {viewSubscriptionData[itemSelected].packActivation &&
+                    <>
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar className={classes.blueIcon}>
+                            <Bookmark />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={new Date(viewSubscriptionData[itemSelected].packActivation).toLocaleDateString()} secondary="PACK ACTIVATION DATE" />
+                      </ListItem>
+                      <Divider variant="inset" />
+                    </>
+                  }
+                  {viewSubscriptionData[itemSelected].renewalDate &&
+                    <>
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar className={classes.blueIcon}>
+                            <Bookmark />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={new Date(viewSubscriptionData[itemSelected].renewalDate).toLocaleDateString()} secondary="PACK RENEWAL DATE" />
+                      </ListItem>
+                      <Divider variant="inset" />
+                    </>
+                  }
                 </List>
               </div>
             </main>
@@ -256,4 +276,4 @@ class CategoryDetail extends React.Component {
   }
 }
 
-export default withStyles(styles)(CategoryDetail);
+export default withStyles(styles)(SubscriptionDetail);

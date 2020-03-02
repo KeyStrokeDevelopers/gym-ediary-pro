@@ -25,7 +25,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
-
 import styles from './contact-jss';
 
 const optionsOpt = [
@@ -38,7 +37,7 @@ const optionsOpt = [
 
 const ITEM_HEIGHT = 48;
 
-class CategoryDetail extends React.Component {
+class SmsDetail extends React.Component {
   state = {
     anchorElOpt: null,
     open: false,
@@ -68,17 +67,17 @@ class CategoryDetail extends React.Component {
   }
 
   handleAgree = () => {
-    const { deleteCategoryData } = this.props;
+    const { deleteSmsData } = this.props;
     const { deletedId } = this.state;
-    deleteCategoryData(deletedId);
+    deleteSmsData(deletedId);
     this.setState({ open: false });
   }
 
-  sortByName = (a, b) => {
-    if (a.category < a.category) {
+  sortByPrice = (a, b) => {
+    if (a.smsPackPrice < b.smsPackPrice) {
       return -1;
     }
-    if (a.category > a.category) {
+    if (a.smsPackPrice > b.smsPackPrice) {
       return 1;
     }
     return 0;
@@ -87,7 +86,7 @@ class CategoryDetail extends React.Component {
   render() {
     const {
       classes,
-      categoryData,
+      smsData,
       itemSelected,
       edit,
       showMobileDetail,
@@ -95,59 +94,22 @@ class CategoryDetail extends React.Component {
       hideDetail,
     } = this.props;
     const { anchorElOpt, open } = this.state;
-    let viewCategoryData;
-    if (categoryData && categoryData.length >= 1) {
-      viewCategoryData = isActive ? categoryData.filter(item => item.status === 1) : categoryData.filter(item => item.status === 0);
+    let viewSmsData;
+    if (smsData && smsData.length >= 1) {
+      viewSmsData = isActive ? smsData.filter(item => item.status === 1) : smsData.filter(item => item.status === 2);
     }
 
-    if (viewCategoryData && viewCategoryData.length >= 1) {
-      viewCategoryData.sort(this.sortByName);
+    if (viewSmsData && viewSmsData.length >= 1) {
+      viewSmsData.sort(this.sortByPrice);
     }
 
     return (
       <>
-        {viewCategoryData && (viewCategoryData.length >= 1)
+        {viewSmsData && (viewSmsData.length >= 1)
           ? (
             <main className={classNames(classes.content, showMobileDetail ? classes.detailPopup : '')}>
-              <div>
-                <Dialog
-                  open={open}
-                  onClose={this.handleDisagree}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                >
-                  <DialogTitle id="alert-dialog-title">
-                    {'Delete Category Data'}
-                  </DialogTitle>
-                  <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                      Are you sure for deletion ?
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={this.handleDisagree} color="primary">
-                      Disagree
-                    </Button>
-                    <Button onClick={this.handleAgree} color="primary" autoFocus>
-                      Agree
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-
-              </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
-                  {isActive && (
-                    <>
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewCategoryData[itemSelected]._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton aria-label="Edit" onClick={() => edit(viewCategoryData[itemSelected])}>
-                        <Edit />
-                      </IconButton>
-                    </>
-                  )
-                  }
                   <Menu
                     id="long-menu"
                     anchorEl={anchorElOpt}
@@ -160,20 +122,6 @@ class CategoryDetail extends React.Component {
                       },
                     }}
                   >
-                    {optionsOpt.map(option => {
-                      if (option === 'Delete Contact') {
-                        return (
-                          <MenuItem key={option} selected={option === 'Edit Profile'} onClick={() => this.deleteContact(viewCategoryData[itemSelected])}>
-                            {option}
-                          </MenuItem>
-                        );
-                      }
-                      return (
-                        <MenuItem key={option} selected={option === 'Edit Profile'} onClick={this.handleCloseOpt}>
-                          {option}
-                        </MenuItem>
-                      );
-                    })}
                   </Menu>
                 </div>
                 <IconButton
@@ -190,9 +138,9 @@ class CategoryDetail extends React.Component {
                     </Avatar>
                   </ListItemAvatar>
                   <Typography className={classes.userName} variant="h6">
-                    {viewCategoryData[itemSelected].category}
+                    {viewSmsData[itemSelected].smsPackage}
                     <Typography display="block" variant="caption">
-                      {viewCategoryData[itemSelected].categoryType}
+                      {viewSmsData[itemSelected].smsPackPrice}
                     </Typography>
                   </Typography>
                 </Hidden>
@@ -206,9 +154,9 @@ class CategoryDetail extends React.Component {
                       </Avatar>
                     </ListItemAvatar>
                     <Typography variant="h5">
-                      {viewCategoryData[itemSelected].category}
+                      {viewSmsData[itemSelected].smsPackage}
                       <Typography display="block" variant="caption">
-                        {viewCategoryData[itemSelected].categoryType}
+                        {viewSmsData[itemSelected].smsPackPrice}
                       </Typography>
                     </Typography>
                   </div>
@@ -220,7 +168,7 @@ class CategoryDetail extends React.Component {
                         <Bookmark />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={viewCategoryData[itemSelected].categoryType} secondary="CATEGORY TYPE" />
+                    <ListItemText primary={viewSmsData[itemSelected].smsPackage} secondary="SMS PACK NAME" />
                   </ListItem>
                   <Divider variant="inset" />
                   <ListItem>
@@ -229,7 +177,25 @@ class CategoryDetail extends React.Component {
                         <Bookmark />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={viewCategoryData[itemSelected].category} secondary="category" />
+                    <ListItemText primary={viewSmsData[itemSelected].smsPackPrice} secondary="SMS PACK PRICE" />
+                  </ListItem>
+                  <Divider variant="inset" />
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar className={classes.blueIcon}>
+                        <Bookmark />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={viewSmsData[itemSelected].smsPackQuantity} secondary="SMS PACK QUANTITY" />
+                  </ListItem>
+                  <Divider variant="inset" />
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar className={classes.blueIcon}>
+                        <Bookmark />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={new Date(viewSmsData[itemSelected].smsPackPurchaseDate).toLocaleDateString()} secondary="PURCHASE DATE" />
                   </ListItem>
                   <Divider variant="inset" />
                 </List>
@@ -256,4 +222,4 @@ class CategoryDetail extends React.Component {
   }
 }
 
-export default withStyles(styles)(CategoryDetail);
+export default withStyles(styles)(SmsDetail);

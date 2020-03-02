@@ -30,6 +30,7 @@ class AddSmsForm extends React.Component {
       reset,
       pristine,
       submitting,
+      smsData,
       handleSubmit
     } = this.props;
     return (
@@ -38,40 +39,22 @@ class AddSmsForm extends React.Component {
           <section className={css.bodyForm}>
             <div>
               <FormControl className={classes.field} style={{ width: '100%' }}>
-                <InputLabel htmlFor="selection">Select Category Type</InputLabel>
+                <InputLabel htmlFor="selection">Select Sms Pack</InputLabel>
                 <Field
-                  name="categoryType"
+                  name="smsPack"
                   component={SelectRedux}
-                  placeholder="Select Category Type"
+                  placeholder="Select Sms Pack"
                 >
-                  <MenuItem value="">
-                    {' '}
-                    <em>None</em>
-                    {' '}
-                  </MenuItem>
-                  <MenuItem value="Expenditure">EXPENDITURE CATEGORY</MenuItem>
-                  <MenuItem value="Income">EXTRA INCOME CATEGORY</MenuItem>
-
+                  {
+                    (smsData && smsData.length >= 1) &&
+                    smsData.map((item) => {
+                      if (item.smsPackPrice > 0) {
+                        return <MenuItem value={item} key={Math.random()}>{item.smsPackName}</MenuItem>
+                      }
+                    })
+                  }
                 </Field>
               </FormControl>
-            </div>
-            <div>
-              <Field
-                name="category"
-                component={TextFieldRedux}
-                autoComplete="off"
-                placeholder="Category e.g Commission"
-                label="Category e.g Commission"
-                className={classes.field}
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Bookmark />
-                    </InputAdornment>
-                  )
-                }}
-              />
             </div>
           </section>
           <div className={css.buttonArea}>
@@ -99,12 +82,4 @@ const AddSmsFormRedux = reduxForm({
   enableReinitialize: true
 })(AddSmsForm);
 
-
-const AddSmsInit = connect(
-  state => ({
-    initialValues: state.get('category').formValues
-  })
-)(AddSmsFormRedux);
-
-
-export default withStyles(styles)(AddSmsInit);
+export default withStyles(styles)(connect(null, null)(AddSmsFormRedux));
