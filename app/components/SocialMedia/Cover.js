@@ -93,7 +93,7 @@ class Cover extends React.Component {
     const { anchorElOpt, open } = this.state;
     return (
       <div className={classes.cover} style={{ backgroundImage: `url(${coverImg})` }}>
-        <div>
+        {/* <div>
           <Dialog
             open={open}
             onClose={this.handleDisagree}
@@ -127,8 +127,8 @@ class Cover extends React.Component {
               </Button>
             </DialogActions>
           </Dialog>
-        </div>
-        <div className={classes.opt}>
+        </div> */}
+        {/* <div className={classes.opt}>
           <IconButton className={classes.button} aria-label="Delete">
             <Info />
           </IconButton>
@@ -159,7 +159,7 @@ class Cover extends React.Component {
               </MenuItem>
             ))}
           </Menu>
-        </div>
+        </div> */}
         <div className={classes.content}>
           <Avatar alt={name} src={avatar} className={classes.avatar} />
           <Typography variant="h4" className={classes.name} gutterBottom>

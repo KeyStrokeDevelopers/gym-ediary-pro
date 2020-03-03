@@ -1,5 +1,6 @@
 
-import { LOGIN_STAFF, LOGIN_ERROR } from '../../actions/actionConstants';
+
+import { LOGIN_STAFF, LOGIN_ERROR, STAFF_INITIAL_IFNO } from '../../actions/actionConstants';
 
 const initialState = {
   staffInfo: {},
@@ -17,6 +18,12 @@ export default function reducer(state = initialState, action = {}) {
         gymInfo: action.payload.gymInfo,
         accessInfo: action.payload.accessInfo,
         subscriptionInfo: action.payload.subscriptionInfo
+      };
+
+    case STAFF_INITIAL_IFNO:
+      return {
+        ...state,
+        staffInfo: action.payload
       };
 
     case LOGIN_ERROR:

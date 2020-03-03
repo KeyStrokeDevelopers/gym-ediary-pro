@@ -27,6 +27,7 @@ import { getAge } from '../Common/helpers';
 import styles from '../Common/style';
 import { SERVER_URL } from '../Common/constant';
 import { validate, phoneNumber, email } from '../Forms/helpers/formValidation';
+import { ContentDivider } from '../Divider';
 import {
   TextFieldRedux, RegularTextFieldRedux, DatePickerInput, SelectRedux, renderToggleFingerRequired, SearchableSelect, SearchablePackageSelect, SearchableClassSelect
 } from '../Forms/ReduxFormMUI';
@@ -41,9 +42,7 @@ class AddMemberForm extends React.Component {
     tab: 0,
     age: '0',
     selectedPackPrice: 0,
-    selectedClassPrice: 0,
     packDisc: 0,
-    classDisc: 0,
     paidAmount: 0,
     regFee: 0,
     fillValueFromEnquiry: '',
@@ -52,8 +51,8 @@ class AddMemberForm extends React.Component {
     dob: null,
     anniversary: null,
     packageActivationDate: null,
-    classActivationDate: null,
-    isBiometic: true
+    isBiometic: true,
+    gstPer: 0
   };
 
   handleDateOfBirth = (e, date) => {
@@ -69,19 +68,15 @@ class AddMemberForm extends React.Component {
     this.setState({ packageActivationDate: date });
   }
 
-  handleClassActivationDate = (e, date) => {
-    this.setState({ classActivationDate: date });
-  }
-
   handleMouseDownPassword = event => {
     event.preventDefault();
   };
 
   componentDidMount() {
     const { gymInfoData } = this.props;
-    if (gymInfoData && gymInfoData.length >= 1) {
-      const isBiometic = gymInfoData[0].biometric;
-      const { regFee } = gymInfoData[0];
+    if (Object.keys(gymInfoData).length >= 1) {
+      const isBiometic = gymInfoData.biometric;
+      const { regFee } = gymInfoData;
       this.props.initialize({ isFingerRequired: isBiometic, regFee });
       this.setState({ isBiometic, regFee });
     }
@@ -103,20 +98,8 @@ class AddMemberForm extends React.Component {
     }
   }
 
-  handleClassSelected = (e, classId) => {
-    const { classData } = this.props;
-    const selectedClass = classData.filter((selectedClass) => selectedClass._id === classId);
-    if (selectedClass) {
-      this.setState({ selectedClassPrice: selectedClass[0].classPrice });
-    }
-  }
-
   handlePackageDiscount = (e, packDisc) => {
     this.setState({ packDisc: parseInt(packDisc) });
-  }
-
-  handleClassDiscount = (e, classDisc) => {
-    this.setState({ classDisc: parseInt(classDisc) });
   }
 
   handlePaidAmount = (e, paidAmount) => {
@@ -137,11 +120,18 @@ class AddMemberForm extends React.Component {
     this.setState({ deleteImage: true });
   }
 
+  selectedGstPer = (e, gstPer) => {
+    this.setState({ gstPer })
+  }
+
   handleSubmitData = (data) => {
-    const { selectedClassPrice, selectedPackPrice } = this.state;
+    const { selectedPackPrice, regFee, packDisc, gstPer } = this.state;
+    const payable = selectedPackPrice + regFee - packDisc;
+    const gstValue = Math.round(payable * gstPer / 100)
     const { onSubmit } = this.props;
     let submitData = data.set('packPrice', selectedPackPrice);
-    submitData = submitData.set('classPrice', selectedClassPrice);
+    submitData = submitData.set('gstValue', gstValue);
+    submitData = submitData.set('gstPer', gstPer);
     onSubmit(submitData);
   }
 
@@ -158,7 +148,6 @@ class AddMemberForm extends React.Component {
       itemSelected,
       occupationData,
       enquiryData,
-      classData,
       handleSubmit,
       onDrop,
       formValue,
@@ -166,10 +155,10 @@ class AddMemberForm extends React.Component {
       imgAvatar
     } = this.props;
     const {
-      age, selectedClassPrice, selectedPackPrice, fillValueFromEnquiry, classDisc, packDisc, paidAmount, editImage, deleteImage, dob, anniversary, packageActivationDate, classActivationDate, isBiometic, regFee
+      age, selectedPackPrice, fillValueFromEnquiry, packDisc, paidAmount, editImage, deleteImage, dob, anniversary, packageActivationDate, isBiometic, regFee, gstPer
     } = this.state;
-
-    const totalPayable = selectedClassPrice + selectedPackPrice + regFee - classDisc - packDisc;
+    const payable = selectedPackPrice + regFee - packDisc;
+    const totalPayable = payable + Math.round(payable * gstPer / 100);
     const balAmount = totalPayable - paidAmount;
     fillValueEnquiry = Object.assign({}, fillValueFromEnquiry);
     let dropzoneRef;
@@ -286,7 +275,6 @@ class AddMemberForm extends React.Component {
                     component={SelectRedux}
                     required
                     placeholder="Title"
-                    onChange={this.selectedValue}
                   >
                     <MenuItem value="">None</MenuItem>
                     <MenuItem value="s/o">S/O</MenuItem>
@@ -314,84 +302,7 @@ class AddMemberForm extends React.Component {
                 />
               </div>
             </div>
-            <div>
-              <Field
-                name="alternativeContact"
-                component={TextFieldRedux}
-                placeholder="Alternative Contact Number"
-                label="Alternative Contact Number"
-                autoComplete="off"
-                validate={phoneNumber}
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermContactCalendar />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </div>
-            <div>
-              <Field
-                name="email"
-                component={RegularTextFieldRedux}
-                placeholder="Email"
-                autoComplete="off"
-                label="Email"
-                validate={email}
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Bookmark />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </div>
-            <div style={{ display: 'flex' }}>
-              <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
-                <Field
-                  name="dob"
-                  label={(age !== '0')
-                    ? (
-                      <div>
-                        <span style={{ color: '#000000' }}>Date of Birth : </span>
-                        <span style={{ color: '#1565C0' }}>
-                          {' '}
-                          {`${age}`}
-                          {' '}
-                        </span>
-                      </div>
-                    ) : 'Date Of Birth'}
-                  disableFuture
-                  component={DatePickerInput}
-                  onChange={this.handleDateOfBirth}
-                  dateValue={dob}
-                />
-              </div>
-              <div style={{ width: '50%' }}>
-                <FormControl className={classes.field}>
-                  <InputLabel htmlFor="selection">Blood Group</InputLabel>
-                  <Field
-                    name="bloodGroup"
-                    component={SelectRedux}
-                    required
-                    placeholder="Blood Group"
-                    onChange={this.selectedValue}
-                  >
-                    <MenuItem value="">Not Known</MenuItem>
-                    <MenuItem value="A+">A+</MenuItem>
-                    <MenuItem value="A-">A-</MenuItem>
-                    <MenuItem value="B+">B+</MenuItem>
-                    <MenuItem value="B-">B-</MenuItem>
-                    <MenuItem value="O+">O+</MenuItem>
-                    <MenuItem value="O-">O-</MenuItem>
-                  </Field>
-                </FormControl>
-              </div>
-            </div>
+
             <div>
               <Field
                 name="address"
@@ -401,63 +312,6 @@ class AddMemberForm extends React.Component {
                 autoComplete="off"
                 required
                 multiline
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Work />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </div>
-            <div>
-              <Field
-                name="occupation"
-                placeholder="Occupation e.g. Teacher, Doctor"
-                label="Occupation e.g. Teacher, Doctor"
-                component={HighlightSuggest}
-                occupationData={occupationData}
-              />
-            </div>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '50%', marginRight: '10px' }}>
-                <FormControl className={classes.field}>
-                  <InputLabel htmlFor="selection">MARITAL STATUS</InputLabel>
-                  <Field
-                    name="maritalStatus"
-                    component={SelectRedux}
-                    required
-                    placeholder="MARITAL STATUS"
-                    onChange={this.selectedValue}
-                  >
-                    <MenuItem value="">Not Known</MenuItem>
-                    <MenuItem value="sin">SINGLE</MenuItem>
-                    <MenuItem value="mar">MARRIED</MenuItem>
-                    <MenuItem value="wid">WIDOWED</MenuItem>
-                    <MenuItem value="div">DIVORCED</MenuItem>
-                    <MenuItem value="sep">SEPARATED</MenuItem>
-                  </Field>
-                </FormControl>
-              </div>
-              <div className={classes.picker} style={{ width: '50%' }}>
-                <Field
-                  name="anniversary"
-                  label="ANNIVERSARY"
-                  disableFuture
-                  component={DatePickerInput}
-                  onChange={this.handleAnniversary}
-                  dateValue={anniversary}
-                />
-              </div>
-            </div>
-            <div>
-              <Field
-                name="query"
-                component={RegularTextFieldRedux}
-                placeholder="Query - If Any"
-                autoComplete="off"
-                label="Query - If Any"
                 className={classes.field}
                 InputProps={{
                   startAdornment: (
@@ -515,6 +369,24 @@ class AddMemberForm extends React.Component {
                   />
                 </div>
                 <div>
+                  <FormControl className={classes.field}>
+                    <InputLabel htmlFor="selection">GST %</InputLabel>
+                    <Field
+                      name="gst"
+                      component={SelectRedux}
+                      required
+                      placeholder="GST %"
+                      onChange={this.selectedGstPer}
+                    >
+                      <MenuItem value={0}>0.00</MenuItem>
+                      <MenuItem value={5}>5.00</MenuItem>
+                      <MenuItem value={12}>12.00</MenuItem>
+                      <MenuItem value={18}>18.00</MenuItem>
+                      <MenuItem value={28}>28.00</MenuItem>
+                    </Field>
+                  </FormControl>
+                </div>
+                <div>
                   {packageData
                     && (
                       <FormControl className={classes.field}>
@@ -552,55 +424,6 @@ class AddMemberForm extends React.Component {
                       label="Package Discount"
                       autoComplete="off"
                       onChange={this.handlePackageDiscount}
-                      className={classes.field}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <Work />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </div>
-                </div>
-                <div>
-                  {classData
-                    && (
-                      <FormControl className={classes.field}>
-                        <Field
-                          name="classInfo"
-                          component={SearchableClassSelect}
-                          placeholder="Select Class"
-                          autoComplete="off"
-                          label="Select Class"
-                          options={classData}
-                          required
-                          className={classes.field}
-                          onChange={this.handleClassSelected}
-                        />
-                      </FormControl>
-                    )
-                  }
-                </div>
-                <div style={{ display: 'flex' }}>
-                  <div className={classes.picker} style={{ marginRight: '10px', width: '50%' }}>
-                    <Field
-                      name="classActivation"
-                      label="Class Activation"
-                      disablePast
-                      component={DatePickerInput}
-                      onChange={this.handleClassActivationDate}
-                      dateValue={classActivationDate}
-                    />
-                  </div>
-                  <div style={{ width: '50%' }}>
-                    <Field
-                      name="classDisc"
-                      component={RegularTextFieldRedux}
-                      placeholder="Discount"
-                      label="Class Discount"
-                      autoComplete="off"
-                      onChange={this.handleClassDiscount}
                       className={classes.field}
                       InputProps={{
                         startAdornment: (
@@ -728,21 +551,154 @@ class AddMemberForm extends React.Component {
                 }}
               />
             </div>
-
+            <ContentDivider content="Additional Information" />
+            <div>
+              <Field
+                name="alternativeContact"
+                component={TextFieldRedux}
+                placeholder="Alternative Contact Number"
+                label="Alternative Contact Number"
+                autoComplete="off"
+                validate={phoneNumber}
+                className={classes.field}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PermContactCalendar />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </div>
+            <div>
+              <Field
+                name="memberEmail"
+                component={RegularTextFieldRedux}
+                placeholder="Email"
+                autoComplete="off"
+                label="Email"
+                validate={email}
+                className={classes.field}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Bookmark />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </div>
+            <div>
+              <Field
+                name="occupation"
+                placeholder="Occupation e.g. Teacher, Doctor"
+                label="Occupation e.g. Teacher, Doctor"
+                component={HighlightSuggest}
+                occupationData={occupationData}
+              />
+            </div>
+            <div style={{ display: 'flex' }}>
+              <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
+                <Field
+                  name="dob"
+                  label={(age !== '0')
+                    ? (
+                      <div>
+                        <span style={{ color: '#000000' }}>Date of Birth : </span>
+                        <span style={{ color: '#1565C0' }}>
+                          {' '}
+                          {`${age}`}
+                          {' '}
+                        </span>
+                      </div>
+                    ) : 'Date Of Birth'}
+                  disableFuture
+                  component={DatePickerInput}
+                  onChange={this.handleDateOfBirth}
+                  dateValue={dob}
+                />
+              </div>
+              <div style={{ width: '50%' }}>
+                <FormControl className={classes.field}>
+                  <InputLabel htmlFor="selection">Blood Group</InputLabel>
+                  <Field
+                    name="bloodGroup"
+                    component={SelectRedux}
+                    required
+                    placeholder="Blood Group"
+                  >
+                    <MenuItem value="">Not Known</MenuItem>
+                    <MenuItem value="A+">A+</MenuItem>
+                    <MenuItem value="A-">A-</MenuItem>
+                    <MenuItem value="B+">B+</MenuItem>
+                    <MenuItem value="B-">B-</MenuItem>
+                    <MenuItem value="O+">O+</MenuItem>
+                    <MenuItem value="O-">O-</MenuItem>
+                  </Field>
+                </FormControl>
+              </div>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <div style={{ width: '50%', marginRight: '10px' }}>
+                <FormControl className={classes.field}>
+                  <InputLabel htmlFor="selection">MARITAL STATUS</InputLabel>
+                  <Field
+                    name="maritalStatus"
+                    component={SelectRedux}
+                    required
+                    placeholder="MARITAL STATUS"
+                  >
+                    <MenuItem value="">Not Known</MenuItem>
+                    <MenuItem value="sin">SINGLE</MenuItem>
+                    <MenuItem value="mar">MARRIED</MenuItem>
+                    <MenuItem value="wid">WIDOWED</MenuItem>
+                    <MenuItem value="div">DIVORCED</MenuItem>
+                    <MenuItem value="sep">SEPARATED</MenuItem>
+                  </Field>
+                </FormControl>
+              </div>
+              <div className={classes.picker} style={{ width: '50%' }}>
+                <Field
+                  name="anniversary"
+                  label="ANNIVERSARY"
+                  disableFuture
+                  component={DatePickerInput}
+                  onChange={this.handleAnniversary}
+                  dateValue={anniversary}
+                />
+              </div>
+            </div>
+            <div>
+              <Field
+                name="query"
+                component={RegularTextFieldRedux}
+                placeholder="Query - If Any"
+                autoComplete="off"
+                label="Query - If Any"
+                className={classes.field}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Work />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </div>
+            <div className={css.buttonArea}>
+              <Button variant="contained" color="secondary" type="submit" disabled={submitting}>
+                Submit
+              </Button>
+              <Button
+                type="button"
+                disabled={pristine || submitting}
+                onClick={reset}
+              >
+                {' '}
+                Reset
+              </Button>
+            </div>
           </section>
-          <div className={css.buttonArea}>
-            <Button variant="contained" color="secondary" type="submit" disabled={submitting}>
-              Submit
-              </Button>
-            <Button
-              type="button"
-              disabled={pristine || submitting}
-              onClick={reset}
-            >
-              {' '}
-              Reset
-              </Button>
-          </div>
         </form>
       </div>
     );

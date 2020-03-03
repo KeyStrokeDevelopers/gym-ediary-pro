@@ -38,9 +38,7 @@ class Staff extends React.Component {
 
   createFormData = (data, avatar) => {
     const formData = new FormData();
-    console.log('avatar-------***----', avatar)
     if (avatar) {
-      console.log('enter in avatar if ---')
       formData.append('staffImage', avatar);
     }
     staffDataField.map((staffData) => {
@@ -183,19 +181,15 @@ const constDispatchToProps = dispatch => ({
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
   edit: (data) => {
-    console.log('data in edit -----', data);
     return dispatch(editStaffData(data))
   },
   add: () => dispatch(addStaffData()),
   close: () => dispatch(closeAction()),
   delete_Staff_Data: (data) => dispatch(deleteStaffData(data)),
-  // remove: bindActionCreators(removeAction, dispatch),
-  // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActiveData: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchStaffData(data)),
   loading: () => dispatch(loadingAction()),
   changePasswordData: (newPassword, staffId) => dispatch(changePassword(newPassword, staffId))
-  // closeNotif: () => dispatch(closeNotifAction),
 });
 
 const StaffMapped = connect(

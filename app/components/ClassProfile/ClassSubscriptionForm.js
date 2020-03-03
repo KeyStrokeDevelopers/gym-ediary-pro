@@ -21,7 +21,8 @@ class ClassSubscriptionForm extends React.Component {
     selectedClassPrice: 0,
     classDisc: 0,
     paidAmount: 0,
-    classActivationDate: null
+    classActivationDate: null,
+    gstPer: 0
   };
 
   selectedValue = (e, value) => {
@@ -59,11 +60,19 @@ class ClassSubscriptionForm extends React.Component {
     this.setState({ paidAmount });
   }
 
+  selectedGstPer = (e, gstPer) => {
+    this.setState({ gstPer });
+  }
+
   handleSubmitData = (data) => {
-    const { onSubmit } = this.props;
-    const { selectedClassPrice } = this.state;
-    const submit_data = data.set('classPrice', selectedClassPrice);
-    onSubmit(submit_data);
+    const { onSubmit, } = this.props;
+    const { selectedClassPrice, classDisc, gstPer } = this.state;
+    const total = selectedClassPrice - classDisc;
+    const gstValue = Math.round(total * gstPer / 100);
+    let submitData = data.set('classPrice', selectedClassPrice);
+    submitData = submitData.set('gstValue', gstValue);
+    submitData = submitData.set('gstPer', gstPer);
+    onSubmit(submitData);
   }
 
   render() {
@@ -77,9 +86,10 @@ class ClassSubscriptionForm extends React.Component {
       handleSubmit
     } = this.props;
     const {
-      selectedClassPrice, classDisc, paidAmount, classActivationDate
+      selectedClassPrice, classDisc, paidAmount, classActivationDate, gstPer
     } = this.state;
-    const totalPayable = selectedClassPrice - classDisc;
+    const total = selectedClassPrice - classDisc;
+    const totalPayable = total + Math.round(total * gstPer / 100);
     const balAmount = totalPayable - paidAmount;
 
     return (
@@ -99,6 +109,24 @@ class ClassSubscriptionForm extends React.Component {
                   {
                     availableClassData && availableClassData.map((data, index) => <MenuItem key={index + Math.random()} value={data._id}>{data.className}</MenuItem>)
                   }
+                </Field>
+              </FormControl>
+            </div>
+            <div>
+              <FormControl className={classes.field}>
+                <InputLabel htmlFor="selection">GST %</InputLabel>
+                <Field
+                  name="gst"
+                  component={SelectRedux}
+                  required
+                  placeholder="GST %"
+                  onChange={this.selectedGstPer}
+                >
+                  <MenuItem value={0}>0.00</MenuItem>
+                  <MenuItem value={5}>5.00</MenuItem>
+                  <MenuItem value={12}>12.00</MenuItem>
+                  <MenuItem value={18}>18.00</MenuItem>
+                  <MenuItem value={28}>28.00</MenuItem>
                 </Field>
               </FormControl>
             </div>

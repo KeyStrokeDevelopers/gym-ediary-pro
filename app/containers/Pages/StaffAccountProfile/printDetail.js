@@ -9,9 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
-import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form/immutable';
-import { renderToggle } from '../../../components/Forms/ReduxFormMUI';
+import imgData from 'dan-api/images/imgData';
 import 'dan-styles/vendors/slick-carousel/slick-carousel.css';
 import 'dan-styles/vendors/slick-carousel/slick.css';
 import 'dan-styles/vendors/slick-carousel/slick-theme.css';
@@ -28,25 +26,14 @@ const Transition = React.forwardRef(function Transition(props, ref) { // eslint-
 });
 
 class PrintDetail extends React.Component { // eslint-disable-line
-
-  state = {
-    isDigitallySign: true
-  };
-
-  handleToggle = (e, isDigitallySign) => {
-    this.setState({ isDigitallySign })
-  }
   render() {
     const {
       classes,
       open,
       close,
       printData,
-      memberData
+      staffData
     } = this.props;
-    const { isDigitallySign } = this.state;
-
-    console.log('isDigitallySign---', isDigitallySign)
 
     return (
       <Dialog
@@ -82,34 +69,20 @@ class PrintDetail extends React.Component { // eslint-disable-line
             <SmsIcon className={classes.extendedIcon} />
             SMS!
           </Button>
-          {memberData.email &&
+          {staffData.email &&
             <Button className={classes.button} size="small" variant="contained" color="secondary" style={{ margin: '10px' }}>
               <EmailIcon className={classes.extendedIcon} />
               EMAIL
           </Button>
           }
-          <div className={classes.picker} style={{ margin: '10px' }}>
-            <form>
-              <Field
-                name="printLogo"
-                component={renderToggle}
-                onChange={this.handleToggle}
-                defaultValue={true}
-                label='Is Digitally Signed ?'
-              />
-            </form>
-          </div>
         </div>
         <section className={classes.wrapper}>
-          <Invoice ref={(el) => { this.componentRef = el; }} invoiceData={printData} memberData={memberData} isDigitallySign={isDigitallySign} />
+          <Invoice ref={(el) => { this.componentRef = el; }} invoiceData={printData} staffData={staffData} />
         </section>
       </Dialog>
     );
   }
 }
 
-const PrintDetailRedux = reduxForm({
-  form: 'printForm',
-})(PrintDetail);
 
-export default withStyles(styles)(connect(null, null)(PrintDetailRedux));
+export default withStyles(styles)(PrintDetail);

@@ -15,6 +15,12 @@ const deleteStaffDataApi = (dataId) => {
 
 const changePasswordApi = (newPassword, staffId) => axios.put(`${API_URL}/staffInfo/${staffId}`, newPassword, getConfig());
 
+const getStaffAttendanceDataApi = (date) => axios.post(`${API_URL}/staffAttendance/getData`, date, getConfig());
+
+const fetchStaffAttendanceDataApi = (date) => axios.post(`${API_URL}/staffAttendance/prfileData`, date, getConfig());
+
+const markStaffAttendanceApi = (data) => axios.post(`${API_URL}/staffAttendance/markAttendance`, data, getConfig());
+
 const fetchAccessDataApi = () => axios.get(`${API_URL}/access`, getConfig());
 export {
   addStaffApi,
@@ -22,5 +28,8 @@ export {
   updateStaffDataApi,
   deleteStaffDataApi,
   fetchAccessDataApi,
+  getStaffAttendanceDataApi,
+  markStaffAttendanceApi,
+  fetchStaffAttendanceDataApi,
   changePasswordApi
 };

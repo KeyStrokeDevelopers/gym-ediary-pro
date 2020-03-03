@@ -5,6 +5,8 @@ const validate = values => {
   const requiredFields = [
     // Payment Method Form Field
     'paymentMethod',
+    'shiftFrom1',
+    'shiftTo1',
 
     // Category Form Field
     'categoryType',
@@ -87,9 +89,8 @@ const validate = values => {
     errors.anniversaryWish = 'Required';
   }
 
-  if (!values.get('packageInfo') && !values.get('classInfo')) {
-    errors.addmPackage = 'One of them package or class is required';
-    errors.addmClass = 'One of them package or class is required';
+  if (!values.get('packageInfo')) {
+    errors.addmPackage = 'Package selection is required';
   }
 
   if (values.get('isFingerRequired') && !values.get('fingerCode')) {

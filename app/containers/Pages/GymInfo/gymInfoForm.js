@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from 'react';
+import React, { Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
@@ -21,9 +21,15 @@ import styles from '../../../components/Common/style';
 import { SERVER_URL } from '../../../components/Common/constant';
 import { validate, phoneNumber, email, number } from '../../../components/Forms/helpers/formValidation';
 import { allIndianState } from '../../../components/Common/constant';
-import {
-  TextFieldRedux, RegularTextFieldRedux, renderToggle, SearchableSelect
-} from '../../../components/Forms/ReduxFormMUI';
+import { RegularTextFieldRedux, renderToggle, SearchableSelect } from '../../../components/Forms/ReduxFormMUI';
+import EditorField from '../../../components/Contact/Editor//editorField';
+import FitnessCenter from '@material-ui/icons/FitnessCenter';
+import Restaurant from '@material-ui/icons/Restaurant';
+import { ContentDivider } from '../../../components/Divider';
+import Paper from '@material-ui/core/Paper';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 let fillValueEnquiry;
 class GymInfoForm extends React.Component {
   saveRef = ref => {
@@ -35,6 +41,12 @@ class GymInfoForm extends React.Component {
     fillValueFromEnquiry: '',
     editImage: false,
     deleteImage: false,
+
+    nutritionValue: 0,
+    workOutValue: 0,
+    workOutIndex: 7,
+    value: 0,
+    editorValue: []
   };
 
 
@@ -53,6 +65,50 @@ class GymInfoForm extends React.Component {
     this.setState({ deleteImage: true });
   }
 
+  handleNutritionChange = (event, nutritionValue) => {
+    this.setState({ nutritionValue });
+  };
+
+  handleWorkOutChange = (event, workOutValue) => {
+    const index = workOutValue + 7;
+    this.setState({ workOutValue, workOutIndex: index });
+  }
+
+  handleChange = (e, value) => {
+    this.setState({ value });
+  }
+
+  handleEditorChange = (data, index) => {
+    if (data && !(encodeURIComponent(data) === '%3Cp%3E%3C%2Fp%3E%0A')
+      && !((encodeURIComponent(data) === '%3Cp%3Eundefined%3C%2Fp%3E%0A'))) {
+      this.setState({ editorValue: { index, data } });
+      const editValueArray = Object.assign({}, this.state);
+      editValueArray.editorValue[index] = data;
+      this.setState(editValueArray);
+    }
+  }
+
+  editor = (type, index) => {
+    const { editorValue } = this.state;
+    let initialValue;
+    if (editorValue[index]) {
+      initialValue = editorValue[index];
+    }
+    // else if (this.props.initFormValue[type]) {
+    //   initialValue = this.props.initFormValue[type];
+    // }
+    return (
+      <EditorField
+        name={type}
+        disabled={false}
+        key={type}
+        placeholder="Type here"
+        initValue={initialValue}
+        onChange={(data) => this.handleEditorChange(data, index)}
+      />
+    );
+  }
+
   render() {
     const {
       classes,
@@ -67,7 +123,7 @@ class GymInfoForm extends React.Component {
       gymInfoData,
       imgAvatar
     } = this.props;
-    const { fillValueFromEnquiry, editImage, deleteImage } = this.state;
+    const { fillValueFromEnquiry, editImage, deleteImage, nutritionValue, workOutValue, workOutIndex, value } = this.state;
 
     fillValueEnquiry = Object.assign({}, fillValueFromEnquiry);
     let dropzoneRef;
@@ -309,7 +365,6 @@ class GymInfoForm extends React.Component {
                   label="GST Number"
                   component={RegularTextFieldRedux}
                   className={classes.field}
-                  validate={number}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -396,20 +451,37 @@ class GymInfoForm extends React.Component {
                 />
               </div>
             </div>
+            <ContentDivider content="Terms And Condition For Invoice Print" />
+            <Fragment>
+              <Paper>
+                <Tabs
+                  value={value}
+                  onChange={this.handleChange}
+                  variant="fullWidth"
+                  indicatorColor="primary"
+                  textColor="primary"
+                >
+                  <Tab icon={<Restaurant />} label="Membership Term and Condition" />
+                  <Tab icon={<FitnessCenter />} label="Billing Term and Condition" />
+                </Tabs>
+              </Paper>
+              {value === 0 && this.editor('membershipTC', nutritionValue)}
+              {value === 1 && this.editor('billingTC', workOutIndex)}
+            </Fragment>
+            <div className={css.buttonArea}>
+              <Button variant="contained" color="secondary" type="submit" disabled={submitting}>
+                Submit
+              </Button>
+              <Button
+                type="button"
+                disabled={pristine || submitting}
+                onClick={reset}
+              >
+                {' '}
+                Reset
+              </Button>
+            </div>
           </section>
-          <div className={css.buttonArea}>
-            <Button variant="contained" color="secondary" type="submit" disabled={submitting}>
-              Submit
-              </Button>
-            <Button
-              type="button"
-              disabled={pristine || submitting}
-              onClick={reset}
-            >
-              {' '}
-              Reset
-              </Button>
-          </div>
         </form>
       </div>
     );

@@ -123,7 +123,6 @@ export default function reducer(state = initialState, action = {}) {
     }
 
     case FETCH_GYM_INFO: {
-      console.log('fetch gym info hit -----reducer--');
       return {
         ...state,
         gymInfo: action.payload

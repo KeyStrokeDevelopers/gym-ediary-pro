@@ -7,7 +7,7 @@ import {
   PersonalDashboard,
   NotFound,
   Enquiry, AddMember, ExpenseIncome, Profile, TaskBoard, Product, ProductType, BrandUnit, Purchase,
-  PendingPayments, PurchaseReport, SaleReport, Attendance, MembershipReport, Wishes, Classes, RegistrationReport, RenewalReport, Sale,
+  PendingPayments, PurchaseReport, SaleReport, Attendance, MembershipReport, Wishes, Classes, RegistrationReport, RenewalReport, Sale, StaffAttendance,
   Ecommerce, ProductPage, CheckoutPage, Master
 } from '../pageListAsync';
 
@@ -34,6 +34,7 @@ class Application extends React.Component {
           <Route path={`${match.url}/reports/renewalReport`} component={RenewalReport} />
           <Route path={`${match.url}/reports/birthdayAnniversaryWishes`} component={Wishes} />
           <Route path={`${match.url}/reports/attendance`} component={Attendance} />
+          <Route path={`${match.url}/reports/staffAttendance`} component={StaffAttendance} />
           <Route path={`${match.url}/reports/purchase`} component={PurchaseReport} />
           <Route path={`${match.url}/reports/sale`} component={SaleReport} />
           <Route path={`${match.url}/pages/invoice`} component={Ecommerce} />

@@ -13,7 +13,6 @@ import {
   editAddMemberData,
   searchAddMemberData,
   updateAddMemberData,
-  viewProfile,
   setDetailField,
   loadingAction,
   hideDetailAction,
@@ -22,7 +21,6 @@ import {
 } from 'dan-actions/addMemberActions';
 import { getPurposeData } from 'dan-actions/purposeActions';
 import { getPackageData } from 'dan-actions/vendorPackageActions.js';
-import { getClassData } from 'dan-actions/classActions';
 import { getEnquiryData } from 'dan-actions/EnquiryActions';
 import { getPaymentMethodData } from 'dan-actions/paymentMethodActions';
 import styles from 'dan-components/Contact/contact-jss';
@@ -35,12 +33,11 @@ import addMemberDataField from '../../../components/AddMember/addMemberField';
 class Member extends React.Component {
   componentDidMount() {
     const {
-      fetchData, fetchPurposeData, fetchClassData, fetchPackageData, fetchEnquiryData, fetchPaymentMethodData, fetchGymInfoData
+      fetchData, fetchPurposeData, fetchPackageData, fetchEnquiryData, fetchPaymentMethodData, fetchGymInfoData
     } = this.props;
     fetchData();
     fetchPurposeData();
     fetchPackageData();
-    fetchClassData();
     fetchEnquiryData();
     fetchPaymentMethodData();
     fetchGymInfoData();
@@ -90,7 +87,6 @@ class Member extends React.Component {
       favorite,
       purposeData,
       packageData,
-      classData,
       enquiryData,
       paymentMethodData,
       gymInfoData,
@@ -141,13 +137,12 @@ class Member extends React.Component {
             favorite={favorite}
           />
         </div>
-        {gymInfoData.length >= 1
+        {Object.keys(gymInfoData).length >= 1
           && (
             <AddMember
               addMember={add}
               openForm={open}
               closeForm={close}
-              classData={classData}
               packageData={packageData}
               purposeData={purposeData}
               addMemberData={addMemberData}
@@ -214,7 +209,6 @@ const constDispatchToProps = dispatch => ({
   search: (data) => dispatch(searchAddMemberData(data)),
   loading: () => dispatch(loadingAction()),
   fetchPurposeData: () => dispatch(getPurposeData()),
-  fetchClassData: () => dispatch(getClassData()),
   fetchPackageData: () => dispatch(getPackageData()),
   fetchEnquiryData: () => dispatch(getEnquiryData()),
   fetchPaymentMethodData: () => dispatch(getPaymentMethodData()),

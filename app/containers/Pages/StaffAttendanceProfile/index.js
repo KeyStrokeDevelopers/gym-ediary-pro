@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
 import { withStyles } from '@material-ui/core/styles';
-import { AdvTable } from 'dan-components';
 import { reduxForm, Field } from 'redux-form/immutable';
+import { AdvTable } from 'dan-components';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { getAttendance } from '../../../actions/reportActions';
+import { fetchStaffAttendanceData } from '../../../actions/staffActions';
 import { DatePickerInput } from '../../../components/Forms/ReduxFormMUI';
 const styles = ({
   root: {
@@ -26,43 +26,68 @@ class Attendance extends Component {
         disablePadding: true,
         label: 'Date'
       }, {
-        id: 'packAttendance',
+        id: 'staffName',
         //  numeric: true,
         disablePadding: false,
-        label: 'Package Attendance'
+        label: 'Staff Name'
       }, {
-        id: 'classAttendance',
+        id: 'staffCode',
         //  numeric: true,
         disablePadding: false,
-        label: 'Class Attendance'
+        label: 'Staff Code'
+      }, {
+        id: 'staffAccessLevel',
+        //  numeric: true,
+        disablePadding: false,
+        label: 'Staff Access Level'
+      }, {
+        id: 'staffAttendance',
+        //  numeric: true,
+        disablePadding: false,
+        label: 'Attendance'
+      }, {
+        id: 'staffAddress',
+        //  numeric: true,
+        disablePadding: false,
+        label: 'Staff Address'
+      }, {
+        id: 'staffContact',
+        //  numeric: true,
+        disablePadding: false,
+        label: 'Contact'
+      }, {
+        id: 'staffEmail',
+        //  numeric: true,
+        disablePadding: false,
+        label: 'Email'
       }
     ],
     page: 0,
     rowsPerPage: 5,
     defaultPerPage: 5,
     filterText: '',
-    title: 'Attendance',
     fromDate: moment(new Date()).format('YYYY-MM-DD'),
     toDate: moment(new Date()).format('YYYY-MM-DD'),
+    title: 'Staff Attendance'
   };
 
   componentDidMount() {
-    const { memberData, fetchAttendanceData } = this.props;
-    const { fromDate, toDate } = this.state;
-    fetchAttendanceData({ member: memberData._id, fromDate, toDate });
+    const { fetchAttendanceData, staffData } = this.props;
+    const { toDate, fromDate } = this.state;
+    fetchAttendanceData({ staff: staffData._id, fromDate, toDate });
   }
 
   handleFromDate = (fromDate) => {
-    const { fetchAttendanceData, memberData } = this.props;
+    const { fetchAttendanceData, staffData } = this.props;
     const { toDate } = this.state;
-    fetchAttendanceData({ member: memberData._id, fromDate, toDate });
+    fetchAttendanceData({ staff: staffData._id, fromDate, toDate });
     this.setState({ fromDate });
   }
 
   handleToDate = (toDate) => {
-    const { fetchAttendanceData, memberData } = this.props;
+    const { fetchAttendanceData, staffData } = this.props;
     const { fromDate } = this.state;
-    fetchAttendanceData({ member: memberData._id, fromDate, toDate });
+    fetchAttendanceData({ staff: staffData._id, fromDate, toDate });
     this.setState({ toDate });
   }
 
@@ -141,19 +166,19 @@ class Attendance extends Component {
 }
 
 const mapStateToProps = state => {
-  const reportReducer = state.get('reports');
+  const reportReducer = state.get('staff');
   return ({
-    attendanceData: reportReducer.attendanceList
+    attendanceData: reportReducer.staffProfileAttendanceData
   });
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchAttendanceData: (data) => dispatch(getAttendance(data)),
+  fetchAttendanceData: (memberId) => dispatch(fetchStaffAttendanceData(memberId)),
 });
 
-const attendanceRedux = reduxForm({
-  form: 'attendanceProfileForm'
+const staffAttendanceRedux = reduxForm({
+  form: 'staffAttendanceForm'
 })(Attendance);
 
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(attendanceRedux));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(staffAttendanceRedux));

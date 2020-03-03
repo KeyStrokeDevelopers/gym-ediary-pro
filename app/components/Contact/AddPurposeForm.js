@@ -55,7 +55,6 @@ class AddPurposeForm extends React.Component {
     if (editorValue[index]) {
       initialValue = editorValue[index];
     } else if (this.props.initFormValue[type]) {
-      console.log;
       initialValue = this.props.initFormValue[type];
     }
     return (

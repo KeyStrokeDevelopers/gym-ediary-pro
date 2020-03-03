@@ -156,8 +156,8 @@ export const markAttendance = (data) => (dispatch) => {
   });
 };
 
-export const getAttendance = (memberId) => (dispatch) => {
-  getAttendanceApi(memberId).then((response) => {
+export const getAttendance = (data) => (dispatch) => {
+  getAttendanceApi(data).then((response) => {
     dispatch(setAttendance(response.data));
   }).catch((err) => {
     viewError(err);

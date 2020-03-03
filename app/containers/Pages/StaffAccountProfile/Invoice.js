@@ -42,7 +42,7 @@ class Invoice extends React.Component {
   };
 
   render() {
-    const { classes, invoiceData, memberData, isDigitallySign } = this.props;
+    const { classes, invoiceData, memberData } = this.props;
     const {
       header,
       note
@@ -135,7 +135,6 @@ class Invoice extends React.Component {
             </div>
           </div>
           <div style={{ clear: 'both' }} />
-
           <table id="items">
             <thead>
               <tr>
@@ -172,11 +171,9 @@ class Invoice extends React.Component {
                     <div style={{ fontSize: '17px' }}>
                       FOR KEYSTROKE DEVELOPERS
                     </div>
-                    {isDigitallySign &&
-                      <div style={{ fontSize: '14px' }}>
-                        DIGITALLY SIGNED BY KEYSTROKE DEVELOPERS
+                    <div style={{ fontSize: '14px' }}>
+                      DIGITALLY SIGNED BY KEYSTROKE DEVELOPERS
                     </div>
-                    }
                   </td>
                 </tr>
                 <tr>

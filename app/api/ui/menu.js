@@ -96,6 +96,11 @@ module.exports = [
         link: '/app/reports/attendance',
         icon: 'ios-menu-outline',
       }, {
+        key: 'staffAttendance',
+        name: 'Staff Attendance',
+        link: '/app/reports/staffAttendance',
+        icon: 'ios-menu-outline',
+      }, {
         key: 'membershipReport',
         name: 'Membership Report',
         link: '/app/reports/membershipReport',

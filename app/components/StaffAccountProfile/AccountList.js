@@ -5,17 +5,16 @@ import brand from 'dan-api/dummy/brand';
 import { withStyles } from '@material-ui/core/styles';
 import { AdvTable } from 'dan-components';
 import { reduxForm, Field } from 'redux-form/immutable';
-import { connect } from 'react-redux';
+import { DatePickerInput } from '../Forms/ReduxFormMUI';
 import moment from 'moment';
-import { getAttendance } from '../../../actions/reportActions';
-import { DatePickerInput } from '../../../components/Forms/ReduxFormMUI';
+
 const styles = ({
   root: {
     flexGrow: 1,
   }
 });
 
-class Attendance extends Component {
+class AccountList extends Component {
   state = {
     order: 'asc',
     orderBy: 'date',
@@ -26,45 +25,54 @@ class Attendance extends Component {
         disablePadding: true,
         label: 'Date'
       }, {
-        id: 'packAttendance',
+        id: 'description',
         //  numeric: true,
         disablePadding: false,
-        label: 'Package Attendance'
+        label: 'Description'
       }, {
-        id: 'classAttendance',
-        //  numeric: true,
+        id: 'amount',
+        numeric: true,
         disablePadding: false,
-        label: 'Class Attendance'
-      }
+        label: 'Amount'
+      }, {
+        id: 'paymentMethod',
+        // numeric: true,
+        disablePadding: false,
+        label: 'Payment Mode'
+      },
     ],
     page: 0,
     rowsPerPage: 5,
     defaultPerPage: 5,
     filterText: '',
-    title: 'Attendance',
+    title: 'Account',
     fromDate: moment(new Date()).format('YYYY-MM-DD'),
-    toDate: moment(new Date()).format('YYYY-MM-DD'),
+    toDate: moment(new Date()).format('YYYY-MM-DD')
   };
 
-  componentDidMount() {
-    const { memberData, fetchAttendanceData } = this.props;
-    const { fromDate, toDate } = this.state;
-    fetchAttendanceData({ member: memberData._id, fromDate, toDate });
+
+  componentDidMount = () => {
+    const { fetchSalaryData, staffData } = this.props;
+    const { toDate, fromDate } = this.state;
+    fetchSalaryData({ staff: staffData._id, fromDate, toDate });
   }
 
+
   handleFromDate = (fromDate) => {
-    const { fetchAttendanceData, memberData } = this.props;
+    const { fetchSalaryData, staffData } = this.props;
     const { toDate } = this.state;
-    fetchAttendanceData({ member: memberData._id, fromDate, toDate });
+    fetchSalaryData({ staff: staffData._id, fromDate, toDate });
     this.setState({ fromDate });
+
   }
 
   handleToDate = (toDate) => {
-    const { fetchAttendanceData, memberData } = this.props;
+    const { fetchSalaryData, staffData } = this.props;
     const { fromDate } = this.state;
-    fetchAttendanceData({ member: memberData._id, fromDate, toDate });
+    fetchSalaryData({ staff: staffData._id, fromDate, toDate });
     this.setState({ toDate });
   }
+
 
   render() {
     const description = brand.desc;
@@ -77,11 +85,12 @@ class Attendance extends Component {
       defaultPerPage,
       filterText,
       columnData,
+      tableData,
       fromDate,
       toDate,
       title
     } = this.state;
-    const { attendanceData, classes } = this.props;
+    const { classes, handlePrint, salaryData } = this.props;
     return (
       <div style={{ width: '100%' }}>
         <Helmet>
@@ -93,15 +102,15 @@ class Attendance extends Component {
           <meta property="twitter:description" content={description} />
         </Helmet>
         <div style={{ marginLeft: '10px', marginTop: '10px', width: '100%' }}>
-          SELECT FIELD
+          SELECT DATE RANGE
         </div>
         <div style={{ display: 'flex', marginTop: '-8px' }}>
           <div className={classes.picker} style={{ margin: '10px', width: '50%' }}>
             <Field
               name="fromDate"
               label="From"
-              disableFuture
               component={DatePickerInput}
+              disableFuture
               onChange={this.handleFromDate}
               dateValue={fromDate}
             />
@@ -110,24 +119,24 @@ class Attendance extends Component {
             <Field
               name="toDate"
               label="To"
-              disableFuture
               component={DatePickerInput}
               onChange={this.handleToDate}
               dateValue={toDate}
             />
           </div>
         </div>
-        {(attendanceData.length >= 1)
+        {(salaryData)
           && (
             <>
               <AdvTable
                 order={order}
                 orderBy={orderBy}
                 selected={selected}
-                data={attendanceData}
+                data={salaryData}
                 page={page}
                 title={title}
                 rowsPerPage={rowsPerPage}
+                handlePrint={handlePrint}
                 defaultPerPage={defaultPerPage}
                 filterText={filterText}
                 columnData={columnData}
@@ -140,20 +149,10 @@ class Attendance extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const reportReducer = state.get('reports');
-  return ({
-    attendanceData: reportReducer.attendanceList
-  });
-};
 
-const mapDispatchToProps = dispatch => ({
-  fetchAttendanceData: (data) => dispatch(getAttendance(data)),
-});
-
-const attendanceRedux = reduxForm({
-  form: 'attendanceProfileForm'
-})(Attendance);
+const AccountListRedux = reduxForm({
+  form: 'staffAccountListFilter'
+})(AccountList);
 
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(attendanceRedux));
+export default withStyles(styles)(AccountListRedux);

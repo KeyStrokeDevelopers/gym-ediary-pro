@@ -17,6 +17,11 @@ const setStaffInfo = staffData => {
   };
 };
 
+const setInitialStaffInfo = staffData => ({
+  type: types.STAFF_INITIAL_IFNO,
+  payload: staffData
+});
+
 const loginError = err => {
   console.log('erro in login ', err);
   return {
@@ -44,7 +49,7 @@ export const signIn = (data) => (dispatch) => {
 
 export const initialData = () => (dispatch) => {
   getInitialData().then((response) => {
-    dispatch(setStaffInfo(response.data));
+    dispatch(setInitialStaffInfo(response.data));
   })
     .catch((err) => {
       dispatch(loginError(err));

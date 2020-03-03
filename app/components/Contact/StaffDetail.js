@@ -20,6 +20,8 @@ import Work from '@material-ui/icons/Work';
 import Divider from '@material-ui/core/Divider';
 import AccountBalance from '@material-ui/icons/AccountBalance';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import MoodIcon from '@material-ui/icons/Mood';
+import Tooltip from '@material-ui/core/Tooltip';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -34,7 +36,9 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import FormControl from '@material-ui/core/FormControl';
 import { validate } from '../Forms/helpers/formValidation';
 import { RegularTextFieldRedux } from '../Forms/ReduxFormMUI';
+import { connect } from 'react-redux';
 import { SERVER_URL } from '../Common/constant';
+import ViewStaffProfile from './ViewStaffProfile';
 import styles from './contact-jss';
 
 const optionsOpt = [
@@ -54,7 +58,8 @@ class StaffDetail extends React.Component {
     deletedId: null,
     showPassword: false,
     openChangePassword: false,
-    changePasswordId: null
+    changePasswordId: null,
+    openProfile: false
 
   };
 
@@ -112,6 +117,14 @@ class StaffDetail extends React.Component {
     this.setState({ openChangePassword: false, changePasswordId: null });
   }
 
+  handleViewProfile = () => {
+    this.setState({ openProfile: true })
+  }
+
+  handleClose = () => {
+    this.setState({ openProfile: false })
+  }
+
   sortByName = (a, b) => {
     if (a.staffName < a.staffName) {
       return -1;
@@ -132,15 +145,15 @@ class StaffDetail extends React.Component {
       showMobileDetail,
       isActive,
       hideDetail,
+      logedUser
     } = this.props;
     const {
-      anchorElOpt, open, openChangePassword, showPassword
+      anchorElOpt, open, openChangePassword, showPassword, openProfile
     } = this.state;
     let viewStaffData;
     if (staffData && staffData.length >= 1) {
       viewStaffData = isActive ? staffData.filter(item => item.status === 1) : staffData.filter(item => item.status === 0);
     }
-
     if (viewStaffData && viewStaffData.length >= 1) {
       viewStaffData.sort(this.sortByName);
     }
@@ -149,6 +162,11 @@ class StaffDetail extends React.Component {
       <>
         {viewStaffData && viewStaffData.length >= 1 ? (
           <main className={classNames(classes.content, showMobileDetail ? classes.detailPopup : '')}>
+            <ViewStaffProfile
+              open={openProfile}
+              close={this.handleClose}
+              staffData={viewStaffData[itemSelected]}
+            />
             <div>
               <Dialog
                 open={open}
@@ -226,12 +244,19 @@ class StaffDetail extends React.Component {
               <div className={classes.opt}>
                 {isActive && (
                   <>
+                    <Tooltip title="View Profile">
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleViewProfile()}>
+                        <MoodIcon />
+                      </IconButton>
+                    </Tooltip>
                     <IconButton aria-label="Edit" onClick={() => this.handleChangePassword(viewStaffData[itemSelected]._id)}>
                       <VpnKeyIcon />
                     </IconButton>
-                    <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewStaffData[itemSelected]._id)}>
-                      <DeleteIcon />
-                    </IconButton>
+                    {(logedUser._id !== viewStaffData[itemSelected]._id) &&
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewStaffData[itemSelected]._id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    }
                     <IconButton aria-label="Edit" onClick={() => edit(viewStaffData[itemSelected])}>
                       <Edit />
                     </IconButton>
@@ -418,10 +443,17 @@ class StaffDetail extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  const signInReducer = state.get('signIn');
+  return ({
+    logedUser: signInReducer.staffInfo,
+  });
+};
+
 const StaffDetailFormRedux = reduxForm({
   form: 'staffDetailForm',
   validate,
   enableReinitialize: true
 })(StaffDetail);
 
-export default withStyles(styles)(StaffDetailFormRedux);
+export default withStyles(styles)(connect(mapStateToProps, null)(StaffDetailFormRedux));

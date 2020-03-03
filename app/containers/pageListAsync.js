@@ -132,6 +132,12 @@ export const Attendance = loadable(() =>
   import('./Pages/Reports/attendance'), {
   fallback: <Loading />,
 });
+
+export const StaffAttendance = loadable(() =>
+  import('./Pages/Reports/staffAttendance'), {
+  fallback: <Loading />,
+});
+
 export const MembershipReport = loadable(() =>
   import('./Pages/Reports/membershipReport'), {
   fallback: <Loading />,

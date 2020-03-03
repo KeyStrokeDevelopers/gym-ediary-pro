@@ -1,11 +1,11 @@
 import { toast } from 'react-toastify';
 import {
   FETCH_ACCOUNT_DATA, SEARCH_ACCOUNT_DATA, EDIT_ACCOUNT_DATA, ADD_ACCOUNT_DATA, SET_ACCOUNT_DETAILS_FIELD,
-  ERROR_ACCOUNT_DATA, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT
+  ERROR_ACCOUNT_DATA, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT, SUBMIT_SALARY_DATA, SET_SALARY_DATA
 } from './actionConstants';
 
 import {
-  addAccountApi, getAccountApi, updateAccountDataApi, deleteAccountDataApi
+  addAccountApi, getAccountApi, updateAccountDataApi, deleteAccountDataApi, addSalaryApi, getSalaryDataApi
 } from '../api/account';
 
 const fetchAccountData = accountData => ({
@@ -16,6 +16,16 @@ const fetchAccountData = accountData => ({
 const submitAction = accountData => ({
   type: SUBMIT_ACCOUNT_DATA,
   payload: accountData
+});
+
+const submitSalaryAction = salaryData => ({
+  type: SUBMIT_SALARY_DATA,
+  payload: salaryData
+});
+
+const setSalaryData = salaryData => ({
+  type: SET_SALARY_DATA,
+  payload: salaryData
 });
 
 export const addAccountData = () => ({
@@ -76,6 +86,30 @@ export const submitAccountData = (data) => (dispatch) => {
       autoClose: 2000
     });
     dispatch(submitAction(response.data));
+  })
+    .catch((err) => {
+      viewError(err);
+      dispatch(errorAccountData(err));
+    });
+};
+
+export const submitSalaryData = (data) => (dispatch) => {
+  addSalaryApi(data).then((response) => {
+    toast.success('Salary Pay Successfully !', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000
+    });
+    dispatch(submitSalaryAction(response.data));
+  })
+    .catch((err) => {
+      viewError(err);
+      dispatch(errorAccountData(err));
+    });
+};
+
+export const getSalaryData = (data) => (dispatch) => {
+  getSalaryDataApi(data).then((response) => {
+    dispatch(setSalaryData(response.data));
   })
     .catch((err) => {
       viewError(err);

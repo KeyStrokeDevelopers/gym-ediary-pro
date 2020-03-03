@@ -60,7 +60,6 @@ class AddMember extends React.Component {
       itemSelected,
       enquiryData,
       edit,
-      classData,
       gymInfoData,
       isLoading,
     } = this.props;
@@ -85,7 +84,6 @@ class AddMember extends React.Component {
             itemSelected={itemSelected}
             onDeleteImage={this.handleDeleteImage}
             enquiryData={enquiryData}
-            classData={classData}
             edit={edit}
             addMemberData={addMemberData}
             imgAvatar={img === null ? avatarInit : img}

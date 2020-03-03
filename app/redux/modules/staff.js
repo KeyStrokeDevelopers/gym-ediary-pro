@@ -1,13 +1,15 @@
 import { Map } from 'immutable';
 import {
   FETCH_STAFF_DATA, SEARCH_STAFF_DATA, EDIT_STAFF_DATA, ADD_STAFF_DATA, SET_STAFF_DETAILS_FIELD, FETCH_ACCESS_DATA,
-  SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF
+  SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA
 } from '../../actions/actionConstants';
 
 
 const initialState = {
   staffList: [],
   accessList: [],
+  staffAttendanceData: [],
+  staffProfileAttendanceData: [],
   formValues: {},
   selectedIndex: 0,
   selectedId: '',
@@ -28,8 +30,28 @@ export default function reducer(state = initialState, action = {}) {
         staffList: action.payload,
         formValues: {},
         openFrm: false,
+        selectedIndex: 0,
         isLoading: false
       };
+
+    case SET_STAFF_ATTENDANCE_DATA:
+      return {
+        ...state,
+        staffAttendanceData: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false
+      };
+
+    case SET_STAFF_PROFILE_ATTENDANCE_DATA:
+      return {
+        ...state,
+        staffProfileAttendanceData: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false
+      };
+
     case SEARCH_STAFF_DATA:
       return {
         ...state,

@@ -17,7 +17,7 @@ export const getRegistrationDataApi = (data) => axios.post(`${API_URL}/reports/r
 
 export const markAttendanceApi = (data) => axios.post(`${API_URL}/attendance`, data, getConfig());
 
-export const getAttendanceApi = (memberId) => axios.get(`${API_URL}/attendance/${memberId}`, getConfig());
+export const getAttendanceApi = (data) => axios.post(`${API_URL}/attendance/getAttendance`, data, getConfig());
 
 export const getRenewalDataApi = (data) => axios.post(`${API_URL}/reports/renewal`, data, getConfig());
 

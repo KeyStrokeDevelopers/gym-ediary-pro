@@ -20,6 +20,8 @@ const gymInfoField = [
   { primary: 'biometric' },
   { primary: 'walletBalance' },
   { primary: 'status' },
+  { primary: 'membershipTC' },
+  { primary: 'billingTC' },
 ];
 
 export default gymInfoField;

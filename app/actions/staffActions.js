@@ -1,10 +1,10 @@
 import { toast } from 'react-toastify';
 import {
   FETCH_STAFF_DATA, SEARCH_STAFF_DATA, EDIT_STAFF_DATA, ADD_STAFF_DATA, SET_STAFF_DETAILS_FIELD,
-  ERROR_STAFF_DATA, SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, FETCH_ACCESS_DATA
+  ERROR_STAFF_DATA, SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, FETCH_ACCESS_DATA, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA
 } from './actionConstants';
 import {
-  addStaffApi, getStaffApi, updateStaffDataApi, deleteStaffDataApi, fetchAccessDataApi, changePasswordApi
+  addStaffApi, getStaffApi, updateStaffDataApi, deleteStaffDataApi, fetchAccessDataApi, changePasswordApi, getStaffAttendanceDataApi, markStaffAttendanceApi, fetchStaffAttendanceDataApi
 } from '../api/staff';
 
 const fetchStaffData = staffData => ({
@@ -62,6 +62,16 @@ export const hideDetailAction = () => ({
 const setAccessData = (accessData) => ({
   type: FETCH_ACCESS_DATA,
   payload: accessData
+});
+
+const setStaffAttendanceData = (attendanceData) => ({
+  type: SET_STAFF_ATTENDANCE_DATA,
+  payload: attendanceData
+});
+
+const setStaffProfileAttendanceData = (attendanceData) => ({
+  type: SET_STAFF_PROFILE_ATTENDANCE_DATA,
+  payload: attendanceData
 });
 
 const viewError = (error) => {
@@ -138,6 +148,33 @@ export const changePassword = (newPassword, staffId) => (dispatch) => {
       autoClose: 2000
     });
     dispatch(fetchStaffData(response.data.staffData));
+  }).catch((err) => {
+    viewError(err);
+    dispatch(errorStaffData(err));
+  });
+};
+
+export const getStaffAttendanceData = (date) => (dispatch) => {
+  getStaffAttendanceDataApi(date).then((response) => {
+    dispatch(setStaffAttendanceData(response.data));
+  }).catch((err) => {
+    viewError(err);
+    dispatch(errorStaffData(err));
+  });
+};
+
+export const fetchStaffAttendanceData = (data) => (dispatch) => {
+  fetchStaffAttendanceDataApi(data).then((response) => {
+    dispatch(setStaffProfileAttendanceData(response.data));
+  }).catch((err) => {
+    viewError(err);
+    dispatch(errorStaffData(err));
+  });
+};
+
+export const markAttendance = (data) => (dispatch) => {
+  markStaffAttendanceApi(data).then((response) => {
+    dispatch(setStaffAttendanceData(response.data));
   }).catch((err) => {
     viewError(err);
     dispatch(errorStaffData(err));

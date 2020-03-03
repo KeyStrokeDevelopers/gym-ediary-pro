@@ -1,11 +1,12 @@
 import { Map } from 'immutable';
 import {
-  FETCH_ACCOUNT_DATA, SEARCH_ACCOUNT_DATA, EDIT_ACCOUNT_DATA, ADD_ACCOUNT_DATA, SET_ACCOUNT_DETAILS_FIELD, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT
+  FETCH_ACCOUNT_DATA, SEARCH_ACCOUNT_DATA, EDIT_ACCOUNT_DATA, ADD_ACCOUNT_DATA, SET_ACCOUNT_DETAILS_FIELD, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT, SUBMIT_SALARY_DATA, SET_SALARY_DATA
 } from '../../actions/actionConstants';
 
 
 const initialState = {
   accountList: [],
+  salaryList: [],
   formValues: {},
   selectedIndex: 0,
   selectedId: '',
@@ -88,6 +89,27 @@ export default function reducer(state = initialState, action = {}) {
         isActive: action.payload,
         selectedIndex: 0
 
+      };
+    }
+
+    case SUBMIT_SALARY_DATA: {
+      return {
+        ...state,
+        salaryList: [...state.salaryList, action.payload],
+        openFrm: false,
+        formValues: {},
+        avatarInit: '',
+        isLoading: false
+      };
+    }
+
+    case SET_SALARY_DATA: {
+      return {
+        ...state,
+        salaryList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false
       };
     }
 

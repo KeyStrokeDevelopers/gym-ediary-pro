@@ -3,7 +3,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form/immutable';
+import { reduxForm, Field, FieldArray } from 'redux-form/immutable';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import PermContactCalendar from '@material-ui/icons/PermContactCalendar';
 import Bookmark from '@material-ui/icons/Bookmark';
@@ -25,10 +25,9 @@ import FormControl from '@material-ui/core/FormControl';
 import styles from './contact-jss';
 import { validate, phoneNumber, email } from '../Forms/helpers/formValidation';
 import {
-  TextFieldRedux, RegularTextFieldRedux, DatePickerInput, SelectRedux
+  TextFieldRedux, RegularTextFieldRedux, DatePickerInput, SelectRedux, TimePickerInput
 } from '../Forms/ReduxFormMUI';
 import { SERVER_URL } from '../Common/constant';
-
 
 class AddStaffForm extends React.Component {
   saveRef = ref => {
@@ -44,6 +43,13 @@ class AddStaffForm extends React.Component {
     salaryDate: null,
     editImage: false,
     deleteImage: false,
+    numberOfShift: 1,
+    shiftFrom1: null,
+    shiftTo1: null,
+    shiftFrom2: null,
+    shiftTo2: null,
+    shiftFrom3: null,
+    shiftTo3: null,
   };
 
   handleClickShowPassword = () => {
@@ -77,6 +83,44 @@ class AddStaffForm extends React.Component {
     this.setState({ deleteImage: true });
   }
 
+  selectedNumberOfShift = (e, numberOfShift) => {
+    this.setState({ numberOfShift })
+  }
+
+  handleShiftFrom1 = (e, shiftFrom1) => {
+    this.setState({ shiftFrom1 });
+  }
+  handleShiftFrom2 = (e, shiftFrom2) => {
+    this.setState({ shiftFrom2 });
+  }
+  handleShiftFrom3 = (e, shiftFrom3) => {
+    this.setState({ shiftFrom3 });
+  }
+
+  handleShiftTo1 = (e, shiftTo1) => {
+    this.setState({ shiftTo1 });
+  }
+  handleShiftTo2 = (e, shiftTo2) => {
+    this.setState({ shiftTo2 });
+  }
+  handleShiftTo3 = (e, shiftTo3) => {
+    this.setState({ shiftTo3 });
+  }
+
+  handleFieldRemove = () => {
+    this.setState((preState) => ({ numberOfShift: preState.numberOfShift - 1 }));
+  }
+
+  handleAddField = () => {
+    this.setState((preState) => ({ numberOfShift: preState.numberOfShift + 1 }));
+  }
+
+  handleSubmitData = (data) => {
+    const { onSubmit, numberOfShift } = this.props;
+    const submitData = data.set('numberOfShift', numberOfShift);
+    onSubmit(submitData);
+  }
+
   render() {
     const {
       classes,
@@ -92,7 +136,7 @@ class AddStaffForm extends React.Component {
       imgAvatar
     } = this.props;
     const {
-      showPassword, joiningDate, dob, salaryDate, deleteImage, editImage
+      showPassword, joiningDate, dob, salaryDate, deleteImage, editImage, numberOfShift, shiftFrom1, shiftTo1, shiftFrom2, shiftTo2, shiftFrom3, shiftTo3
     } = this.state;
     let dropzoneRef;
     const acceptedFiles = ['image/jpeg', 'image/png', 'image/bmp'];
@@ -119,7 +163,7 @@ class AddStaffForm extends React.Component {
     };
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleSubmitData)}>
           <section className={css.bodyForm}>
             <div>
               <Typography display="block" variant="button" className={Type.textCenter}>Upload Profile Picture</Typography>
@@ -223,6 +267,94 @@ class AddStaffForm extends React.Component {
                 }}
               />
             </div>
+            {(numberOfShift < 3) &&
+              <div style={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }}>
+                <Button variant="contained" color="primary" type="button" disabled={submitting} onClick={() => this.handleAddField()}>
+                  Add Shift
+            </Button>
+              </div>
+            }
+            {(numberOfShift >= 1) &&
+              <div style={{ display: 'flex' }}>
+                <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
+                  <Field
+                    name={'shiftFrom1'}
+                    label="Shift From"
+                    autoComplete="off"
+                    component={TimePickerInput}
+                    onChange={this.handleShiftFrom1}
+                    timeValue={shiftFrom1}
+                  />
+                </div>
+                <div className={classes.picker} style={{ width: '50%' }}>
+                  <Field
+                    name={'shiftTo1'}
+                    label="Shift To"
+                    autoComplete="off"
+                    component={TimePickerInput}
+                    onChange={this.handleShiftTo1}
+                    timeValue={shiftTo1}
+                  />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <DeleteIcon style={{ color: '#f56049', cursor: 'pointer' }} variant="contained" type="button" onClick={() => this.handleFieldRemove()} />
+                </div>
+              </div>
+            }
+            {(numberOfShift >= 2) &&
+              <div style={{ display: 'flex' }}>
+                <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
+                  <Field
+                    name={'shiftFrom2'}
+                    label="Shift From"
+                    autoComplete="off"
+                    component={TimePickerInput}
+                    onChange={this.handleShiftFrom2}
+                    timeValue={shiftFrom2}
+                  />
+                </div>
+                <div className={classes.picker} style={{ width: '50%' }}>
+                  <Field
+                    name={'shiftTo2'}
+                    label="Shift To"
+                    autoComplete="off"
+                    component={TimePickerInput}
+                    onChange={this.handleShiftTo2}
+                    timeValue={shiftTo2}
+                  />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <DeleteIcon style={{ color: '#f56049', cursor: 'pointer' }} variant="contained" type="button" onClick={() => this.handleFieldRemove()} />
+                </div>
+              </div>
+            }
+            {(numberOfShift >= 3) &&
+              <div style={{ display: 'flex' }}>
+                <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
+                  <Field
+                    name={'shiftFrom3'}
+                    label="Shift From"
+                    autoComplete="off"
+                    component={TimePickerInput}
+                    onChange={this.handleShiftFrom3}
+                    timeValue={shiftFrom3}
+                  />
+                </div>
+                <div className={classes.picker} style={{ width: '50%' }}>
+                  <Field
+                    name={'shiftTo3'}
+                    label="Shift To"
+                    autoComplete="off"
+                    component={TimePickerInput}
+                    onChange={this.handleShiftTo3}
+                    timeValue={shiftTo3}
+                  />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <DeleteIcon style={{ color: '#f56049', cursor: 'pointer' }} variant="contained" type="button" onClick={() => this.handleFieldRemove()} />
+                </div>
+              </div>
+            }
             <div>
               <Field
                 name="staffAddress"
@@ -349,7 +481,7 @@ class AddStaffForm extends React.Component {
             </Button>
           </div>
         </form>
-      </div>
+      </div >
     );
   }
 }
@@ -358,7 +490,8 @@ class AddStaffForm extends React.Component {
 const AddStaffFormRedux = reduxForm({
   form: 'addStaffForm',
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
 })(AddStaffForm);
 
 const AddStaffInit = connect(
