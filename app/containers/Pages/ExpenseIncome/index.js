@@ -102,7 +102,7 @@ class ExpenseIncome extends React.Component {
             isActive={isActive}
             showDetail={showDetail}
             search={search}
-            isFollowUp={is_active}
+            is_active={is_active}
             keyword={keyword}
           />
           <ExpenseIncomeDetail
@@ -112,7 +112,7 @@ class ExpenseIncome extends React.Component {
             deleteExpenseIncomeData={deleteExpenseIncomeData}
             itemSelected={itemSelected}
             edit={edit}
-            isFollowUp={is_active}
+            is_active={is_active}
             remove={remove}
             favorite={favorite}
           />

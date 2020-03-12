@@ -470,7 +470,7 @@ class GymInfoForm extends React.Component {
             </Fragment>
             <div className={css.buttonArea}>
               <Button variant="contained" color="secondary" type="submit" disabled={submitting}>
-                Submit
+                Update
               </Button>
               <Button
                 type="button"

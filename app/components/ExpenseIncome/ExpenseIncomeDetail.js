@@ -87,7 +87,7 @@ class ExpenseIncomeDetail extends React.Component {
       edit,
       favorite,
       showMobileDetail,
-      isFollowUp,
+      is_active,
       hideDetail,
     } = this.props;
     const { anchorElOpt, open } = this.state;
@@ -95,7 +95,7 @@ class ExpenseIncomeDetail extends React.Component {
     let viewExpenseIncomeData;
 
     if (expenseIncomeData && expenseIncomeData.length >= 1) {
-      viewExpenseIncomeData = isFollowUp ? expenseIncomeData.filter(item => item.followUp) : expenseIncomeData;
+      viewExpenseIncomeData = is_active ? expenseIncomeData.filter(item => item.status === 1) : expenseIncomeData;
     }
     return (
       <>
@@ -180,9 +180,9 @@ class ExpenseIncomeDetail extends React.Component {
                     </Avatar>
                   </ListItemAvatar>
                   <Typography className={classes.userName} variant="h6">
-                    {viewExpenseIncomeData[itemSelected].contact}
+                    {viewExpenseIncomeData[itemSelected].amount}
                     <Typography display="block" variant="caption">
-                      {viewExpenseIncomeData[itemSelected].name}
+                      {viewExpenseIncomeData[itemSelected].paymentMethod['paymentMethod']}
                     </Typography>
                   </Typography>
                 </Hidden>
@@ -196,9 +196,9 @@ class ExpenseIncomeDetail extends React.Component {
                       </Avatar>
                     </ListItemAvatar>
                     <Typography variant="h5">
-                      {viewExpenseIncomeData[itemSelected].contact}
+                      {viewExpenseIncomeData[itemSelected].amount}
                       <Typography display="block" variant="caption">
-                        {viewExpenseIncomeData[itemSelected].name}
+                        {viewExpenseIncomeData[itemSelected].paymentMethod['paymentMethod']}
                       </Typography>
                     </Typography>
                   </div>
@@ -210,7 +210,7 @@ class ExpenseIncomeDetail extends React.Component {
                         <Bookmark />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].name} secondary="NAME" />
+                    <ListItemText primary={viewExpenseIncomeData[itemSelected].amount} secondary="Amount" />
                   </ListItem>
                   <Divider variant="inset" />
                   <ListItem>
@@ -219,7 +219,7 @@ class ExpenseIncomeDetail extends React.Component {
                         <Bookmark />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].contact} secondary="CONTACT" />
+                    <ListItemText primary={viewExpenseIncomeData[itemSelected].paymentMethod['paymentMethod']} secondary="Payment Method" />
                   </ListItem>
                   <Divider variant="inset" />
                   <ListItem>
@@ -228,7 +228,7 @@ class ExpenseIncomeDetail extends React.Component {
                         <Work />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].favourOf} secondary="FAVOUR OF" />
+                    <ListItemText primary={viewExpenseIncomeData[itemSelected].description} secondary="DISCRIPTION" />
                   </ListItem>
                   <Divider variant="inset" />
                   <ListItem>
@@ -237,100 +237,9 @@ class ExpenseIncomeDetail extends React.Component {
                         <Work />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].alternativeContact} secondary="ALTERNATIVE CONTACT" />
+                    <ListItemText primary={new Date(viewExpenseIncomeData[itemSelected].date).toLocaleDateString()} secondary="DATE" />
                   </ListItem>
                   <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].email} secondary="Email" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].dob} secondary="DATE OF BIRTH" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].address} secondary="ADDRESS" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].packageInfo && viewExpenseIncomeData[itemSelected].packageInfo.packName} secondary="PACKAGE" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].purpose && viewExpenseIncomeData[itemSelected].purpose.purposeName} secondary="PURPOSE" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].query} secondary="QUERY" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].response} secondary="RESPONSE" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].followUp} secondary="FOLLOW UP" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].followUpDate} secondary="FOLLOW UP DATE" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewExpenseIncomeData[itemSelected].referredBy} secondary="REERRED BY" />
-                  </ListItem>
-                  <Divider variant="inset" />
-
                 </List>
               </div>
             </main>

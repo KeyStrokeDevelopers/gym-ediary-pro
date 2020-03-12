@@ -41,18 +41,18 @@ class ExpenseIncomeDataList extends React.Component {
       keyword,
       clippedRight,
       addExpenseIncomeData,
-      isFollowUp,
+      is_active,
       addFn, total
     } = this.props;
     const { filter } = this.state;
     let expenseIncomeData;
 
     if (expenseIncomeDataList && expenseIncomeDataList.length >= 1) {
-      expenseIncomeData = isFollowUp ? expenseIncomeDataList.filter(item => item.followUp) : expenseIncomeDataList;
+      expenseIncomeData = is_active ? expenseIncomeDataList.filter(item => item.status === 1) : expenseIncomeDataList;
     }
     const getItem = dataArray => dataArray.map((data, ind) => {
       const index = expenseIncomeData.indexOf(data);
-      if (data.name.toLowerCase().indexOf(keyword) === -1) {
+      if (data.paymentMethod['paymentMethod'].toLowerCase().indexOf(keyword) === -1) {
         return false;
       }
       return (
@@ -65,7 +65,7 @@ class ExpenseIncomeDataList extends React.Component {
           <ListItemAvatar>
             <Avatar alt="Vfgf" src="" className={classes.avatar} />
           </ListItemAvatar>
-          <ListItemText primary={data.contact} secondary={data.name} />
+          <ListItemText primary={data.amount} secondary={data.paymentMethod['paymentMethod']} />
         </ListItem>
       );
     });
@@ -110,7 +110,7 @@ class ExpenseIncomeDataList extends React.Component {
           </div>
         </Drawer>
         <BottomNavigation value={filter} onChange={this.handleChange} className={classes.bottomFilter}>
-          <BottomNavigationAction label="Follow Up" value={1} icon={<PermContactCalendar />} />
+          <BottomNavigationAction label="Active" value={1} icon={<PermContactCalendar />} />
           <BottomNavigationAction label="All ExpenseIncome" value={0} icon={<DeleteIcon />} />
         </BottomNavigation>
       </Fragment>
