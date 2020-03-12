@@ -1,6 +1,8 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
-  FETCH_CLASS_DATA, SEARCH_CLASS_DATA, EDIT_CLASS_DATA, ADD_CLASS_DATA, SET_CLASS_DETAILS_FIELD, SHOW_DETAIL_CLASS, HIDE_DETAIL_CLASS, SUBMIT_CLASS_DATA, CLOSE_CLASS_FORM, LOADING_ACTION_CLASS
+  FETCH_CLASS_DATA, SEARCH_CLASS_DATA, EDIT_CLASS_DATA, ADD_CLASS_DATA, SET_CLASS_DETAILS_FIELD, SHOW_DETAIL_CLASS, HIDE_DETAIL_CLASS, SUBMIT_CLASS_DATA, CLOSE_CLASS_FORM, LOADING_ACTION_CLASS, CLOSE_CLASS_NOTIF, ERROR_CLASS_DATA
 } from '../../actions/actionConstants';
 
 
@@ -14,6 +16,8 @@ const initialState = {
   openFrm: false,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false
 };
@@ -40,7 +44,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_CLASS_DATA:
@@ -59,7 +66,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         classList: [...state.classList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_CLASS:
       return {
@@ -98,6 +108,21 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         showMobileDetail: false
+      };
+    }
+
+    case CLOSE_CLASS_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_CLASS_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_STAFF_DATA, SEARCH_STAFF_DATA, EDIT_STAFF_DATA, ADD_STAFF_DATA, SET_STAFF_DETAILS_FIELD,
-  ERROR_STAFF_DATA, SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, FETCH_ACCESS_DATA, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA
+  ERROR_STAFF_DATA, SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, FETCH_ACCESS_DATA, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA, CLOSE_STAFF_NOTIF, MARK_STAFF_ATTENDANCE
 } from './actionConstants';
 import {
   addStaffApi, getStaffApi, updateStaffDataApi, deleteStaffDataApi, fetchAccessDataApi, changePasswordApi, getStaffAttendanceDataApi, markStaffAttendanceApi, fetchStaffAttendanceDataApi
@@ -42,7 +41,7 @@ export const searchStaffData = staffData => ({
 
 const errorStaffData = error => ({
   type: ERROR_STAFF_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -58,6 +57,9 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_STAFF
 });
 
+export const closeNotifAction = () => ({
+  type: CLOSE_STAFF_NOTIF
+});
 
 const setAccessData = (accessData) => ({
   type: FETCH_ACCESS_DATA,
@@ -69,39 +71,28 @@ const setStaffAttendanceData = (attendanceData) => ({
   payload: attendanceData
 });
 
+const markStaffAttendance = (attendanceData) => ({
+  type: MARK_STAFF_ATTENDANCE,
+  payload: attendanceData
+});
+
 const setStaffProfileAttendanceData = (attendanceData) => ({
   type: SET_STAFF_PROFILE_ATTENDANCE_DATA,
   payload: attendanceData
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
-
 export const fetchAccessData = () => (dispatch) => {
   fetchAccessDataApi().then((response) => {
     dispatch(setAccessData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorStaffData(err));
   });
 };
 
 export const submitStaffData = (data) => (dispatch) => {
   addStaffApi(data).then((response) => {
-    toast.success('Staff Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorStaffData(err));
   });
 };
@@ -110,46 +101,30 @@ export const getStaffData = () => (dispatch) => {
   getStaffApi().then((response) => {
     dispatch(fetchStaffData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorStaffData(err));
   });
 };
 
 export const updateStaffData = (data) => (dispatch) => {
   updateStaffDataApi(data).then((response) => {
-    toast.success('Staff Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchStaffData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorStaffData(err));
   });
 };
 
 export const deleteStaffData = (data) => (dispatch) => {
   deleteStaffDataApi(data).then((response) => {
-    toast.success('Staff Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchStaffData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorStaffData(err));
   });
 };
 
 export const changePassword = (newPassword, staffId) => (dispatch) => {
   changePasswordApi(newPassword, staffId).then((response) => {
-    toast.success(response.data.message, {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchStaffData(response.data.staffData));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorStaffData(err));
   });
 };
@@ -158,7 +133,6 @@ export const getStaffAttendanceData = (date) => (dispatch) => {
   getStaffAttendanceDataApi(date).then((response) => {
     dispatch(setStaffAttendanceData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorStaffData(err));
   });
 };
@@ -167,16 +141,14 @@ export const fetchStaffAttendanceData = (data) => (dispatch) => {
   fetchStaffAttendanceDataApi(data).then((response) => {
     dispatch(setStaffProfileAttendanceData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorStaffData(err));
   });
 };
 
 export const markAttendance = (data) => (dispatch) => {
   markStaffAttendanceApi(data).then((response) => {
-    dispatch(setStaffAttendanceData(response.data));
+    dispatch(markStaffAttendance(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorStaffData(err));
   });
 };

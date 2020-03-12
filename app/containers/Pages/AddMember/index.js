@@ -17,14 +17,15 @@ import {
   loadingAction,
   hideDetailAction,
   setFilterValue,
-  getGymInfoData
+  getGymInfoData,
+  closeNotifAction
 } from 'dan-actions/addMemberActions';
 import { getPurposeData } from 'dan-actions/purposeActions';
 import { getPackageData } from 'dan-actions/vendorPackageActions.js';
 import { getEnquiryData } from 'dan-actions/EnquiryActions';
 import { getPaymentMethodData } from 'dan-actions/paymentMethodActions';
 import styles from 'dan-components/Contact/contact-jss';
-import { Notification } from 'dan-components';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import AddMember from '../../../components/AddMember/AddMember';
 import AddMemberDataList from '../../../components/AddMember/AddMemberDataList';
 import AddMemberDetail from '../../../components/AddMember/AddMemberDetail';
@@ -93,8 +94,10 @@ class Member extends React.Component {
       showDetails,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       isLoading
     } = this.props;
     return (
@@ -107,7 +110,7 @@ class Member extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <AddMemberDataList
             addFn
@@ -181,6 +184,8 @@ const mapStateToProps = state => {
     open: addMemberReducer.openFrm,
     showMobileDetail: addMemberReducer.showMobileDetail,
     messageNotif: addMemberReducer.notifMsg,
+    notifType: addMemberReducer.notifType,
+    openNoti: addMemberReducer.openNoti,
     formValue: addMemberReducer.formValues,
     occupationData: addMemberReducer.occupation,
     is_active: addMemberReducer.isActive,
@@ -213,7 +218,8 @@ const constDispatchToProps = dispatch => ({
   fetchEnquiryData: () => dispatch(getEnquiryData()),
   fetchPaymentMethodData: () => dispatch(getPaymentMethodData()),
   fetchGymInfoData: () => dispatch(getGymInfoData()),
-  filterValue: (value) => dispatch(setFilterValue(value))
+  filterValue: (value) => dispatch(setFilterValue(value)),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const AddMemberMapped = connect(

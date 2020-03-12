@@ -1,7 +1,9 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PAYMENT_METHOD_DATA, SEARCH_PAYMENT_METHOD_DATA, EDIT_PAYMENT_METHOD_DATA, ADD_PAYMENT_METHOD_DATA, SET_PAYMENT_METHOD_DETAILS_FIELD,
-  SHOW_DETAIL_PAYMENT_METHOD, HIDE_DETAIL_PAYMENT_METHOD, SUBMIT_PAYMENT_METHOD_DATA, CLOSE_PAYMENT_METHOD_FORM, LOADING_ACTION_PAYMENT_METHOD
+  SHOW_DETAIL_PAYMENT_METHOD, HIDE_DETAIL_PAYMENT_METHOD, SUBMIT_PAYMENT_METHOD_DATA, CLOSE_PAYMENT_METHOD_FORM, LOADING_ACTION_PAYMENT_METHOD, CLOSE_PAYMENT_METHOD_NOTIF, ERROR_PAYMENT_METHOD_DATA
 } from '../../actions/actionConstants';
 
 
@@ -15,6 +17,8 @@ const initialState = {
   openFrm: false,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false
 };
@@ -41,7 +45,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_PAYMENT_METHOD_DATA:
@@ -60,7 +67,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         paymentMethodList: [...state.paymentMethodList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_PAYMENT_METHOD:
       return {
@@ -99,6 +109,21 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         showMobileDetail: false
+      };
+    }
+
+    case CLOSE_PAYMENT_METHOD_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_PAYMENT_METHOD_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

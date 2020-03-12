@@ -1,9 +1,11 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_CLASS_SUBSCRIPTION_DATA, SEARCH_CLASS_SUBSCRIPTION_DATA, EDIT_CLASS_SUBSCRIPTION_DATA, ADD_CLASS_SUBSCRIPTION_DATA, SET_CLASS_SUBSCRIPTION_DETAILS_FIELD,
-  SHOW_DETAIL_CLASS_SUBSCRIPTION, HIDE_DETAIL_CLASS_SUBSCRIPTION, SUBMIT_CLASS_SUBSCRIPTION_DATA, CLOSE_CLASS_SUBSCRIPTION_FORM, LOADING_ACTION_CLASS_SUBSCRIPTION
+  SHOW_DETAIL_CLASS_SUBSCRIPTION, HIDE_DETAIL_CLASS_SUBSCRIPTION, SUBMIT_CLASS_SUBSCRIPTION_DATA, CLOSE_CLASS_SUBSCRIPTION_FORM, LOADING_ACTION_CLASS_SUBSCRIPTION, CLOSE_CLASS_SUBSCRIPTION_NOTIF,
+  ERROR_CLASS_SUBSCRIPTION_DATA
 } from '../../actions/actionConstants';
-
 
 const initialState = {
   classSubscriptionList: [],
@@ -15,6 +17,8 @@ const initialState = {
   openFrm: false,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false
 };
@@ -41,8 +45,11 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
         // .set('avatarInit', action.item.get('avatar'));
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
       };
     case ADD_CLASS_SUBSCRIPTION_DATA:
       return {
@@ -60,7 +67,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         classSubscriptionList: [...state.classSubscriptionList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true,
       };
     case LOADING_ACTION_CLASS_SUBSCRIPTION:
       return {
@@ -86,6 +96,13 @@ export default function reducer(state = initialState, action = {}) {
         avatarInit: ''
       };
 
+    case CLOSE_CLASS_SUBSCRIPTION_NOTIF: {
+      return {
+        ...state,
+        openNoti: false
+      };
+    }
+
     case SET_CLASS_SUBSCRIPTION_DETAILS_FIELD: {
       return {
         ...state,
@@ -102,25 +119,14 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
 
-    // case DELETE_CLASS_SUBSCRIPTION_DATA:
-    //     return state.withMutations((mutableState) => {
-    //         const index = state.get('contactList').indexOf(action.item);
-    //         mutableState
-    //             .update('contactList', contactList => contactList.splice(index, 1))
-    //             .set('notifMsg', notif.removed);
-    //     });
-    // case TOGGLE_FAVORITE_CLASS_SUBSCRIPTION:
-    //     return state.withMutations((mutableState) => {
-    //         const index = state.get('contactList').indexOf(action.item);
-    //         mutableState.update('contactList', contactList => contactList
-    //             .setIn([index, 'favorited'], !state.getIn(['contactList', index, 'favorited']))
-    //         );
-    //     });
-    // case CLOSE_NOTIF:
-    //     return state.withMutations((mutableState) => {
-    //         mutableState.set('notifMsg', '');
-    //     });
-
+    case ERROR_CLASS_SUBSCRIPTION_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
+      };
+    }
 
     default:
       return state;

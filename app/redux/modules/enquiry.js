@@ -1,7 +1,9 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_ENQUIRY_DATA, SEARCH_ENQUIRY_DATA, EDIT_ENQUIRY_DATA, ADD_ENQUIRY_DATA, SET_ENQUIRY_DETAILS_FIELD,
-  SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, HANDLE_FROM_TO_FILTER
+  SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, HANDLE_FROM_TO_FILTER, CLOSE_ENQUIRY_NOTIF, ERROR_ENQUIRY_DATA
 } from '../../actions/actionConstants';
 
 
@@ -15,6 +17,8 @@ const initialState = {
   openFrm: true,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false,
   fromToDate: {}
@@ -42,7 +46,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_ENQUIRY_DATA:
@@ -61,7 +68,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         enquiryList: [...state.enquiryList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_ENQUIRY:
       return {
@@ -104,6 +114,21 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         fromToDate: action.payload
+      };
+    }
+
+    case CLOSE_ENQUIRY_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_ENQUIRY_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

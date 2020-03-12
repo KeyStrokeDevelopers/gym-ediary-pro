@@ -16,14 +16,15 @@ import {
   deleteWorkoutNutritionData,
   setDetailField,
   loadingAction,
-  hideDetailAction
+  hideDetailAction,
+  closeNotifAction
 } from 'dan-actions/workoutNutritionActions';
-import { Notification } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
 import { getPurposeData } from '../../../actions/purposeActions';
 import WorkoutNutritionList from '../../../components/WorkoutNutrition/WorkoutNutritionList';
 import WorkoutNutritionHeader from '../../../components/WorkoutNutrition/WorkoutNutritionProfileHeader';
 import WorkoutNutrition from '../../../components/WorkoutNutrition/WorkoutNutrition';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 
 class WorkoutNutritionProfile extends React.Component {
   state = {
@@ -40,11 +41,6 @@ class WorkoutNutritionProfile extends React.Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  handleReply = () => {
-    const { compose } = this.props;
-    compose();
-  }
-
   submitWorkoutNutritionData = (data) => {
     const {
       submitData, formValues, updateData, loading
@@ -55,8 +51,6 @@ class WorkoutNutritionProfile extends React.Component {
       loading();
       submitData(data);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
@@ -65,9 +59,6 @@ class WorkoutNutritionProfile extends React.Component {
     const {
       classes,
       workoutNutritionData,
-      emailData,
-      openMail,
-      moveTo,
       toggleStar,
       currentPage,
       memberData,
@@ -76,13 +67,14 @@ class WorkoutNutritionProfile extends React.Component {
       add,
       edit,
       close,
-      remove,
       keyword,
       search,
       formValues,
-      closeNotif,
+      deleteWorkoutNutrition,
       messageNotif,
-      deleteWorkoutNutrition
+      notifType,
+      openNoti,
+      closeNotif
     } = this.props;
     return (
       <div>
@@ -94,21 +86,16 @@ class WorkoutNutritionProfile extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <WorkoutNutritionHeader search={search} handleDrawerToggle={this.handleDrawerToggle} />
           <WorkoutNutritionList
-            emailData={emailData}
-            openMail={openMail}
             filterPage={currentPage}
             workoutNutritionData={workoutNutritionData}
             deleteWorkoutNutritionData={deleteWorkoutNutrition}
             edit={edit}
             keyword={keyword}
-            moveTo={moveTo}
-            remove={remove}
             toggleStar={toggleStar}
-            reply={this.handleReply}
           />
           <WorkoutNutrition
             submitData={this.submitWorkoutNutritionData}
@@ -130,9 +117,6 @@ class WorkoutNutritionProfile extends React.Component {
 const mapStateToProps = state => {
   const workoutNutritionReducer = state.get('workoutNutrition');
   return ({
-
-    // force: state, // force state from reducer
-    avatarInit: workoutNutritionReducer.avatarInit,
     workoutNutritionData: workoutNutritionReducer.workoutNutritionList,
     accessData: workoutNutritionReducer.accessList,
     itemSelected: workoutNutritionReducer.selectedIndex,
@@ -140,9 +124,14 @@ const mapStateToProps = state => {
     open: workoutNutritionReducer.openFrm,
     showMobileDetail: workoutNutritionReducer.showMobileDetail,
     messageNotif: workoutNutritionReducer.notifMsg,
+    notifType: workoutNutritionReducer.notifType,
+    openNoti: workoutNutritionReducer.openNoti,
     formValues: workoutNutritionReducer.formValues,
     is_active: workoutNutritionReducer.isActive,
     isLoading: workoutNutritionReducer.isLoading,
+    messageNotif: workoutNutritionReducer.notifMsg,
+    notifType: workoutNutritionReducer.notifType,
+    openNoti: workoutNutritionReducer.openNoti,
     purposeData: state.get('purpose').purposeList
   });
 };
@@ -158,12 +147,10 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addWorkoutNutritionData()),
   close: () => dispatch(closeAction()),
   deleteWorkoutNutrition: (data) => dispatch(deleteWorkoutNutritionData(data)),
-  // remove: bindActionCreators(removeAction, dispatch),
-  // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchWorkoutNutritionData(data)),
-  loading: () => dispatch(loadingAction())
-  // closeNotif: () => dispatch(closeNotifAction),
+  loading: () => dispatch(loadingAction()),
+  closeNotif: () => dispatch(closeNotifAction())
 });
 
 const WorkoutNutritionMapped = connect(

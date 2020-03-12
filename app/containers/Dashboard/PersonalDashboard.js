@@ -19,6 +19,8 @@ import {
 } from 'dan-components';
 import { initialData } from '../../actions/signIn';
 import styles from './dashboard-jss';
+import { closeNotifAction } from '../../actions/signIn';
+import StyledNotif from '../../components/Notification/StyledNotif';
 
 
 class PersonalDashboard extends PureComponent {
@@ -29,9 +31,14 @@ class PersonalDashboard extends PureComponent {
   render() {
     const title = brand.name + ' - Personal Dashboard';
     const description = brand.desc;
-    const { classes } = this.props;
+    const { classes,
+      messageNotif,
+      notifType,
+      openNoti,
+      closeNotif } = this.props;
     return (
       <div>
+        hello test
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -41,6 +48,7 @@ class PersonalDashboard extends PureComponent {
           <meta property="twitter:description" content={description} />
         </Helmet>
         {/* 1st Section */}
+        <StyledNotif close={closeNotif} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <Grid container spacing={3} className={classes.root}>
 
           <Grid item md={6} sm={12} xs={12}>
@@ -83,10 +91,18 @@ PersonalDashboard.propTypes = {
 };
 
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => {
+  const signInReducer = state.get('signIn');
+  return ({
+    messageNotif: signInReducer.notifMsg,
+    notifType: signInReducer.notifType,
+    openNoti: signInReducer.openNoti,
+  });
+}
 
 const constDispatchToProps = dispatch => ({
-  sign_in: () => dispatch(initialData())
+  sign_in: () => dispatch(initialData()),
+  closeNotif: () => dispatch(closeNotifAction())
 });
 
 const PersonalDashboardMapped = connect(

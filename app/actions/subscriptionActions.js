@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_SUBSCRIPTION_DATA, FETCH_SUBSCRIPTION_ACTIVE_DATA, SEARCH_SUBSCRIPTION_DATA, EDIT_SUBSCRIPTION_DATA, ADD_SUBSCRIPTION_DATA, SET_SUBSCRIPTION_DETAILS_FIELD,
-  ERROR_SUBSCRIPTION_DATA, SHOW_DETAIL_SUBSCRIPTION, HIDE_DETAIL_SUBSCRIPTION, CLOSE_SUBSCRIPTION_FORM, LOADING_ACTION_SUBSCRIPTION
+  ERROR_SUBSCRIPTION_DATA, SHOW_DETAIL_SUBSCRIPTION, HIDE_DETAIL_SUBSCRIPTION, CLOSE_SUBSCRIPTION_FORM, LOADING_ACTION_SUBSCRIPTION, CLOSE_SUBSCRIPTION_NOTIF
 } from './actionConstants';
 import {
   addSubscriptionApi, getSubscriptionApi, updateSubscriptionDataApi, deleteSubscriptionDataApi, getSubscriptionActiveApi
@@ -42,7 +41,7 @@ export const searchSubscriptionData = data => ({
 
 const errorSubscriptionData = error => ({
   type: ERROR_SUBSCRIPTION_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -58,70 +57,46 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_SUBSCRIPTION
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
+export const closeNotifAction = () => ({
+  type: CLOSE_SUBSCRIPTION_NOTIF
+});
 
 export const getSubscriptionActiveData = () => (dispatch) => {
   getSubscriptionActiveApi().then((response) => {
     dispatch(fetchSubscriptionActiveData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorSubscriptionData(err));
   });
 };
 
 export const submitSubscriptionData = (data) => (dispatch) => {
   addSubscriptionApi(data).then(() => {
-    toast.success('Subscription Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(getSubscriptionActiveData());
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorSubscriptionData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorSubscriptionData(err));
+  });
 };
 
 export const getMasterPackageData = () => (dispatch) => {
   getSubscriptionApi().then((response) => {
     dispatch(fetchSubscriptionData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorSubscriptionData(err));
   });
 };
 
 export const updateSubscriptionData = (data) => (dispatch) => {
   updateSubscriptionDataApi(data).then((response) => {
-    toast.success('Subscription Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchSubscriptionData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorSubscriptionData(err));
   });
 };
 
 export const deleteSubscriptionData = (data) => (dispatch) => {
   deleteSubscriptionDataApi(data).then((response) => {
-    toast.success('Subscription Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchSubscriptionData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorSubscriptionData(err));
   });
 };

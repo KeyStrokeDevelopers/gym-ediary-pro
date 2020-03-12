@@ -17,15 +17,14 @@ import {
   deletePackageData,
   setDetailField,
   loadingAction,
-  hideDetailAction
+  hideDetailAction,
+  closeNotifAction
 } from 'dan-actions/vendorPackageActions';
-import {
-  AddContact,
-  Notification
-} from 'dan-components';
+import { AddContact } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
 import PackageDataList from '../../../components/Contact/PackageDataList';
 import PackageDetail from '../../../components/Contact/PackageDetail';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 
 class Package extends React.Component {
   componentDidMount() {
@@ -43,8 +42,6 @@ class Package extends React.Component {
       loading();
       submitData(data);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
@@ -70,8 +67,10 @@ class Package extends React.Component {
       favorite,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deletePackageData,
       isLoading
     } = this.props;
@@ -86,7 +85,7 @@ class Package extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <PackageDataList
             addFn
@@ -141,6 +140,8 @@ const mapStateToProps = state => {
     open: packageReducer.openFrm,
     showMobileDetail: packageReducer.showMobileDetail,
     messageNotif: packageReducer.notifMsg,
+    notifType: packageReducer.notifType,
+    openNoti: packageReducer.openNoti,
     formValue: packageReducer.formValues,
     is_active: packageReducer.isActive,
     isLoading: packageReducer.isLoading
@@ -161,8 +162,8 @@ const constDispatchToProps = dispatch => ({
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchPackageData(data)),
-  loading: () => dispatch(loadingAction())
-  // closeNotif: () => dispatch(closeNotifAction),
+  loading: () => dispatch(loadingAction()),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const PackageMapped = connect(

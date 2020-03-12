@@ -17,13 +17,14 @@ import {
   setDetailField,
   loadingAction,
   hideDetailAction,
-  dateFromTo
+  dateFromTo,
+  closeNotifAction
 } from 'dan-actions/EnquiryActions';
 import { getPackageData } from 'dan-actions/vendorPackageActions';
 import { getPurposeData } from 'dan-actions/purposeActions';
 import { getClassData } from 'dan-actions/classActions';
 import styles from 'dan-components/Contact/contact-jss';
-import { Notification } from 'dan-components';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import AddEnquiry from '../../../components/Enquiry/AddEnquiry';
 import EnquiryDataList from '../../../components/Enquiry/EnquiryDataList';
 import EnquiryDetail from '../../../components/Enquiry/EnquiryDetail';
@@ -49,8 +50,6 @@ class Enquiry extends React.Component {
       loading();
       submitData(data);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   handleDateFromToFilter = (date) => {
@@ -83,8 +82,10 @@ class Enquiry extends React.Component {
       classData,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deleteEnquiryData,
       isLoading,
       fromToDate
@@ -99,7 +100,7 @@ class Enquiry extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <EnquiryDataList
             addFn
@@ -161,6 +162,8 @@ const mapStateToProps = state => {
     open: enquiryReducer.openFrm,
     showMobileDetail: enquiryReducer.showMobileDetail,
     messageNotif: enquiryReducer.notifMsg,
+    notifType: enquiryReducer.notifType,
+    openNoti: enquiryReducer.openNoti,
     formValue: enquiryReducer.formValues,
     is_active: enquiryReducer.isActive,
     isLoading: enquiryReducer.isLoading,
@@ -189,8 +192,8 @@ const constDispatchToProps = dispatch => ({
   fetchPurposeData: () => dispatch(getPurposeData()),
   fetchPackageData: () => dispatch(getPackageData()),
   fetchClassData: () => dispatch(getClassData()),
-  dateFromTo: (date) => dispatch(dateFromTo(date))
-  // closeNotif: () => dispatch(closeNotifAction),
+  dateFromTo: (date) => dispatch(dateFromTo(date)),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const EnquiryMapped = connect(

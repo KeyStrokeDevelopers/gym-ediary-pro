@@ -18,16 +18,15 @@ import {
   loadingAction,
   hideDetailAction,
   fetchAccessData,
-  changePassword
+  changePassword,
+  closeNotifAction
 } from 'dan-actions/StaffActions';
-import {
-  AddContact,
-  Notification
-} from 'dan-components';
+import { AddContact } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
 import StaffDataList from '../../../components/Contact/StaffDataList';
 import StaffDetail from '../../../components/Contact/StaffDetail';
 import staffDataField from '../../../components/Contact/FieldData.js';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 
 class Staff extends React.Component {
   componentDidMount() {
@@ -93,8 +92,10 @@ class Staff extends React.Component {
       favorite,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       delete_Staff_Data,
       isLoading
     } = this.props;
@@ -108,7 +109,7 @@ class Staff extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <StaffDataList
             addFn
@@ -117,10 +118,10 @@ class Staff extends React.Component {
             clippedRight
             itemSelected={itemSelected}
             staffDataList={staffData}
-            isActive={isActive}
+            isActiveData={isActiveData}
             showDetail={showDetail}
             search={search}
-            is_active={isActiveData}
+            isActive={isActive}
             keyword={keyword}
           />
           <StaffDetail
@@ -167,6 +168,8 @@ const mapStateToProps = state => {
     open: staffReducer.openFrm,
     showMobileDetail: staffReducer.showMobileDetail,
     messageNotif: staffReducer.notifMsg,
+    notifType: staffReducer.notifType,
+    openNoti: staffReducer.openNoti,
     formValue: staffReducer.formValues,
     isActive: staffReducer.isActive,
     isLoading: staffReducer.isLoading
@@ -188,6 +191,7 @@ const constDispatchToProps = dispatch => ({
   delete_Staff_Data: (data) => dispatch(deleteStaffData(data)),
   isActiveData: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchStaffData(data)),
+  closeNotif: () => dispatch(closeNotifAction()),
   loading: () => dispatch(loadingAction()),
   changePasswordData: (newPassword, staffId) => dispatch(changePassword(newPassword, staffId))
 });

@@ -22,7 +22,8 @@ import {
   validate, email, phoneNumber, pinNumber
 } from './helpers/formValidation';
 import { allIndianState } from '../Common/constant';
-import registration from '../../actions/register';
+import { registration, closeNotifAction } from '../../actions/register';
+import StyledNotif from '../../components/Notification/StyledNotif';
 import styles from './user-jss';
 
 const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
@@ -63,11 +64,16 @@ class RegisterForm extends React.Component {
       handleSubmit,
       pristine,
       submitting,
-      deco
+      deco,
+      messageNotif,
+      notifType,
+      openNoti,
+      closeNotif
     } = this.props;
     const { dob } = this.state
     return (
       <Fragment>
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <Hidden mdUp>
           <NavLink to="/" className={classNames(classes.brand, classes.outer)}>
             <img src={logo} alt={brand.name} />
@@ -269,13 +275,19 @@ class RegisterForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  userInfo: state
-});
-// return state
+const mapStateToProps = (state) => {
+  const registerReducer = state.get('register');
+  return ({
+    userInfo: state,
+    messageNotif: registerReducer.notifMsg,
+    notifType: registerReducer.notifType,
+    openNoti: registerReducer.openNoti
+  });
+}
 
 const mapDispatchToProps = (dispatch) => ({
   register: (userData) => dispatch(registration(userData)),
+  closeNotif: () => dispatch(closeNotifAction())
 });
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(reduxForm({

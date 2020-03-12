@@ -16,15 +16,14 @@ import {
   deletePaymentMethodData,
   setDetailField,
   loadingAction,
-  hideDetailAction
+  hideDetailAction,
+  closeNotifAction
 } from 'dan-actions/paymentMethodActions';
-import {
-  AddContact,
-  Notification
-} from 'dan-components';
+import { AddContact } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
 import PaymentMethodDataList from '../../../components/Contact/PaymentMethodDataList';
 import PaymentMethodDetail from '../../../components/Contact/PaymentMethodDetail';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 
 class PaymentMethod extends React.Component {
   componentDidMount() {
@@ -68,8 +67,10 @@ class PaymentMethod extends React.Component {
       favorite,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deletePaymentMethodData,
       isLoading
     } = this.props;
@@ -84,7 +85,7 @@ class PaymentMethod extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <PaymentMethodDataList
             addFn
@@ -138,6 +139,8 @@ const mapStateToProps = state => {
     open: paymentMethodReducer.openFrm,
     showMobileDetail: paymentMethodReducer.showMobileDetail,
     messageNotif: paymentMethodReducer.notifMsg,
+    notifType: paymentMethodReducer.notifType,
+    openNoti: paymentMethodReducer.openNoti,
     formValue: paymentMethodReducer.formValues,
     is_active: paymentMethodReducer.isActive,
     isLoading: paymentMethodReducer.isLoading
@@ -158,8 +161,8 @@ const constDispatchToProps = dispatch => ({
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchPaymentMethodData(data)),
-  loading: () => dispatch(loadingAction())
-  // closeNotif: () => dispatch(closeNotifAction),
+  loading: () => dispatch(loadingAction()),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const PaymentMethodMapped = connect(

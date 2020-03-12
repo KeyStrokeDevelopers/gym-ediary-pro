@@ -1,7 +1,7 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_WORKOUT_NUTRITION_DATA, SEARCH_WORKOUT_NUTRITION_DATA, EDIT_WORKOUT_NUTRITION_DATA, ADD_WORKOUT_NUTRITION_DATA, SET_WORKOUT_NUTRITION_DETAILS_FIELD,
-  ERROR_WORKOUT_NUTRITION_DATA, SHOW_DETAIL_WORKOUT_NUTRITION, HIDE_DETAIL_WORKOUT_NUTRITION, SUBMIT_WORKOUT_NUTRITION_DATA, CLOSE_WORKOUT_NUTRITION_FORM, LOADING_ACTION_WORKOUT_NUTRITION, FETCH_ACCESS_DATA
+  ERROR_WORKOUT_NUTRITION_DATA, SHOW_DETAIL_WORKOUT_NUTRITION, HIDE_DETAIL_WORKOUT_NUTRITION, SUBMIT_WORKOUT_NUTRITION_DATA, CLOSE_WORKOUT_NUTRITION_FORM, LOADING_ACTION_WORKOUT_NUTRITION, FETCH_ACCESS_DATA,
+  CLOSE_WORKOUT_NUTRITION_NOTIF
 } from './actionConstants';
 import {
   addWorkoutNutritionApi, getWorkoutNutritionApi, updateWorkoutNutritionDataApi, deleteWorkoutNutritionDataApi, fetchAccessDataApi
@@ -42,7 +42,11 @@ export const searchWorkoutNutritionData = workoutNutritionData => ({
 
 const errorWorkoutNutritionData = error => ({
   type: ERROR_WORKOUT_NUTRITION_DATA,
-  payload: error
+  payload: error.response.data.message
+});
+
+export const closeNotifAction = () => ({
+  type: CLOSE_WORKOUT_NUTRITION_NOTIF
 });
 
 export const setDetailField = (data) => ({
@@ -64,34 +68,18 @@ const setAccessData = (accessData) => ({
   payload: accessData
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
-
 export const fetchAccessData = () => (dispatch) => {
   fetchAccessDataApi().then((response) => {
     dispatch(setAccessData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorWorkoutNutritionData(err));
   });
 };
 
 export const submitWorkoutNutritionData = (data) => (dispatch) => {
   addWorkoutNutritionApi(data).then((response) => {
-    toast.success('WorkoutNutrition Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorWorkoutNutritionData(err));
   });
 };
@@ -100,33 +88,22 @@ export const getWorkoutNutritionData = () => (dispatch) => {
   getWorkoutNutritionApi().then((response) => {
     dispatch(fetchWorkoutNutritionData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorWorkoutNutritionData(err));
   });
 };
 
 export const updateWorkoutNutritionData = (data) => (dispatch) => {
   updateWorkoutNutritionDataApi(data).then((response) => {
-    toast.success('WorkoutNutrition Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchWorkoutNutritionData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorWorkoutNutritionData(err));
   });
 };
 
 export const deleteWorkoutNutritionData = (data) => (dispatch) => {
   deleteWorkoutNutritionDataApi(data).then((response) => {
-    toast.success('WorkoutNutrition Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchWorkoutNutritionData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorWorkoutNutritionData(err));
   });
 };

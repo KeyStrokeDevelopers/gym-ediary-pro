@@ -1,7 +1,9 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_MEASUREMENT_DATA, SEARCH_MEASUREMENT_DATA, EDIT_MEASUREMENT_DATA, ADD_MEASUREMENT_DATA, SET_MEASUREMENT_DETAILS_FIELD,
-  SHOW_DETAIL_MEASUREMENT, HIDE_DETAIL_MEASUREMENT, SUBMIT_MEASUREMENT_DATA, CLOSE_MEASUREMENT_FORM, LOADING_ACTION_MEASUREMENT
+  SHOW_DETAIL_MEASUREMENT, HIDE_DETAIL_MEASUREMENT, SUBMIT_MEASUREMENT_DATA, CLOSE_MEASUREMENT_FORM, LOADING_ACTION_MEASUREMENT, CLOSE_MEASUREMENT_NOTIF, ERROR_MEASUREMENT_DATA
 } from '../../actions/actionConstants';
 
 
@@ -14,9 +16,11 @@ const initialState = {
   avatarInit: '',
   openFrm: false,
   showMobileDetail: false,
-  notifMsg: '',
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -41,8 +45,11 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
         // .set('avatarInit', action.item.get('avatar'));
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
       };
     case ADD_MEASUREMENT_DATA:
       return {
@@ -60,7 +67,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         measurementList: [...state.measurementList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_MEASUREMENT:
       return {
@@ -92,6 +102,22 @@ export default function reducer(state = initialState, action = {}) {
         isActive: action.payload,
         selectedIndex: 0
 
+      };
+    }
+
+    case CLOSE_MEASUREMENT_NOTIF: {
+      return {
+        ...state,
+        openNoti: false
+      };
+    }
+
+    case ERROR_MEASUREMENT_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

@@ -1,7 +1,9 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PRODUCT_SHOPING_DATA, SEARCH_PRODUCT_SHOPING_DATA, EDIT_PRODUCT_SHOPING_DATA, ADD_PRODUCT_SHOPING_DATA, SET_PRODUCT_SHOPING_DETAILS_FIELD,
-  SHOW_DETAIL_PRODUCT_SHOPING, SUBMIT_PRODUCT_SHOPING_DATA, CLOSE_PRODUCT_SHOPING_FORM, LOADING_ACTION_PRODUCT_SHOPING, HIDE_DETAIL_PRODUCT_SHOPING, FETCH_PRODUCT_QUANTITY
+  SHOW_DETAIL_PRODUCT_SHOPING, SUBMIT_PRODUCT_SHOPING_DATA, CLOSE_PRODUCT_SHOPING_FORM, LOADING_ACTION_PRODUCT_SHOPING, HIDE_DETAIL_PRODUCT_SHOPING, FETCH_PRODUCT_QUANTITY, CLOSE_PRODUCT_SHOPING_NOTIF, ERROR_PRODUCT_SHOPING_DATA
 } from '../../actions/actionConstants';
 
 
@@ -15,6 +17,8 @@ const initialState = {
   openFrm: false,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   productQuantity: 0,
   isLoading: false
@@ -42,7 +46,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_PRODUCT_SHOPING_DATA:
@@ -61,7 +68,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         productList: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_PRODUCT_SHOPING:
       return {
@@ -104,6 +114,21 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         productQuantity: action.payload.quantity
+      };
+    }
+
+    case CLOSE_PRODUCT_SHOPING_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_PRODUCT_SHOPING_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

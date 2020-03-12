@@ -16,13 +16,12 @@ import {
   deleteClassData,
   setDetailField,
   loadingAction,
-  hideDetailAction
+  hideDetailAction,
+  closeNotifAction
 } from 'dan-actions/ClassActions';
 import { getStaffData } from 'dan-actions/StaffActions';
-import {
-  AddContact,
-  Notification
-} from 'dan-components';
+import { AddContact } from 'dan-components';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import styles from 'dan-components/Contact/contact-jss';
 import ClassDataList from '../../../components/Contact/ClassDataList';
 import ClassDetail from '../../../components/Contact/ClassDetail';
@@ -44,8 +43,7 @@ class Classes extends React.Component {
       loading();
       submitData(data);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
+    const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
@@ -70,8 +68,10 @@ class Classes extends React.Component {
       favorite,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deleteClassData,
       staffData,
       isLoading
@@ -87,7 +87,7 @@ class Classes extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <ClassDataList
             addFn
@@ -143,6 +143,8 @@ const mapStateToProps = state => {
     open: classReducer.openFrm,
     showMobileDetail: classReducer.showMobileDetail,
     messageNotif: classReducer.notifMsg,
+    notifType: classReducer.notifType,
+    openNoti: classReducer.openNoti,
     formValue: classReducer.formValues,
     is_active: classReducer.isActive,
     isLoading: classReducer.isLoading
@@ -164,8 +166,8 @@ const constDispatchToProps = dispatch => ({
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchClassData(data)),
-  loading: () => dispatch(loadingAction())
-  // closeNotif: () => dispatch(closeNotifAction),
+  loading: () => dispatch(loadingAction()),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const ClassMapped = connect(

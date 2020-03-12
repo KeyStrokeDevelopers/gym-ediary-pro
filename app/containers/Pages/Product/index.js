@@ -17,12 +17,13 @@ import {
   loadingAction,
   hideDetailAction,
   setFilterValue,
-  addProductData
+  addProductData,
+  closeNotifAction
 } from 'dan-actions/productActions';
 import { getProductTypeData } from 'dan-actions/productTypeActions';
 import { getBrandUnitData } from 'dan-actions/brandUnitActions';
 import styles from 'dan-components/Contact/contact-jss';
-import { Notification } from 'dan-components';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import Product from '../../../components/ProductShoping/Product';
 import ProductDataList from '../../../components/ProductShoping/ProductDataList';
 import ProductDetail from '../../../components/ProductShoping/ProductDetails';
@@ -74,8 +75,10 @@ class Member extends React.Component {
       showDetails,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deleteProductData,
       isLoading
     } = this.props;
@@ -89,7 +92,7 @@ class Member extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <ProductDataList
             addFn
@@ -147,6 +150,8 @@ const mapStateToProps = state => {
     open: productReducer.openFrm,
     showMobileDetail: productReducer.showMobileDetail,
     messageNotif: productReducer.notifMsg,
+    notifType: productReducer.notifType,
+    openNoti: productReducer.openNoti,
     formValue: productReducer.formValues,
     occupationData: productReducer.occupation,
     is_active: productReducer.isActive,
@@ -175,8 +180,8 @@ const constDispatchToProps = dispatch => ({
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchProductData(data)),
   loading: () => dispatch(loadingAction()),
-  filterValue: (value) => dispatch(setFilterValue(value))
-  // closeNotif: () => dispatch(closeNotifAction),
+  filterValue: (value) => dispatch(setFilterValue(value)),
+  closeNotif: () => dispatch(closeNotifAction),
 });
 
 const ProductMapped = connect(

@@ -7,7 +7,8 @@ import { AdvTable } from 'dan-components';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { getAttendance } from '../../../actions/reportActions';
+import StyledNotif from '../../../components/Notification/StyledNotif';
+import { getAttendance, closeNotifAction } from '../../../actions/reportActions';
 import { DatePickerInput } from '../../../components/Forms/ReduxFormMUI';
 const styles = ({
   root: {
@@ -81,7 +82,10 @@ class Attendance extends Component {
       toDate,
       title
     } = this.state;
-    const { attendanceData, classes } = this.props;
+    const { attendanceData, classes, messageNotif,
+      notifType,
+      openNoti,
+      closeNotif, } = this.props;
     return (
       <div style={{ width: '100%' }}>
         <Helmet>
@@ -92,6 +96,7 @@ class Attendance extends Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div style={{ marginLeft: '10px', marginTop: '10px', width: '100%' }}>
           SELECT FIELD
         </div>
@@ -143,12 +148,16 @@ class Attendance extends Component {
 const mapStateToProps = state => {
   const reportReducer = state.get('reports');
   return ({
-    attendanceData: reportReducer.attendanceList
+    attendanceData: reportReducer.attendanceList,
+    messageNotif: reportReducer.notifMsg,
+    notifType: reportReducer.notifType,
+    openNoti: reportReducer.openNoti,
   });
 };
 
 const mapDispatchToProps = dispatch => ({
   fetchAttendanceData: (data) => dispatch(getAttendance(data)),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const attendanceRedux = reduxForm({

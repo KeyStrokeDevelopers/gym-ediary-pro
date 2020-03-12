@@ -1,7 +1,9 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_BRAND_UNIT_DATA, SEARCH_BRAND_UNIT_DATA, EDIT_BRAND_UNIT_DATA, ADD_BRAND_UNIT_DATA, SET_BRAND_UNIT_DETAILS_FIELD,
-  SHOW_DETAIL_BRAND_UNIT, HIDE_DETAIL_BRAND_UNIT, SUBMIT_BRAND_UNIT_DATA, CLOSE_BRAND_UNIT_FORM, LOADING_ACTION_BRAND_UNIT
+  SHOW_DETAIL_BRAND_UNIT, HIDE_DETAIL_BRAND_UNIT, SUBMIT_BRAND_UNIT_DATA, CLOSE_BRAND_UNIT_FORM, LOADING_ACTION_BRAND_UNIT, CLOSE_BRAND_UNIT_NOTIF, ERROR_BRAND_UNIT_DATA
 } from '../../actions/actionConstants';
 
 
@@ -15,6 +17,8 @@ const initialState = {
   openFrm: false,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false
 };
@@ -41,7 +45,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_BRAND_UNIT_DATA:
@@ -60,7 +67,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         brandUnitList: [...state.brandUnitList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_BRAND_UNIT:
       return {
@@ -96,6 +106,21 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         showMobileDetail: false
+      };
+    }
+
+    case CLOSE_BRAND_UNIT_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_BRAND_UNIT_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_PURPOSE_SUBSCRIPTION_DATA, SEARCH_PURPOSE_SUBSCRIPTION_DATA, EDIT_PURPOSE_SUBSCRIPTION_DATA, ADD_PURPOSE_SUBSCRIPTION_DATA, SET_PURPOSE_SUBSCRIPTION_DETAILS_FIELD,
-  ERROR_PURPOSE_SUBSCRIPTION_DATA, SHOW_DETAIL_PURPOSE_SUBSCRIPTION, HIDE_DETAIL_PURPOSE_SUBSCRIPTION, SUBMIT_PURPOSE_SUBSCRIPTION_DATA, CLOSE_PURPOSE_SUBSCRIPTION_FORM, LOADING_ACTION_PURPOSE_SUBSCRIPTION
+  ERROR_PURPOSE_SUBSCRIPTION_DATA, SHOW_DETAIL_PURPOSE_SUBSCRIPTION, HIDE_DETAIL_PURPOSE_SUBSCRIPTION, SUBMIT_PURPOSE_SUBSCRIPTION_DATA, CLOSE_PURPOSE_SUBSCRIPTION_FORM, LOADING_ACTION_PURPOSE_SUBSCRIPTION, CLOSE_PURPOSE_SUBSCRIPTION_NOTIF
 } from './actionConstants';
 
 import {
@@ -43,7 +42,7 @@ export const searchPurposeSubscriptionData = purposeSubscriptionData => ({
 
 const errorPurposeSubscriptionData = error => ({
   type: ERROR_PURPOSE_SUBSCRIPTION_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -59,61 +58,38 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_PURPOSE_SUBSCRIPTION
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
+export const closeNotifAction = () => ({
+  type: CLOSE_PURPOSE_SUBSCRIPTION_NOTIF
+});
 
 export const submitPurposeSubscriptionData = (data) => (dispatch) => {
   addPurposeSubscriptionApi(data).then((response) => {
-    toast.success('PurposeSubscription Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorPurposeSubscriptionData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorPurposeSubscriptionData(err));
+  });
 };
 
 export const getPurposeSubscriptionData = () => (dispatch) => {
   getPurposeSubscriptionApi().then((response) => {
     dispatch(fetchPurposeSubscriptionData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPurposeSubscriptionData(err));
   });
 };
 
 export const updatePurposeSubscriptionData = (data) => (dispatch) => {
   updatePurposeSubscriptionDataApi(data).then((response) => {
-    toast.success('PurposeSubscription Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchPurposeSubscriptionData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPurposeSubscriptionData(err));
   });
 };
 
 export const deletePurposeSubscriptionData = (data) => (dispatch) => {
   deletePurposeSubscriptionDataApi(data).then((response) => {
-    toast.success('PurposeSubscription Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchPurposeSubscriptionData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPurposeSubscriptionData(err));
   });
 };

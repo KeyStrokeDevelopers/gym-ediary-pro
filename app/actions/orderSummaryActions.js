@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_ORDER_SUMMARY_DATA, SEARCH_ORDER_SUMMARY_DATA, EDIT_ORDER_SUMMARY_DATA, ADD_ORDER_SUMMARY_DATA, SET_ORDER_SUMMARY_DETAILS_FIELD,
-  ERROR_ORDER_SUMMARY_DATA, SHOW_DETAIL_ORDER_SUMMARY, HIDE_DETAIL_ORDER_SUMMARY, SUBMIT_ORDER_SUMMARY_DATA, CLOSE_ORDER_SUMMARY_FORM, LOADING_ACTION_ORDER_SUMMARY
+  ERROR_ORDER_SUMMARY_DATA, SHOW_DETAIL_ORDER_SUMMARY, HIDE_DETAIL_ORDER_SUMMARY, SUBMIT_ORDER_SUMMARY_DATA, CLOSE_ORDER_SUMMARY_FORM, LOADING_ACTION_ORDER_SUMMARY, CLOSE_ORDER_SUMMARY_NOTIF
 } from './actionConstants';
 
 import {
@@ -43,7 +42,7 @@ export const searchOrderSummaryData = orderSummaryData => ({
 
 const errorOrderSummaryData = error => ({
   type: ERROR_ORDER_SUMMARY_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -59,61 +58,38 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_ORDER_SUMMARY
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
+export const closeNotifAction = () => ({
+  type: CLOSE_ORDER_SUMMARY_NOTIF
+});
 
 export const submitOrderSummaryData = (data) => (dispatch) => {
   addOrderSummaryApi(data).then((response) => {
-    toast.success('OrderSummary Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorOrderSummaryData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorOrderSummaryData(err));
+  });
 };
 
 export const getOrderSummaryData = () => (dispatch) => {
   getOrderSummaryApi().then((response) => {
     dispatch(fetchOrderSummaryData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorOrderSummaryData(err));
   });
 };
 
 export const updateOrderSummaryData = (data) => (dispatch) => {
   updateOrderSummaryDataApi(data).then((response) => {
-    toast.success('OrderSummary Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchOrderSummaryData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorOrderSummaryData(err));
   });
 };
 
 export const deleteOrderSummaryData = (data) => (dispatch) => {
   deleteOrderSummaryDataApi(data).then((response) => {
-    toast.success('OrderSummary Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchOrderSummaryData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorOrderSummaryData(err));
   });
 };

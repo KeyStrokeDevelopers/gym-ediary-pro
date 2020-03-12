@@ -17,9 +17,10 @@ import {
   deleteSubscriptionData,
   setDetailField,
   loadingAction,
-  hideDetailAction
+  hideDetailAction,
+  closeNotifAction
 } from 'dan-actions/SubscriptionActions';
-import { Notification } from 'dan-components';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import styles from 'dan-components/Contact/contact-jss';
 import SubscriptionDataList from '../../../components/Subscription/SubscriptionDataList';
 import SubscriptionDetail from '../../../components/Subscription/SubscriptionDetail';
@@ -42,8 +43,6 @@ class Subscription extends React.Component {
       loading();
       submitData(data);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
@@ -69,8 +68,10 @@ class Subscription extends React.Component {
       favorite,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deleteSubscriptionData,
       isLoading
     } = this.props;
@@ -84,7 +85,7 @@ class Subscription extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <SubscriptionDataList
             addFn
@@ -138,6 +139,8 @@ const mapStateToProps = state => {
     open: subscriptionReducer.openFrm,
     showMobileDetail: subscriptionReducer.showMobileDetail,
     messageNotif: subscriptionReducer.notifMsg,
+    notifType: subscriptionReducer.notifType,
+    openNoti: subscriptionReducer.openNoti,
     formValue: subscriptionReducer.formValues,
     is_active: subscriptionReducer.isActive,
     isLoading: subscriptionReducer.isLoading
@@ -159,8 +162,8 @@ const constDispatchToProps = dispatch => ({
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchSubscriptionData(data)),
-  loading: () => dispatch(loadingAction())
-  // closeNotif: () => dispatch(closeNotifAction),
+  loading: () => dispatch(loadingAction()),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const SubscriptionMapped = connect(

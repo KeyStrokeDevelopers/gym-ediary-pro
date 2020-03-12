@@ -1,7 +1,7 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_MEDIA_DATA, SEARCH_MEDIA_DATA, EDIT_MEDIA_DATA, ADD_MEDIA_DATA, SET_MEDIA_DETAILS_FIELD,
-  ERROR_MEDIA_DATA, SHOW_DETAIL_MEDIA, HIDE_DETAIL_MEDIA, SUBMIT_MEDIA_DATA, CLOSE_MEDIA_FORM, LOADING_ACTION_MEDIA
+  ERROR_MEDIA_DATA, SHOW_DETAIL_MEDIA, HIDE_DETAIL_MEDIA, SUBMIT_MEDIA_DATA, CLOSE_MEDIA_FORM, LOADING_ACTION_MEDIA,
+  CLOSE_MEDIA_NOTIF
 } from './actionConstants';
 
 import {
@@ -43,7 +43,11 @@ export const searchMediaData = mediaData => ({
 
 const errorMediaData = error => ({
   type: ERROR_MEDIA_DATA,
-  payload: error
+  payload: error.response.data.message
+});
+
+export const closeNotifAction = () => ({
+  type: CLOSE_MEDIA_NOTIF
 });
 
 export const setDetailField = (data) => ({
@@ -59,26 +63,11 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_MEDIA
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
-
 export const submitMediaData = (data) => (dispatch) => {
   addMediaApi(data).then((response) => {
-    toast.success('Media Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
   })
     .catch((err) => {
-      viewError(err);
       dispatch(errorMediaData(err));
     });
 };
@@ -87,33 +76,22 @@ export const getMediaData = () => (dispatch) => {
   getMediaApi().then((response) => {
     dispatch(fetchMediaData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorMediaData(err));
   });
 };
 
 export const updateMediaData = (data) => (dispatch) => {
   updateMediaDataApi(data).then((response) => {
-    toast.success('Media Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchMediaData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorMediaData(err));
   });
 };
 
 export const deleteMediaData = (data) => (dispatch) => {
   deleteMediaDataApi(data).then((response) => {
-    toast.success('Media Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchMediaData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorMediaData(err));
   });
 };

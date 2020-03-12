@@ -18,9 +18,10 @@ import {
   loadingAction,
   hideDetailAction,
   setFilterValue,
+  closeNotifAction
 } from 'dan-actions/brandUnitActions';
 import styles from 'dan-components/Contact/contact-jss';
-import { Notification } from 'dan-components';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import BrandUnit from '../../../components/BrandUnit/brandUnit';
 import BrandUnitDataList from '../../../components/BrandUnit/brandUnitDataList';
 import BrandUnitDetail from '../../../components/BrandUnit/brandUnitDetails';
@@ -68,8 +69,10 @@ class BrandUnitMain extends React.Component {
       showDetails,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deleteBrandUnitData,
       isLoading
     } = this.props;
@@ -83,7 +86,7 @@ class BrandUnitMain extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <BrandUnitDataList
             addFn
@@ -138,6 +141,8 @@ const mapStateToProps = state => {
     open: brandUnitReducer.openFrm,
     showMobileDetail: brandUnitReducer.showMobileDetail,
     messageNotif: brandUnitReducer.notifMsg,
+    notifType: brandUnitReducer.notifType,
+    openNoti: brandUnitReducer.openNoti,
     formValue: brandUnitReducer.formValues,
     is_active: brandUnitReducer.isActive,
     isLoading: brandUnitReducer.isLoading,
@@ -161,8 +166,8 @@ const constDispatchToProps = dispatch => ({
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchBrandUnitData(data)),
   loading: () => dispatch(loadingAction()),
-  filterValue: (value) => dispatch(setFilterValue(value))
-  // closeNotif: () => dispatch(closeNotifAction),
+  filterValue: (value) => dispatch(setFilterValue(value)),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const BrandUnitMapped = connect(

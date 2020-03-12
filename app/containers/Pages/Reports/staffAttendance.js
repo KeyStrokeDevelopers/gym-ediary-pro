@@ -8,8 +8,9 @@ import { AdvTable } from 'dan-components';
 import styles from 'dan-components/Email/email-jss';
 import { reduxForm, Field } from 'redux-form/immutable';
 import moment from 'moment';
-import { getStaffAttendanceData, markAttendance } from '../../../actions/staffActions';
+import { getStaffAttendanceData, markAttendance, closeNotifAction } from '../../../actions/staffActions';
 import { DatePickerInput } from '../../../components/Forms/ReduxFormMUI';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 
 
 class Attendance extends Component {
@@ -90,8 +91,7 @@ class Attendance extends Component {
     }
 
     render() {
-        const { dataForFetchReportData, staffAttendanceData } = this.props;
-
+        const { staffAttendanceData } = this.props;
         const description = brand.desc;
         const {
             order,
@@ -107,7 +107,7 @@ class Attendance extends Component {
             date
         } = this.state;
         const {
-            classes, classData, packageData
+            classes, classData, packageData, messageNotif, notifType, openNoti, closeNotif
         } = this.props;
 
         const packageClassData = [];
@@ -132,6 +132,7 @@ class Attendance extends Component {
                     <meta property="twitter:title" content={title} />
                     <meta property="twitter:description" content={description} />
                 </Helmet>
+                <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
                 <div style={{ marginLeft: '10px', marginTop: '10px', width: '100%' }}>
                     SELECT ATTENDANCE DATE
           </div>
@@ -165,13 +166,20 @@ class Attendance extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    staffAttendanceData: state.get('staff').staffAttendanceData,
-});
+const mapStateToProps = (state) => {
+    const staffReducer = state.get('staff');
+    return ({
+        staffAttendanceData: staffReducer.staffAttendanceData,
+        messageNotif: staffReducer.notifMsg,
+        notifType: staffReducer.notifType,
+        openNoti: staffReducer.openNoti,
+    });
+}
 
 const mapDispatchToProps = (dispatch) => ({
     fetchStaffData: (date) => dispatch(getStaffAttendanceData(date)),
-    markAttendance: (data) => dispatch(markAttendance(data))
+    markAttendance: (data) => dispatch(markAttendance(data)),
+    closeNotif: () => dispatch(closeNotifAction())
 });
 
 const AttendanceRedux = reduxForm({

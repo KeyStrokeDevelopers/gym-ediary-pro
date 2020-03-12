@@ -5,36 +5,15 @@ import brand from 'dan-api/dummy/brand';
 import { withStyles } from '@material-ui/core/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  Notification
-} from 'dan-components';
-import {
-  fetchMailAction,
-  openMailAction,
-  filterAction,
-  composeAction,
-  discardAction,
-  searchAction,
-  sendAction,
-  moveAction,
-  deleteAction,
-  toggleStaredAction,
-  closeNotifAction
-} from 'dan-actions/EmailActions';
+import { searchAction, toggleStaredAction } from 'dan-actions/EmailActions';
 import styles from 'dan-components/Email/email-jss';
 import {
-  getMeasurementData, submitMeasurementData, addMeasurementData, closeAction
+  getMeasurementData, submitMeasurementData, addMeasurementData, closeAction, closeNotifAction
 } from '../../../actions/measurementActions';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import MeasurementList from '../../../components/MeasurementProfile/MeasurementList';
 import MeasurementHeader from '../../../components/MeasurementProfile/MeasurementProfileHeader';
 import Measurement from '../../../components/MeasurementProfile/Measurement';
-
-// validation functions
-const email = value => (
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'Invalid email'
-    : ''
-);
 
 class MeasurementProfile extends React.Component {
   state = {
@@ -42,19 +21,9 @@ class MeasurementProfile extends React.Component {
   };
 
   componentDidMount() {
-    const { fetchData, fetchMeasurementData } = this.props;
+    const { fetchMeasurementData } = this.props;
     fetchMeasurementData();
   }
-
-  handleReply = (mail) => {
-    const { compose } = this.props;
-    compose();
-    this.setState({
-      to: mail.get('name'),
-      subject: 'Reply: ' + mail.get('subject'),
-    });
-  }
-
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -63,17 +32,17 @@ class MeasurementProfile extends React.Component {
   render() {
     const {
       classes,
-      emailData, openMail,
       currentPage,
       open,
       search, keyword,
-      submitData,
-      remove,
-      moveTo, toggleStar,
-      closeNotif, messageNotif,
+      submitData, toggleStar,
       measurementData,
       memberData,
-      add, close
+      add, close,
+      messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
     } = this.props;
     const title = brand.name + ' - Email';
     const description = brand.desc;
@@ -87,19 +56,14 @@ class MeasurementProfile extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <MeasurementHeader search={search} handleDrawerToggle={this.handleDrawerToggle} />
           <MeasurementList
-            emailData={emailData}
-            openMail={openMail}
             filterPage={currentPage}
             measurementData={measurementData}
             keyword={keyword}
-            moveTo={moveTo}
-            remove={remove}
             toggleStar={toggleStar}
-            reply={this.handleReply}
           />
           <Measurement
             submitData={submitData}
@@ -115,33 +79,26 @@ class MeasurementProfile extends React.Component {
 }
 
 const reducer = 'email';
-const mapStateToProps = state => ({
-  force: state, // force state from reducer
-  keyword: state.getIn([reducer, 'keywordValue']),
-  initValues: state.getIn([reducer, 'formValues']),
-  emailData: state.getIn([reducer, 'inbox']),
-  currentPage: state.getIn([reducer, 'currentPage']),
-  openFrm: state.getIn([reducer, 'openFrm']),
-  messageNotif: state.getIn([reducer, 'notifMsg']),
-  measurementData: state.get('measurement').measurementList,
-  open: state.get('measurement').openFrm,
-});
-
+const mapStateToProps = state => {
+  const measurementReducer = state.get('measurement');
+  return ({
+    force: state, // force state from reducer
+    keyword: state.getIn([reducer, 'keywordValue']),
+    initValues: state.getIn([reducer, 'formValues']),
+    openFrm: state.getIn([reducer, 'openFrm']),
+    measurementData: measurementReducer.measurementList,
+    open: measurementReducer.openFrm,
+    messageNotif: measurementReducer.notifMsg,
+    notifType: measurementReducer.notifType,
+    openNoti: measurementReducer.openNoti,
+  });
+}
 const constDispatchToProps = dispatch => ({
-  fetchData: bindActionCreators(fetchMailAction, dispatch),
-  openMail: bindActionCreators(openMailAction, dispatch),
-  goto: bindActionCreators(filterAction, dispatch),
   search: bindActionCreators(searchAction, dispatch),
-  moveTo: bindActionCreators(moveAction, dispatch),
-  remove: bindActionCreators(deleteAction, dispatch),
   toggleStar: bindActionCreators(toggleStaredAction, dispatch),
-  compose: () => dispatch(composeAction),
-  discard: () => dispatch(discardAction),
-  sendEmail: bindActionCreators(sendAction, dispatch),
-  closeNotif: () => dispatch(closeNotifAction),
-
   add: () => dispatch(addMeasurementData()),
   close: () => dispatch(closeAction()),
+  closeNotif: () => dispatch(closeNotifAction()),
   fetchMeasurementData: () => dispatch(getMeasurementData()),
   submitData: (data) => dispatch(submitMeasurementData(data)),
 });

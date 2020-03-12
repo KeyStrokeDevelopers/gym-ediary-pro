@@ -1,7 +1,10 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_MEDIA_DATA, SEARCH_MEDIA_DATA, EDIT_MEDIA_DATA, ADD_MEDIA_DATA, SET_MEDIA_DETAILS_FIELD,
-  SHOW_DETAIL_MEDIA, HIDE_DETAIL_MEDIA, SUBMIT_MEDIA_DATA, CLOSE_MEDIA_FORM, LOADING_ACTION_MEDIA
+  SHOW_DETAIL_MEDIA, HIDE_DETAIL_MEDIA, SUBMIT_MEDIA_DATA, CLOSE_MEDIA_FORM, LOADING_ACTION_MEDIA,
+  CLOSE_MEDIA_NOTIF, ERROR_MEDIA_DATA
 } from '../../actions/actionConstants';
 
 
@@ -15,6 +18,8 @@ const initialState = {
   openFrm: false,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false
 };
@@ -41,7 +46,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_MEDIA_DATA:
@@ -60,7 +68,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         mediaList: [...state.mediaList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_MEDIA:
       return {
@@ -92,6 +103,22 @@ export default function reducer(state = initialState, action = {}) {
         isActive: action.payload,
         selectedIndex: 0
 
+      };
+    }
+
+    case CLOSE_MEDIA_NOTIF: {
+      return {
+        ...state,
+        openNoti: false
+      };
+    }
+
+    case ERROR_MEDIA_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

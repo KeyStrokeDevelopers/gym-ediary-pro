@@ -16,12 +16,13 @@ import {
   deleteExpenseIncomeData,
   setDetailField,
   loadingAction,
-  hideDetailAction
+  hideDetailAction,
+  closeNotifAction
 } from 'dan-actions/ExpenseIncomeActions';
 import { getCategoryData } from 'dan-actions/CategoryActions';
 import { getPaymentMethodData } from 'dan-actions/paymentMethodActions';
 import styles from 'dan-components/Contact/contact-jss';
-import { Notification } from 'dan-components';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import AddExpenseIncome from '../../../components/ExpenseIncome/AddExpenseIncome';
 import ExpenseIncomeDataList from '../../../components/ExpenseIncome/ExpenseIncomeDataList';
 import ExpenseIncomeDetail from '../../../components/ExpenseIncome/ExpenseIncomeDetail';
@@ -44,8 +45,6 @@ class ExpenseIncome extends React.Component {
       loading();
       submitData(data);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
@@ -74,8 +73,10 @@ class ExpenseIncome extends React.Component {
       categoryData,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deleteExpenseIncomeData,
       isLoading
     } = this.props;
@@ -89,7 +90,7 @@ class ExpenseIncome extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <ExpenseIncomeDataList
             addFn
@@ -149,6 +150,8 @@ const mapStateToProps = state => {
     open: expenseIncomeReducer.openFrm,
     showMobileDetail: expenseIncomeReducer.showMobileDetail,
     messageNotif: expenseIncomeReducer.notifMsg,
+    notifType: expenseIncomeReducer.notifType,
+    openNoti: expenseIncomeReducer.openNoti,
     formValue: expenseIncomeReducer.formValues,
     is_active: expenseIncomeReducer.isActive,
     isLoading: expenseIncomeReducer.isLoading,
@@ -176,7 +179,7 @@ const constDispatchToProps = dispatch => ({
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchExpenseIncomeData(data)),
   loading: () => dispatch(loadingAction()),
-  // closeNotif: () => dispatch(closeNotifAction),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const ExpenseIncomeMapped = connect(

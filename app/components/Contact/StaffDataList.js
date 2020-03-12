@@ -28,8 +28,8 @@ class StaffDataList extends React.Component {
   handleChange = (event, value) => {
     this.setState({ filter: value });
     const is_active = value === 1;
-    const { isActive } = this.props;
-    isActive(is_active);
+    const { isActiveData } = this.props;
+    isActiveData(is_active);
   };
 
   sortByName = (a, b) => {
@@ -52,13 +52,13 @@ class StaffDataList extends React.Component {
       keyword,
       clippedRight,
       addStaffData,
-      is_active,
+      isActive,
       addFn, total
     } = this.props;
     const { filter } = this.state;
     let staffData;
     if (staffDataList && staffDataList.length >= 1) {
-      staffData = is_active ? staffDataList.filter(item => item.status === 1) : staffDataList.filter(item => item.status === 0);
+      staffData = isActive ? staffDataList.filter(item => item.status === 1) : staffDataList.filter(item => item.status === 0);
     }
 
     if (staffData && staffData.length >= 1) {

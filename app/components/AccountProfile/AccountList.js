@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { AdvTable } from 'dan-components';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { DatePickerInput } from '../Forms/ReduxFormMUI';
+import moment from 'moment'
 
 const styles = ({
   root: {
@@ -15,8 +16,8 @@ const styles = ({
 
 class AccountList extends Component {
   state = {
-    fromDate: null,
-    toDate: null,
+    fromDate: moment(new Date).format('YYYY-MM-DD'),
+    toDate: moment(new Date).format('YYYY-MM-DD'),
     order: 'asc',
     orderBy: 'date',
     selected: [],
@@ -56,7 +57,8 @@ class AccountList extends Component {
     rowsPerPage: 5,
     defaultPerPage: 5,
     filterText: '',
-    title: 'Account'
+    title: 'Account',
+    accountData: []
   };
 
   getDate = (dateValue) => {
@@ -126,16 +128,24 @@ class AccountList extends Component {
 
   componentDidMount = () => {
     const { accountData } = this.props;
-    const date = this.getDate(new Date());
-    this.setState({ fromDate: date, toDate: date });
     setTimeout(() => {
       this.createTableDate(accountData);
     }, 0);
   }
 
+  componentDidUpdate = () => {
+    const { accountData } = this.props;
+    if (accountData !== this.state.accountData) {
+      setTimeout(() => {
+        this.createTableDate(accountData);
+      }, 0);
+      this.setState({ accountData: accountData })
+    }
+  }
+
 
   handleFromDate = (fromDate) => {
-    const { accountData } = this.props;
+    const { accountData } = this.state;
     this.setState({ fromDate });
     setTimeout(() => {
       this.createTableDate(accountData);
@@ -143,7 +153,7 @@ class AccountList extends Component {
   }
 
   handleToDate = (toDate) => {
-    const { accountData } = this.props;
+    const { accountData } = this.state;
     this.setState({ toDate });
     setTimeout(() => {
       this.createTableDate(accountData);

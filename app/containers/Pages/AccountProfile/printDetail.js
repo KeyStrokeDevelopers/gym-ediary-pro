@@ -33,6 +33,11 @@ class PrintDetail extends React.Component { // eslint-disable-line
     isDigitallySign: true
   };
 
+  componentDidMount() {
+    this.props.initialize({ printLogo: true });
+  }
+
+
   handleToggle = (e, isDigitallySign) => {
     this.setState({ isDigitallySign })
   }
@@ -42,12 +47,10 @@ class PrintDetail extends React.Component { // eslint-disable-line
       open,
       close,
       printData,
-      memberData
+      memberData,
+      gymInfo,
     } = this.props;
     const { isDigitallySign } = this.state;
-
-    console.log('isDigitallySign---', isDigitallySign)
-
     return (
       <Dialog
         fullScreen
@@ -94,14 +97,13 @@ class PrintDetail extends React.Component { // eslint-disable-line
                 name="printLogo"
                 component={renderToggle}
                 onChange={this.handleToggle}
-                defaultValue={true}
                 label='Is Digitally Signed ?'
               />
             </form>
           </div>
         </div>
         <section className={classes.wrapper}>
-          <Invoice ref={(el) => { this.componentRef = el; }} invoiceData={printData} memberData={memberData} isDigitallySign={isDigitallySign} />
+          <Invoice ref={(el) => { this.componentRef = el; }} invoiceData={printData} memberData={memberData} gymInfo={gymInfo} isDigitallySign={isDigitallySign} />
         </section>
       </Dialog>
     );
@@ -110,6 +112,8 @@ class PrintDetail extends React.Component { // eslint-disable-line
 
 const PrintDetailRedux = reduxForm({
   form: 'printForm',
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
 })(PrintDetail);
 
 export default withStyles(styles)(connect(null, null)(PrintDetailRedux));

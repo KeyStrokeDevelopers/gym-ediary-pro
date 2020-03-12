@@ -5,84 +5,30 @@ import brand from 'dan-api/dummy/brand';
 import { withStyles } from '@material-ui/core/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import data from 'dan-api/apps/emailData';
-import {
-  Notification
-} from 'dan-components';
-import {
-  fetchMailAction,
-  openMailAction,
-  filterAction,
-  composeAction,
-  discardAction,
-  searchAction,
-  sendAction,
-  moveAction,
-  deleteAction,
-  toggleStaredAction,
-  closeNotifAction
-} from 'dan-actions/EmailActions';
+import { searchAction, toggleStaredAction } from 'dan-actions/EmailActions';
 import { getPaymentMethodData } from 'dan-actions/paymentMethodActions';
 import styles from 'dan-components/Email/email-jss';
 import PackageList from '../../../components/PackageProfile/PackageList';
 import PackageHeader from '../../../components/PackageProfile/PackageProfileHeader';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import PackageSubscription from '../../../components/PackageProfile/PackageSubscription';
 import {
   submitVendorPackageSubscriptionData,
-  getVendorPackageDataByMemberId, addVendorPackageSubscriptionData, closeAction
+  getVendorPackageDataByMemberId, addVendorPackageSubscriptionData, closeAction, closeNotifAction
 } from '../../../actions/vendorPackageSubscriptionActions';
 import { getPackageData } from '../../../actions/vendorPackageActions';
 
-// validation functions
-const email = value => (
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'Invalid email'
-    : ''
-);
-
 class PackageProfile extends React.Component {
   state = {
-    to: '',
-    subject: '',
-    validMail: '',
     mobileOpen: false,
   };
 
   componentDidMount() {
-    const {
-      fetchData, fetchVendorPackageData, fetchVendorPackageSubscriptionDataByMemberId, fetchPaymentMethodData, memberData
+    const { fetchVendorPackageData, fetchVendorPackageSubscriptionDataByMemberId, fetchPaymentMethodData, memberData
     } = this.props;
-    fetchData(data);
     fetchVendorPackageData();
     fetchVendorPackageSubscriptionDataByMemberId(memberData._id);
     fetchPaymentMethodData();
-  }
-
-  handleChange = (event, name) => {
-    if (name === 'to') {
-      this.setState({ validMail: email(event.target.value) });
-    }
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
-
-  handleReply = (mail) => {
-    const { compose } = this.props;
-    compose();
-    this.setState({
-      to: mail.get('name'),
-      subject: 'Reply: ' + mail.get('subject'),
-    });
-  }
-
-  handleCompose = () => {
-    const { compose } = this.props;
-    compose();
-    this.setState({
-      to: '  ',
-      subject: '  ',
-    });
   }
 
   handleDrawerToggle = () => {
@@ -92,13 +38,9 @@ class PackageProfile extends React.Component {
   render() {
     const {
       classes,
-      emailData, openMail,
       currentPage,
       openFrm,
-      search, keyword,
-      remove,
-      moveTo, toggleStar,
-      closeNotif, messageNotif,
+      search, keyword, toggleStar,
       memberData,
       subscribedPackageData,
       availablePackageData,
@@ -106,6 +48,10 @@ class PackageProfile extends React.Component {
       add,
       close,
       submitData,
+      messageNotif,
+      notifType,
+      openNoti,
+      closeNotif
     } = this.props;
     const title = brand.name + ' - Email';
     const description = brand.desc;
@@ -119,19 +65,14 @@ class PackageProfile extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <PackageHeader search={search} handleDrawerToggle={this.handleDrawerToggle} />
           <PackageList
-            emailData={emailData}
-            openMail={openMail}
             filterPage={currentPage}
             subscribedPackageData={subscribedPackageData}
             keyword={keyword}
-            moveTo={moveTo}
-            remove={remove}
             toggleStar={toggleStar}
-            reply={this.handleReply}
           />
           <PackageSubscription
             submitData={submitData}
@@ -150,32 +91,31 @@ class PackageProfile extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  force: state,
-  availablePackageData: state.get('packageInfo').packageList,
-  paymentMethodData: state.get('paymentMethod').paymentMethodList,
-  openFrm: state.get('vendorPackageSubscription').openFrm,
-  subscribedPackageData: state.get('vendorPackageSubscription').vendorPackageSubscriptionList,
+const mapStateToProps = state => {
+  const packageSubscriptionReducer = state.get('vendorPackageSubscription');
+  return ({
+    force: state,
+    availablePackageData: state.get('packageInfo').packageList,
+    paymentMethodData: state.get('paymentMethod').paymentMethodList,
+    openFrm: state.get('vendorPackageSubscription').openFrm,
+    subscribedPackageData: packageSubscriptionReducer.vendorPackageSubscriptionList,
+    messageNotif: packageSubscriptionReducer.notifMsg,
+    notifType: packageSubscriptionReducer.notifType,
+    openNoti: packageSubscriptionReducer.openNoti,
 
-});
+  });
+}
 
 const constDispatchToProps = dispatch => ({
-  fetchData: bindActionCreators(fetchMailAction, dispatch),
-  openMail: bindActionCreators(openMailAction, dispatch),
-  goto: bindActionCreators(filterAction, dispatch),
   search: bindActionCreators(searchAction, dispatch),
-  moveTo: bindActionCreators(moveAction, dispatch),
-  remove: bindActionCreators(deleteAction, dispatch),
   toggleStar: bindActionCreators(toggleStaredAction, dispatch),
-  compose: () => dispatch(composeAction),
-  discard: () => dispatch(discardAction),
-  sendEmail: bindActionCreators(sendAction, dispatch),
   closeNotif: () => dispatch(closeNotifAction),
   fetchPaymentMethodData: () => dispatch(getPaymentMethodData()),
   fetchVendorPackageData: () => dispatch(getPackageData()),
   fetchVendorPackageSubscriptionDataByMemberId: (memberId) => dispatch(getVendorPackageDataByMemberId(memberId)),
   add: () => dispatch(addVendorPackageSubscriptionData()),
   close: () => dispatch(closeAction()),
+  closeNotif: () => dispatch(closeNotifAction()),
   submitData: (data) => dispatch(submitVendorPackageSubscriptionData(data))
 });
 

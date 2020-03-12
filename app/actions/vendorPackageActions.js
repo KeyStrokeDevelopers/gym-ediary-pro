@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_PACKAGE_DATA, SEARCH_PACKAGE_DATA, EDIT_PACKAGE_DATA, ADD_PACKAGE_DATA, SET_PACKAGE_DETAILS_FIELD,
-  ERROR_PACKAGE_DATA, SHOW_DETAIL_PACKAGE, HIDE_DETAIL_PACKAGE, SUBMIT_PACKAGE_DATA, CLOSE_PACKAGE_FORM, LOADING_ACTION_PACKAGE
+  ERROR_PACKAGE_DATA, SHOW_DETAIL_PACKAGE, HIDE_DETAIL_PACKAGE, SUBMIT_PACKAGE_DATA, CLOSE_PACKAGE_FORM, LOADING_ACTION_PACKAGE, CLOSE_PACKAGE_NOTIF
 } from './actionConstants';
 import {
   addPackageApi, getPackageApi, updatePackageDataApi, deletePackageDataApi
@@ -42,7 +41,7 @@ export const searchPackageData = packageData => ({
 
 const errorPackageData = error => ({
   type: ERROR_PACKAGE_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -58,61 +57,38 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_PACKAGE
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
+export const closeNotifAction = () => ({
+  type: CLOSE_PACKAGE_NOTIF
+});
 
 export const submitPackageData = (data) => (dispatch) => {
   addPackageApi(data).then((response) => {
-    toast.success('Package Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorPackageData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorPackageData(err));
+  });
 };
 
 export const getPackageData = () => (dispatch) => {
   getPackageApi().then((response) => {
     dispatch(fetchPackageData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPackageData(err));
   });
 };
 
 export const updatePackageData = (data) => (dispatch) => {
   updatePackageDataApi(data).then((response) => {
-    toast.success('Package Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchPackageData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPackageData(err));
   });
 };
 
 export const deletePackageData = (data) => (dispatch) => {
   deletePackageDataApi(data).then((response) => {
-    toast.success('Package Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchPackageData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPackageData(err));
   });
 };

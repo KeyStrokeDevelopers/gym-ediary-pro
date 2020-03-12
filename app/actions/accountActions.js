@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_ACCOUNT_DATA, SEARCH_ACCOUNT_DATA, EDIT_ACCOUNT_DATA, ADD_ACCOUNT_DATA, SET_ACCOUNT_DETAILS_FIELD,
-  ERROR_ACCOUNT_DATA, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT, SUBMIT_SALARY_DATA, SET_SALARY_DATA
+  ERROR_ACCOUNT_DATA, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT, SUBMIT_SALARY_DATA, SET_SALARY_DATA, CLOSE_ACCOUNT_NOTIF
 } from './actionConstants';
 
 import {
@@ -26,6 +25,10 @@ const submitSalaryAction = salaryData => ({
 const setSalaryData = salaryData => ({
   type: SET_SALARY_DATA,
   payload: salaryData
+});
+
+export const closeNotifAction = () => ({
+  type: CLOSE_ACCOUNT_NOTIF
 });
 
 export const addAccountData = () => ({
@@ -53,7 +56,7 @@ export const searchAccountData = accountData => ({
 
 const errorAccountData = error => ({
   type: ERROR_ACCOUNT_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -69,85 +72,50 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_ACCOUNT
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
-
 export const submitAccountData = (data) => (dispatch) => {
   addAccountApi(data).then((response) => {
-    toast.success('Account Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorAccountData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorAccountData(err));
+  });
 };
 
 export const submitSalaryData = (data) => (dispatch) => {
   addSalaryApi(data).then((response) => {
-    toast.success('Salary Pay Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitSalaryAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorAccountData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorAccountData(err));
+  });
 };
 
 export const getSalaryData = (data) => (dispatch) => {
   getSalaryDataApi(data).then((response) => {
     dispatch(setSalaryData(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorAccountData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorAccountData(err));
+  });
 };
 
 export const getAccountData = (memberId) => (dispatch) => {
   getAccountApi(memberId).then((response) => {
     dispatch(fetchAccountData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorAccountData(err));
   });
 };
 
 export const updateAccountData = (data) => (dispatch) => {
   updateAccountDataApi(data).then((response) => {
-    toast.success('Account Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchAccountData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorAccountData(err));
   });
 };
 
 export const deleteAccountData = (data) => (dispatch) => {
   deleteAccountDataApi(data).then((response) => {
-    toast.success('Account Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchAccountData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorAccountData(err));
   });
 };

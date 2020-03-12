@@ -1,7 +1,9 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_ADD_MEMBER_DATA, SEARCH_ADD_MEMBER_DATA, EDIT_ADD_MEMBER_DATA, ADD_ADD_MEMBER_DATA, SET_ADD_MEMBER_DETAILS_FIELD, SHOW_DETAIL_ADD_MEMBER,
-  HIDE_DETAIL_ADD_MEMBER, SUBMIT_ADD_MEMBER_DATA, CLOSE_ADD_MEMBER_FORM, LOADING_ACTION_ADD_MEMBER, VIEW_PROFILE, SET_FILTER_VALUE, FETCH_GYM_INFO
+  HIDE_DETAIL_ADD_MEMBER, SUBMIT_ADD_MEMBER_DATA, CLOSE_ADD_MEMBER_FORM, LOADING_ACTION_ADD_MEMBER, VIEW_PROFILE, SET_FILTER_VALUE, FETCH_GYM_INFO, CLOSE_ADD_MEMBER_NOTIF, ERROR_ADD_MEMBER_DATA
 } from '../../actions/actionConstants';
 
 
@@ -18,6 +20,8 @@ const initialState = {
   openFrm: true,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false,
   filterValue: 'All',
@@ -46,7 +50,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_ADD_MEMBER_DATA:
@@ -65,7 +72,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         addMemberList: [...state.addMemberList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_ADD_MEMBER:
       return {
@@ -126,6 +136,21 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         gymInfo: action.payload
+      };
+    }
+
+    case CLOSE_ADD_MEMBER_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_ADD_MEMBER_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

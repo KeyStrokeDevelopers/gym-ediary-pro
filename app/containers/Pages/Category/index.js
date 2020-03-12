@@ -17,12 +17,11 @@ import {
   deleteCategoryData,
   setDetailField,
   loadingAction,
-  hideDetailAction
+  hideDetailAction,
+  closeNotifAction
 } from 'dan-actions/CategoryActions';
-import {
-  AddContact,
-  Notification
-} from 'dan-components';
+import { AddContact } from 'dan-components';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import styles from 'dan-components/Contact/contact-jss';
 import CategoryDataList from '../../../components/Contact/CategoryDataList';
 import CategoryDetail from '../../../components/Contact/CategoryDetail';
@@ -38,14 +37,11 @@ class Category extends React.Component {
       submitData, formValue, updateData, loading
     } = this.props;
     if (Object.keys(formValue).length >= 1) {
-      console.log('updated data hit-----');
       updateData(data);
     } else {
       loading();
       submitData(data);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
@@ -70,8 +66,10 @@ class Category extends React.Component {
       favorite,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deleteCategoryData,
       isLoading
     } = this.props;
@@ -86,7 +84,7 @@ class Category extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <CategoryDataList
             addFn
@@ -140,6 +138,8 @@ const mapStateToProps = state => {
     open: categoryReducer.openFrm,
     showMobileDetail: categoryReducer.showMobileDetail,
     messageNotif: categoryReducer.notifMsg,
+    notifType: categoryReducer.notifType,
+    openNoti: categoryReducer.openNoti,
     formValue: categoryReducer.formValues,
     is_active: categoryReducer.isActive,
     isLoading: categoryReducer.isLoading
@@ -160,8 +160,8 @@ const constDispatchToProps = dispatch => ({
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchCategoryData(data)),
-  loading: () => dispatch(loadingAction())
-  // closeNotif: () => dispatch(closeNotifAction),
+  loading: () => dispatch(loadingAction()),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const CategoryMapped = connect(

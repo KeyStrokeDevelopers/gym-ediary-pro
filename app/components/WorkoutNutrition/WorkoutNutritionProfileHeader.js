@@ -13,7 +13,7 @@ class WorkoutNutritionProfileHeader extends React.Component {
   render() {
     const { classes, search, handleDrawerToggle } = this.props;
     return (
-      <AppBar position="absolute" className={classes.appBar}>
+      <AppBar position="absolute" className={classes.appBar} style={{ width: '100%' }}>
         <Toolbar>
           <IconButton
             color="inherit"

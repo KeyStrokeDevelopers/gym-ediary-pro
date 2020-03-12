@@ -18,7 +18,8 @@ import chat from './modules/chat';
 import email from './modules/email';
 import calendar from './modules/calendar';
 import taskboard from './modules/taskboard';
-import register from './modules/signIn';
+import signIn from './modules/signIn';
+import register from './modules/registration';
 import paymentMethod from './modules/paymentMethod';
 import packageInfo from './modules/package';
 import classInfo from './modules/class';
@@ -66,7 +67,6 @@ import subscription from './modules/subscription';
  * Merges the main reducer with the router state and dynamically injected reducers
  */
 export default function createReducer(injectedReducers = {}) {
-  const signIn = register;
   const rootReducer = combineReducers({
     form,
     ui: uiReducer,

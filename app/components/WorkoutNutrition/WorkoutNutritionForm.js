@@ -18,7 +18,6 @@ import styles from './email-jss';
 import EditorField from '../Contact/Editor/editorField';
 import { SelectRedux } from '../Forms/ReduxFormMUI';
 
-
 class WorkoutNutritionForm extends React.Component {
   state = {
     nutritionValue: 0,

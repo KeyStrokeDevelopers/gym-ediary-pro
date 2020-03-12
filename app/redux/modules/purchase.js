@@ -1,7 +1,8 @@
-
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PURCHASE_DATA, SEARCH_PURCHASE_DATA, EDIT_PURCHASE_DATA, ADD_PURCHASE_DATA, SET_PURCHASE_DETAILS_FIELD,
-  SHOW_DETAIL_PURCHASE, HIDE_DETAIL_PURCHASE, SUBMIT_PURCHASE_DATA, CLOSE_PURCHASE_FORM, LOADING_ACTION_PURCHASE, SET_VALUE_IN_CART, RESET_CART, DELETE_CART_VALUE, SET_ACCOUNT_DATA, HANDLE_NEXT_STEP, HANDLE_BACK_STEP, SHOPING_AGAIN, SET_BILL_INFO_DATA, SET_DISCOUNT, SET_DISCOUNT_IN_VALUE, GET_GYM_INFO_DATA
+  SHOW_DETAIL_PURCHASE, HIDE_DETAIL_PURCHASE, SUBMIT_PURCHASE_DATA, CLOSE_PURCHASE_FORM, LOADING_ACTION_PURCHASE, SET_VALUE_IN_CART, RESET_CART, DELETE_CART_VALUE, SET_ACCOUNT_DATA, HANDLE_NEXT_STEP, HANDLE_BACK_STEP, SHOPING_AGAIN, SET_BILL_INFO_DATA, SET_DISCOUNT, SET_DISCOUNT_IN_VALUE, GET_GYM_INFO_DATA, CLOSE_PURCHASE_NOTIF, ERROR_PURCHASE_DATA
 } from '../../actions/actionConstants';
 
 
@@ -20,6 +21,8 @@ const initialState = {
   gymInfoData: {},
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false,
   discount: 0,
@@ -47,7 +50,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_PURCHASE_DATA:
@@ -64,7 +70,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         avatarInit: '',
         purchaseList: [...state.purchaseList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case SET_VALUE_IN_CART:
       return {
@@ -185,6 +194,21 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         gymInfoData: action.payload
+      };
+    }
+
+    case CLOSE_PURCHASE_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_PURCHASE_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

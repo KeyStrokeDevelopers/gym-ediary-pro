@@ -17,7 +17,7 @@ import Ionicon from 'react-ionicons';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
 import {
-  handleNextStep, handleBack, shopingAgain, submitSaleData, resetCart, deleteSaleData
+  handleNextStep, handleBack, shopingAgain, submitSaleData, resetCart, deleteSaleData, closeNotifAction
 } from 'dan-actions/saleActions.js';
 import { getAccountInfoData } from 'dan-actions/accountInfoActions';
 import { getGymInfoData, setInCart } from 'dan-actions/saleActions';
@@ -27,6 +27,8 @@ import BillInfoForm from './billInfoForm';
 import CustomerForm from './customerForm';
 import BillInfo from './billInfo';
 import history from '../../../utils/history';
+import StyledNotif from '../../../components/Notification/StyledNotif';
+
 const styles = theme => ({
   appBar: {
     position: 'relative',
@@ -112,7 +114,10 @@ class Checkout extends React.Component {
 
   render() {
     const {
-      classes, width, onSubmit, customerInfo, nextStep, activeStep, handle_Back, cartList, billInfoData, submit_Sale_Data, accountInfoData, match, saleData, onBillInfoSubmit
+      classes, width, onSubmit, customerInfo, nextStep, activeStep, handle_Back, cartList, billInfoData, submit_Sale_Data, accountInfoData, match, saleData, onBillInfoSubmit, messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
     } = this.props;
     const saleRecord = {};
     saleRecord.orderSummary = cartList;
@@ -120,6 +125,7 @@ class Checkout extends React.Component {
     saleRecord.billInfo = billInfoData;
     return (
       <Fragment>
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <CssBaseline />
         <main className={classes.layout}>
           <Paper className={classes.paper}>
@@ -257,6 +263,9 @@ const mapStateToProps = state => {
     billInfoData: saleReducer.billInfoData,
     accountInfoData: accountInfoReducer.accountInfoList,
     saleData: saleReducer.formValues,
+    messageNotif: saleReducer.notifMsg,
+    notifType: saleReducer.notifType,
+    openNoti: saleReducer.openNoti,
   });
 };
 
@@ -271,7 +280,8 @@ const mapDispatchToProps = dispatch => ({
   fetchGymInfoData: () => dispatch(getGymInfoData()),
   set_In_Cart: (data) => dispatch(setInCart(data)),
   reset_Cart: () => dispatch(resetCart()),
-  delete_Sale_Data: (invoiceId) => dispatch(deleteSaleData(invoiceId))
+  delete_Sale_Data: (invoiceId) => dispatch(deleteSaleData(invoiceId)),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const CheckoutMapped = connect(

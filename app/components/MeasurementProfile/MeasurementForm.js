@@ -10,7 +10,6 @@ import formField from './measurementFormField';
 import { validate } from '../Forms/helpers/formValidation';
 import styles from './contact-jss';
 
-
 class MeasurementForm extends React.Component {
   state = {
     measurementDate: null,

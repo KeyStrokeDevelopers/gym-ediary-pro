@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_BRAND_UNIT_DATA, SEARCH_BRAND_UNIT_DATA, EDIT_BRAND_UNIT_DATA, ADD_BRAND_UNIT_DATA, SET_BRAND_UNIT_DETAILS_FIELD,
-  ERROR_BRAND_UNIT_DATA, SHOW_DETAIL_BRAND_UNIT, HIDE_DETAIL_BRAND_UNIT, SUBMIT_BRAND_UNIT_DATA, CLOSE_BRAND_UNIT_FORM, LOADING_ACTION_BRAND_UNIT
+  ERROR_BRAND_UNIT_DATA, SHOW_DETAIL_BRAND_UNIT, HIDE_DETAIL_BRAND_UNIT, SUBMIT_BRAND_UNIT_DATA, CLOSE_BRAND_UNIT_FORM, LOADING_ACTION_BRAND_UNIT, CLOSE_BRAND_UNIT_NOTIF
 } from './actionConstants';
 
 import {
@@ -43,7 +42,7 @@ export const searchBrandUnitData = brandUnitData => ({
 
 const errorBrandUnitData = error => ({
   type: ERROR_BRAND_UNIT_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -59,61 +58,38 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_BRAND_UNIT
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
+export const closeNotifAction = () => ({
+  type: CLOSE_BRAND_UNIT_NOTIF
+});
 
 export const submitBrandUnitData = (data) => (dispatch) => {
   addBrandUnitApi(data).then((response) => {
-    toast.success('BrandUnit Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorBrandUnitData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorBrandUnitData(err));
+  });
 };
 
 export const getBrandUnitData = () => (dispatch) => {
   getBrandUnitApi().then((response) => {
     dispatch(fetchBrandUnitData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorBrandUnitData(err));
   });
 };
 
 export const updateBrandUnitData = (data) => (dispatch) => {
   updateBrandUnitDataApi(data).then((response) => {
-    toast.success('BrandUnit Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchBrandUnitData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorBrandUnitData(err));
   });
 };
 
 export const deleteBrandUnitData = (data) => (dispatch) => {
   deleteBrandUnitDataApi(data).then((response) => {
-    toast.success('BrandUnit Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchBrandUnitData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorBrandUnitData(err));
   });
 };

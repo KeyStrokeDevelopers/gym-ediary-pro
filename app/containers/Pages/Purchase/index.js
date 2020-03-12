@@ -18,7 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
 // import BillInfoForm from './billInfoForm';
 import {
-  handleNextStep, handleBack, shopingAgain, submitPurchaseData, resetCart, deletePurchaseData
+  handleNextStep, handleBack, shopingAgain, submitPurchaseData, resetCart, deletePurchaseData, closeNotifAction
 } from 'dan-actions/purchaseActions.js';
 import { getAccountInfoData } from 'dan-actions/accountInfoActions';
 import { getGymInfoData, setInCart } from 'dan-actions/purchaseActions';
@@ -27,6 +27,8 @@ import AccountForm from './accountForm';
 import PurchaseForm from './purchaseForm';
 import SideReview from './sideReview';
 import history from '../../../utils/history';
+import StyledNotif from '../../../components/Notification/StyledNotif';
+
 const styles = theme => ({
   appBar: {
     position: 'relative',
@@ -129,7 +131,10 @@ class Checkout extends React.Component {
 
   render() {
     const {
-      classes, width, onSubmit, accountInfo, nextStep, activeStep, handleBack, shopingAgain, cartList, billInfoData, submitPurchaseData, accountInfoData, match, purchaseData
+      classes, width, onSubmit, accountInfo, nextStep, activeStep, handleBack, shopingAgain, cartList, billInfoData, submitPurchaseData, accountInfoData, match, purchaseData, messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
     } = this.props;
     const purchaseRecord = {};
     purchaseRecord.orderSummary = cartList;
@@ -137,6 +142,7 @@ class Checkout extends React.Component {
 
     return (
       <Fragment>
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <CssBaseline />
         <main className={classes.layout}>
           <Paper className={classes.paper}>
@@ -269,7 +275,10 @@ const mapStateToProps = state => {
     cartList: purchaseReducer.cartList,
     billInfoData: purchaseReducer.billInfoData,
     accountInfoData: accountInfoReducer.accountInfoList,
-    purchaseData: purchaseReducer.formValues
+    purchaseData: purchaseReducer.formValues,
+    messageNotif: purchaseReducer.notifMsg,
+    notifType: purchaseReducer.notifType,
+    openNoti: purchaseReducer.openNoti,
   });
 };
 
@@ -284,7 +293,8 @@ const mapDispatchToProps = dispatch => ({
   fetchGymInfoData: () => dispatch(getGymInfoData()),
   setInCart: (data) => dispatch(setInCart(data)),
   resetCart: () => dispatch(resetCart()),
-  deletePurchaseData: (invoiceId) => dispatch(deletePurchaseData(invoiceId))
+  deletePurchaseData: (invoiceId) => dispatch(deletePurchaseData(invoiceId)),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const CheckoutMapped = connect(

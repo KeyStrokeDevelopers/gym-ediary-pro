@@ -42,7 +42,7 @@ class Invoice extends React.Component {
   };
 
   render() {
-    const { classes, invoiceData, memberData, isDigitallySign } = this.props;
+    const { classes, invoiceData, memberData, isDigitallySign, gymInfo } = this.props;
     const {
       header,
       note
@@ -68,10 +68,12 @@ class Invoice extends React.Component {
           <div id="identity" style={{ display: 'flex' }}>
             <div style={{ width: '100%' }}>
               <div style={{ display: 'flex' }}>
-                <div style={{ width: '20%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
-                  <img src={logo} alt={'logo'} style={{ width: '100%' }} />
-                </div>
-                <div style={{ width: '80%' }}>
+                {gymInfo.printLogo &&
+                  <div style={{ width: '20%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px' }}>
+                    <img src={logo} alt={'logo'} style={{ width: '100%' }} />
+                  </div>
+                }
+                <div style={{ width: '100%' }}>
                   <div style={{ width: '100%', textAlign: 'center', fontSize: '35px' }}>
                     {'Keystroke Developers'}
                   </div>
@@ -86,35 +88,29 @@ class Invoice extends React.Component {
                   </div>
                 </div>
               </div>
-              {/* <div style={{ width: '100%', textAlign: 'center', fontSize: '17px' }}>
-                {'info@keystrokedevelopers.com'}
-              </div> */}
             </div>
           </div>
 
           <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
             <div style={{ width: '70%' }}>
               <table id="fullMeta">
-                <tbody>
-                  <tr>
-                    <td className="fullMetaHead">Name</td>
-                    <td>{memberData.name}</td>
-                  </tr>
-                  <tr>
-                    <td className="fullMetaHead">Mobile Number</td>
-                    <td>{memberData.contact}</td>
-                  </tr>
-                  <tr>
-                    <td className="fullMetaHead">Email</td>
-                    <td>{memberData.email}</td>
-                  </tr>
-                  <tr>
-                    <td className="fullMetaHead">Address</td>
-                    <td>{memberData.address}</td>
-                  </tr>
-                  <tr>
-                  </tr>
-                </tbody>
+                <div>
+                  To
+                </div>
+                <div style={{ marginLeft: '13px' }}>
+                  <div>
+                    {memberData.name}
+                  </div>
+                  <div>
+                    {memberData.contact}
+                  </div>
+                  <div>
+                    {memberData.email}
+                  </div>
+                  <div>
+                    {memberData.address}
+                  </div>
+                </div>
               </table>
             </div>
             <div style={{ width: '30%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
@@ -158,7 +154,7 @@ class Invoice extends React.Component {
               <tr>
                 <th>Amount (In Words)</th>
 
-                <th colspan="2">{numToWords(invoiceData.amount)}</th>
+                <th colspan="2" style={{ textTransform: 'capitalize' }}>{numToWords(invoiceData.amount)}</th>
               </tr>
             </thead>
           </table>

@@ -1,8 +1,10 @@
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_SALE_DATA, SEARCH_SALE_DATA, EDIT_SALE_DATA, ADD_SALE_DATA, SET_SALE_DETAILS_FIELD,
   SHOW_DETAIL_SALE, HIDE_DETAIL_SALE, SUBMIT_SALE_DATA, CLOSE_SALE_FORM, LOADING_ACTION_SALE, SET_VALUE_IN_CART_SALE, RESET_CART_SALE,
-  DELETE_CART_VALUE_SALE, SET_ACCOUNT_DATA_SALE, HANDLE_NEXT_STEP_SALE, HANDLE_BACK_STEP_SALE, SHOPING_AGAIN_SALE, SET_BILL_INFO_DATA_SALE, SET_DISCOUNT_SALE,
-  SET_DISCOUNT_IN_VALUE_SALE, GET_GYM_INFO_DATA_SALE, SET_PAID_AMOUNT
+  DELETE_CART_VALUE_SALE, HANDLE_NEXT_STEP_SALE, HANDLE_BACK_STEP_SALE, SHOPING_AGAIN_SALE, SET_BILL_INFO_DATA_SALE, SET_DISCOUNT_SALE,
+  SET_DISCOUNT_IN_VALUE_SALE, GET_GYM_INFO_DATA_SALE, SET_PAID_AMOUNT, CLOSE_SALE_NOTIF, ERROR_SALE_DATA
 } from '../../actions/actionConstants';
 
 
@@ -21,6 +23,8 @@ const initialState = {
   gymInfoData: {},
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false,
   discount: 0,
@@ -49,7 +53,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_SALE_DATA:
@@ -66,7 +73,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         avatarInit: '',
         saleList: [...state.saleList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case SET_VALUE_IN_CART_SALE:
       return {
@@ -124,14 +134,6 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         cartList: cartListCopy
-      };
-    }
-
-    case SET_ACCOUNT_DATA_SALE: {
-      return {
-        ...state,
-        customerData: action.payload,
-        activeStep: state.activeStep + 1
       };
     }
 
@@ -196,6 +198,21 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         gymInfoData: action.payload
+      };
+    }
+
+    case CLOSE_SALE_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_SALE_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

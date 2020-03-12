@@ -1,7 +1,9 @@
 import { Map } from 'immutable';
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_SUBSCRIPTION_DATA, FETCH_SUBSCRIPTION_ACTIVE_DATA, SEARCH_SUBSCRIPTION_DATA, EDIT_SUBSCRIPTION_DATA, ADD_SUBSCRIPTION_DATA, SET_SUBSCRIPTION_DETAILS_FIELD,
-  SHOW_DETAIL_SUBSCRIPTION, HIDE_DETAIL_SUBSCRIPTION, SUBMIT_SUBSCRIPTION_DATA, CLOSE_SUBSCRIPTION_FORM, LOADING_ACTION_SUBSCRIPTION
+  SHOW_DETAIL_SUBSCRIPTION, HIDE_DETAIL_SUBSCRIPTION, SUBMIT_SUBSCRIPTION_DATA, CLOSE_SUBSCRIPTION_FORM, LOADING_ACTION_SUBSCRIPTION, CLOSE_SUBSCRIPTION_NOTIF, ERROR_SUBSCRIPTION_DATA
 } from '../../actions/actionConstants';
 
 
@@ -16,6 +18,8 @@ const initialState = {
   openFrm: false,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
   isLoading: false
 };
@@ -50,7 +54,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_SUBSCRIPTION_DATA:
@@ -69,7 +76,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         masterPackageList: [...state.masterPackageList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_SUBSCRIPTION:
       return {
@@ -106,6 +116,21 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         showMobileDetail: false
+      };
+    }
+
+    case CLOSE_SUBSCRIPTION_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_SUBSCRIPTION_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
       };
     }
 

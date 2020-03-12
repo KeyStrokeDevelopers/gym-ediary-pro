@@ -16,15 +16,14 @@ import {
   deletePurposeData,
   setDetailField,
   loadingAction,
-  hideDetailAction
+  hideDetailAction,
+  closeNotifAction
 } from 'dan-actions/PurposeActions';
-import {
-  AddContact,
-  Notification
-} from 'dan-components';
+import { AddContact } from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
 import PurposeDataList from '../../../components/Contact/PurposeDataList';
 import PurposeDetail from '../../../components/Contact/PurposeDetail';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 
 class Purpose extends React.Component {
   componentDidMount() {
@@ -42,8 +41,6 @@ class Purpose extends React.Component {
       loading();
       submitData(data);
     }
-    // const avatarBase64 = typeof avatar === 'object' ? URL.createObjectURL(avatar) : avatar;
-    // const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
@@ -69,8 +66,10 @@ class Purpose extends React.Component {
       keyword,
       search,
       initValue,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deletePurposeData,
       isLoading
     } = this.props;
@@ -84,7 +83,7 @@ class Purpose extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <PurposeDataList
             addFn
@@ -141,6 +140,8 @@ const mapStateToProps = state => {
     open: purposeReducer.openFrm,
     showMobileDetail: purposeReducer.showMobileDetail,
     messageNotif: purposeReducer.notifMsg,
+    notifType: purposeReducer.notifType,
+    openNoti: purposeReducer.openNoti,
     formValue: purposeReducer.formValues,
     is_active: purposeReducer.isActive,
     isLoading: purposeReducer.isLoading,
@@ -162,8 +163,8 @@ const constDispatchToProps = dispatch => ({
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchPurposeData(data)),
-  loading: () => dispatch(loadingAction())
-  // closeNotif: () => dispatch(closeNotifAction),
+  loading: () => dispatch(loadingAction()),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const PurposeMapped = connect(

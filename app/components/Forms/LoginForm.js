@@ -14,14 +14,15 @@ import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import ArrowForward from '@material-ui/icons/ArrowForward';
 import Paper from '@material-ui/core/Paper';
-import Icon from '@material-ui/core/Icon';
 import Hidden from '@material-ui/core/Hidden';
 import brand from 'dan-api/dummy/brand';
 import logo from 'dan-images/logo.png';
 import { TextFieldRedux } from './ReduxFormMUI';
 import styles from './user-jss';
 import { validate, phoneNumber } from './helpers/formValidation';
-import { signIn } from '../../actions/signIn';
+import { signIn, closeNotifAction } from '../../actions/signIn';
+import { closeRegistrationNotifAction } from '../../actions/register';
+import StyledNotif from '../../components/Notification/StyledNotif';
 
 
 const LinkBtn = React.forwardRef(function LinkBtn(props, ref) { // eslint-disable-line
@@ -53,11 +54,18 @@ class LoginForm extends React.Component {
       handleSubmit,
       pristine,
       submitting,
-      deco
+      deco,
+      messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
+      openSignNoti,
+      closeRegiNotif
     } = this.props;
     const { showPassword } = this.state;
     return (
       <Fragment>
+        <StyledNotif close={() => openSignNoti ? closeNotif() : closeRegiNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <Hidden mdUp>
           <NavLink to="/" className={classNames(classes.brand, classes.outer)}>
             <img src={logo} alt={brand.name} />
@@ -163,12 +171,24 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => {
+  const signInReducer = state.get('signIn');
+  const registerReducer = state.get('register');
+  return ({
+    messageNotif: signInReducer.openNoti ? signInReducer.notifMsg : registerReducer.notifMsg,
+    notifType: signInReducer.openNoti ? signInReducer.notifType : registerReducer.notifType,
+    openNoti: signInReducer.openNoti ? signInReducer.openNoti : registerReducer.openNoti,
+    openSignNoti: signInReducer.openNoti
+  });
+}
 
-
-const mapDispatchToProps = (dispatch) => ({
-  signIn: (userData) => dispatch(signIn(userData)),
-});
+const mapDispatchToProps = (dispatch) => {
+  return ({
+    signIn: (userData) => dispatch(signIn(userData)),
+    closeNotif: () => dispatch(closeNotifAction()),
+    closeRegiNotif: () => dispatch(closeRegistrationNotifAction())
+  });
+}
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   form: 'signIn',

@@ -17,17 +17,15 @@ import {
   deleteSmsData,
   setDetailField,
   loadingAction,
-  hideDetailAction
+  hideDetailAction,
+  closeNotifAction
 } from 'dan-actions/SmsActions';
-import {
-  Notification
-} from 'dan-components';
 import styles from 'dan-components/Contact/contact-jss';
 import SmsDataList from '../../../components/Sms/SmsDataList';
 import SmsDetail from '../../../components/Sms/SmsDetail';
 import AddSms from '../../../components/Sms/AddSms';
 import { getSmsActiveApi } from '../../../api/sms';
-
+import StyledNotif from '../../../components/Notification/StyledNotif';
 
 class Sms extends React.Component {
   componentDidMount() {
@@ -73,12 +71,13 @@ class Sms extends React.Component {
       favorite,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deleteSmsData,
       isLoading
     } = this.props;
-    console.log('smsActiveData--  ******-----', smsActiveData)
     return (
       <div>
         <Helmet>
@@ -89,7 +88,7 @@ class Sms extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <SmsDataList
             addFn
@@ -144,6 +143,8 @@ const mapStateToProps = state => {
     open: smsReducer.openFrm,
     showMobileDetail: smsReducer.showMobileDetail,
     messageNotif: smsReducer.notifMsg,
+    notifType: smsReducer.notifType,
+    openNoti: smsReducer.openNoti,
     formValue: smsReducer.formValues,
     is_active: smsReducer.isActive,
     isLoading: smsReducer.isLoading
@@ -165,8 +166,8 @@ const constDispatchToProps = dispatch => ({
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchSmsData(data)),
-  loading: () => dispatch(loadingAction())
-  // closeNotif: () => dispatch(closeNotifAction),
+  loading: () => dispatch(loadingAction()),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const SmsMapped = connect(

@@ -5,18 +5,17 @@ import brand from 'dan-api/dummy/brand';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import {
-  Notification
-} from 'dan-components';
-import {
   getMediaData,
   submitMediaData,
   addMediaData,
   closeAction,
   deleteMediaData,
-  loadingAction
+  loadingAction,
+  closeNotifAction
 } from 'dan-actions/mediaActions';
 import styles from 'dan-components/Email/email-jss';
 import MediaList from '../../../components/MediaProfile/MediaList';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import MediaHeader from '../../../components/MediaProfile/MediaProfileHeader';
 import Media from '../../../components/MediaProfile/Media';
 
@@ -26,19 +25,9 @@ class MediaProfile extends React.Component {
   };
 
   componentDidMount() {
-    const { fetchData, fetchMediaData } = this.props;
+    const { fetchMediaData } = this.props;
     fetchMediaData();
   }
-
-  handleReply = (mail) => {
-    const { compose } = this.props;
-    compose();
-    this.setState({
-      to: mail.get('name'),
-      subject: 'Reply: ' + mail.get('subject'),
-    });
-  }
-
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -52,7 +41,6 @@ class MediaProfile extends React.Component {
     if (Object.keys(formValue).length >= 1) {
       updateData(data);
     } else {
-      console.log('hit in else--');
       const formData = new FormData();
       formData.append('image', avatar);
       formData.set('date', data.get('date'));
@@ -69,17 +57,18 @@ class MediaProfile extends React.Component {
   render() {
     const {
       classes,
-      emailData, openMail,
       currentPage,
       open,
       search, keyword,
-      avatarInit, remove,
-      moveTo, toggleStar,
-      closeNotif, messageNotif,
+      avatarInit, toggleStar,
       mediaData,
       deleteMedia,
       memberData,
-      add, close
+      add, close,
+      messageNotif,
+      notifType,
+      openNoti,
+      closeNotif
     } = this.props;
     const title = brand.name + ' - Email';
     const description = brand.desc;
@@ -93,21 +82,16 @@ class MediaProfile extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <MediaHeader search={search} handleDrawerToggle={this.handleDrawerToggle} />
           <MediaList
-            emailData={emailData}
-            openMail={openMail}
             filterPage={currentPage}
             mediaData={mediaData}
             memberData={memberData}
             deleteMedia={deleteMedia}
             keyword={keyword}
-            moveTo={moveTo}
-            remove={remove}
             toggleStar={toggleStar}
-            reply={this.handleReply}
           />
           <Media
             submitData={this.submitMediaData}
@@ -125,7 +109,6 @@ class MediaProfile extends React.Component {
 
 const mapStateToProps = state => {
   const mediaReducer = state.get('media');
-  const memberReducer = state.get('addMember');
   return ({
     force: state, // force state from reducer
     avatarInit: mediaReducer.avatarInit,
@@ -140,7 +123,10 @@ const mapStateToProps = state => {
     is_active: mediaReducer.isActive,
     isLoading: mediaReducer.isLoading,
     showDetails: mediaReducer.showDetails,
-    filter_value: mediaReducer.filterValue
+    filter_value: mediaReducer.filterValue,
+    messageNotif: mediaReducer.notifMsg,
+    notifType: mediaReducer.notifType,
+    openNoti: mediaReducer.openNoti,
   });
 };
 
@@ -150,7 +136,8 @@ const constDispatchToProps = dispatch => ({
   close: () => dispatch(closeAction()),
   fetchMediaData: () => dispatch(getMediaData()),
   submitData: (data) => dispatch(submitMediaData(data)),
-  deleteMedia: (dataId) => dispatch(deleteMediaData(dataId))
+  deleteMedia: (dataId) => dispatch(deleteMediaData(dataId)),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const MediaProfileMapped = connect(

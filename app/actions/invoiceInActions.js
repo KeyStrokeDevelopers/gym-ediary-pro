@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_INVOICE_IN_DATA, SEARCH_INVOICE_IN_DATA, EDIT_INVOICE_IN_DATA, ADD_INVOICE_IN_DATA, SET_INVOICE_IN_DETAILS_FIELD,
-  ERROR_INVOICE_IN_DATA, SHOW_DETAIL_INVOICE_IN, HIDE_DETAIL_INVOICE_IN, SUBMIT_INVOICE_IN_DATA, CLOSE_INVOICE_IN_FORM, LOADING_ACTION_INVOICE_IN
+  ERROR_INVOICE_IN_DATA, SHOW_DETAIL_INVOICE_IN, HIDE_DETAIL_INVOICE_IN, SUBMIT_INVOICE_IN_DATA, CLOSE_INVOICE_IN_FORM, LOADING_ACTION_INVOICE_IN, CLOSE_INVOICE_IN_NOTIF
 } from './actionConstants';
 
 import {
@@ -43,7 +42,7 @@ export const searchInvoiceInData = invoiceData => ({
 
 const errorInvoiceInData = error => ({
   type: ERROR_INVOICE_IN_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -59,61 +58,38 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_INVOICE_IN
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
+export const closeNotifAction = () => ({
+  type: CLOSE_INVOICE_IN_NOTIF
+});
 
 export const submitInvoiceInData = (data) => (dispatch) => {
   addInvoiceInApi(data).then((response) => {
-    toast.success('InvoiceIn Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorInvoiceInData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorInvoiceInData(err));
+  });
 };
 
 export const getInvoiceInData = (data) => (dispatch) => {
   getInvoiceInApi(data).then((response) => {
     dispatch(fetchInvoiceInData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorInvoiceInData(err));
   });
 };
 
 export const updateInvoiceInData = (data) => (dispatch) => {
   updateInvoiceInDataApi(data).then((response) => {
-    toast.success('InvoiceIn Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchInvoiceInData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorInvoiceInData(err));
   });
 };
 
 export const deleteInvoiceInData = (data) => (dispatch) => {
   deleteInvoiceInDataApi(data).then((response) => {
-    toast.success('InvoiceIn Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchInvoiceInData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorInvoiceInData(err));
   });
 };

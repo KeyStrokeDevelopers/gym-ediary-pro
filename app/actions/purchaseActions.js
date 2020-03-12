@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_PURCHASE_DATA, SEARCH_PURCHASE_DATA, EDIT_PURCHASE_DATA, ADD_PURCHASE_DATA, SET_PURCHASE_DETAILS_FIELD, GET_GYM_INFO_DATA,
-  ERROR_PURCHASE_DATA, SHOW_DETAIL_PURCHASE, HIDE_DETAIL_PURCHASE, SUBMIT_PURCHASE_DATA, CLOSE_PURCHASE_FORM, LOADING_ACTION_PURCHASE, SET_VALUE_IN_CART, RESET_CART, DELETE_CART_VALUE, SET_ACCOUNT_DATA, HANDLE_NEXT_STEP, HANDLE_BACK_STEP, SHOPING_AGAIN, SET_BILL_INFO_DATA, SET_DISCOUNT, SET_DISCOUNT_IN_VALUE
+  ERROR_PURCHASE_DATA, SHOW_DETAIL_PURCHASE, HIDE_DETAIL_PURCHASE, SUBMIT_PURCHASE_DATA, CLOSE_PURCHASE_FORM, LOADING_ACTION_PURCHASE, SET_VALUE_IN_CART, RESET_CART, DELETE_CART_VALUE, SET_ACCOUNT_DATA, HANDLE_NEXT_STEP, HANDLE_BACK_STEP, SHOPING_AGAIN, SET_BILL_INFO_DATA, SET_DISCOUNT, SET_DISCOUNT_IN_VALUE, CLOSE_PURCHASE_NOTIF
 } from './actionConstants';
 
 import {
@@ -94,7 +93,7 @@ export const searchPurchaseData = purchaseData => ({
 
 const errorPurchaseData = error => ({
   type: ERROR_PURCHASE_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -110,61 +109,38 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_PURCHASE
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
+export const closeNotifAction = () => ({
+  type: CLOSE_PURCHASE_NOTIF
+});
 
 export const submitPurchaseData = (data) => (dispatch) => {
   addPurchaseApi(data).then((response) => {
-    toast.success('Purchase Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorPurchaseData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorPurchaseData(err));
+  });
 };
 
 export const getPurchaseData = (data) => (dispatch) => {
   getPurchaseApi(data).then((response) => {
     dispatch(fetchPurchaseData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPurchaseData(err));
   });
 };
 
 export const updatePurchaseData = (data) => (dispatch) => {
   updatePurchaseDataApi(data).then((response) => {
-    toast.success('Purchase Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchPurchaseData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPurchaseData(err));
   });
 };
 
 export const deletePurchaseData = (data) => (dispatch) => {
   deletePurchaseDataApi(data).then((response) => {
-    toast.success('Purchase Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchPurchaseData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPurchaseData(err));
   });
 };
@@ -174,7 +150,6 @@ export const getGymInfoData = () => (dispatch) => {
   getGymInfoApi().then((response) => {
     dispatch(fetchGymInfoData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorPurchaseData(err));
   });
 };

@@ -13,8 +13,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import { getPackageData } from 'dan-actions/vendorPackageActions';
 import moment from 'moment';
-import { getReportsData, markAttendance } from '../../../actions/reportActions';
+import { getReportsData, markAttendance, closeNotifAction } from '../../../actions/reportActions';
 import { SelectRedux, DatePickerInput } from '../../../components/Forms/ReduxFormMUI';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 
 
 class Attendance extends Component {
@@ -22,9 +23,6 @@ class Attendance extends Component {
     order: 'asc',
     orderBy: 'date',
     selected: [],
-    tableData: [{
-      attendance: 'true', form: 'abcdef', member: 'viender', constact: '9466051803'
-    }],
     columnData: [
       {
         id: 'attendance',
@@ -145,6 +143,12 @@ class Attendance extends Component {
   }
 
   handleDate = (e, date) => {
+    const { fetchReportsData } = this.props;
+    const { attendanceType, packageClass, reportType, subscriptionType } = this.state;
+    const dataForFetchReport = {
+      attendanceType, reportType, subscriptionType, packageClass, date
+    };
+    fetchReportsData(dataForFetchReport);
     this.setState({ date, isRadioOn: false });
   }
 
@@ -160,7 +164,6 @@ class Attendance extends Component {
   }
 
   render() {
-    const { dataForFetchReportData } = this.props;
     const description = brand.desc;
     const {
       order,
@@ -175,10 +178,14 @@ class Attendance extends Component {
       title,
       date
     } = this.state;
-    const {
-      classes, classData, packageData, reportData
-    } = this.props;
-    console.log('report data ---in attendance js -', reportData);
+    const { classes, classData, packageData, reportData, messageNotif, notifType, openNoti, closeNotif } = this.props;
+    let distinctData = [];
+    reportData.map((item) => {
+      let duplicate = distinctData.find(data => data.memberId === item.memberId)
+      if (!duplicate) {
+        distinctData.push(item);
+      }
+    })
     const packageClassData = [];
     if (subscriptionType === 'Package') {
       packageData.map((item) => {
@@ -201,6 +208,7 @@ class Attendance extends Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div style={{ marginLeft: '10px', marginTop: '10px', width: '100%' }}>
           SELECT ATTENDANCE DATE
           </div>
@@ -246,27 +254,12 @@ class Attendance extends Component {
               </Field>
             </FormControl>
           </div>
-          {/* <div className={classes.picker} style={{ margin: '10px', width: '50%' }}>
-                        <FormControl className={classes.field}>
-                            <InputLabel htmlFor="selection">Package/Class</InputLabel>
-                            <Field
-                                name="packageClass"
-                                component={SelectRedux}
-                                required
-                                placeholder="Package Class"
-                                onChange={this.handlePackageClassData}
-                            >
-                                <MenuItem value='All'>All</MenuItem>
-                                {packageClassData && packageClassData.map((item, index) => <MenuItem value={item.value} key={index + Math.random()}>{item.label}</MenuItem>)}
-                            </Field>
-                        </FormControl>
-                    </div> */}
         </div>
         <AdvTable
           order={order}
           orderBy={orderBy}
           selected={selected}
-          data={reportData}
+          data={distinctData}
           page={page}
           title={title}
           attendance={this.handleAttendance}
@@ -280,18 +273,25 @@ class Attendance extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  classData: state.get('classInfo').classList,
-  packageData: state.get('packageInfo').packageList,
-  reportData: state.get('reports').reportList,
-  updated: state.get('reports').updated
-});
+const mapStateToProps = (state) => {
+  const reportReducer = state.get('reports');
+  return ({
+    classData: state.get('classInfo').classList,
+    packageData: state.get('packageInfo').packageList,
+    reportData: state.get('reports').reportList,
+    updated: reportReducer.updated,
+    messageNotif: reportReducer.notifMsg,
+    notifType: reportReducer.notifType,
+    openNoti: reportReducer.openNoti,
+  });
+}
 
 const mapDispatchToProps = (dispatch) => ({
   fetchReportsData: (data) => dispatch(getReportsData(data)),
   fetchPackageData: () => dispatch(getClassData()),
   fetchClassData: () => dispatch(getPackageData()),
-  markAttendance: (data) => dispatch(markAttendance(data))
+  markAttendance: (data) => dispatch(markAttendance(data)),
+  closeNotif: () => dispatch(closeNotifAction())
 });
 
 const AttendanceRedux = reduxForm({

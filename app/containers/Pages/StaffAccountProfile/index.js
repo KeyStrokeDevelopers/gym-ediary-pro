@@ -5,9 +5,6 @@ import brand from 'dan-api/dummy/brand';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import {
-  Notification
-} from 'dan-components';
-import {
   getAccountData,
   submitSalaryData,
   getSalaryData,
@@ -15,12 +12,14 @@ import {
   closeAction,
   deleteAccountData,
   loadingAction,
+  closeNotifAction
 } from 'dan-actions/accountActions';
 import { getPaymentMethodData } from 'dan-actions/paymentMethodActions';
 import styles from 'dan-components/Email/email-jss';
 import AccountList from '../../../components/StaffAccountProfile/AccountList';
 import Account from '../../../components/StaffAccountProfile/Account';
 import PrintDetail from './printDetail'
+import StyledNotif from '../../../components/Notification/StyledNotif';
 
 class AccountProfile extends React.Component {
   state = {
@@ -67,7 +66,10 @@ class AccountProfile extends React.Component {
       currentPage,
       open, keyword, remove,
       moveTo, toggleStar,
-      closeNotif, messageNotif,
+      messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       fetchSalaryData,
       staffData,
       salaryData,
@@ -87,7 +89,7 @@ class AccountProfile extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <PrintDetail
             open={openPrint}
@@ -132,6 +134,8 @@ const mapStateToProps = state => {
     open: accountReducer.openFrm,
     showMobileDetail: accountReducer.showMobileDetail,
     messageNotif: accountReducer.notifMsg,
+    notifType: accountReducer.notifType,
+    openNoti: accountReducer.openNoti,
     formValue: accountReducer.formValues,
     occupationData: accountReducer.occupation,
     is_active: accountReducer.isActive,
@@ -151,6 +155,7 @@ const constDispatchToProps = dispatch => ({
   fetchSalaryData: (data) => dispatch(getSalaryData(data)),
   deleteAccount: (dataId) => dispatch(deleteAccountData(dataId)),
   fetchPaymentMethodData: () => dispatch(getPaymentMethodData()),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const AccountProfileMapped = connect(

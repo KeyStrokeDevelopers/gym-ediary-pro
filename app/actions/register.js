@@ -1,5 +1,4 @@
-import { toast } from 'react-toastify';
-import { REGISTRATION_FAILED, REGISTRATION_SUCCESS } from './actionConstants';
+import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, CLOSE_REGISTRATION_NOTIF } from './actionConstants';
 import history from '../utils/history';
 import { registerationApi } from '../api/register';
 
@@ -10,25 +9,26 @@ const registrationSuccess = () => {
   };
 };
 
-const registrationFailed = () => ({
-  type: REGISTRATION_FAILED
-});
-
-const registration = (data) => (dispatch) => {
-  registerationApi(data).then(() => {
-    toast.success('Registration success', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
-    dispatch(registrationSuccess());
-  })
-    .catch(() => {
-      toast.error('Request Failed', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000
-      });
-      dispatch(registrationFailed());
-    });
+const registrationFailed = (err) => {
+  console.log('error-----', err.response);
+  return ({
+    type: REGISTRATION_FAILED,
+    payload: err.response.data.message
+  });
 };
 
-export default registration;
+export const closeNotifAction = () => ({
+  type: CLOSE_REGISTRATION_NOTIF
+});
+
+export const closeRegistrationNotifAction = () => ({
+  type: CLOSE_REGISTRATION_NOTIF
+});
+
+export const registration = (data) => (dispatch) => {
+  registerationApi(data).then(() => {
+    dispatch(registrationSuccess());
+  }).catch((err) => {
+    dispatch(registrationFailed(err));
+  });
+};

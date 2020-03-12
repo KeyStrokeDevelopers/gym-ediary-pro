@@ -18,9 +18,10 @@ import {
   loadingAction,
   hideDetailAction,
   setFilterValue,
+  closeNotifAction
 } from 'dan-actions/productTypeActions';
 import styles from 'dan-components/Contact/contact-jss';
-import { Notification } from 'dan-components';
+import StyledNotif from '../../../components/Notification/StyledNotif';
 import ProductType from '../../../components/ProductType/ProductType';
 import ProductTypeDataList from '../../../components/ProductType/ProductTypeDataList';
 import ProductTypeDetail from '../../../components/ProductType/ProductTypeDetails';
@@ -66,8 +67,10 @@ class Member extends React.Component {
       showDetails,
       keyword,
       search,
-      closeNotif,
       messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
       deleteProductTypeData,
       isLoading
     } = this.props;
@@ -81,7 +84,7 @@ class Member extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
-        <Notification close={() => closeNotif()} message={messageNotif} />
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <div className={classes.root}>
           <ProductTypeDataList
             addFn
@@ -135,6 +138,8 @@ const mapStateToProps = state => {
     open: productTypeReducer.openFrm,
     showMobileDetail: productTypeReducer.showMobileDetail,
     messageNotif: productTypeReducer.notifMsg,
+    notifType: productTypeReducer.notifType,
+    openNoti: productTypeReducer.openNoti,
     formValue: productTypeReducer.formValues,
     is_active: productTypeReducer.isActive,
     isLoading: productTypeReducer.isLoading,
@@ -158,8 +163,8 @@ const constDispatchToProps = dispatch => ({
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchProductTypeData(data)),
   loading: () => dispatch(loadingAction()),
-  filterValue: (value) => dispatch(setFilterValue(value))
-  // closeNotif: () => dispatch(closeNotifAction),
+  filterValue: (value) => dispatch(setFilterValue(value)),
+  closeNotif: () => dispatch(closeNotifAction),
 });
 
 const ProductTypeMapped = connect(

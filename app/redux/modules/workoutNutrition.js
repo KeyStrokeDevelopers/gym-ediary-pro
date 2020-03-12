@@ -1,8 +1,9 @@
+import notifM from 'dan-api/ui/notifMessage';
+import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_WORKOUT_NUTRITION_DATA, SEARCH_WORKOUT_NUTRITION_DATA, EDIT_WORKOUT_NUTRITION_DATA, ADD_WORKOUT_NUTRITION_DATA, SET_WORKOUT_NUTRITION_DETAILS_FIELD, FETCH_ACCESS_DATA,
-  SHOW_DETAIL_WORKOUT_NUTRITION, HIDE_DETAIL_WORKOUT_NUTRITION, SUBMIT_WORKOUT_NUTRITION_DATA, CLOSE_WORKOUT_NUTRITION_FORM, LOADING_ACTION_WORKOUT_NUTRITION
+  SHOW_DETAIL_WORKOUT_NUTRITION, HIDE_DETAIL_WORKOUT_NUTRITION, SUBMIT_WORKOUT_NUTRITION_DATA, CLOSE_WORKOUT_NUTRITION_FORM, LOADING_ACTION_WORKOUT_NUTRITION, ERROR_WORKOUT_NUTRITION_DATA, CLOSE_WORKOUT_NUTRITION_NOTIF
 } from '../../actions/actionConstants';
-
 
 const initialState = {
   workoutNutritionList: [],
@@ -15,9 +16,10 @@ const initialState = {
   openFrm: false,
   showMobileDetail: false,
   notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   isActive: true,
-  isLoading: false,
-  abc: { test: 'test' }
+  isLoading: false
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -42,7 +44,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_WORKOUT_NUTRITION_DATA:
@@ -61,7 +66,10 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         workoutNutritionList: [...state.workoutNutritionList, action.payload],
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true
       };
     case LOADING_ACTION_WORKOUT_NUTRITION:
       return {
@@ -106,6 +114,22 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         accessList: action.payload,
       };
+
+    case CLOSE_WORKOUT_NUTRITION_NOTIF: {
+      return {
+        ...state,
+        openNoti: false
+      };
+    }
+
+    case ERROR_WORKOUT_NUTRITION_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
+      };
+    }
     default:
       return state;
   }

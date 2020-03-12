@@ -1,7 +1,7 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,7 +15,6 @@ import WarningIcon from '@material-ui/icons/Warning';
 import Grid from '@material-ui/core/Grid';
 import green from '@material-ui/core/colors/green';
 import amber from '@material-ui/core/colors/amber';
-import messageStyles from 'dan-styles/Messages.scss';
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -120,75 +119,43 @@ const action = (
 );
 
 class StyledNotif extends React.Component {
-  state = {
-    openStyle: false,
-  };
-
-  handleClickStyle = () => {
-    this.setState({ openStyle: true });
-  };
-
-  handleCloseStyle = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.setState({ openStyle: false });
-  };
-
   render() {
-    const { classes } = this.props;
-    const { openStyle } = this.state;
+    const { message, notifType, openNoti, close
+    } = this.props;
     return (
       <Grid container alignItems="flex-start" justify="center" direction="row" spacing={2}>
         <Grid item md={6} xs={12}>
-          <Button className={classes.margin} variant="outlined" color="primary" onClick={this.handleClickStyle}>
-            Open success snackbar
-          </Button>
           <Snackbar
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: 'top',
+              horizontal: 'center',
             }}
-            open={openStyle}
-            autoHideDuration={6000}
-            onClose={this.handleCloseStyle}
+            open={notifType === 'success' && openNoti}
+            autoHideDuration={2000}
+            onClose={() => close()}
           >
             <MySnackbarContentWrapper
-              onClose={this.handleCloseStyle}
+              onClose={() => close()}
               variant="success"
-              message="This is a success message!"
+              message={message}
             />
           </Snackbar>
-          <MySnackbarContentWrapper
-            variant="error"
-            className={classes.margin}
-            message="This is an error message!"
-          />
-          <MySnackbarContentWrapper
-            variant="warning"
-            className={classes.margin}
-            message="This is a warning message!"
-          />
-          <MySnackbarContentWrapper
-            variant="info"
-            className={classes.margin}
-            message="This is an information message!"
-          />
-          <MySnackbarContentWrapper
-            variant="success"
-            className={classes.margin}
-            message="This is a success message!"
-          />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <Typography variant="button" className={classes.divider}>Custom Styled Notification with CSS</Typography>
-          <div>
-            <SnackbarContent className={classes.snackbar} message="Notification default" action={action} />
-            <SnackbarContent className={classNames(classes.snackbar, messageStyles.bgInfo)} message="Notification Info" action={action} />
-            <SnackbarContent className={classNames(classes.snackbar, messageStyles.bgSuccess)} message="Success Notification Message" />
-            <SnackbarContent className={classNames(classes.snackbar, messageStyles.bgWarning)} message="I love candy. I love cookies. I love cupcakes." action={action} />
-            <SnackbarContent className={classNames(classes.snackbar, messageStyles.bgError)} message="I love cheesecake. I love chocolate." action={action} />
-          </div>
+
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            open={notifType === 'error' && openNoti}
+            autoHideDuration={2000}
+            onClose={() => close()}
+          >
+            <MySnackbarContentWrapper
+              onClose={() => close()}
+              variant="error"
+              message={message}
+            />
+          </Snackbar>
         </Grid>
       </Grid>
     );

@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_ACCOUNT_INFO_DATA, SEARCH_ACCOUNT_INFO_DATA, EDIT_ACCOUNT_INFO_DATA, ADD_ACCOUNT_INFO_DATA, SET_ACCOUNT_INFO_DETAILS_FIELD,
-  ERROR_ACCOUNT_INFO_DATA, SHOW_DETAIL_ACCOUNT_INFO, HIDE_DETAIL_ACCOUNT_INFO, SUBMIT_ACCOUNT_INFO_DATA, CLOSE_ACCOUNT_INFO_FORM, LOADING_ACTION_ACCOUNT_INFO
+  ERROR_ACCOUNT_INFO_DATA, SHOW_DETAIL_ACCOUNT_INFO, HIDE_DETAIL_ACCOUNT_INFO, SUBMIT_ACCOUNT_INFO_DATA, CLOSE_ACCOUNT_INFO_FORM, LOADING_ACTION_ACCOUNT_INFO, CLOSE_ACCOUNT_INFO_NOTIF
 } from './actionConstants';
 
 import {
@@ -43,7 +42,11 @@ export const searchAccountInfoData = accountInfoData => ({
 
 const errorAccountInfoData = error => ({
   type: ERROR_ACCOUNT_INFO_DATA,
-  payload: error
+  payload: error.response.data.message
+});
+
+export const closeNotifAction = () => ({
+  type: CLOSE_ACCOUNT_INFO_NOTIF
 });
 
 export const setDetailField = (data) => ({
@@ -59,61 +62,34 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_ACCOUNT_INFO
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
-
 export const submitAccountInfoData = (data) => (dispatch) => {
   addAccountInfoApi(data).then((response) => {
-    toast.success('AccountInfo Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorAccountInfoData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorAccountInfoData(err));
+  });
 };
 
 export const getAccountInfoData = () => (dispatch) => {
   getAccountInfoApi().then((response) => {
     dispatch(fetchAccountInfoData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorAccountInfoData(err));
   });
 };
 
 export const updateAccountInfoData = (data) => (dispatch) => {
   updateAccountInfoDataApi(data).then((response) => {
-    toast.success('AccountInfo Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchAccountInfoData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorAccountInfoData(err));
   });
 };
 
 export const deleteAccountInfoData = (data) => (dispatch) => {
   deleteAccountInfoDataApi(data).then((response) => {
-    toast.success('AccountInfo Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchAccountInfoData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorAccountInfoData(err));
   });
 };

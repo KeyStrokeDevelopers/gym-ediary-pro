@@ -1,6 +1,6 @@
-
+import notifT from 'dan-api/ui/notifType';
 import {
-  FETCH_PENDING_PAYMENTS_DATA, FETCH_REPORTS_DATA, FETCH_EXPIRING_MEMBERSHIPS_DATA, FETCH_EXPIRED_MEMBERS_DATA, FETCH_NON_ACTIVE_MEMBERS_DATA, FETCH_CLASSES_DATA, FETCH_ALL_NEW_REGISTERED_DATA, FETCH_ALL_RENEWED_MEMBERSHIP_DATA, SET_ATTENDANCE, UPDATED_DATA, ERROR_REPORTS_DATA
+  FETCH_PENDING_PAYMENTS_DATA, FETCH_REPORTS_DATA, FETCH_EXPIRING_MEMBERSHIPS_DATA, FETCH_EXPIRED_MEMBERS_DATA, FETCH_NON_ACTIVE_MEMBERS_DATA, FETCH_CLASSES_DATA, FETCH_ALL_NEW_REGISTERED_DATA, FETCH_ALL_RENEWED_MEMBERSHIP_DATA, SET_ATTENDANCE, UPDATED_DATA, ERROR_REPORTS_DATA, CLOSE_REPORTS_NOTIF
 } from '../../actions/actionConstants';
 
 const initialState = {
@@ -13,6 +13,9 @@ const initialState = {
   registrationList: [],
   renewalMembershipList: [],
   attendanceList: [],
+  notifMsg: '',
+  notifType: '', // success or error
+  openNoti: true,
   error: null,
   updated: false,
 };
@@ -73,17 +76,30 @@ export default function reducer(state = initialState, action = {}) {
         attendanceList: action.payload
       };
 
-    case ERROR_REPORTS_DATA:
-      return {
-        ...state,
-        error: action.payload
-      };
-
     case UPDATED_DATA:
       return {
         ...state,
-        updated: !state.updated
+        updated: !state.updated,
+        notifMsg: 'Attendance mark successfully',
+        notifType: notifT.success, // success or error
+        openNoti: true,
+
       };
+
+    case CLOSE_REPORTS_NOTIF:
+      return {
+        ...state,
+        openNoti: false
+      };
+
+    case ERROR_REPORTS_DATA: {
+      return {
+        ...state,
+        notifMsg: action.payload,
+        notifType: notifT.error,
+        openNoti: true
+      };
+    }
 
     default:
       return state;

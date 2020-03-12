@@ -1,15 +1,12 @@
 /* eslint-disable */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Bookmark from '@material-ui/icons/Bookmark';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import LabelIcon from '@material-ui/icons/Label';
 import Star from '@material-ui/icons/Star';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -17,10 +14,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
-import isImage from '../Forms/helpers/helpers.js';
+import Delete from '@material-ui/icons/Delete';
 import styles from './email-jss';
+import { SERVER_URL } from '../Common/constant';
 
-const ITEM_HEIGHT = 80;
 class MediaList extends React.Component {
   state = {
     anchorElOpt: null,
@@ -54,22 +51,14 @@ class MediaList extends React.Component {
     this.setState({ open: true, viewIndex: index });
   }
 
-  handleMoveTo = (item, category) => {
-    const { moveTo } = this.props;
-    moveTo(item, category);
-    this.setState({ anchorElOpt: null });
-  }
-
   render() {
     const {
       classes,
       mediaData,
       toggleStar
     } = this.props;
-    const {
-      anchorElOpt, itemToMove, open, viewIndex
+    const { open, viewIndex
     } = this.state;
-
     const getMedia = dataArray => dataArray.map((data, index) => (
       <div>
         <div>
@@ -118,7 +107,6 @@ class MediaList extends React.Component {
                 <Typography variant="caption" display="block">{data.date}</Typography>
               </Typography>
             </div>
-
             <div className={classes.column}>
               <Typography className={classes.secondaryHeading} noWrap>{data.description}</Typography>
             </div>
@@ -134,15 +122,5 @@ class MediaList extends React.Component {
     );
   }
 }
-
-MediaList.propTypes = {
-  classes: PropTypes.object.isRequired,
-  openMail: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired,
-  toggleStar: PropTypes.func.isRequired,
-  reply: PropTypes.func.isRequired,
-  filterPage: PropTypes.string.isRequired,
-  keyword: PropTypes.string.isRequired,
-};
 
 export default withStyles(styles)(MediaList);

@@ -1,7 +1,6 @@
-import { toast } from 'react-toastify';
 import {
   FETCH_EXPENSE_INCOME_DATA, SEARCH_EXPENSE_INCOME_DATA, EDIT_EXPENSE_INCOME_DATA, ADD_EXPENSE_INCOME_DATA, SET_EXPENSE_INCOME_DETAILS_FIELD,
-  ERROR_EXPENSE_INCOME_DATA, SHOW_DETAIL_EXPENSE_INCOME, HIDE_DETAIL_EXPENSE_INCOME, SUBMIT_EXPENSE_INCOME_DATA, CLOSE_EXPENSE_INCOME_FORM, LOADING_ACTION_EXPENSE_INCOME
+  ERROR_EXPENSE_INCOME_DATA, SHOW_DETAIL_EXPENSE_INCOME, HIDE_DETAIL_EXPENSE_INCOME, SUBMIT_EXPENSE_INCOME_DATA, CLOSE_EXPENSE_INCOME_FORM, LOADING_ACTION_EXPENSE_INCOME, CLOSE_EXPENSE_INCOME_NOTIF
 } from './actionConstants';
 import {
   addExpenseIncomeApi, getExpenseIncomeApi, updateExpenseIncomeDataApi, deleteExpenseIncomeDataApi
@@ -42,7 +41,7 @@ export const searchExpenseIncomeData = expenseIncomeData => ({
 
 const errorExpenseIncomeData = error => ({
   type: ERROR_EXPENSE_INCOME_DATA,
-  payload: error
+  payload: error.response.data.message
 });
 
 export const setDetailField = (data) => ({
@@ -58,61 +57,38 @@ export const hideDetailAction = () => ({
   type: HIDE_DETAIL_EXPENSE_INCOME
 });
 
-const viewError = (error) => {
-  const { response } = error;
-  const { data } = response;
-  const { message } = data;
-  toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
-    autoClose: 2000
-  });
-};
+export const closeNotifAction = () => ({
+  type: CLOSE_EXPENSE_INCOME_NOTIF
+});
 
 export const submitExpenseIncomeData = (data) => (dispatch) => {
   addExpenseIncomeApi(data).then((response) => {
-    toast.success('ExpenseIncome Data Add Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(submitAction(response.data));
-  })
-    .catch((err) => {
-      viewError(err);
-      dispatch(errorExpenseIncomeData(err));
-    });
+  }).catch((err) => {
+    dispatch(errorExpenseIncomeData(err));
+  });
 };
 
 export const getExpenseIncomeData = () => (dispatch) => {
   getExpenseIncomeApi().then((response) => {
     dispatch(fetchExpenseIncomeData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorExpenseIncomeData(err));
   });
 };
 
 export const updateExpenseIncomeData = (data) => (dispatch) => {
   updateExpenseIncomeDataApi(data).then((response) => {
-    toast.success('ExpenseIncome Data Updated Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchExpenseIncomeData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorExpenseIncomeData(err));
   });
 };
 
 export const deleteExpenseIncomeData = (data) => (dispatch) => {
   deleteExpenseIncomeDataApi(data).then((response) => {
-    toast.success('ExpenseIncome Data Remove Successfully !', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(fetchExpenseIncomeData(response.data));
   }).catch((err) => {
-    viewError(err);
     dispatch(errorExpenseIncomeData(err));
   });
 };

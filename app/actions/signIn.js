@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 import * as types from './actionConstants';
 import { signInApi, getInitialData } from '../api/signIn';
 import history from '../utils/history';
@@ -22,36 +21,26 @@ const setInitialStaffInfo = staffData => ({
   payload: staffData
 });
 
-const loginError = err => {
-  console.log('erro in login ', err);
-  return {
-    type: types.LOGIN_ERROR,
-    payload: err
-  };
-};
+const loginError = () => ({
+  type: types.LOGIN_ERROR
+});
+
+export const closeNotifAction = () => ({
+  type: types.CLOSE_LOGIN_NOTIF
+});
 
 export const signIn = (data) => (dispatch) => {
   signInApi(data).then((response) => {
-    toast.success('Sigin in success', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000
-    });
     dispatch(setStaffInfo(response.data));
-  })
-    .catch((err) => {
-      toast.error('Registered, Contact or password is incorrect', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000
-      });
-      dispatch(loginError(err));
-    });
+  }).catch((err) => {
+    dispatch(loginError(err));
+  });
 };
 
 export const initialData = () => (dispatch) => {
   getInitialData().then((response) => {
     dispatch(setInitialStaffInfo(response.data));
-  })
-    .catch((err) => {
-      dispatch(loginError(err));
-    });
+  }).catch((err) => {
+    dispatch(loginError(err));
+  });
 };
