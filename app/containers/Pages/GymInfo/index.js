@@ -36,7 +36,7 @@ class GymInfo extends React.Component {
       gymInfoData,
       isLoading
     } = this.props;
-    console.log('gym info data ---in main index ---', gymInfoData)
+
     return (
       <div>
         <Helmet>

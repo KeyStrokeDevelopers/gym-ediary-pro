@@ -131,9 +131,11 @@ class ExpenseIncomeDetail extends React.Component {
               <section className={classes.cover}>
                 <div className={classes.opt}>
                   <>
-                    <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewExpenseIncomeData[itemSelected]._id)}>
-                      <DeleteIcon />
-                    </IconButton>
+                    {is_active &&
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewExpenseIncomeData[itemSelected]._id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    }
                     <IconButton aria-label="Edit" onClick={() => edit(viewExpenseIncomeData[itemSelected])}>
                       <Edit />
                     </IconButton>

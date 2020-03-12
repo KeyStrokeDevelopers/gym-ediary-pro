@@ -173,9 +173,6 @@ const constDispatchToProps = dispatch => ({
   deleteExpenseIncomeData: (data) => dispatch(deleteExpenseIncomeData(data)),
   fetchCategoryData: () => dispatch(getCategoryData()),
   fetchPaymentMethodData: () => dispatch(getPaymentMethodData()),
-
-  // remove: bindActionCreators(removeAction, dispatch),
-  // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchExpenseIncomeData(data)),
   loading: () => dispatch(loadingAction()),
