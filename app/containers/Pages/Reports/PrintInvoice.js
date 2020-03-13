@@ -143,7 +143,6 @@ class PrintInvoice extends React.Component {
               </div>
             </div>
           </div>
-
           <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
             <div style={{ width: '70%' }}>
               <table id="fullMeta">
@@ -194,9 +193,7 @@ class PrintInvoice extends React.Component {
                 <th>Price</th>
               </tr>
             </thead>
-            <tbody style={{ height: '500px' }}>
-              {getRow(invoiceData.orderSummary)}
-              {getRow(invoiceData.orderSummary)}
+            <tbody>
               {getRow(invoiceData.orderSummary)}
             </tbody>
           </table>

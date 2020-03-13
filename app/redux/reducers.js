@@ -6,7 +6,6 @@ import { reducer as form } from 'redux-form/immutable';
 import { combineReducers } from 'redux-immutable';
 import { connectRouter } from 'connected-react-router/immutable';
 import history from 'utils/history';
-
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import uiReducer from './modules/ui';
 import initval from './modules/initForm';
@@ -47,6 +46,7 @@ import reports from './modules/reports';
 import sale from './modules/sale';
 import sms from './modules/sms';
 import subscription from './modules/subscription';
+import message from './modules/message';
 
 /**
  * Branching reducers to use one reducer for many components
@@ -108,6 +108,7 @@ export default function createReducer(injectedReducers = {}) {
     sale,
     sms,
     subscription,
+    message,
 
     chat,
     email,

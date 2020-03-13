@@ -135,7 +135,6 @@ class Sale extends Component {
   }
 
   editSaleData = (invoiceData) => {
-    console.log('invoice data ----**---', invoiceData)
     this.setState({ open: true, invoiceData });
   }
 

@@ -22,6 +22,8 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import SmsIcon from '@material-ui/icons/Sms';
 import EmailIcon from '@material-ui/icons/Email';
 import styles from './product-jss';
+import StyledNotif from '../../../components/Notification/StyledNotif';
+import { closeNotifAction, sendEmail, sendSms } from 'dan-actions/messageActions';
 
 const Transition = React.forwardRef(function Transition(props, ref) { // eslint-disable-line
   return <Slide direction="up" ref={ref} {...props} />;
@@ -37,6 +39,11 @@ class PrintDetail extends React.Component { // eslint-disable-line
     this.props.initialize({ printLogo: true });
   }
 
+  sendEmail = (data) => {
+    const { sendEmailInvoice } = this.props;
+    sendEmailInvoice(data);
+  }
+
 
   handleToggle = (e, isDigitallySign) => {
     this.setState({ isDigitallySign })
@@ -49,6 +56,10 @@ class PrintDetail extends React.Component { // eslint-disable-line
       printData,
       memberData,
       gymInfo,
+      messageNotif,
+      notifType,
+      openNoti,
+      closeNotif,
     } = this.props;
     const { isDigitallySign } = this.state;
     return (
@@ -58,6 +69,7 @@ class PrintDetail extends React.Component { // eslint-disable-line
         onClose={close}
         TransitionComponent={Transition}
       >
+        <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
         <AppBar className={classes.appBar}>
           <Toolbar>
             <Typography variant="h6" noWrap color="inherit" className={classes.flex}>
@@ -86,7 +98,7 @@ class PrintDetail extends React.Component { // eslint-disable-line
             SMS!
           </Button>
           {memberData.email &&
-            <Button className={classes.button} size="small" variant="contained" color="secondary" style={{ margin: '10px' }}>
+            <Button onClick={() => this.sendEmail({ invoice: <Invoice ref={(el) => { this.componentRef = el; }} invoiceData={printData} memberData={memberData} gymInfo={gymInfo} isDigitallySign={isDigitallySign} />, mailId: memberData.email, subject: 'Invoice' })} className={classes.button} size="small" variant="contained" color="secondary" style={{ margin: '10px' }}>
               <EmailIcon className={classes.extendedIcon} />
               EMAIL
           </Button>
@@ -110,10 +122,24 @@ class PrintDetail extends React.Component { // eslint-disable-line
   }
 }
 
+const mapStateToProps = state => {
+  const messageReducer = state.get('message');
+  return ({
+    messageNotif: messageReducer.notifMsg,
+    notifType: messageReducer.notifType,
+    openNoti: messageReducer.openNoti
+  });
+};
+
+const constDispatchToProps = dispatch => ({
+  closeNotif: () => dispatch(closeNotifAction()),
+  sendEmailInvoice: (data) => dispatch(sendEmail(data))
+});
+
 const PrintDetailRedux = reduxForm({
   form: 'printForm',
   enableReinitialize: true,
   keepDirtyOnReinitialize: true
 })(PrintDetail);
 
-export default withStyles(styles)(connect(null, null)(PrintDetailRedux));
+export default withStyles(styles)(connect(mapStateToProps, constDispatchToProps)(PrintDetailRedux));
