@@ -135,6 +135,7 @@ class Sale extends Component {
   }
 
   editSaleData = (invoiceData) => {
+    console.log('invoice data ----**---', invoiceData)
     this.setState({ open: true, invoiceData });
   }
 
@@ -182,7 +183,6 @@ class Sale extends Component {
       open
     } = this.state;
     const { classes, saleData } = this.props;
-
     return (
       <div className={classes.root} style={{ display: 'block' }}>
         <Helmet>
@@ -248,7 +248,6 @@ class Sale extends Component {
             />
           </div>
         </div>
-
         {(saleData && saleData.length >= 1)
           ? (
             <>

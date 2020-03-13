@@ -14,7 +14,7 @@ import 'dan-styles/vendors/slick-carousel/slick-carousel.css';
 import 'dan-styles/vendors/slick-carousel/slick.css';
 import 'dan-styles/vendors/slick-carousel/slick-theme.css';
 import ReactToPrint from 'react-to-print';
-import CommercialInvoice from '../../../components/DynamicInvoice/CommercialInvoice';
+import PrintInvoice from './PrintInvoice';
 import PrintIcon from '@material-ui/icons/Print';
 import styles from './product-jss';
 
@@ -108,7 +108,7 @@ class InvoiceDetail extends React.Component { // eslint-disable-line
           </Button>
         </div>
         <section className={classes.wrapper}>
-          <CommercialInvoice ref={(el) => { this.componentRef = el; }} invoiceData={invoiceData} />
+          <PrintInvoice ref={(el) => { this.componentRef = el; }} invoiceData={invoiceData} />
         </section>
       </Dialog>
     );

@@ -48,6 +48,22 @@
 #items td.blank { border: 0; }
 #items td.blank-last { border: 0; border-bottom: 1px solid #000; }
 
+
+#itemsSale { clear: both; width: 100%; margin: 30px 0 0 0; border: 1px solid black; }
+#itemsSale th { background: #eee; }
+#itemsSale textarea { width: 80px; height: 50px; }
+#itemsSale tr.item-row td { border: 0; vertical-align: top; }
+#itemsSale td.description { width: 300px; }
+#itemsSale td.item-name { width: 175px; }
+#itemsSale td.description textarea, #items td.item-name textarea { width: 100%; }
+#itemsSale td.total-line { border-right: 1px solid #000; text-align: right; }
+#itemsSale td.total-value { border-left: 1px solid #000;; padding: 10px; }
+#itemsSale td.total-value textarea { height: 20px; background: none; }
+#itemsSale td.balance { background: #eee; }
+#itemsSale td.blank { border: 1px solid #000; }
+#itemsSale td.blank-last { border: 0; border-bottom: 1px solid #000; }
+
+
 #terms { text-align: center; margin: 20px 0 0 0; }
 #terms h5 { text-transform: uppercase; font: 13px Helvetica, Sans-Serif; letter-spacing: 10px; border-bottom: 1px solid black; padding: 0 0 8px 0; margin: 0 0 8px 0; }
 #terms textarea { width: 100%; text-align: center;}

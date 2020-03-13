@@ -86,12 +86,8 @@ class Invoice extends React.Component {
                   </div>
                 </div>
               </div>
-              {/* <div style={{ width: '100%', textAlign: 'center', fontSize: '17px' }}>
-                {'info@keystrokedevelopers.com'}
-              </div> */}
             </div>
           </div>
-
           <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
             <div style={{ width: '70%' }}>
               <table id="fullMeta">
@@ -156,7 +152,6 @@ class Invoice extends React.Component {
             <thead>
               <tr>
                 <th>Amount (In Words)</th>
-
                 <th colspan="2">{numToWords(invoiceData.amount)}</th>
               </tr>
             </thead>
