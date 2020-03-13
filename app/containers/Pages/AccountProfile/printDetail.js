@@ -44,6 +44,11 @@ class PrintDetail extends React.Component { // eslint-disable-line
     sendEmailInvoice(data);
   }
 
+  sendSms = (data) => {
+    const { sendSmsInvoice } = this.props;
+    sendSmsInvoice(data);
+  }
+
 
   handleToggle = (e, isDigitallySign) => {
     this.setState({ isDigitallySign })
@@ -62,6 +67,8 @@ class PrintDetail extends React.Component { // eslint-disable-line
       closeNotif,
     } = this.props;
     const { isDigitallySign } = this.state;
+    console.log('print data ---', printData);
+    console.log('memberData', memberData)
     return (
       <Dialog
         fullScreen
@@ -93,10 +100,12 @@ class PrintDetail extends React.Component { // eslint-disable-line
             <ArrowDownwardIcon className={classes.extendedIcon} />
             IMAGE
           </Button>
-          <Button className={classes.button} size="small" variant="contained" color="secondary" style={{ margin: '10px' }}>
-            <SmsIcon className={classes.extendedIcon} />
-            SMS!
+          {memberData.contact &&
+            <Button onClick={() => this.sendSms({ contact: memberData.contact, message: `${printData.description}_${printData.amount}_by_Paytm` })} className={classes.button} size="small" variant="contained" color="secondary" style={{ margin: '10px' }}>
+              <SmsIcon className={classes.extendedIcon} />
+              SMS!
           </Button>
+          }
           {memberData.email &&
             <Button onClick={() => this.sendEmail({ invoice: <Invoice ref={(el) => { this.componentRef = el; }} invoiceData={printData} memberData={memberData} gymInfo={gymInfo} isDigitallySign={isDigitallySign} />, mailId: memberData.email, subject: 'Invoice' })} className={classes.button} size="small" variant="contained" color="secondary" style={{ margin: '10px' }}>
               <EmailIcon className={classes.extendedIcon} />
@@ -133,7 +142,8 @@ const mapStateToProps = state => {
 
 const constDispatchToProps = dispatch => ({
   closeNotif: () => dispatch(closeNotifAction()),
-  sendEmailInvoice: (data) => dispatch(sendEmail(data))
+  sendEmailInvoice: (data) => dispatch(sendEmail(data)),
+  sendSmsInvoice: (data) => dispatch(sendSms(data))
 });
 
 const PrintDetailRedux = reduxForm({
