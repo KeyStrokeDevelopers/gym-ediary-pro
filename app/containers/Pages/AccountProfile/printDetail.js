@@ -23,6 +23,8 @@ import SmsIcon from '@material-ui/icons/Sms';
 import EmailIcon from '@material-ui/icons/Email';
 import styles from './product-jss';
 import StyledNotif from '../../../components/Notification/StyledNotif';
+import html2canvas from 'html2canvas';
+import pdfMake from "pdfmake/build/pdfmake";
 import { closeNotifAction, sendEmail, sendSms } from 'dan-actions/messageActions';
 
 const Transition = React.forwardRef(function Transition(props, ref) { // eslint-disable-line
@@ -49,6 +51,27 @@ class PrintDetail extends React.Component { // eslint-disable-line
     sendSmsInvoice(data);
   }
 
+  savePdf = () => {
+    html2canvas(document.getElementById("save_pdf")).then(canvas => {
+      var data = canvas.toDataURL();
+      var pdfExportSetting = {
+        content: [
+          {
+            image: data,
+            width: 900,
+            margin: 0,
+            padding: 0,
+            marginLeft: -180
+          }
+        ]
+      };
+      pdfMake.createPdf(pdfExportSetting).download("invoice.pdf");
+    });
+  };
+
+
+
+
 
   handleToggle = (e, isDigitallySign) => {
     this.setState({ isDigitallySign })
@@ -67,8 +90,6 @@ class PrintDetail extends React.Component { // eslint-disable-line
       closeNotif,
     } = this.props;
     const { isDigitallySign } = this.state;
-    console.log('print data ---', printData);
-    console.log('memberData', memberData)
     return (
       <Dialog
         fullScreen
@@ -96,9 +117,9 @@ class PrintDetail extends React.Component { // eslint-disable-line
             )}
             content={() => this.componentRef}
           />
-          <Button className={classes.button} size="small" variant="contained" color="secondary" style={{ margin: '10px' }}>
+          <Button onClick={() => this.savePdf()} className={classes.button} size="small" variant="contained" color="secondary" style={{ margin: '10px' }}>
             <ArrowDownwardIcon className={classes.extendedIcon} />
-            IMAGE
+            PDF
           </Button>
           {memberData.contact &&
             <Button onClick={() => this.sendSms({ contact: memberData.contact, message: `${printData.description}_${printData.amount}_by_Paytm` })} className={classes.button} size="small" variant="contained" color="secondary" style={{ margin: '10px' }}>
@@ -123,8 +144,10 @@ class PrintDetail extends React.Component { // eslint-disable-line
             </form>
           </div>
         </div>
-        <section className={classes.wrapper}>
-          <Invoice ref={(el) => { this.componentRef = el; }} invoiceData={printData} memberData={memberData} gymInfo={gymInfo} isDigitallySign={isDigitallySign} />
+        <section className={classes.wrapper} >
+          <div id='save_pdf'>
+            <Invoice ref={(el) => { this.componentRef = el; }} invoiceData={printData} memberData={memberData} gymInfo={gymInfo} isDigitallySign={isDigitallySign} />
+          </div>
         </section>
       </Dialog>
     );
