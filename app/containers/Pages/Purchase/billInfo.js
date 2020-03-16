@@ -57,7 +57,7 @@ class BillInfo extends Component {
           <div style={{ width: '70%' }}>
             BASIC AMOUNT
           </div>
-          <div style={{ width: '30%', textAlign: 'right', paddingRight: '5px' }}>
+          <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
             <span style={{
               borderRadius: '10px', padding: '2px 10px', backgroundColor: '#ffffff', color: '#2196F3'
             }}
@@ -70,7 +70,7 @@ class BillInfo extends Component {
           <div style={{ width: '70%' }}>
             DISCOUNT AMOUNT
           </div>
-          <div style={{ width: '30%', textAlign: 'right', paddingRight: '5px' }}>
+          <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
             <span style={{
               borderRadius: '10px', padding: '2px 10px', backgroundColor: '#ffffff', color: '#2196F3'
             }}
@@ -83,7 +83,7 @@ class BillInfo extends Component {
           <div style={{ width: '70%' }}>
             TAXABLE AMOUNT
           </div>
-          <div style={{ width: '30%', textAlign: 'right', paddingRight: '5px' }}>
+          <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
             <span style={{
               borderRadius: '10px', padding: '2px 10px', backgroundColor: '#ffffff', color: '#2196F3'
             }}
@@ -96,7 +96,7 @@ class BillInfo extends Component {
           <div style={{ width: '70%' }}>
             {gstLabel}
           </div>
-          <div style={{ width: '30%', textAlign: 'right', paddingRight: '5px' }}>
+          <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
             <span style={{
               borderRadius: '10px', padding: '2px 10px', backgroundColor: '#ffffff', color: '#2196F3'
             }}
@@ -109,7 +109,7 @@ class BillInfo extends Component {
           <div style={{ width: '70%' }}>
             TOTAL AMOUNT
           </div>
-          <div style={{ width: '30%', textAlign: 'right', paddingRight: '5px' }}>
+          <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
             <span style={{
               borderRadius: '10px', padding: '2px 10px', backgroundColor: '#ffffff', color: '#2196F3'
             }}
@@ -127,7 +127,7 @@ class BillInfo extends Component {
             {roundOffLabel}
             ]
           </div>
-          <div style={{ width: '30%', textAlign: 'right', paddingRight: '5px' }}>
+          <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
             <span style={{
               borderRadius: '10px', padding: '2px 10px', backgroundColor: 'green', color: '#ffffff'
             }}
@@ -140,7 +140,7 @@ class BillInfo extends Component {
           <div style={{ width: '70%' }}>
             NET PAYABLE AMOUNT
           </div>
-          <div style={{ width: '30%', textAlign: 'right', paddingRight: '5px' }}>
+          <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
             <span style={{
               borderRadius: '10px', padding: '2px 10px', backgroundColor: '#ffffff', color: '#2196F3'
             }}

@@ -20,7 +20,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import {
   handleNextStep, handleBack, shopingAgain, submitPurchaseData, resetCart, deletePurchaseData, closeNotifAction
 } from 'dan-actions/purchaseActions.js';
-import { getAccountInfoData } from 'dan-actions/accountInfoActions';
+import { getVendorData } from 'dan-actions/accountInfoActions';
 import { getGymInfoData, setInCart } from 'dan-actions/purchaseActions';
 import BillInfo from './billInfo';
 import AccountForm from './accountForm';
@@ -74,13 +74,12 @@ const steps = ['Purchase', 'Account'];
 
 class Checkout extends React.Component {
   state = {
-    activeStep: 0,
     purchaseData: {}
   };
 
   componentDidMount = () => {
-    const { fetchAccountInfo, fetchGymInfoData, resetCart } = this.props;
-    fetchAccountInfo();
+    const { fetchVendorInfo, fetchGymInfoData, resetCart } = this.props;
+    fetchVendorInfo();
     fetchGymInfoData();
     if (this.props.match.params.type !== 'edit') {
       resetCart();
@@ -99,15 +98,13 @@ class Checkout extends React.Component {
   }
 
   handleNext = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep + 1,
-    }));
+    const { nextStep } = this.props;
+    nextStep();
   };
 
   handleBack = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1,
-    }));
+    const { handleBack } = this.props
+    handleBack();
   };
 
   handleReset = () => {
@@ -118,9 +115,7 @@ class Checkout extends React.Component {
 
   handleShopingAgain = () => {
     const { shopingAgain } = this.props;
-    this.setState({ activeStep: 0 });
     shopingAgain();
-    history.push('/app/shoping/purchase/new');
   }
 
   handleDeleteInvoice = (invoiceId) => {
@@ -135,6 +130,7 @@ class Checkout extends React.Component {
       notifType,
       openNoti,
       closeNotif,
+      isPurchaseSubmited
     } = this.props;
     const purchaseRecord = {};
     purchaseRecord.orderSummary = cartList;
@@ -147,10 +143,9 @@ class Checkout extends React.Component {
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Fragment>
-
               {activeStep >= steps.length ? (
                 <>
-                  {submitPurchaseData(purchaseRecord)}
+                  {!isPurchaseSubmited && submitPurchaseData(purchaseRecord)}
                   <div className={classes.finishMessage}>
                     <Typography variant="h4" gutterBottom>
                       <span>
@@ -192,63 +187,48 @@ class Checkout extends React.Component {
                               accountInfoData={accountInfoData}
                             />
                           )}
-                        {/* {(activeStep === 2) && <BillInfoForm />} */}
                       </Grid>
                       <Grid item xs={12} md={5}>
                         {activeStep !== 1 ? <SideReview /> : <BillInfo />}
                       </Grid>
                     </Grid>
-                    <div className={classes.buttons}>
-                      <div style={{ width: '75%' }}>
-                        {/* <Button
-                                                    color="primary"
-                                                    variant="contained"
-                                                    size="large"
-                                                    type='button'
-                                                    className={classes.button}
-                                                    onClick={() => onSubmit()}
-                                                >
-                                                    Add To Cart
-                                                    </Button> */}
-                      </div>
+                    <div className={classes.buttons} style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                       {activeStep !== 0 && (
                         <Button onClick={handleBack} className={classes.button}>
                           Back
                         </Button>
                       )}
-                      <div style={{ width: '25%', display: 'flex' }}>
-                        <div>
-                          {(cartList && cartList.length >= 1)
-                            && (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                type="button"
-                                onClick={() => {
-                                  if (activeStep === 1) {
-                                    onSubmit();
-                                  } else {
-                                    nextStep();
-                                  }
+                      <div>
+                        {(cartList && cartList.length >= 1)
+                          && (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              type="button"
+                              onClick={() => {
+                                if (activeStep === 1) {
+                                  onSubmit();
+                                } else {
+                                  nextStep();
                                 }
-                                }
-                                className={classes.button}
-                                size="large"
-                              >
-                                {activeStep === steps.length - 1 ? (match.params.type !== 'edit') ? 'Place order' : 'Update' : (match.params.type !== 'edit') ? 'Create Bill' : 'Update Bill'}
-                              </Button>
-                            )
-                          }
-                        </div>
-                        <div style={{ marginTop: '27px', marginLeft: '20px' }}>
-                          {((cartList && cartList.length >= 1) && (match.params.type === 'edit') && (activeStep === steps.length - 1))
-                            && (
-                              <Tooltip title="Delete Invoice">
-                                <DeleteIcon onClick={() => this.handleDeleteInvoice(purchaseData.invoiceId)} style={{ color: '#f56049', cursor: 'pointer' }} />
-                              </Tooltip>
-                            )
-                          }
-                        </div>
+                              }
+                              }
+                              className={classes.button}
+                              size="large"
+                            >
+                              {activeStep === steps.length - 1 ? (match.params.type !== 'edit') ? 'Place order' : 'Update' : (match.params.type !== 'edit') ? 'Create Bill' : 'Update Bill'}
+                            </Button>
+                          )
+                        }
+                      </div>
+                      <div style={{ marginTop: '27px', marginLeft: '20px' }}>
+                        {((cartList && cartList.length >= 1) && (match.params.type === 'edit') && (activeStep === steps.length - 1))
+                          && (
+                            <Tooltip title="Delete Invoice">
+                              <DeleteIcon onClick={() => this.handleDeleteInvoice(purchaseData.invoiceId)} style={{ color: '#f56049', cursor: 'pointer' }} />
+                            </Tooltip>
+                          )
+                        }
                       </div>
                     </div>
                   </Fragment>
@@ -277,6 +257,7 @@ const mapStateToProps = state => {
     accountInfoData: accountInfoReducer.accountInfoList,
     purchaseData: purchaseReducer.formValues,
     messageNotif: purchaseReducer.notifMsg,
+    isPurchaseSubmited: purchaseReducer.isSubmited,
     notifType: purchaseReducer.notifType,
     openNoti: purchaseReducer.openNoti,
   });
@@ -284,12 +265,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: () => dispatch(submit('accountForm')),
-  // onBillInfoSubmit: () => dispatch(submit('billInfoForm')),
   nextStep: () => dispatch(handleNextStep()),
   handleBack: () => dispatch(handleBack()),
   shopingAgain: () => dispatch(shopingAgain()),
   submitPurchaseData: (data) => dispatch(submitPurchaseData(data)),
-  fetchAccountInfo: () => dispatch(getAccountInfoData()),
+  fetchVendorInfo: () => dispatch(getVendorData()),
   fetchGymInfoData: () => dispatch(getGymInfoData()),
   setInCart: (data) => dispatch(setInCart(data)),
   resetCart: () => dispatch(resetCart()),

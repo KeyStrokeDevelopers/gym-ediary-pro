@@ -31,7 +31,8 @@ export default function reducer(state = initialState, action = {}) {
         accountInfoList: action.payload,
         formValues: {},
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
       };
     case SEARCH_ACCOUNT_INFO_DATA:
       return {
@@ -46,9 +47,6 @@ export default function reducer(state = initialState, action = {}) {
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
         isLoading: false,
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_ACCOUNT_INFO_DATA:
@@ -120,7 +118,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        selectedIndex: 0
       };
     }
 

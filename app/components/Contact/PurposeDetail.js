@@ -18,6 +18,8 @@ import Typography from '@material-ui/core/Typography';
 import Edit from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
 import AccountBalance from '@material-ui/icons/AccountBalance';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import Tooltip from '@material-ui/core/Tooltip';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -66,6 +68,21 @@ class PurposeDetail extends React.Component {
     this.setState({ open: false, deletedId: null });
   }
 
+  handleActive = (dataId) => {
+    this.setState({ openActive: true, activeId: dataId });
+  }
+
+  handleActiveDisagree = () => {
+    this.setState({ openActive: false, activeId: null });
+  }
+
+  handleActiveAgree = () => {
+    const { activePurposeData } = this.props;
+    const { activeId } = this.state;
+    activePurposeData(activeId);
+    this.setState({ openActive: false });
+  }
+
   handleAgree = () => {
     const { deletePurposeData } = this.props;
     const { deletedId } = this.state;
@@ -85,7 +102,7 @@ class PurposeDetail extends React.Component {
       isActive,
       hideDetail,
     } = this.props;
-    const { anchorElOpt, open } = this.state;
+    const { anchorElOpt, open, openActive } = this.state;
 
     let viewPurposeData;
     if (purposeData && purposeData.length >= 1) {
@@ -121,19 +138,54 @@ class PurposeDetail extends React.Component {
                     </Button>
                   </DialogActions>
                 </Dialog>
+                <Dialog
+                  open={openActive}
+                  onClose={this.handleActiveDisagree}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {'Active Purpose Data'}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure for active ?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleActiveDisagree} color="primary">
+                      Disagree
+                    </Button>
+                    <Button onClick={this.handleActiveAgree} color="primary" autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
 
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
                   {isActive && (
                     <>
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewPurposeData[itemSelected]._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton aria-label="Edit" onClick={() => edit(viewPurposeData[itemSelected])}>
-                        <Edit />
-                      </IconButton>
+                      <Tooltip title="Delete Purpose Data">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewPurposeData[itemSelected]._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Edit Purpose Data">
+                        <IconButton aria-label="Edit" onClick={() => edit(viewPurposeData[itemSelected])}>
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
                     </>
+                  )
+                  }
+                  {!isActive && (
+                    <Tooltip title="Active Package Data">
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewPurposeData[itemSelected]._id)}>
+                        <PlaylistAddCheckIcon />
+                      </IconButton>
+                    </Tooltip>
                   )
                   }
                   <Menu

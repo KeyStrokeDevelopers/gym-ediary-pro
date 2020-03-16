@@ -4,6 +4,11 @@ import { lighten, darken } from '@material-ui/core/styles/colorManipulator';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -14,7 +19,6 @@ import Divider from '@material-ui/core/Divider';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import DeleteIcon from '@material-ui/icons/Delete';
-import imgApi from 'dan-api/images/photos';
 import { resetCart, deleteCartValue } from 'dan-actions/purchaseActions.js';
 
 const styles = theme => ({
@@ -71,7 +75,8 @@ const styles = theme => ({
 
 class SideReview extends Component {
   state = {
-    openMenu: false
+    openMenu: false,
+    open: false
   }
 
   resetCart = () => {
@@ -92,9 +97,22 @@ class SideReview extends Component {
     this.setState({ openMenu: false });
   }
 
+  handleReset = () => {
+    this.setState({ open: true })
+  }
+
+  handleDisagree = () => {
+    this.setState({ open: false });
+  }
+
+  handleAgree = () => {
+    this.resetCart();
+    this.setState({ open: false });
+  }
+
   render() {
     const { classes, cartData } = this.props;
-    const { openMenu } = this.state;
+    const { openMenu, open } = this.state;
     let totalPrice = 0;
     const getCartItem = dataArray => dataArray.map((item, index) => {
       totalPrice += (item.costPrice);
@@ -125,6 +143,31 @@ class SideReview extends Component {
     });
     return (
       <Paper className={classes.paper} elevation={0}>
+        <div>
+          <Dialog
+            open={open}
+            onClose={this.handleDisagree}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {'Reset Cart'}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Are you sure for Reset Cart ?
+                      </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleDisagree} color="primary">
+                Disagree
+                      </Button>
+              <Button onClick={this.handleAgree} color="primary" autoFocus>
+                Agree
+                      </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
         <Typography variant="h6" gutterBottom>
           <ShoppingCart />
           <Button size="small" onClick={this.handleMenuOpen}>
@@ -151,7 +194,7 @@ class SideReview extends Component {
           {(cartData && cartData.length >= 1)
             && (
               <div style={{ width: '100%', textAlign: 'right' }}>
-                <Button variant="contained" color="primary" type="button" onClick={this.resetCart}>
+                <Button variant="contained" color="primary" type="button" onClick={this.handleReset}>
                   Reset
                             </Button>
               </div>

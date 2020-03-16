@@ -80,7 +80,7 @@ class StaffProfile extends React.Component {
             scrollButtons="auto"
           >
             <Tab label="ABOUT" icon={<AccountCircle />} />
-            <Tab label="ACCOUNT" icon={<AccountTreeIcon />} />
+            <Tab label="SALARY" icon={<AccountTreeIcon />} />
             <Tab label="ATTENDANCE" icon={<HowToRegIcon />} />
           </Tabs>
         </AppBar>

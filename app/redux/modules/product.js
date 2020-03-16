@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PRODUCT_SHOPING_DATA, SEARCH_PRODUCT_SHOPING_DATA, EDIT_PRODUCT_SHOPING_DATA, ADD_PRODUCT_SHOPING_DATA, SET_PRODUCT_SHOPING_DETAILS_FIELD,
-  SHOW_DETAIL_PRODUCT_SHOPING, SUBMIT_PRODUCT_SHOPING_DATA, CLOSE_PRODUCT_SHOPING_FORM, LOADING_ACTION_PRODUCT_SHOPING, HIDE_DETAIL_PRODUCT_SHOPING, FETCH_PRODUCT_QUANTITY, CLOSE_PRODUCT_SHOPING_NOTIF, ERROR_PRODUCT_SHOPING_DATA
+  SHOW_DETAIL_PRODUCT_SHOPING, SUBMIT_PRODUCT_SHOPING_DATA, CLOSE_PRODUCT_SHOPING_FORM, LOADING_ACTION_PRODUCT_SHOPING, HIDE_DETAIL_PRODUCT_SHOPING, FETCH_PRODUCT_QUANTITY, CLOSE_PRODUCT_SHOPING_NOTIF, ERROR_PRODUCT_SHOPING_DATA, UPDATE_PRODUCT_SHOPING_DATA
 } from '../../actions/actionConstants';
 
 
@@ -32,7 +32,20 @@ export default function reducer(state = initialState, action = {}) {
         productList: action.payload,
         formValues: {},
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
+      };
+    case UPDATE_PRODUCT_SHOPING_DATA:
+      return {
+        ...state,
+        productList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
       };
     case SEARCH_PRODUCT_SHOPING_DATA:
       return {
@@ -46,10 +59,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false,
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
+        isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_PRODUCT_SHOPING_DATA:
@@ -128,7 +138,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        selectedIndex: 0
       };
     }
 

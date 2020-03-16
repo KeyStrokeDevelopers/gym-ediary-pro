@@ -181,7 +181,7 @@ const constDispatchToProps = dispatch => ({
   search: (data) => dispatch(searchProductData(data)),
   loading: () => dispatch(loadingAction()),
   filterValue: (value) => dispatch(setFilterValue(value)),
-  closeNotif: () => dispatch(closeNotifAction),
+  closeNotif: () => dispatch(closeNotifAction()),
 });
 
 const ProductMapped = connect(

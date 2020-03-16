@@ -74,6 +74,7 @@ class BrandUnitMain extends React.Component {
       openNoti,
       closeNotif,
       deleteBrandUnitData,
+      entryType,
       isLoading
     } = this.props;
     return (
@@ -111,7 +112,8 @@ class BrandUnitMain extends React.Component {
             showDetails={showDetails}
             filterValue={filter_value}
             edit={edit}
-            isActive={is_active}
+            is_active={is_active}
+            entryType={entryType}
             remove={remove}
             favorite={favorite}
           />
@@ -145,6 +147,7 @@ const mapStateToProps = state => {
     openNoti: brandUnitReducer.openNoti,
     formValue: brandUnitReducer.formValues,
     is_active: brandUnitReducer.isActive,
+    entryType: brandUnitReducer.entryType,
     isLoading: brandUnitReducer.isLoading,
     showDetails: brandUnitReducer.showDetails,
     filter_value: brandUnitReducer.filterValue,

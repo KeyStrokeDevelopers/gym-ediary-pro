@@ -21,8 +21,10 @@ import Divider from '@material-ui/core/Divider';
 import AccountBalance from '@material-ui/icons/AccountBalance';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
+import Tooltip from '@material-ui/core/Tooltip';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
@@ -44,6 +46,8 @@ class ClassDetail extends React.Component {
     anchorElOpt: null,
     open: false,
     deletedId: null,
+    openActive: false,
+    activeId: null
   };
 
   handleClickOpt = event => {
@@ -75,6 +79,22 @@ class ClassDetail extends React.Component {
     this.setState({ open: false });
   }
 
+  handleActive = (dataId) => {
+    this.setState({ openActive: true, activeId: dataId });
+  }
+
+  handleActiveDisagree = () => {
+    this.setState({ openActive: false, activeId: null });
+  }
+
+  handleActiveAgree = () => {
+    const { activeClassData } = this.props;
+    const { activeId } = this.state;
+    activeClassData(activeId);
+    this.setState({ openActive: false });
+  }
+
+
   sortByPrice = (a, b) => {
     if (a.classPrice < a.classPrice) {
       return -1;
@@ -96,7 +116,7 @@ class ClassDetail extends React.Component {
       isActive,
       hideDetail,
     } = this.props;
-    const { anchorElOpt, open } = this.state;
+    const { anchorElOpt, open, openActive } = this.state;
 
     let viewClassData;
     if (classData && classData.length >= 1) {
@@ -136,19 +156,53 @@ class ClassDetail extends React.Component {
                     </Button>
                   </DialogActions>
                 </Dialog>
-
+                <Dialog
+                  open={openActive}
+                  onClose={this.handleActiveDisagree}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {'Active Class Data'}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure for active ?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleActiveDisagree} color="primary">
+                      Disagree
+                    </Button>
+                    <Button onClick={this.handleActiveAgree} color="primary" autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
                   {isActive && (
                     <>
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewClassData[itemSelected]._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton aria-label="Edit" onClick={() => edit(viewClassData[itemSelected])}>
-                        <Edit />
-                      </IconButton>
+                      <Tooltip title="Delete Class Data">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewClassData[itemSelected]._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Edit Class Data">
+                        <IconButton aria-label="Edit" onClick={() => edit(viewClassData[itemSelected])}>
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
                     </>
+                  )
+                  }
+                  {!isActive && (
+                    <Tooltip title="Active Class Data">
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewClassData[itemSelected]._id)}>
+                        <PlaylistAddCheckIcon />
+                      </IconButton>
+                    </Tooltip>
                   )
                   }
                   <Menu

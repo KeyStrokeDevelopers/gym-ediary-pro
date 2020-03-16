@@ -17,6 +17,7 @@ import {
   setDetailField,
   loadingAction,
   hideDetailAction,
+  activeClassData,
   closeNotifAction
 } from 'dan-actions/ClassActions';
 import { getStaffData } from 'dan-actions/StaffActions';
@@ -73,6 +74,7 @@ class Classes extends React.Component {
       openNoti,
       closeNotif,
       deleteClassData,
+      activeClassData,
       staffData,
       isLoading
     } = this.props;
@@ -107,6 +109,7 @@ class Classes extends React.Component {
             hideDetail={hideDetail}
             classData={classData}
             deleteClassData={deleteClassData}
+            activeClassData={activeClassData}
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
@@ -162,6 +165,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addClassData()),
   close: () => dispatch(closeAction()),
   deleteClassData: (data) => dispatch(deleteClassData(data)),
+  activeClassData: (data) => dispatch(activeClassData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),

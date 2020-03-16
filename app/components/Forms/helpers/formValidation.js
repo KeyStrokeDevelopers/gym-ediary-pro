@@ -7,6 +7,7 @@ const validate = values => {
     'paymentMethod',
     'shiftFrom1',
     'shiftTo1',
+    'invoiceNumber',
 
     // Category Form Field
     'categoryType',
@@ -35,7 +36,6 @@ const validate = values => {
     'favourOf',
     'email',
     'address',
-    'regFee',
 
     // class
     'className',

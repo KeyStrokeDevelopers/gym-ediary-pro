@@ -25,6 +25,7 @@ const initialState = {
   openNoti: true,
   isActive: true,
   isLoading: false,
+  isSubmited: false,
   discount: 0,
   discountInValue: 0
 };
@@ -36,7 +37,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         purchaseList: action.payload,
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
       };
     case SEARCH_PURCHASE_DATA:
       return {
@@ -50,10 +52,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false,
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
+        isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_PURCHASE_DATA:
@@ -73,7 +72,8 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false,
         notifMsg: notifM.saved,
         notifType: notifT.success,
-        openNoti: true
+        openNoti: true,
+        isSubmited: true
       };
     case SET_VALUE_IN_CART:
       return {
@@ -164,7 +164,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         accountData: {},
         billInfoData: {},
-
+        isSubmited: false
       };
     }
 
@@ -208,7 +208,9 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        isSubmited: true,
+        selectedIndex: 0
       };
     }
 

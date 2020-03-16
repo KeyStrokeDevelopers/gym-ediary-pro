@@ -84,15 +84,59 @@ class MeasurementList extends React.Component {
               </div>
             </div>
             <div className={classes.emailContent}>
+
+
+
+
               <Typography variant="h6" gutterBottom>
                 <div>
-                  <div>{`Measurement Date : ${data.date}`}</div>
+                  <div>{`Measurement Date : ${new Date(data.date).toLocaleDateString()}`}</div>
                   <Divider />
                   <div>{`Weight : ${data.weight}`}</div>
                   <Divider />
                   <div>{`Height : ${data.height}`}</div>
                   <Divider />
                   <div>{`Neck : ${data.neck}`}</div>
+                  <Divider />
+                  <div>{`Shoulder : ${data.shoulder}`}</div>
+                  <Divider />
+                  <div>{`Chest Extended : ${data.chestExtended}`}</div>
+                  <Divider />
+                  <div>{`Chest Normal : ${data.chestNormal}`}</div>
+                  <Divider />
+                  <div>{`Forearms : ${data.forearms}`}</div>
+                  <Divider />
+                  <div>{`Biceps : ${data.biceps}`}</div>
+                  <Divider />
+                  <div>{`Wrist: ${data.wrist}`}</div>
+                  <Divider />
+                  <div>{`Upper : ${data.upper}`}</div>
+                  <Divider />
+                  <div>{`Chest Normal : ${data.chestNormal}`}</div>
+                  <Divider />
+                  <div>{`Lower : ${data.lower}`}</div>
+                  <Divider />
+                  <div>{`Waist : ${data.waist}`}</div>
+                  <Divider />
+                  <div>{`Hip : ${data.hip}`}</div>
+                  <Divider />
+                  <div>{`Thigh : ${data.thigh}`}</div>
+                  <Divider />
+                  <div>{`Calves : ${data.calves}`}</div>
+                  <Divider />
+                  <div>{`Ankles : ${data.ankles}`}</div>
+                  <Divider />
+                  <div>{`Blood : ${data.blood}`}</div>
+                  <Divider />
+                  <div>{`Sugar : ${data.sugar}`}</div>
+                  <Divider />
+                  <div>{`Fat : ${data.fat}`}</div>
+                  <Divider />
+                  <div>{`Bmi : ${data.bmi}`}</div>
+                  <Divider />
+                  <div>{`Bmr : ${data.bmr}`}</div>
+                  <Divider />
+                  <div>{`Medical History : ${data.medicalHistory}`}</div>
                 </div>
               </Typography>
               {/* <article dangerouslySetInnerHTML={renderHTML} /> */}

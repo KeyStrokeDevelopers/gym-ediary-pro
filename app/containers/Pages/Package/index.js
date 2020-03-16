@@ -15,6 +15,7 @@ import {
   searchPackageData,
   updatePackageData,
   deletePackageData,
+  activePackageData,
   setDetailField,
   loadingAction,
   hideDetailAction,
@@ -72,6 +73,7 @@ class Package extends React.Component {
       openNoti,
       closeNotif,
       deletePackageData,
+      activePackageData,
       isLoading
     } = this.props;
     const isPackageData = packageData.length >= 1;
@@ -105,6 +107,7 @@ class Package extends React.Component {
             hideDetail={hideDetail}
             packageData={packageData}
             deletePackageData={deletePackageData}
+            activePackageData={activePackageData}
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
@@ -158,6 +161,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addPackageData()),
   close: () => dispatch(closeAction()),
   deletePackageData: (data) => dispatch(deletePackageData(data)),
+  activePackageData: (data) => dispatch(activePackageData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),

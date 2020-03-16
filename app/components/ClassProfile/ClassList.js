@@ -30,7 +30,6 @@ class ClassList extends React.Component {
       toggleStar
     } = this.props;
     const { anchorElOpt } = this.state;
-
     const getPackage = dataArray => dataArray.map((data, index) => (
       <ExpansionPanel className={classes.emailList} key={index + Math.random()}>
         <ExpansionPanelSummary className={classes.emailSummary} expandIcon={<ExpandMoreIcon />}>
@@ -85,7 +84,33 @@ class ClassList extends React.Component {
                   <Divider />
                   <div>{`Class Duration : ${data.classInfo.classDuration} ${data.classInfo.durationIn}`}</div>
                   <Divider />
+                  <div>{`Class From : ${data.classInfo.classFrom}`}</div>
+                  <Divider />
+                  <div>{`Class To : ${data.classInfo.classTo}`}</div>
+                  <Divider />
+                  <div>{`Mon : ${data.classInfo.isMon ? 'Yes' : 'No'}`}</div>
+                  <Divider />
+                  <div>{`Tue: ${data.classInfo.isTue ? 'Yes' : 'No'}`}</div>
+                  <Divider />
+                  <div>{`Wed : ${data.classInfo.isWed ? 'Yes' : 'No'}`}</div>
+                  <Divider />
+                  <div>{`Thu : ${data.classInfo.isThu ? 'Yes' : 'No'}`}</div>
+                  <Divider />
+                  <div>{`Fri : ${data.classInfo.isFri ? 'Yes' : 'No'}`}</div>
+                  <Divider />
+                  <div>{`Sat : ${data.classInfo.isSat ? 'Yes' : 'No'}`}</div>
+                  <Divider />
+                  <div>{`Sun : ${data.classInfo.isSun ? 'Yes' : 'No'}`}</div>
+                  <Divider />
                   <div>{`Class Details : ${data.classInfo.classDetail}`}</div>
+                  <Divider />
+                  <div>{`Class Purchase Date : ${new Date(data.purchaseDate).toLocaleDateString()}`}</div>
+                  <Divider />
+                  <div>{`Class Activation Date : ${new Date(data.classActivation).toLocaleDateString()}`}</div>
+                  <Divider />
+                  <div>{`Class Renewal Date : ${new Date(data.renewalDate).toLocaleDateString()}`}</div>
+                  <Divider />
+                  <div>{`Class Discount : ${data.classDisc}`}</div>
                 </div>
               </Typography>
               {/* <article dangerouslySetInnerHTML={renderHTML} /> */}

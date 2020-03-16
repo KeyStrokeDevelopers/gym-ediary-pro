@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_CATEGORY_DATA, SEARCH_CATEGORY_DATA, EDIT_CATEGORY_DATA, ADD_CATEGORY_DATA, SET_CATEGORY_DETAILS_FIELD,
-  SHOW_DETAIL_CATEGORY, HIDE_DETAIL_CATEGORY, SUBMIT_CATEGORY_DATA, CLOSE_CATEGORY_FORM, LOADING_ACTION_CATEGORY, CLOSE_CATEGORY_NOTIF, ERROR_CATEGORY_DATA
+  SHOW_DETAIL_CATEGORY, HIDE_DETAIL_CATEGORY, SUBMIT_CATEGORY_DATA, CLOSE_CATEGORY_FORM, LOADING_ACTION_CATEGORY, CLOSE_CATEGORY_NOTIF, ERROR_CATEGORY_DATA, DELETE_CATEGORY_DATA, ACTIVE_CATEGORY_DATA
 } from '../../actions/actionConstants';
 
 
@@ -31,7 +31,30 @@ export default function reducer(state = initialState, action = {}) {
         categoryList: action.payload,
         formValues: {},
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
+      };
+    case DELETE_CATEGORY_DATA:
+      return {
+        ...state,
+        categoryList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        notifMsg: 'Category data deleted',
+        notifType: notifT.success,
+        openNoti: true,
+      };
+    case ACTIVE_CATEGORY_DATA:
+      return {
+        ...state,
+        categoryList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        notifMsg: 'Category data activated',
+        notifType: notifT.success,
+        openNoti: true,
       };
     case SEARCH_CATEGORY_DATA:
       return {
@@ -45,10 +68,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false,
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
+        isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_CATEGORY_DATA:
@@ -123,7 +143,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        selectedIndex: 0
       };
     }
 

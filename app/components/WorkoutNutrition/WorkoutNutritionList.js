@@ -140,7 +140,7 @@ class WorkoutNutritionList extends React.Component {
                   {data.wSunday
                     && (
                       <>
-                        <div>{`Sunday Nutrition : ${data.wSunday}`}</div>
+                        <div>{`Sunday Workout : ${data.wSunday}`}</div>
                         <Divider />
                       </>
                     )
@@ -148,7 +148,7 @@ class WorkoutNutritionList extends React.Component {
                   {data.wMonday
                     && (
                       <>
-                        <div>{`Monday Nutrition : ${data.wMonday}`}</div>
+                        <div>{`Monday Workout : ${data.wMonday}`}</div>
                         <Divider />
                       </>
                     )
@@ -156,7 +156,7 @@ class WorkoutNutritionList extends React.Component {
                   {data.wTuesday
                     && (
                       <>
-                        <div>{`Tuesday Nutrition : ${data.wTuesday}`}</div>
+                        <div>{`Tuesday Workout : ${data.wTuesday}`}</div>
                         <Divider />
                       </>
                     )
@@ -164,7 +164,7 @@ class WorkoutNutritionList extends React.Component {
                   {data.wWednesday
                     && (
                       <>
-                        <div>{`Wednesday Nutrition : ${data.wWednesday}`}</div>
+                        <div>{`Wednesday Workout : ${data.wWednesday}`}</div>
                         <Divider />
                       </>
                     )
@@ -172,7 +172,7 @@ class WorkoutNutritionList extends React.Component {
                   {data.wThursday
                     && (
                       <>
-                        <div>{`Thursday Nutrition : ${data.wThursday}`}</div>
+                        <div>{`Thursday Workout : ${data.wThursday}`}</div>
                         <Divider />
                       </>
                     )
@@ -180,7 +180,7 @@ class WorkoutNutritionList extends React.Component {
                   {data.wFriday
                     && (
                       <>
-                        <div>{`Friday Nutrition : ${data.wFriday}`}</div>
+                        <div>{`Friday Workout : ${data.wFriday}`}</div>
                         <Divider />
                       </>
                     )
@@ -188,7 +188,7 @@ class WorkoutNutritionList extends React.Component {
                   {data.wSaturday
                     && (
                       <>
-                        <div>{`Saturday Nutrition : ${data.wSaturday}`}</div>
+                        <div>{`Saturday Workout : ${data.wSaturday}`}</div>
                       </>
                     )
                   }

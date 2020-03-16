@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_ADD_MEMBER_DATA, SEARCH_ADD_MEMBER_DATA, EDIT_ADD_MEMBER_DATA, ADD_ADD_MEMBER_DATA, SET_ADD_MEMBER_DETAILS_FIELD, SHOW_DETAIL_ADD_MEMBER,
-  HIDE_DETAIL_ADD_MEMBER, SUBMIT_ADD_MEMBER_DATA, CLOSE_ADD_MEMBER_FORM, LOADING_ACTION_ADD_MEMBER, VIEW_PROFILE, SET_FILTER_VALUE, FETCH_GYM_INFO, CLOSE_ADD_MEMBER_NOTIF, ERROR_ADD_MEMBER_DATA
+  HIDE_DETAIL_ADD_MEMBER, SUBMIT_ADD_MEMBER_DATA, CLOSE_ADD_MEMBER_FORM, LOADING_ACTION_ADD_MEMBER, VIEW_PROFILE, SET_FILTER_VALUE, FETCH_GYM_INFO, CLOSE_ADD_MEMBER_NOTIF, ERROR_ADD_MEMBER_DATA, UPDATE_GYM_INFO
 } from '../../actions/actionConstants';
 
 
@@ -36,7 +36,8 @@ export default function reducer(state = initialState, action = {}) {
         addMemberList: action.payload,
         formValues: {},
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
       };
     case SEARCH_ADD_MEMBER_DATA:
       return {
@@ -51,9 +52,6 @@ export default function reducer(state = initialState, action = {}) {
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
         isLoading: false,
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_ADD_MEMBER_DATA:
@@ -139,6 +137,17 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
 
+    case UPDATE_GYM_INFO: {
+      console.log('update reducer gym info ---', action.payload);
+      return {
+        ...state,
+        gymInfo: action.payload,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
+      };
+    }
+
     case CLOSE_ADD_MEMBER_NOTIF:
       return {
         ...state,
@@ -150,7 +159,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        selectedIndex: 0
       };
     }
 

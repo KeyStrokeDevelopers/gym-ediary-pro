@@ -12,7 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import styles from './productType-jss';
 import { validate } from '../Forms/helpers/formValidation';
-import { RegularTextFieldRedux, SelectRedux } from '../Forms/ReduxFormMUI';
+import { TextFieldRedux, SelectRedux } from '../Forms/ReduxFormMUI';
 
 class ProductTypeForm extends React.Component {
   render() {
@@ -34,7 +34,7 @@ class ProductTypeForm extends React.Component {
                 placeholder="Product Type"
                 label="Product Type"
                 autoComplete="off"
-                component={RegularTextFieldRedux}
+                component={TextFieldRedux}
                 className={classes.field}
                 InputProps={{
                   startAdornment: (
@@ -50,7 +50,7 @@ class ProductTypeForm extends React.Component {
                 name="hsnCode"
                 placeholder="Product Type HSN Code"
                 label="Product Type HSN Code"
-                component={RegularTextFieldRedux}
+                component={TextFieldRedux}
                 autoComplete="off"
                 className={classes.field}
                 InputProps={{

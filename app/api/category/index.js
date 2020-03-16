@@ -5,6 +5,8 @@ const addCategoryApi = (data) => axios.post(`${API_URL}/category`, data, getConf
 
 const getCategoryApi = () => axios.get(`${API_URL}/category`, getConfig());
 
+const activeCategoryDataApi = (categoryId) => axios.get(`${API_URL}/category/active/${categoryId}`, getConfig());
+
 const updateCategoryDataApi = (data) => axios.put(`${API_URL}/category`, data, getConfig());
 
 const deleteCategoryDataApi = (dataId) => {
@@ -16,5 +18,6 @@ export {
   addCategoryApi,
   getCategoryApi,
   updateCategoryDataApi,
-  deleteCategoryDataApi
+  deleteCategoryDataApi,
+  activeCategoryDataApi
 };

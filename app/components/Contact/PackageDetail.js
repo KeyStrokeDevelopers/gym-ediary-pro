@@ -19,6 +19,8 @@ import Edit from '@material-ui/icons/Edit';
 import Work from '@material-ui/icons/Work';
 import Divider from '@material-ui/core/Divider';
 import AccountBalance from '@material-ui/icons/AccountBalance';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import Tooltip from '@material-ui/core/Tooltip';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -43,6 +45,8 @@ class PackageDetail extends React.Component {
     anchorElOpt: null,
     open: false,
     deletedId: null,
+    openActive: false,
+    activeId: null
   };
 
   handleClickOpt = event => {
@@ -74,6 +78,22 @@ class PackageDetail extends React.Component {
     this.setState({ open: false });
   }
 
+
+  handleActive = (dataId) => {
+    this.setState({ openActive: true, activeId: dataId });
+  }
+
+  handleActiveDisagree = () => {
+    this.setState({ openActive: false, activeId: null });
+  }
+
+  handleActiveAgree = () => {
+    const { activePackageData } = this.props;
+    const { activeId } = this.state;
+    activePackageData(activeId);
+    this.setState({ openActive: false });
+  }
+
   sortByPrice = (a, b) => {
     if (a.packPrice < a.packPrice) {
       return -1;
@@ -95,7 +115,7 @@ class PackageDetail extends React.Component {
       isActive,
       hideDetail,
     } = this.props;
-    const { anchorElOpt, open } = this.state;
+    const { anchorElOpt, open, openActive } = this.state;
     let viewPackageData;
     if (packageData && packageData.length >= 1) {
       viewPackageData = isActive ? packageData.filter(item => item.status === 1) : packageData.filter(item => item.status === 0);
@@ -134,19 +154,53 @@ class PackageDetail extends React.Component {
                     </Button>
                   </DialogActions>
                 </Dialog>
-
+                <Dialog
+                  open={openActive}
+                  onClose={this.handleActiveDisagree}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {'Active Package Data'}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure for active ?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleActiveDisagree} color="primary">
+                      Disagree
+                    </Button>
+                    <Button onClick={this.handleActiveAgree} color="primary" autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
                   {isActive && (
                     <>
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewPackageData[itemSelected]._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton aria-label="Edit" onClick={() => edit(viewPackageData[itemSelected])}>
-                        <Edit />
-                      </IconButton>
+                      <Tooltip title="Delete Package Data">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewPackageData[itemSelected]._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Edit Package Data">
+                        <IconButton aria-label="Edit" onClick={() => edit(viewPackageData[itemSelected])}>
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
                     </>
+                  )
+                  }
+                  {!isActive && (
+                    <Tooltip title="Active Package Data">
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewPackageData[itemSelected]._id)}>
+                        <PlaylistAddCheckIcon />
+                      </IconButton>
+                    </Tooltip>
                   )
                   }
                   <Menu

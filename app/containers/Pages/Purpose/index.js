@@ -14,6 +14,7 @@ import {
   searchPurposeData,
   updatePurposeData,
   deletePurposeData,
+  activePurposeData,
   setDetailField,
   loadingAction,
   hideDetailAction,
@@ -71,6 +72,7 @@ class Purpose extends React.Component {
       openNoti,
       closeNotif,
       deletePurposeData,
+      activePurposeData,
       isLoading
     } = this.props;
     return (
@@ -104,6 +106,7 @@ class Purpose extends React.Component {
             hideDetail={hideDetail}
             purposeData={purposeData}
             deletePurposeData={deletePurposeData}
+            activePurposeData={activePurposeData}
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
@@ -159,6 +162,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addPurposeData()),
   close: () => dispatch(closeAction()),
   deletePurposeData: (data) => dispatch(deletePurposeData(data)),
+  activePurposeData: (data) => dispatch(activePurposeData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),

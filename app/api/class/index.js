@@ -5,6 +5,8 @@ const addClassApi = (data) => axios.post(`${API_URL}/classInfo`, data, getConfig
 
 const getClassApi = () => axios.get(`${API_URL}/classInfo`, getConfig());
 
+const activeClassDataApi = (dataId) => axios.get(`${API_URL}/classInfo/active/${dataId}`, getConfig());
+
 const updateClassDataApi = (data) => axios.put(`${API_URL}/classInfo`, data, getConfig());
 
 const deleteClassDataApi = (dataId) => {
@@ -16,5 +18,6 @@ export {
   addClassApi,
   getClassApi,
   updateClassDataApi,
-  deleteClassDataApi
+  deleteClassDataApi,
+  activeClassDataApi
 };

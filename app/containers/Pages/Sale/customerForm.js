@@ -11,11 +11,11 @@ import FormControl from '@material-ui/core/FormControl';
 import { setCustomerInfo } from 'dan-actions/saleActions.js';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './sale-jss';
-// import NumberSuggest from '../../../components/Common/helpers/autoCompleteNumber';
-// import NameSuggest from '../../../components/Common/helpers/autoCompleteName';
+import NumberSuggest from '../../../components/Common/helpers/autoCompleteNumber';
+import NameSuggest from '../../../components/Common/helpers/autoCompleteName';
 import { validate, email, phoneNumber } from '../../../components/Forms/helpers/formValidation';
 import {
-  RegularTextFieldRedux, SelectRedux, DatePickerInput, renderToggleAnniversaryWishes, renderToggleBirthDayWishes, SearchableSelect
+  RegularTextFieldRedux, SelectRedux, DatePickerInput, renderToggleAnniversaryWishes, renderToggleBirthDayWishes
 } from '../../../components/Forms/ReduxFormMUI';
 import { allIndianState } from '../../../components/Common/constant';
 
@@ -27,21 +27,32 @@ class CustomerForm extends Component {
     temp: null
   }
 
-  // componentDidMount = () => {
-  //     const { accountInfo, initObj } = this.props
-  //     if (Object.keys(accountInfo).length >= 1) {
-  //         this.props.initialize(accountInfo);
-  //         let dob = accountInfo.get('dobWish');
-  //         let anniversary = accountInfo.get('anniversaryWish');
-  //         this.setState({ dob, anniversary });
-  //     } else if (Object.keys(initObj).length >= 1) {
-  //         this.props.initialize(initObj);
-  //         let dob = initObj.dobWish;
-  //         let anniversary = initObj.anniversaryWish;
-  //         let date = initObj.date;
-  //         this.setState({ dob, anniversary, date });
-  //     }
-  // }
+  componentDidMount = () => {
+    const { customerInfo, initObj } = this.props
+    if (Object.keys(customerInfo).length >= 1) {
+      this.props.initialize(customerInfo);
+      let dob = customerInfo.get('dobWish');
+      let anniversary = customerInfo.get('anniversaryWish');
+      this.setState({ dob, anniversary });
+    } else if (Object.keys(initObj).length >= 1) {
+      this.props.initialize(initObj);
+      let dob = initObj.dobWish;
+      let anniversary = initObj.anniversaryWish;
+      let date = initObj.date;
+      this.setState({ dob, anniversary, date });
+    }
+  }
+
+
+  handleAccountInfoData = (data) => {
+    this.props.initialize(data);
+    if (data.dobWish) {
+      this.setState({ dob: data.dobWish });
+    }
+    if (data.anniversaryWish) {
+      this.setState({ anniversary: data.anniversaryWish });
+    }
+  }
 
   handleDate = (e, date) => {
     this.setState({ date, temp: e });
@@ -59,21 +70,24 @@ class CustomerForm extends Component {
     const {
       classes,
       handleSubmit,
+      accountInfoData
     } = this.props;
     const { dob, anniversary } = this.state;
     return (
       <div>
         <form onSubmit={handleSubmit}>
           <section className={css.bodyForm}>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '50%', marginRight: '10px' }}>
+            <div className={classes.row}>
+              <div className={classes.firstCol}>
                 <Field
                   name="contact"
-                  placeholder="Contact"
-                  label="Contact"
+                  placeholder="Search/Add Contact"
+                  label="Search/Add Contact"
                   autoComplete="off"
-                  component={RegularTextFieldRedux}
+                  component={NumberSuggest}
                   validate={phoneNumber}
+                  enquiryData={accountInfoData}
+                  fillData={(data) => this.handleAccountInfoData(data)}
                   className={classes.field}
                   InputProps={{
                     startAdornment: (
@@ -84,14 +98,15 @@ class CustomerForm extends Component {
                   }}
                 />
               </div>
-
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <Field
                   name="name"
-                  placeholder="Add Name"
-                  label="Add Name"
+                  placeholder="Search/Add Name"
+                  label="Search/Add Name"
                   autoComplete="off"
-                  component={RegularTextFieldRedux}
+                  component={NameSuggest}
+                  enquiryData={accountInfoData}
+                  fillData={(data) => this.handleAccountInfoData(data)}
                   className={classes.field}
                   InputProps={{
                     startAdornment: (
@@ -103,8 +118,8 @@ class CustomerForm extends Component {
                 />
               </div>
             </div>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '50%', marginRight: '10px' }}>
+            <div className={classes.row}>
+              <div className={classes.firstCol}>
                 <Field
                   name="email"
                   placeholder="Email"
@@ -122,7 +137,7 @@ class CustomerForm extends Component {
                   }}
                 />
               </div>
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <Field
                   name="gstNumber"
                   placeholder="GST Number"
@@ -140,22 +155,24 @@ class CustomerForm extends Component {
                 />
               </div>
             </div>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '50%', marginRight: '10px' }}>
-                <Field
-                  name="state"
-                  component={SearchableSelect}
-                  placeholder="State"
-                  autoComplete="off"
-                  label="State"
-                  options={allIndianState}
-                  labelKey="value"
-                  valueKey="value"
-                  required
-                  className={classes.field}
-                />
+            <div className={classes.row}>
+              <div className={classes.firstCol}>
+                <FormControl className={classes.field}>
+                  <InputLabel htmlFor="selection">Select State</InputLabel>
+                  <Field
+                    name="state"
+                    component={SelectRedux}
+                    required
+                    placeholder="Select State"
+                  >
+                    {
+                      (allIndianState && allIndianState.length >= 1) &&
+                      allIndianState.map((item, index) => <MenuItem value={item.value} key={index + Math.random()}>{item.value}</MenuItem>)
+                    }
+                  </Field>
+                </FormControl>
               </div>
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <Field
                   name="address"
                   placeholder="Address"
@@ -194,7 +211,7 @@ class CustomerForm extends Component {
                 </Field>
               </FormControl>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className={classes.row}>
               <div className={classes.picker}>
                 <Field
                   name="birthdayWishes"

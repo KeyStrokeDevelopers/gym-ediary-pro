@@ -14,6 +14,7 @@ import {
   searchPaymentMethodData,
   updatePaymentMethodData,
   deletePaymentMethodData,
+  activePaymentMethodData,
   setDetailField,
   loadingAction,
   hideDetailAction,
@@ -72,6 +73,7 @@ class PaymentMethod extends React.Component {
       openNoti,
       closeNotif,
       deletePaymentMethodData,
+      activePaymentMethodData,
       isLoading
     } = this.props;
     const isPaymentMethodData = paymentMethodData.length >= 1;
@@ -105,6 +107,7 @@ class PaymentMethod extends React.Component {
             hideDetail={hideDetail}
             paymentMethodData={paymentMethodData}
             deletePaymentMethodData={deletePaymentMethodData}
+            activePaymentMethodData={activePaymentMethodData}
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
@@ -157,6 +160,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addPaymentMethodData()),
   close: () => dispatch(closeAction()),
   deletePaymentMethodData: (data) => dispatch(deletePaymentMethodData(data)),
+  activePaymentMethodData: (data) => dispatch(activePaymentMethodData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),

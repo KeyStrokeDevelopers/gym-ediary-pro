@@ -4,7 +4,7 @@ import {
 } from './actionConstants';
 
 import {
-  addAccountInfoApi, getAccountInfoApi, updateAccountInfoDataApi, deleteAccountInfoDataApi
+  addAccountInfoApi, getAccountInfoApi, updateAccountInfoDataApi, deleteAccountInfoDataApi, getVendorDataApi, getCustomerDataApi
 } from '../api/accountInfo';
 
 const fetchAccountInfoData = accountInfoData => ({
@@ -72,6 +72,23 @@ export const submitAccountInfoData = (data) => (dispatch) => {
 
 export const getAccountInfoData = () => (dispatch) => {
   getAccountInfoApi().then((response) => {
+    dispatch(fetchAccountInfoData(response.data));
+  }).catch((err) => {
+    dispatch(errorAccountInfoData(err));
+  });
+};
+
+export const getCustomerData = () => (dispatch) => {
+  getCustomerDataApi().then((response) => {
+    console.log('respose .data in customer get', response.data);
+    dispatch(fetchAccountInfoData(response.data));
+  }).catch((err) => {
+    dispatch(errorAccountInfoData(err));
+  });
+};
+
+export const getVendorData = () => (dispatch) => {
+  getVendorDataApi().then((response) => {
     dispatch(fetchAccountInfoData(response.data));
   }).catch((err) => {
     dispatch(errorAccountInfoData(err));

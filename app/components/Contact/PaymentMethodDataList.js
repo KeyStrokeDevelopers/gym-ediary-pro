@@ -103,7 +103,7 @@ class PaymentMethodDataList extends React.Component {
                   <input className={classes.input} onChange={(event) => search(event.target.value)} placeholder="Search" />
                 </div>
                 {addFn && (
-                  <Tooltip title="Add New Contact">
+                  <Tooltip title="Add Payment Method">
                     <IconButton className={classes.buttonAdd} onClick={() => addPaymentMethodData()} color="secondary" aria-label="Delete">
                       <Add />
                     </IconButton>
@@ -114,7 +114,7 @@ class PaymentMethodDataList extends React.Component {
             <div className={classes.total}>
               {paymentMethodData ? paymentMethodData.length : 0}
               &nbsp;
-              PaymentMethods
+              Payment Methods
             </div>
             <List>
               {paymentMethodData && getItem(paymentMethodData)}

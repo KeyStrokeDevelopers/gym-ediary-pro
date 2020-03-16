@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
-  FETCH_CLASS_DATA, SEARCH_CLASS_DATA, EDIT_CLASS_DATA, ADD_CLASS_DATA, SET_CLASS_DETAILS_FIELD, SHOW_DETAIL_CLASS, HIDE_DETAIL_CLASS, SUBMIT_CLASS_DATA, CLOSE_CLASS_FORM, LOADING_ACTION_CLASS, CLOSE_CLASS_NOTIF, ERROR_CLASS_DATA
+  FETCH_CLASS_DATA, SEARCH_CLASS_DATA, EDIT_CLASS_DATA, ADD_CLASS_DATA, SET_CLASS_DETAILS_FIELD, SHOW_DETAIL_CLASS, HIDE_DETAIL_CLASS, SUBMIT_CLASS_DATA, CLOSE_CLASS_FORM, LOADING_ACTION_CLASS, CLOSE_CLASS_NOTIF, ERROR_CLASS_DATA, ACTIVE_CLASS_DATA, DELETE_CLASS_DATA
 } from '../../actions/actionConstants';
 
 
@@ -30,7 +30,32 @@ export default function reducer(state = initialState, action = {}) {
         classList: action.payload,
         formValues: {},
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
+      };
+    case DELETE_CLASS_DATA:
+      return {
+        ...state,
+        classList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Class data deleted',
+        notifType: notifT.success,
+        openNoti: true,
+      };
+    case ACTIVE_CLASS_DATA:
+      return {
+        ...state,
+        classList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Class data activated',
+        notifType: notifT.success,
+        openNoti: true,
       };
     case SEARCH_CLASS_DATA:
       return {
@@ -44,10 +69,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false,
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
+        isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_CLASS_DATA:
@@ -122,7 +144,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        selectedIndex: 0
       };
     }
 

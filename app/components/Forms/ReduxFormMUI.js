@@ -282,6 +282,7 @@ export const SearchableSelect = ({
       <Autocomplete
         options={options}
         getOptionLabel={option => option[labelKey]}
+        size="small"
         filterOptions={filterOptions(labelKey)}
         onChange={(e, value) => {
           if (value) {
@@ -297,7 +298,7 @@ export const SearchableSelect = ({
           <TextField {...params} label={label} placeholder={placeholder} fullWidth error={touched && Boolean(error)} />
         )}
       />
-      {
+      {/* {
         touched
         && (
           <div style={{
@@ -307,100 +308,8 @@ export const SearchableSelect = ({
             {error}
           </div>
         )
-      }
+      } */}
     </>
   );
 /* End */
 
-
-/**
- * Autocomplete select box for package
- */
-
-const packageFilterOptions = createFilterOptions({
-  matchFrom: 'start',
-  stringify: option => option.packName,
-});
-
-export const SearchablePackageSelect = ({
-  meta: { touched, error }, options, label, labelKey, valueKey, placeholder, input, children
-}) => (
-    <>
-      <Autocomplete
-        options={options}
-        getOptionLabel={option => `${option.packName}/${option.packDuration}${option.durationIn}/${option.packPrice}`}
-        filterOptions={packageFilterOptions}
-        onChange={(e, value) => {
-          if (value) {
-            return input.onChange(value._id);
-          }
-        }}
-        onBlur={(e, value) => {
-          if (value) {
-            return input.onChange(value._id);
-          }
-        }}
-        renderInput={params => (
-          <TextField {...params} label={label} placeholder={placeholder} fullWidth error={touched && Boolean(error)} />
-        )}
-      />
-      {
-        touched
-        && (
-          <div style={{
-            textAlign: 'left', fontSize: '10px', color: 'red', paddingLeft: '10px'
-          }}
-          >
-            {error}
-          </div>
-        )
-      }
-    </>
-  );
-/* End */
-
-/**
- * Autocomplete select box for class
- */
-
-const classFilterOptions = createFilterOptions({
-  matchFrom: 'start',
-  stringify: option => option.className,
-});
-
-export const SearchableClassSelect = ({
-  meta: { touched, error }, options, label, labelKey, valueKey, placeholder, input, children
-}) => (
-    <>
-      <Autocomplete
-        options={options}
-        getOptionLabel={option => `${option.className}/${option.classDuration}${option.durationIn}/${option.classPrice}`}
-        filterOptions={classFilterOptions}
-        onChange={(e, value) => {
-          if (value) {
-            return input.onChange(value._id);
-          }
-        }}
-        onBlur={(e, value) => {
-          if (value) {
-            return input.onChange(value._id);
-          }
-        }}
-        renderInput={params => (
-          <TextField {...params} label={label} placeholder={placeholder} fullWidth error={touched && Boolean(error)} />
-        )}
-      />
-      {
-        touched
-        && (
-          <div style={{
-            textAlign: 'left', fontSize: '10px', color: 'red', paddingLeft: '10px'
-          }}
-          >
-            {error}
-          </div>
-        )
-      }
-    </>
-  );
-/* End */

@@ -70,7 +70,6 @@ class RegistrationReport extends Component {
   componentDidMount() {
     const { fetchRegistrationReport } = this.props;
     const { fromDate, toDate } = this.state;
-    console.log('formdata 0----', fromDate);
     fetchRegistrationReport({ fromDate, toDate });
   }
 

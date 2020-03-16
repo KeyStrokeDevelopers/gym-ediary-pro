@@ -11,7 +11,7 @@ import styles from './sale-jss';
 // import NumberSuggest from '../../../components/Common/helpers/autoCompleteNumber';
 // import NameSuggest from '../../../components/Common/helpers/autoCompleteName';
 import { validate } from '../../../components/Forms/helpers/formValidation';
-import { RegularTextFieldRedux, DatePickerInput, SearchableSelect } from '../../../components/Forms/ReduxFormMUI';
+import { RegularTextFieldRedux, DatePickerInput } from '../../../components/Forms/ReduxFormMUI';
 
 
 class BillInfoForm extends Component {
@@ -81,8 +81,8 @@ class BillInfoForm extends Component {
       <div>
         <form onSubmit={handleSubmit}>
           <section className={css.bodyForm}>
-            <div style={{ display: 'flex' }}>
-              <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
+            <div className={classes.row}>
+              <div className={classes.firstCol}>
                 <Field
                   name="date"
                   label="Date"
@@ -93,7 +93,7 @@ class BillInfoForm extends Component {
                   dateValue={date}
                 />
               </div>
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <Field
                   name="paidAmount"
                   placeholder="Paid Amount"
@@ -114,24 +114,20 @@ class BillInfoForm extends Component {
               </div>
             </div>
             <div>
-              {paymentMethodData
-                && (
-                  <FormControl className={classes.field}>
-                    <Field
-                      name="paymentMode"
-                      component={SearchableSelect}
-                      placeholder="Select Payment Mode"
-                      autoComplete="off"
-                      label="Select Payment Mode"
-                      options={paymentMethodData}
-                      labelKey="paymentMethod"
-                      valueKey="_id"
-                      required
-                      className={classes.field}
-                    />
-                  </FormControl>
-                )
-              }
+              <FormControl className={classes.field}>
+                <InputLabel htmlFor="selection">Select Payment Mode</InputLabel>
+                <Field
+                  name="paymentMode"
+                  component={SelectRedux}
+                  required
+                  placeholder="Select Payment Mode"
+                >
+                  {
+                    (paymentMethodData && paymentMethodData.length >= 1) &&
+                    paymentMethodData.map((item, index) => <MenuItem value={item._id} key={index + Math.random()}>{item.paymentMethod}</MenuItem>)
+                  }
+                </Field>
+              </FormControl>
             </div>
           </section>
         </form>
@@ -162,7 +158,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: (data) => {
-    console.log('on submit hit of bill info form');
     return dispatch(setBillInfoData(data));
   },
   fetchPaymentMethodData: () => dispatch(getPaymentMethodData()),

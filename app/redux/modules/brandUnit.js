@@ -19,7 +19,8 @@ const initialState = {
   notifMsg: '',
   notifType: '', // success or error
   openNoti: true,
-  isActive: true,
+  isActive: 1,
+  entryType: 'Brand',
   isLoading: false
 };
 
@@ -31,7 +32,8 @@ export default function reducer(state = initialState, action = {}) {
         brandUnitList: action.payload,
         formValues: {},
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
       };
     case SEARCH_BRAND_UNIT_DATA:
       return {
@@ -45,10 +47,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false,
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
+        isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_BRAND_UNIT_DATA:
@@ -96,7 +95,8 @@ export default function reducer(state = initialState, action = {}) {
     case SET_BRAND_UNIT_DETAILS_FIELD: {
       return {
         ...state,
-        isActive: action.payload,
+        isActive: action.payload.is_active,
+        entryType: action.payload.entryType,
         selectedIndex: 0
 
       };
@@ -120,7 +120,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        selectedIndex: 0
       };
     }
 

@@ -31,7 +31,8 @@ export default function reducer(state = initialState, action = {}) {
         vendorPackageSubscriptionList: action.payload,
         formValues: {},
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
       };
     case SEARCH_VENDOR_PACKAGE_SUBSCRIPTION_DATA:
       return {
@@ -47,9 +48,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: action.payload,
         isLoading: false,
         // .set('avatarInit', action.item.get('avatar'));
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
       };
     case ADD_VENDOR_PACKAGE_SUBSCRIPTION_DATA:
       return {
@@ -116,7 +114,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        selectedIndex: 0
       };
     }
 

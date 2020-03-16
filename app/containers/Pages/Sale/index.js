@@ -19,7 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import {
   handleNextStep, handleBack, shopingAgain, submitSaleData, resetCart, deleteSaleData, closeNotifAction
 } from 'dan-actions/saleActions.js';
-import { getAccountInfoData } from 'dan-actions/accountInfoActions';
+import { getCustomerData } from 'dan-actions/accountInfoActions';
 import { getGymInfoData, setInCart } from 'dan-actions/saleActions';
 import SideReview from './sideReview';
 import SaleForm from './saleForm';
@@ -74,13 +74,12 @@ const steps = ['Sale', 'Customer Info', 'Bill Info'];
 
 class Checkout extends React.Component {
   state = {
-    activeStep: 0,
     saleData: {}
   };
 
   componentDidMount = () => {
-    const { fetchAccountInfo, fetchGymInfoData, reset_Cart } = this.props;
-    fetchAccountInfo();
+    const { fetchCustomerInfo, fetchGymInfoData, reset_Cart } = this.props;
+    fetchCustomerInfo();
     fetchGymInfoData();
     if (this.props.match.params.type !== 'edit') {
       reset_Cart();
@@ -100,10 +99,8 @@ class Checkout extends React.Component {
   }
 
   handleShopingAgain = () => {
-    const { shopingAgain } = this.props;
-    this.setState({ activeStep: 0 });
-    shopingAgain();
-    history.push('/app/shoping/sale/Sale');
+    const { shoping_Again } = this.props;
+    shoping_Again();
   }
 
   handleDeleteInvoice = (invoiceId) => {
@@ -118,6 +115,7 @@ class Checkout extends React.Component {
       notifType,
       openNoti,
       closeNotif,
+      isSaleSubmited
     } = this.props;
     const saleRecord = {};
     saleRecord.orderSummary = cartList;
@@ -133,7 +131,7 @@ class Checkout extends React.Component {
 
               {activeStep >= steps.length ? (
                 <>
-                  {submit_Sale_Data(saleRecord)}
+                  {!isSaleSubmited && submit_Sale_Data(saleRecord)}
                   <div className={classes.finishMessage}>
                     <Typography variant="h4" gutterBottom>
                       <span>
@@ -181,61 +179,47 @@ class Checkout extends React.Component {
                         {activeStep < steps.length - 1 ? <SideReview /> : <BillInfo />}
                       </Grid>
                     </Grid>
-                    <div className={classes.buttons}>
-                      <div style={{ width: '75%' }}>
-                        {/* <Button
-                                                    color="primary"
-                                                    variant="contained"
-                                                    size="large"
-                                                    type='button'
-                                                    className={classes.button}
-                                                    onClick={() => onSubmit()}
-                                                >
-                                                    Add To Cart
-                                                    </Button> */}
-                      </div>
+                    <div className={classes.buttons} style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                       {activeStep !== 0 && (
                         <Button onClick={handle_Back} className={classes.button}>
                           Back
                       </Button>
                       )}
-                      <div style={{ width: '25%', display: 'flex' }}>
-                        <div>
-                          {(cartList && cartList.length >= 1)
-                            && (
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                type="button"
-                                onClick={() => {
-                                  if (activeStep === 1) {
-                                    console.log('active step 1');
-                                    onSubmit();
-                                  } else if (activeStep === 2) {
-                                    console.log('active step 1');
-                                    onBillInfoSubmit();
-                                  } else {
-                                    nextStep();
-                                  }
+                      <div>
+                        {(cartList && cartList.length >= 1)
+                          && (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              type="button"
+                              onClick={() => {
+                                if (activeStep === 1) {
+                                  console.log('active step 1');
+                                  onSubmit();
+                                } else if (activeStep === 2) {
+                                  console.log('active step 1');
+                                  onBillInfoSubmit();
+                                } else {
+                                  nextStep();
                                 }
-                                }
-                                className={classes.button}
-                                size="large"
-                              >
-                                {activeStep === steps.length - 1 ? (match.params.type !== 'edit') ? 'Place order' : 'Update' : (match.params.type !== 'edit') ? 'Create Bill' : 'Update Bill'}
-                              </Button>
-                            )
-                          }
-                        </div>
-                        <div style={{ marginTop: '27px', marginLeft: '20px' }}>
-                          {((cartList && cartList.length >= 1) && (match.params.type === 'edit') && (activeStep === steps.length - 1))
-                            && (
-                              <Tooltip title="Delete Invoice">
-                                <DeleteIcon onClick={() => this.handleDeleteInvoice(saleData.invoiceId)} style={{ color: '#f56049', cursor: 'pointer' }} />
-                              </Tooltip>
-                            )
-                          }
-                        </div>
+                              }
+                              }
+                              className={classes.button}
+                              size="large"
+                            >
+                              {activeStep === steps.length - 1 ? (match.params.type !== 'edit') ? 'Place order' : 'Update' : (match.params.type !== 'edit') ? 'Create Bill' : 'Update Bill'}
+                            </Button>
+                          )
+                        }
+                      </div>
+                      <div style={{ marginTop: '27px', marginLeft: '20px' }}>
+                        {((cartList && cartList.length >= 1) && (match.params.type === 'edit') && (activeStep === steps.length - 1))
+                          && (
+                            <Tooltip title="Delete Invoice">
+                              <DeleteIcon onClick={() => this.handleDeleteInvoice(saleData.invoiceId)} style={{ color: '#f56049', cursor: 'pointer' }} />
+                            </Tooltip>
+                          )
+                        }
                       </div>
                     </div>
                   </Fragment>
@@ -263,6 +247,7 @@ const mapStateToProps = state => {
     billInfoData: saleReducer.billInfoData,
     accountInfoData: accountInfoReducer.accountInfoList,
     saleData: saleReducer.formValues,
+    isSaleSubmited: saleReducer.isSubmited,
     messageNotif: saleReducer.notifMsg,
     notifType: saleReducer.notifType,
     openNoti: saleReducer.openNoti,
@@ -276,7 +261,7 @@ const mapDispatchToProps = dispatch => ({
   handle_Back: () => dispatch(handleBack()),
   shoping_Again: () => dispatch(shopingAgain()),
   submit_Sale_Data: (data) => dispatch(submitSaleData(data)),
-  fetchAccountInfo: () => dispatch(getAccountInfoData()),
+  fetchCustomerInfo: () => dispatch(getCustomerData()),
   fetchGymInfoData: () => dispatch(getGymInfoData()),
   set_In_Cart: (data) => dispatch(setInCart(data)),
   reset_Cart: () => dispatch(resetCart()),

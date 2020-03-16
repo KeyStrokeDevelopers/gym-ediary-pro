@@ -9,6 +9,8 @@ const getVendorPackageSubscriptionDataByMemberIdApi = (memberId) => axios.get(`$
 
 const updateVendorPackageSubscriptionDataApi = (data) => axios.put(`${API_URL}/vendorPackageSubscription`, data, getConfig());
 
+const vendorPackageFreezeDataApi = (data) => axios.post(`${API_URL}/vendorPackageSubscription/freeze`, data, getConfig());
+
 const deleteVendorPackageSubscriptionDataApi = (dataId) => {
   const config = getConfig();
   config.data = { dataId };
@@ -19,5 +21,6 @@ export {
   getVendorPackageApi,
   getVendorPackageSubscriptionDataByMemberIdApi,
   updateVendorPackageSubscriptionDataApi,
-  deleteVendorPackageSubscriptionDataApi
+  deleteVendorPackageSubscriptionDataApi,
+  vendorPackageFreezeDataApi
 };

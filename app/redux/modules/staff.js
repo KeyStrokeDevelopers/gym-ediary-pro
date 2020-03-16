@@ -80,10 +80,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false,
-        notifMsg: notifM.saved,
-        notifType: notifT.success,
-        openNoti: true
+        isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_STAFF_DATA:
@@ -162,7 +159,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        selectedIndex: 0
       };
 
     default:

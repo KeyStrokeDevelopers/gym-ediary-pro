@@ -4,7 +4,7 @@ import {
 } from './actionConstants';
 
 import {
-  addVendorPackageSubscriptionApi, getVendorPackageApi, updateVendorPackageSubscriptionDataApi, deleteVendorPackageSubscriptionDataApi, getVendorPackageSubscriptionDataByMemberIdApi
+  addVendorPackageSubscriptionApi, getVendorPackageApi, updateVendorPackageSubscriptionDataApi, deleteVendorPackageSubscriptionDataApi, getVendorPackageSubscriptionDataByMemberIdApi, vendorPackageFreezeDataApi
 } from '../api/vendorPackageSubscription';
 
 const fetchVendorPackageSubscriptionData = vendorPackageSubscriptionData => ({
@@ -96,6 +96,14 @@ export const updateVendorPackageSubscriptionData = (data) => (dispatch) => {
 
 export const deleteVendorPackageSubscriptionData = (data) => (dispatch) => {
   deleteVendorPackageSubscriptionDataApi(data).then((response) => {
+    dispatch(fetchVendorPackageSubscriptionData(response.data));
+  }).catch((err) => {
+    dispatch(errorVendorPackageSubscriptionData(err));
+  });
+};
+
+export const packageFreeze = (data) => (dispatch) => {
+  vendorPackageFreezeDataApi(data).then((response) => {
     dispatch(fetchVendorPackageSubscriptionData(response.data));
   }).catch((err) => {
     dispatch(errorVendorPackageSubscriptionData(err));

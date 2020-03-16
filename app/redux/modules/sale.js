@@ -4,7 +4,7 @@ import {
   FETCH_SALE_DATA, SEARCH_SALE_DATA, EDIT_SALE_DATA, ADD_SALE_DATA, SET_SALE_DETAILS_FIELD,
   SHOW_DETAIL_SALE, HIDE_DETAIL_SALE, SUBMIT_SALE_DATA, CLOSE_SALE_FORM, LOADING_ACTION_SALE, SET_VALUE_IN_CART_SALE, RESET_CART_SALE,
   DELETE_CART_VALUE_SALE, HANDLE_NEXT_STEP_SALE, HANDLE_BACK_STEP_SALE, SHOPING_AGAIN_SALE, SET_BILL_INFO_DATA_SALE, SET_DISCOUNT_SALE,
-  SET_DISCOUNT_IN_VALUE_SALE, GET_GYM_INFO_DATA_SALE, SET_PAID_AMOUNT, CLOSE_SALE_NOTIF, ERROR_SALE_DATA
+  SET_DISCOUNT_IN_VALUE_SALE, GET_GYM_INFO_DATA_SALE, SET_PAID_AMOUNT, CLOSE_SALE_NOTIF, ERROR_SALE_DATA, SET_ACCOUNT_DATA_SALE
 } from '../../actions/actionConstants';
 
 
@@ -27,6 +27,7 @@ const initialState = {
   openNoti: true,
   isActive: true,
   isLoading: false,
+  isSubmited: false,
   discount: 0,
   discountInValue: 0,
   paidAmount: 0
@@ -39,7 +40,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         saleList: action.payload,
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
       };
     case SEARCH_SALE_DATA:
       return {
@@ -53,10 +55,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false,
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
+        isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_SALE_DATA:
@@ -76,7 +75,8 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false,
         notifMsg: notifM.saved,
         notifType: notifT.success,
-        openNoti: true
+        openNoti: true,
+        isSubmited: true
       };
     case SET_VALUE_IN_CART_SALE:
       return {
@@ -155,6 +155,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         activeStep: 0,
+        isSubmited: false,
         cartList: [],
         formValues: {},
         customerData: {},
@@ -167,6 +168,14 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         billInfoData: action.payload,
+        activeStep: state.activeStep + 1
+      };
+    }
+
+    case SET_ACCOUNT_DATA_SALE: {
+      return {
+        ...state,
+        customerData: action.payload,
         activeStep: state.activeStep + 1
       };
     }
@@ -212,7 +221,9 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        isSubmited: true,
+        selectedIndex: 0
       };
     }
 

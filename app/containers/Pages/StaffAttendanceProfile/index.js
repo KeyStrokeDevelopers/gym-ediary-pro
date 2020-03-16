@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { AdvTable } from 'dan-components';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import { fetchStaffAttendanceData } from '../../../actions/staffActions';
 import { DatePickerInput } from '../../../components/Forms/ReduxFormMUI';
@@ -143,7 +144,7 @@ class Attendance extends Component {
           </div>
         </div>
         {(attendanceData.length >= 1)
-          && (
+          ? (
             <>
               <AdvTable
                 order={order}
@@ -158,6 +159,24 @@ class Attendance extends Component {
                 columnData={columnData}
               />
             </>
+          ) : (
+            <div
+              className={classes.cover}
+              style={{
+                backgroundColor: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'
+              }}
+            >
+              <div
+                className={classes.bg}
+                style={{
+                  minHeight: '200px', display: 'flex', color: '#2196F3', alignItems: 'center'
+                }}
+              >
+                <Typography variant="h3" component="h3">
+                  No data to show
+                  </Typography>
+              </div>
+            </div>
           )
         }
       </div>

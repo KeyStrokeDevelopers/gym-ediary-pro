@@ -5,6 +5,8 @@ const addPurposeApi = (data) => axios.post(`${API_URL}/purpose`, data, getConfig
 
 const getPurposeApi = () => axios.get(`${API_URL}/purpose`, getConfig());
 
+const getActivePurposeApi = (purposeId) => axios.get(`${API_URL}/purpose/active/${purposeId}`, getConfig());
+
 const updatePurposeDataApi = (data) => axios.put(`${API_URL}/purpose`, data, getConfig());
 
 const deletePurposeDataApi = (dataId) => {
@@ -19,5 +21,6 @@ export {
   getPurposeApi,
   updatePurposeDataApi,
   deletePurposeDataApi,
-  fetchAccessDataApi
+  fetchAccessDataApi,
+  getActivePurposeApi
 };

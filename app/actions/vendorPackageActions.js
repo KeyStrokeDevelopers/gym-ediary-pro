@@ -1,9 +1,9 @@
 import {
   FETCH_PACKAGE_DATA, SEARCH_PACKAGE_DATA, EDIT_PACKAGE_DATA, ADD_PACKAGE_DATA, SET_PACKAGE_DETAILS_FIELD,
-  ERROR_PACKAGE_DATA, SHOW_DETAIL_PACKAGE, HIDE_DETAIL_PACKAGE, SUBMIT_PACKAGE_DATA, CLOSE_PACKAGE_FORM, LOADING_ACTION_PACKAGE, CLOSE_PACKAGE_NOTIF
+  ERROR_PACKAGE_DATA, SHOW_DETAIL_PACKAGE, HIDE_DETAIL_PACKAGE, SUBMIT_PACKAGE_DATA, CLOSE_PACKAGE_FORM, LOADING_ACTION_PACKAGE, CLOSE_PACKAGE_NOTIF, DELETE_PACKAGE_DATA, ACTIVE_PACKAGE_DATA
 } from './actionConstants';
 import {
-  addPackageApi, getPackageApi, updatePackageDataApi, deletePackageDataApi
+  addPackageApi, getPackageApi, updatePackageDataApi, deletePackageDataApi, activePackageDataApi
 } from '../api/package';
 
 const fetchPackageData = packageData => ({
@@ -11,6 +11,15 @@ const fetchPackageData = packageData => ({
   payload: packageData
 });
 
+const setDeletePackageData = packageData => ({
+  type: DELETE_PACKAGE_DATA,
+  payload: packageData
+});
+
+const setActivePackageData = packageData => ({
+  type: ACTIVE_PACKAGE_DATA,
+  payload: packageData
+});
 const submitAction = (packageData) => ({
   type: SUBMIT_PACKAGE_DATA,
   payload: packageData
@@ -87,7 +96,15 @@ export const updatePackageData = (data) => (dispatch) => {
 
 export const deletePackageData = (data) => (dispatch) => {
   deletePackageDataApi(data).then((response) => {
-    dispatch(fetchPackageData(response.data));
+    dispatch(setDeletePackageData(response.data));
+  }).catch((err) => {
+    dispatch(errorPackageData(err));
+  });
+};
+
+export const activePackageData = (data) => (dispatch) => {
+  activePackageDataApi(data).then((response) => {
+    dispatch(setActivePackageData(response.data));
   }).catch((err) => {
     dispatch(errorPackageData(err));
   });

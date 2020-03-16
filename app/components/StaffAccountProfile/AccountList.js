@@ -45,7 +45,7 @@ class AccountList extends Component {
     rowsPerPage: 5,
     defaultPerPage: 5,
     filterText: '',
-    title: 'Account',
+    title: 'Salary',
     fromDate: moment(new Date()).format('YYYY-MM-DD'),
     toDate: moment(new Date()).format('YYYY-MM-DD')
   };

@@ -18,6 +18,7 @@ import {
   setDetailField,
   loadingAction,
   hideDetailAction,
+  activeCategoryData,
   closeNotifAction
 } from 'dan-actions/CategoryActions';
 import { AddContact } from 'dan-components';
@@ -71,6 +72,7 @@ class Category extends React.Component {
       openNoti,
       closeNotif,
       deleteCategoryData,
+      activeCategoryData,
       isLoading
     } = this.props;
     const isCategoryData = categoryData.length >= 1;
@@ -104,6 +106,7 @@ class Category extends React.Component {
             hideDetail={hideDetail}
             categoryData={categoryData}
             deleteCategoryData={deleteCategoryData}
+            activeCategoryData={activeCategoryData}
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
@@ -156,6 +159,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addCategoryData()),
   close: () => dispatch(closeAction()),
   deleteCategoryData: (data) => dispatch(deleteCategoryData(data)),
+  activeCategoryData: (data) => dispatch(activeCategoryData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),

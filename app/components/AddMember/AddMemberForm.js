@@ -28,9 +28,7 @@ import styles from '../Common/style';
 import { SERVER_URL } from '../Common/constant';
 import { validate, phoneNumber, email } from '../Forms/helpers/formValidation';
 import { ContentDivider } from '../Divider';
-import {
-  TextFieldRedux, RegularTextFieldRedux, DatePickerInput, SelectRedux, renderToggleFingerRequired, SearchableSelect, SearchablePackageSelect, SearchableClassSelect
-} from '../Forms/ReduxFormMUI';
+import { TextFieldRedux, RegularTextFieldRedux, DatePickerInput, SelectRedux, renderToggleFingerRequired } from '../Forms/ReduxFormMUI';
 let fillValueEnquiry;
 class AddMemberForm extends React.Component {
   saveRef = ref => {
@@ -325,29 +323,20 @@ class AddMemberForm extends React.Component {
             {!edit && (
               <div>
                 <div>
-                  {purposeData
-                    && (
-                      <Field
-                        name="purpose"
-                        component={SearchableSelect}
-                        placeholder="Select Purpose"
-                        autoComplete="off"
-                        label="Select Purpose"
-                        options={purposeData}
-                        labelKey="purposeName"
-                        valueKey="_id"
-                        required
-                        className={classes.field}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <Work />
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    )
-                  }
+                  <FormControl className={classes.field}>
+                    <InputLabel htmlFor="selection">Select Purpose</InputLabel>
+                    <Field
+                      name="purpose"
+                      component={SelectRedux}
+                      required
+                      placeholder="Select Purpose"
+                    >
+                      {
+                        (purposeData && purposeData.length >= 1) &&
+                        purposeData.map((item, index) => <MenuItem value={item._id} key={index + Math.random()}>{item.purposeName}</MenuItem>)
+                      }
+                    </Field>
+                  </FormControl>
                 </div>
                 <div>
                   <Field
@@ -387,23 +376,20 @@ class AddMemberForm extends React.Component {
                   </FormControl>
                 </div>
                 <div>
-                  {packageData
-                    && (
-                      <FormControl className={classes.field}>
-                        <Field
-                          name="packageInfo"
-                          component={SearchablePackageSelect}
-                          placeholder="Select Package"
-                          autoComplete="off"
-                          label="Select Package"
-                          options={packageData}
-                          onChange={this.handlePackageSelected}
-                          required
-                          className={classes.field}
-                        />
-                      </FormControl>
-                    )
-                  }
+                  <FormControl className={classes.field}>
+                    <InputLabel htmlFor="selection">Select Package</InputLabel>
+                    <Field
+                      name="packageInfo"
+                      component={SelectRedux}
+                      required
+                      placeholder="Select Package"
+                    >
+                      {
+                        (packageData && packageData.length >= 1) &&
+                        packageData.map((item, index) => <MenuItem value={item._id} key={index + Math.random()}>{`${item.packName}/${item.packDuration}${item.durationIn}/${item.packPrice}`}</MenuItem>)
+                      }
+                    </Field>
+                  </FormControl>
                 </div>
                 <div style={{ display: 'flex' }}>
                   <div className={classes.picker} style={{ marginRight: '10px', width: '50%' }}>
@@ -483,24 +469,20 @@ class AddMemberForm extends React.Component {
                   />
                 </div>
                 <div>
-                  {paymentMethodData
-                    && (
-                      <FormControl className={classes.field}>
-                        <Field
-                          name="paymentMode"
-                          component={SearchableSelect}
-                          placeholder="Select Payment Mode"
-                          autoComplete="off"
-                          label="Select Payment Mode"
-                          options={paymentMethodData}
-                          labelKey="paymentMethod"
-                          valueKey="_id"
-                          required
-                          className={classes.field}
-                        />
-                      </FormControl>
-                    )
-                  }
+                  <FormControl className={classes.field}>
+                    <InputLabel htmlFor="selection">Select Payment Mode</InputLabel>
+                    <Field
+                      name="paymentMode"
+                      component={SelectRedux}
+                      required
+                      placeholder="Select Payment Mode"
+                    >
+                      {
+                        (paymentMethodData && paymentMethodData.length >= 1) &&
+                        paymentMethodData.map((item, index) => <MenuItem value={item._id} key={index + Math.random()}>{item.paymentMethod}</MenuItem>)
+                      }
+                    </Field>
+                  </FormControl>
                 </div>
               </div>
             )

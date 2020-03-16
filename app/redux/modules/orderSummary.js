@@ -31,7 +31,8 @@ export default function reducer(state = initialState, action = {}) {
         orderSummaryList: action.payload,
         formValues: {},
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
       };
     case SEARCH_ORDER_SUMMARY_DATA:
       return {

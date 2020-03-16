@@ -228,6 +228,29 @@ const styles = theme => ({
   userName: {
     textAlign: 'left',
   },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    '@media (max-width:600px)': {
+      flexDirection: 'column',
+    }
+  },
+  firstCol: {
+    width: '100%',
+    marginRight: '10px',
+    '@media (max-width:600px)': {
+      flexDirection: 'column',
+      marginRight: '0px'
+    }
+  },
+
+  secondCol: {
+    width: '100%',
+    '@media (max-width:600px)': {
+      flexDirection: 'column'
+    }
+  },
   cover: {
     padding: '20px 8px',
     position: 'relative',

@@ -1,6 +1,6 @@
 import {
   FETCH_PRODUCT_SHOPING_DATA, SEARCH_PRODUCT_SHOPING_DATA, EDIT_PRODUCT_SHOPING_DATA, ADD_PRODUCT_SHOPING_DATA, SET_PRODUCT_SHOPING_DETAILS_FIELD,
-  ERROR_PRODUCT_SHOPING_DATA, SHOW_DETAIL_PRODUCT_SHOPING, HIDE_DETAIL_PRODUCT_SHOPING, SUBMIT_PRODUCT_SHOPING_DATA, CLOSE_PRODUCT_SHOPING_FORM, LOADING_ACTION_PRODUCT_SHOPING, FETCH_PRODUCT_QUANTITY, CLOSE_PRODUCT_SHOPING_NOTIF
+  ERROR_PRODUCT_SHOPING_DATA, SHOW_DETAIL_PRODUCT_SHOPING, HIDE_DETAIL_PRODUCT_SHOPING, SUBMIT_PRODUCT_SHOPING_DATA, CLOSE_PRODUCT_SHOPING_FORM, LOADING_ACTION_PRODUCT_SHOPING, FETCH_PRODUCT_QUANTITY, CLOSE_PRODUCT_SHOPING_NOTIF, UPDATE_PRODUCT_SHOPING_DATA
 } from './actionConstants';
 
 import {
@@ -14,6 +14,11 @@ const fetchProductData = productData => ({
 
 const submitAction = productData => ({
   type: SUBMIT_PRODUCT_SHOPING_DATA,
+  payload: productData
+});
+
+const updateAction = productData => ({
+  type: UPDATE_PRODUCT_SHOPING_DATA,
   payload: productData
 });
 
@@ -69,6 +74,7 @@ export const closeNotifAction = () => ({
 
 export const submitProductData = (data) => (dispatch) => {
   addProductApi(data).then((response) => {
+    console.log('add product api response -----***');
     dispatch(submitAction(response.data));
   }).catch((err) => {
     dispatch(errorProductData(err));
@@ -85,7 +91,7 @@ export const getProductData = () => (dispatch) => {
 
 export const updateProductData = (data) => (dispatch) => {
   updateProductDataApi(data).then((response) => {
-    dispatch(fetchProductData(response.data));
+    dispatch(updateAction(response.data));
   }).catch((err) => {
     dispatch(errorProductData(err));
   });

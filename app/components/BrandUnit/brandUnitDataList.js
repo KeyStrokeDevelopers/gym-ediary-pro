@@ -6,6 +6,7 @@ import Drawer from '@material-ui/core/Drawer';
 import classNames from 'classnames';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import { reduxForm, Field } from 'redux-form/immutable';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
@@ -15,27 +16,43 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import SearchIcon from '@material-ui/icons/Search';
 import PermContactCalendar from '@material-ui/icons/PermContactCalendar';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 import Add from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
+import { SelectRedux } from '../Forms/ReduxFormMUI';
 import TodayIcon from '@material-ui/icons/Today';
 import styles from './brandUnit-jss';
 
 class BrandUnitDataList extends React.Component {
   state = {
     filter: 1,
-    filterValue: 'All'
+    filterValue: 'All',
+    entryType: 'Brand'
   };
+
+  componentDidMount = () => {
+    this.props.initialize({ brandUnit: 'Brand' });
+  }
 
   handleChange = (event, value) => {
     this.setState({ filter: value });
-    const is_active = value === 1;
+    const is_active = value;
     const { isActive } = this.props;
-    isActive(is_active);
+    const { entryType } = this.state;
+    isActive({ is_active, entryType });
   };
 
   handleSelected = (e, data) => {
     this.props.filterValue(data);
     this.setState({ filterValue: data });
+  }
+
+  handleBrandUnit = (e, entryType) => {
+    this.setState({ entryType });
+    const { isActive, is_active } = this.props;
+    isActive({ is_active, entryType });
   }
 
   getFilterData = (value, memberData) => {
@@ -54,11 +71,17 @@ class BrandUnitDataList extends React.Component {
       keyword,
       clippedRight,
       brandUnitData,
+      is_active,
       addFn,
     } = this.props;
-    const { filter } = this.state;
+    const { filter, entryType } = this.state;
+    let brandUnitFilterData;
+    if (brandUnitData && brandUnitData.length >= 1) {
+      brandUnitFilterData = is_active ? brandUnitData.filter(item => item.status === 1 && item.entryType === entryType) : brandUnitData.filter(item => item.status === 0 && item.entryType === entryType)
+    }
+
     const getItem = dataArray => dataArray.map((data, ind) => {
-      const index = brandUnitData.indexOf(data);
+      const index = brandUnitFilterData.indexOf(data);
       if (data.value.toLowerCase().indexOf(keyword) === -1) {
         return false;
       }
@@ -79,7 +102,6 @@ class BrandUnitDataList extends React.Component {
       );
     });
 
-
     return (
       <Fragment>
         <Drawer
@@ -90,6 +112,22 @@ class BrandUnitDataList extends React.Component {
             paper: classes.drawerPaper,
           }}
         >
+          <form>
+            <div style={{ margin: '10px' }}>
+              <FormControl className={classes.field} style={{ width: '100%' }}>
+                <InputLabel htmlFor="selection">Select Brand or Unit</InputLabel>
+                <Field
+                  name="brandUnit"
+                  component={SelectRedux}
+                  placeholder="Select Category Type"
+                  onChange={this.handleBrandUnit}
+                >
+                  <MenuItem value="Brand">Brand</MenuItem>
+                  <MenuItem value="Unit">Unit</MenuItem>
+                </Field>
+              </FormControl>
+            </div>
+          </form>
           <div>
             <div className={classNames(classes.toolbar, clippedRight && classes.clippedRight)}>
               <div className={classes.flex}>
@@ -109,12 +147,12 @@ class BrandUnitDataList extends React.Component {
               </div>
             </div>
             <div className={classes.total}>
-              {brandUnitData ? brandUnitData.length : '0'}
+              {brandUnitFilterData ? brandUnitFilterData.length : '0'}
               &nbsp;
-              Brand Unit
-              </div>
+              {entryType}
+            </div>
             <List>
-              {brandUnitData && brandUnitData.length >= 1 && getItem(brandUnitData)}
+              {brandUnitData && brandUnitData.length >= 1 && getItem(brandUnitFilterData)}
             </List>
           </div>
         </Drawer>
@@ -133,5 +171,10 @@ BrandUnitDataList.defaultProps = {
   addFn: false,
 };
 
+const BrandUnitDataListFormRedux = reduxForm({
+  form: 'brandUnitDataListForm',
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
+})(BrandUnitDataList);
 
-export default withStyles(styles)(BrandUnitDataList);
+export default withStyles(styles)(BrandUnitDataListFormRedux);

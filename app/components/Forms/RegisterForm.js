@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form/immutable';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ArrowForward from '@material-ui/icons/ArrowForward';
@@ -15,8 +16,9 @@ import Hidden from '@material-ui/core/Hidden';
 import brand from 'dan-api/dummy/brand';
 import { GradientDivider } from '../Divider';
 import logo from '../../../public/images/logo.png';
+import InputLabel from '@material-ui/core/InputLabel';
 import {
-  TextFieldRedux, DatePickerInput, RegularTextFieldRedux, SearchableSelect
+  TextFieldRedux, DatePickerInput, RegularTextFieldRedux, SelectRedux
 } from './ReduxFormMUI';
 import {
   validate, email, phoneNumber, pinNumber
@@ -144,19 +146,19 @@ class RegisterForm extends React.Component {
                 </FormControl>
               </div>
               <div>
-                <FormControl className={classes.formControl}>
+                <FormControl className={classes.field}>
+                  <InputLabel htmlFor="selection">Select State</InputLabel>
                   <Field
                     name="branchState"
-                    component={SearchableSelect}
-                    placeholder="State"
-                    autoComplete="off"
-                    label="State"
-                    options={allIndianState}
-                    labelKey="value"
-                    valueKey="value"
+                    component={SelectRedux}
                     required
-                    className={classes.field}
-                  />
+                    placeholder="Select State"
+                  >
+                    {
+                      (allIndianState && allIndianState.length >= 1) &&
+                      allIndianState.map((item, index) => <MenuItem value={item.value} key={index + Math.random()}>{item.value}</MenuItem>)
+                    }
+                  </Field>
                 </FormControl>
               </div>
               <div>

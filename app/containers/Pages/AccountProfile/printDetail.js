@@ -69,10 +69,6 @@ class PrintDetail extends React.Component { // eslint-disable-line
     });
   };
 
-
-
-
-
   handleToggle = (e, isDigitallySign) => {
     this.setState({ isDigitallySign })
   }

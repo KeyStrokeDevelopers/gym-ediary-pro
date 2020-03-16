@@ -171,6 +171,11 @@ export const RenewalReport = loadable(() =>
   fallback: <Loading />,
 });
 
+export const CurrentStock = loadable(() =>
+  import('./Pages/Reports/currentStock'), {
+  fallback: <Loading />,
+});
+
 export const ProductPage = loadable(() =>
   import('./Pages/Ecommerce/ProductPage'), {
   fallback: <Loading />,

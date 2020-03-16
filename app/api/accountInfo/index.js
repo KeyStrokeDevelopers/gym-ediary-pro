@@ -5,6 +5,10 @@ const addAccountInfoApi = (data) => axios.post(`${API_URL}/accountInfo`, data, g
 
 const getAccountInfoApi = () => axios.get(`${API_URL}/accountInfo`, getConfig());
 
+const getVendorDataApi = () => axios.get(`${API_URL}/accountInfo/vendor`, getConfig());
+
+const getCustomerDataApi = () => axios.get(`${API_URL}/accountInfo/customer`, getConfig());
+
 const updateAccountInfoDataApi = (data) => axios.put(`${API_URL}/accountInfo`, data, getConfig());
 
 const deleteAccountInfoDataApi = (dataId) => {
@@ -16,5 +20,6 @@ export {
   addAccountInfoApi,
   getAccountInfoApi,
   updateAccountInfoDataApi,
-  deleteAccountInfoDataApi
+  deleteAccountInfoDataApi,
+  getVendorDataApi, getCustomerDataApi
 };

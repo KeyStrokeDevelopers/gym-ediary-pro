@@ -93,23 +93,30 @@ class BrandUnitDetail extends React.Component {
       edit,
       favorite,
       showMobileDetail,
-      isActive,
+      entryType,
+      is_active,
       hideDetail,
     } = this.props;
     const { anchorElOpt, open } = this.state;
 
-    const ListData = [];
+    let brandUnitFilterData;
     if (brandUnitData && brandUnitData.length >= 1) {
+      brandUnitFilterData = is_active ? brandUnitData.filter(item => item.status === 1 && item.entryType === entryType) : brandUnitData.filter(item => item.status === 0 && item.entryType === entryType)
+    }
+
+
+    const ListData = [];
+    if (brandUnitFilterData && brandUnitFilterData.length >= 1) {
       brandUnitDataField.map(data => {
-        if (brandUnitData[itemSelected][data.primary]) {
-          ListData.push({ primary: brandUnitData[itemSelected][data.primary], secondary: data.secondary, key: data.primary });
+        if (brandUnitFilterData[itemSelected][data.primary]) {
+          ListData.push({ primary: brandUnitFilterData[itemSelected][data.primary], secondary: data.secondary, key: data.primary });
         }
       });
     }
 
     return (
       <>
-        {brandUnitData && brandUnitData.length >= 1
+        {brandUnitFilterData && brandUnitFilterData.length >= 1
           ? (
             <main className={classNames(classes.content, showMobileDetail ? classes.detailPopup : '')}>
               <div>
@@ -141,12 +148,12 @@ class BrandUnitDetail extends React.Component {
                 <div className={classes.opt}>
                   <>
                     <Tooltip title="Delete Record">
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(brandUnitData[itemSelected])}>
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(brandUnitFilterData[itemSelected])}>
                         <DeleteIcon />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Edit Record">
-                      <IconButton aria-label="Edit" onClick={() => edit(brandUnitData[itemSelected])}>
+                      <IconButton aria-label="Edit" onClick={() => edit(brandUnitFilterData[itemSelected])}>
                         <Edit />
                       </IconButton>
                     </Tooltip>
@@ -166,7 +173,7 @@ class BrandUnitDetail extends React.Component {
                     {optionsOpt.map(option => {
                       if (option === 'Delete Contact') {
                         return (
-                          <MenuItem key={option} selected={option === 'Edit Profile'} onClick={() => this.deleteContact(brandUnitData[itemSelected])}>
+                          <MenuItem key={option} selected={option === 'Edit Profile'} onClick={() => this.deleteContact(brandUnitFilterData[itemSelected])}>
                             {option}
                           </MenuItem>
                         );
@@ -193,9 +200,9 @@ class BrandUnitDetail extends React.Component {
                     </Avatar>
                   </ListItemAvatar>
                   <Typography className={classes.userName} variant="h6">
-                    {brandUnitData[itemSelected].value}
+                    {brandUnitFilterData[itemSelected].value}
                     <Typography display="block" variant="caption">
-                      {brandUnitData[itemSelected].entryType}
+                      {brandUnitFilterData[itemSelected].entryType}
                     </Typography>
                   </Typography>
                 </Hidden>
@@ -209,9 +216,9 @@ class BrandUnitDetail extends React.Component {
                       </Avatar>
                     </ListItemAvatar>
                     <Typography variant="h5">
-                      {brandUnitData[itemSelected].value}
+                      {brandUnitFilterData[itemSelected].value}
                       <Typography display="block" variant="caption">
-                        {brandUnitData[itemSelected].entryType}
+                        {brandUnitFilterData[itemSelected].entryType}
                       </Typography>
                     </Typography>
                   </div>

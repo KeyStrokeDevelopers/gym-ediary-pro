@@ -1,13 +1,23 @@
 import {
   FETCH_CATEGORY_DATA, SEARCH_CATEGORY_DATA, EDIT_CATEGORY_DATA, ADD_CATEGORY_DATA, SET_CATEGORY_DETAILS_FIELD,
-  ERROR_CATEGORY_DATA, SHOW_DETAIL_CATEGORY, HIDE_DETAIL_CATEGORY, SUBMIT_CATEGORY_DATA, CLOSE_CATEGORY_FORM, LOADING_ACTION_CATEGORY, CLOSE_CATEGORY_NOTIF
+  ERROR_CATEGORY_DATA, SHOW_DETAIL_CATEGORY, HIDE_DETAIL_CATEGORY, SUBMIT_CATEGORY_DATA, CLOSE_CATEGORY_FORM, LOADING_ACTION_CATEGORY, CLOSE_CATEGORY_NOTIF, DELETE_CATEGORY_DATA, ACTIVE_CATEGORY_DATA
 } from './actionConstants';
 import {
-  addCategoryApi, getCategoryApi, updateCategoryDataApi, deleteCategoryDataApi
+  addCategoryApi, getCategoryApi, updateCategoryDataApi, deleteCategoryDataApi, activeCategoryDataApi
 } from '../api/category';
 
 const fetchCategoryData = categoryData => ({
   type: FETCH_CATEGORY_DATA,
+  payload: categoryData
+});
+
+const setDeleteCategoryData = categoryData => ({
+  type: DELETE_CATEGORY_DATA,
+  payload: categoryData
+});
+
+const setActiveCategoryData = categoryData => ({
+  type: ACTIVE_CATEGORY_DATA,
   payload: categoryData
 });
 
@@ -87,7 +97,15 @@ export const updateCategoryData = (data) => (dispatch) => {
 
 export const deleteCategoryData = (data) => (dispatch) => {
   deleteCategoryDataApi(data).then((response) => {
-    dispatch(fetchCategoryData(response.data));
+    dispatch(setDeleteCategoryData(response.data));
+  }).catch((err) => {
+    dispatch(errorCategoryData(err));
+  });
+};
+
+export const activeCategoryData = (data) => (dispatch) => {
+  activeCategoryDataApi(data).then((response) => {
+    dispatch(setActiveCategoryData(response.data));
   }).catch((err) => {
     dispatch(errorCategoryData(err));
   });

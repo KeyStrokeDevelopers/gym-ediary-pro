@@ -1,6 +1,6 @@
 import notifT from 'dan-api/ui/notifType';
 import {
-  FETCH_PENDING_PAYMENTS_DATA, FETCH_REPORTS_DATA, FETCH_EXPIRING_MEMBERSHIPS_DATA, FETCH_EXPIRED_MEMBERS_DATA, FETCH_NON_ACTIVE_MEMBERS_DATA, FETCH_CLASSES_DATA, FETCH_ALL_NEW_REGISTERED_DATA, FETCH_ALL_RENEWED_MEMBERSHIP_DATA, SET_ATTENDANCE, UPDATED_DATA, ERROR_REPORTS_DATA, CLOSE_REPORTS_NOTIF
+  FETCH_PENDING_PAYMENTS_DATA, FETCH_REPORTS_DATA, FETCH_EXPIRING_MEMBERSHIPS_DATA, FETCH_EXPIRED_MEMBERS_DATA, FETCH_NON_ACTIVE_MEMBERS_DATA, FETCH_CLASSES_DATA, FETCH_ALL_NEW_REGISTERED_DATA, FETCH_ALL_RENEWED_MEMBERSHIP_DATA, SET_ATTENDANCE, UPDATED_DATA, ERROR_REPORTS_DATA, CLOSE_REPORTS_NOTIF, FETCH_CURRENT_STOCK_DATA
 } from '../../actions/actionConstants';
 
 const initialState = {
@@ -12,6 +12,7 @@ const initialState = {
   classeList: [],
   registrationList: [],
   renewalMembershipList: [],
+  currentStockList: [],
   attendanceList: [],
   notifMsg: '',
   notifType: '', // success or error
@@ -26,6 +27,12 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         pendingPaymentList: action.payload,
+      };
+
+    case FETCH_CURRENT_STOCK_DATA:
+      return {
+        ...state,
+        currentStockList: action.payload,
       };
 
     case FETCH_REPORTS_DATA:

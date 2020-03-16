@@ -115,7 +115,7 @@ class CategoryDataList extends React.Component {
             <div className={classes.total}>
               {categoryData ? categoryData.length : '0'}
               &nbsp;
-              Categorys
+              Categories
             </div>
             <List>
               {categoryData && categoryData.length >= 1 && getItem(categoryData)}

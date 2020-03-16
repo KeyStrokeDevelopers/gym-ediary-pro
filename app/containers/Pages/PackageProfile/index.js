@@ -13,8 +13,7 @@ import PackageHeader from '../../../components/PackageProfile/PackageProfileHead
 import StyledNotif from '../../../components/Notification/StyledNotif';
 import PackageSubscription from '../../../components/PackageProfile/PackageSubscription';
 import {
-  submitVendorPackageSubscriptionData,
-  getVendorPackageDataByMemberId, addVendorPackageSubscriptionData, closeAction, closeNotifAction
+  submitVendorPackageSubscriptionData, getVendorPackageDataByMemberId, addVendorPackageSubscriptionData, closeAction, closeNotifAction, packageFreeze
 } from '../../../actions/vendorPackageSubscriptionActions';
 import { getPackageData } from '../../../actions/vendorPackageActions';
 
@@ -51,7 +50,8 @@ class PackageProfile extends React.Component {
       messageNotif,
       notifType,
       openNoti,
-      closeNotif
+      closeNotif,
+      packageFreeze
     } = this.props;
     const title = brand.name + ' - Email';
     const description = brand.desc;
@@ -72,6 +72,7 @@ class PackageProfile extends React.Component {
             filterPage={currentPage}
             subscribedPackageData={subscribedPackageData}
             keyword={keyword}
+            packageFreeze={packageFreeze}
             toggleStar={toggleStar}
           />
           <PackageSubscription
@@ -116,6 +117,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addVendorPackageSubscriptionData()),
   close: () => dispatch(closeAction()),
   closeNotif: () => dispatch(closeNotifAction()),
+  packageFreeze: (data) => dispatch(packageFreeze(data)),
   submitData: (data) => dispatch(submitVendorPackageSubscriptionData(data))
 });
 

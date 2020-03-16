@@ -24,3 +24,5 @@ export const getRenewalDataApi = (data) => axios.post(`${API_URL}/reports/renewa
 export const handleDndApi = (memberId) => axios.get(`${API_URL}/reports/dnd/${memberId}`, getConfig());
 
 export const handleCallApi = (memberId) => axios.get(`${API_URL}/reports/call/${memberId}`, getConfig());
+
+export const getCurrentStockApi = (data) => axios.post(`${API_URL}/reports/currentStock`, data, getConfig());

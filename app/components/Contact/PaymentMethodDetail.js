@@ -12,11 +12,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ArrowBack from '@material-ui/icons/ArrowBack';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import Bookmark from '@material-ui/icons/Bookmark';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Edit from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
+import Tooltip from '@material-ui/core/Tooltip';
 import AccountBalance from '@material-ui/icons/AccountBalance';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -42,6 +44,8 @@ class PaymentMethodDetail extends React.Component {
     anchorElOpt: null,
     open: false,
     deletedId: null,
+    openActive: false,
+    activeId: null
   };
 
   handleClickOpt = event => {
@@ -73,6 +77,21 @@ class PaymentMethodDetail extends React.Component {
     this.setState({ open: false });
   }
 
+  handleActive = (dataId) => {
+    this.setState({ openActive: true, activeId: dataId });
+  }
+
+  handleActiveDisagree = () => {
+    this.setState({ openActive: false, activeId: null });
+  }
+
+  handleActiveAgree = () => {
+    const { activePaymentMethodData } = this.props;
+    const { activeId } = this.state;
+    activePaymentMethodData(activeId);
+    this.setState({ openActive: false });
+  }
+
   sortByName = (a, b) => {
     if (a.paymentMethod < a.paymentMethod) {
       return -1;
@@ -92,9 +111,9 @@ class PaymentMethodDetail extends React.Component {
       favorite,
       showMobileDetail,
       isActive,
-      hideDetail,
+      hideDetail
     } = this.props;
-    const { anchorElOpt, open } = this.state;
+    const { anchorElOpt, open, openActive } = this.state;
     let viewPaymentMethodData;
     if (paymentMethodData && paymentMethodData.length >= 1) {
       viewPaymentMethodData = isActive ? paymentMethodData.filter(item => item.status === 1) : paymentMethodData.filter(item => item.status === 0);
@@ -133,19 +152,54 @@ class PaymentMethodDetail extends React.Component {
                     </Button>
                   </DialogActions>
                 </Dialog>
+                <Dialog
+                  open={openActive}
+                  onClose={this.handleActiveDisagree}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {'Active PaymentMethod Data'}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure for active ?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleActiveDisagree} color="primary">
+                      Disagree
+                    </Button>
+                    <Button onClick={this.handleActiveAgree} color="primary" autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
 
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
                   {isActive && (
                     <>
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewPaymentMethodData[itemSelected]._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton aria-label="Edit" onClick={() => edit(viewPaymentMethodData[itemSelected])}>
-                        <Edit />
-                      </IconButton>
+                      <Tooltip title="Delete Payment Method">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewPaymentMethodData[itemSelected]._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Edit Payment Method">
+                        <IconButton aria-label="Edit" onClick={() => edit(viewPaymentMethodData[itemSelected])}>
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
                     </>
+                  )
+                  }
+                  {!isActive && (
+                    <Tooltip title="Active Payment Method">
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewPaymentMethodData[itemSelected]._id)}>
+                        <PlaylistAddCheckIcon />
+                      </IconButton>
+                    </Tooltip>
                   )
                   }
                   <Menu

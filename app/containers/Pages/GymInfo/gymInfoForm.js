@@ -21,16 +21,18 @@ import styles from '../../../components/Common/style';
 import { SERVER_URL } from '../../../components/Common/constant';
 import { validate, phoneNumber, email, number } from '../../../components/Forms/helpers/formValidation';
 import { allIndianState } from '../../../components/Common/constant';
-import { RegularTextFieldRedux, renderToggle, SearchableSelect } from '../../../components/Forms/ReduxFormMUI';
+import { RegularTextFieldRedux, renderToggle, SelectRedux } from '../../../components/Forms/ReduxFormMUI';
 import EditorField from '../../../components/Contact/Editor//editorField';
 import FitnessCenter from '@material-ui/icons/FitnessCenter';
 import Restaurant from '@material-ui/icons/Restaurant';
 import { ContentDivider } from '../../../components/Divider';
 import Paper from '@material-ui/core/Paper';
-import AppBar from '@material-ui/core/AppBar';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-let fillValueEnquiry;
+
 class GymInfoForm extends React.Component {
   saveRef = ref => {
     this.ref = ref;
@@ -41,7 +43,7 @@ class GymInfoForm extends React.Component {
     fillValueFromEnquiry: '',
     editImage: false,
     deleteImage: false,
-
+    gymInfoData: null,
     nutritionValue: 0,
     workOutValue: 0,
     workOutIndex: 7,
@@ -52,7 +54,17 @@ class GymInfoForm extends React.Component {
 
   componentDidMount() {
     const { gymInfoData } = this.props;
+    this.setState({ gymInfoData });
     this.props.initialize(gymInfoData);
+  }
+
+  componentDidUpdate = () => {
+    const { gymInfoData } = this.props;
+    if (gymInfoData !== this.state.gymInfoData) {
+      this.props.initialize(gymInfoData);
+      this.setState(gymInfoData);
+    }
+
   }
 
   handleEditImage = () => {
@@ -309,18 +321,20 @@ class GymInfoForm extends React.Component {
             <div className={classes.row}>
               <div className={classes.col_1}>
                 <div>
-                  <Field
-                    name="branchState"
-                    component={SearchableSelect}
-                    placeholder="State"
-                    autoComplete="off"
-                    label="State"
-                    options={allIndianState}
-                    labelKey="value"
-                    valueKey="value"
-                    required
-                    className={classes.field}
-                  />
+                  <FormControl className={classes.field}>
+                    <InputLabel htmlFor="selection">Select State</InputLabel>
+                    <Field
+                      name="branchState"
+                      component={SelectRedux}
+                      required
+                      placeholder="Select State"
+                    >
+                      {
+                        (allIndianState && allIndianState.length >= 1) &&
+                        allIndianState.map((item, index) => <MenuItem value={item.value} key={index + Math.random()}>{item.value}</MenuItem>)
+                      }
+                    </Field>
+                  </FormControl>
                 </div>
               </div>
               <div className={classes.col_2}>
@@ -496,8 +510,7 @@ const GymInfoFormRedux = reduxForm({
 })(GymInfoForm);
 
 const mapStateToProps = (state) => ({
-  formValue: state.get('addMember').formValues,
-  initialValues: fillValueEnquiry && (Object.keys(fillValueEnquiry).length >= 1) ? fillValueEnquiry : state.get('addMember').formValues
+  initialValues: state.get('addMember').gymInfo,
 });
 
 const GymInfoInit = connect(

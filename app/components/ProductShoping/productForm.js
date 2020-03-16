@@ -25,8 +25,8 @@ class ProductForm extends React.Component {
       brandUnitData,
       handleSubmit,
     } = this.props;
-    const brandData = (brandUnitData && brandUnitData.length >= 1) ? brandUnitData.filter((item) => item.entryType === 'Brand') : '';
-    const measuringUnit = (brandUnitData && brandUnitData.length >= 1) ? brandUnitData.filter((item) => item.entryType === 'Unit') : '';
+    const brandData = (brandUnitData && brandUnitData.length >= 1) ? brandUnitData.filter((item) => item.entryType === 'Brand' && item.status === 1) : '';
+    const measuringUnit = (brandUnitData && brandUnitData.length >= 1) ? brandUnitData.filter((item) => item.entryType === 'Unit' && item.status === 1) : '';
 
     return (
       <div>
@@ -50,23 +50,6 @@ class ProductForm extends React.Component {
               </FormControl>
             </div>
             <div>
-              <Field
-                name="model"
-                placeholder="Product Name"
-                label="Product Name"
-                component={RegularTextFieldRedux}
-                autoComplete="off"
-                className={classes.field}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PermContactCalendar />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </div>
-            <div>
               <FormControl className={classes.field}>
                 <InputLabel htmlFor="selection">Select Brand Name</InputLabel>
                 <Field
@@ -83,7 +66,23 @@ class ProductForm extends React.Component {
                 </Field>
               </FormControl>
             </div>
-
+            <div>
+              <Field
+                name="model"
+                placeholder="Product Name"
+                label="Product Name"
+                component={RegularTextFieldRedux}
+                autoComplete="off"
+                className={classes.field}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PermContactCalendar />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </div>
             <div>
               <Field
                 name="modelNo"

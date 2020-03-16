@@ -1,8 +1,8 @@
 import {
-  FETCH_PENDING_PAYMENTS_DATA, FETCH_REPORTS_DATA, FETCH_EXPIRING_MEMBERSHIPS_DATA, FETCH_EXPIRED_MEMBERS_DATA, FETCH_NON_ACTIVE_MEMBERS_DATA, FETCH_CLASSES_DATA, FETCH_ALL_NEW_REGISTERED_DATA, FETCH_ALL_RENEWED_MEMBERSHIP_DATA, SET_ATTENDANCE, UPDATED_DATA, ERROR_REPORTS_DATA, CLOSE_REPORTS_NOTIF
+  FETCH_PENDING_PAYMENTS_DATA, FETCH_REPORTS_DATA, FETCH_EXPIRING_MEMBERSHIPS_DATA, FETCH_EXPIRED_MEMBERS_DATA, FETCH_NON_ACTIVE_MEMBERS_DATA, FETCH_CLASSES_DATA, FETCH_ALL_NEW_REGISTERED_DATA, FETCH_ALL_RENEWED_MEMBERSHIP_DATA, SET_ATTENDANCE, UPDATED_DATA, ERROR_REPORTS_DATA, CLOSE_REPORTS_NOTIF, FETCH_CURRENT_STOCK_DATA
 } from './actionConstants';
 import {
-  getPendingPaymentsApi, getReportsApi, getExpiringMembershipsApi, getExpiredMembersApi, getNonActiveMembersApi, getClassesApi, getRegistrationDataApi, getRenewalDataApi, markAttendanceApi, getAttendanceApi, handleDndApi, handleCallApi
+  getPendingPaymentsApi, getReportsApi, getExpiringMembershipsApi, getExpiredMembersApi, getNonActiveMembersApi, getClassesApi, getRegistrationDataApi, getRenewalDataApi, markAttendanceApi, getAttendanceApi, handleDndApi, handleCallApi, getCurrentStockApi
 } from '../api/reports';
 
 const fetchPendingPaymentsData = reportData => ({
@@ -12,6 +12,11 @@ const fetchPendingPaymentsData = reportData => ({
 
 const fetchReportsData = reportData => ({
   type: FETCH_REPORTS_DATA,
+  payload: reportData
+});
+
+const fetchCurrentStockData = reportData => ({
+  type: FETCH_CURRENT_STOCK_DATA,
   payload: reportData
 });
 
@@ -159,6 +164,14 @@ export const handleDnd = (memberId) => (dispatch) => {
 export const handleCall = (memberId) => (dispatch) => {
   handleCallApi(memberId).then((response) => {
     dispatch(updateData(response.data));
+  }).catch((err) => {
+    dispatch(errorReportsData(err));
+  });
+};
+
+export const getCurrentStockData = (data) => (dispatch) => {
+  getCurrentStockApi(data).then((response) => {
+    dispatch(fetchCurrentStockData(response.data));
   }).catch((err) => {
     dispatch(errorReportsData(err));
   });

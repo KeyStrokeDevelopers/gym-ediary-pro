@@ -39,18 +39,21 @@ class MemberProfile extends React.Component { // eslint-disable-line
                 onClose={close}
                 TransitionComponent={Transition}
             >
-                <AppBar className={classes.appBar}>
-                    <Toolbar>
-                        <Typography variant="h6" noWrap color="inherit" className={classes.flex}>
-                        </Typography>
-                        <IconButton color="inherit" onClick={() => close()} aria-label="Close">
-                            <CloseIcon />
-                        </IconButton>
-                    </Toolbar>
-                </AppBar>
-                <section className={classes.wrapper}>
-                    <UserProfile memberData={memberData} paymentMethodData={paymentMethodData} />
-                </section>
+                <div style={{ width: '100%', overflowX: 'hidden' }}>
+                    <AppBar className={classes.appBar}>
+                        <Toolbar>
+                            <Typography variant="h6" noWrap color="inherit" className={classes.flex}>
+                                {'Member Profile'}
+                            </Typography>
+                            <IconButton color="inherit" onClick={() => close()} aria-label="Close">
+                                <CloseIcon />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                    <section className={classes.wrapper}>
+                        <UserProfile memberData={memberData} paymentMethodData={paymentMethodData} />
+                    </section>
+                </div>
             </Dialog>
         );
     }

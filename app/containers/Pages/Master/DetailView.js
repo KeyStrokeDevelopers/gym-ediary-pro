@@ -59,51 +59,54 @@ class DetailView extends React.Component {
       keyValue
     } = this.props;
     return (
-      <Dialog
-        fullScreen
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Transition}
-      >
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" color="inherit" className={classes.flex}>
-              {title}
-            </Typography>
-            <Button color="inherit" onClick={handleClose}>
-              <CloseIcon />
-            </Button>
-          </Toolbar>
-        </AppBar>
+      <div style={{ width: '100%', overflow: 'hidden' }}>
+        <Dialog
+          fullScreen
+          open={open}
+          onClose={handleClose}
+        >
+          <div style={{ width: '100%', overflowX: 'hidden' }}>
+            <AppBar className={classes.appBar}>
+              <Toolbar>
+                <Typography variant="h6" color="inherit" className={classes.flex}>
+                  {title}
+                </Typography>
+                <Button color="inherit" onClick={handleClose}>
+                  <CloseIcon />
+                </Button>
+              </Toolbar>
+            </AppBar>
 
-        {keyValue === 'payment_method'
-          && <PaymentMethod />
-        }
-        {keyValue === 'package'
-          && <Package />
-        }
-        {keyValue === 'category'
-          && <Category />
-        }
-        {keyValue === 'staff'
-          && <Staff />
-        }
-        {keyValue === 'class'
-          && <Class />
-        }
-        {keyValue === 'purpose'
-          && <Purpose />
-        }
-        {keyValue === 'gym_info'
-          && <GymInfo />
-        }
-        {keyValue === 'sms'
-          && <Sms />
-        }
-        {keyValue === 'subscription'
-          && <Subscription />
-        }
-      </Dialog>
+            {keyValue === 'payment_method'
+              && <PaymentMethod />
+            }
+            {keyValue === 'package'
+              && <Package />
+            }
+            {keyValue === 'category'
+              && <Category />
+            }
+            {keyValue === 'staff'
+              && <Staff />
+            }
+            {keyValue === 'class'
+              && <Class />
+            }
+            {keyValue === 'purpose'
+              && <Purpose />
+            }
+            {keyValue === 'gym_info'
+              && <GymInfo />
+            }
+            {keyValue === 'sms'
+              && <Sms />
+            }
+            {keyValue === 'subscription'
+              && <Subscription />
+            }
+          </div>
+        </Dialog>
+      </div>
     );
   }
 }

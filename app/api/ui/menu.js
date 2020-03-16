@@ -127,6 +127,11 @@ module.exports = [
         name: 'Renewal Report',
         link: '/app/reports/renewalReport',
         icon: 'ios-menu-outline',
+      }, {
+        key: 'currentStock',
+        name: 'Current Stock',
+        link: '/app/reports/currentStock',
+        icon: 'ios-menu-outline',
       },
     ]
   },

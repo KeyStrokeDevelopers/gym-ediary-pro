@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PURPOSE_DATA, SEARCH_PURPOSE_DATA, EDIT_PURPOSE_DATA, ADD_PURPOSE_DATA, SET_PURPOSE_DETAILS_FIELD, FETCH_ACCESS_DATA,
-  SHOW_DETAIL_PURPOSE, HIDE_DETAIL_PURPOSE, SUBMIT_PURPOSE_DATA, CLOSE_PURPOSE_FORM, LOADING_ACTION_PURPOSE, CLOSE_PURPOSE_NOTIF, ERROR_PURPOSE_DATA
+  SHOW_DETAIL_PURPOSE, HIDE_DETAIL_PURPOSE, SUBMIT_PURPOSE_DATA, CLOSE_PURPOSE_FORM, LOADING_ACTION_PURPOSE, CLOSE_PURPOSE_NOTIF, ERROR_PURPOSE_DATA, ACTIVE_PURPOSE_DATA, DELETE_PURPOSE_DATA
 } from '../../actions/actionConstants';
 
 
@@ -32,7 +32,33 @@ export default function reducer(state = initialState, action = {}) {
         purposeList: action.payload,
         formValues: {},
         openFrm: false,
-        isLoading: false
+        isLoading: false,
+        selectedIndex: 0
+      };
+
+    case DELETE_PURPOSE_DATA:
+      return {
+        ...state,
+        purposeList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Purpose data deleted',
+        notifType: notifT.success,
+        openNoti: true,
+      };
+    case ACTIVE_PURPOSE_DATA:
+      return {
+        ...state,
+        purposeList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Purpose data activated',
+        notifType: notifT.success,
+        openNoti: true,
       };
     case SEARCH_PURPOSE_DATA:
       return {
@@ -46,10 +72,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
-        isLoading: false,
-        notifMsg: notifM.updated,
-        notifType: notifT.success,
-        openNoti: true,
+        isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_PURPOSE_DATA:
@@ -128,7 +151,8 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
-        openNoti: true
+        openNoti: true,
+        selectedIndex: 0
       };
     }
 

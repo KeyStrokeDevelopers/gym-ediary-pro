@@ -7,6 +7,8 @@ const getPaymentMethodApi = () => axios.get(`${API_URL}/paymentMethod`, getConfi
 
 const updatePaymentMethodDataApi = (data) => axios.put(`${API_URL}/paymentMethod`, data, getConfig());
 
+const activePaymentMethodDataApi = (dataId) => axios.get(`${API_URL}/paymentMethod/active/${dataId}`, getConfig());
+
 const deletePaymentMethodDataApi = (dataId) => {
   const config = getConfig();
   config.data = { dataId };
@@ -16,5 +18,6 @@ export {
   addPaymentMethodApi,
   getPaymentMethodApi,
   updatePaymentMethodDataApi,
-  deletePaymentMethodDataApi
+  deletePaymentMethodDataApi,
+  activePaymentMethodDataApi
 };

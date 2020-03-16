@@ -142,7 +142,6 @@ class AddExpenseIncomeForm extends React.Component {
                 placeholder="Description"
                 autoComplete="off"
                 label="Description"
-                required
                 ref={this.saveRef}
                 className={classes.field}
                 InputProps={{

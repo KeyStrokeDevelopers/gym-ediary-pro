@@ -15,14 +15,15 @@ import NumberSuggest from '../../../components/Common/helpers/autoCompleteNumber
 import NameSuggest from '../../../components/Common/helpers/autoCompleteName';
 import { validate, email, phoneNumber } from '../../../components/Forms/helpers/formValidation';
 import {
-  RegularTextFieldRedux, SelectRedux, DatePickerInput, renderToggleBirthDayWishes, renderToggleAnniversaryWishes, SearchableSelect
+  RegularTextFieldRedux, SelectRedux, DatePickerInput, renderToggleBirthDayWishes, renderToggleAnniversaryWishes
 } from '../../../components/Forms/ReduxFormMUI';
 import { ContentDivider } from '../../../components/Divider';
 import { allIndianState } from '../../../components/Common/constant';
+import moment from 'moment';
 
 class AccountForm extends Component {
   state = {
-    date: null,
+    date: moment(new Date).format('YYYY-MM-DD'),
     dob: null,
     anniversary: null
   }
@@ -79,8 +80,8 @@ class AccountForm extends Component {
       <div>
         <form onSubmit={handleSubmit}>
           <section className={css.bodyForm}>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '50%', marginRight: '10px' }}>
+            <div className={classes.row}>
+              <div className={classes.firstCol}>
                 <Field
                   name="contact"
                   placeholder="Search/Add Contact"
@@ -101,7 +102,7 @@ class AccountForm extends Component {
                 />
               </div>
 
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <Field
                   name="name"
                   placeholder="Search/Add Name"
@@ -121,8 +122,8 @@ class AccountForm extends Component {
                 />
               </div>
             </div>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '50%', marginRight: '10px' }}>
+            <div className={classes.row}>
+              <div className={classes.firstCol}>
                 <Field
                   name="email"
                   placeholder="Email"
@@ -140,7 +141,7 @@ class AccountForm extends Component {
                   }}
                 />
               </div>
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <Field
                   name="gstNumber"
                   placeholder="GST Number"
@@ -158,22 +159,24 @@ class AccountForm extends Component {
                 />
               </div>
             </div>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '50%', marginRight: '10px' }}>
-                <Field
-                  name="state"
-                  component={SearchableSelect}
-                  placeholder="State"
-                  autoComplete="off"
-                  label="State"
-                  options={allIndianState}
-                  labelKey="value"
-                  valueKey="value"
-                  required
-                  className={classes.field}
-                />
+            <div className={classes.row}>
+              <div className={classes.firstCol}>
+                <FormControl className={classes.field}>
+                  <InputLabel htmlFor="selection">Select State</InputLabel>
+                  <Field
+                    name="state"
+                    component={SelectRedux}
+                    required
+                    placeholder="Select State"
+                  >
+                    {
+                      (allIndianState && allIndianState.length >= 1) &&
+                      allIndianState.map((item, index) => <MenuItem value={item.value} key={index + Math.random()}>{item.value}</MenuItem>)
+                    }
+                  </Field>
+                </FormControl>
               </div>
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <Field
                   name="address"
                   placeholder="Address"
@@ -250,11 +253,12 @@ class AccountForm extends Component {
             <Fragment>
               <ContentDivider content="Invoice Info" />
             </Fragment>
-            <div style={{ display: 'flex' }}>
-              <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
+            <div className={classes.row}>
+              <div className={classes.picker} className={classes.firstCol}>
                 <Field
                   name="date"
                   label="Date"
+                  required
                   disableFuture
                   component={DatePickerInput}
                   autoComplete="off"
@@ -262,11 +266,12 @@ class AccountForm extends Component {
                   dateValue={date}
                 />
               </div>
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <Field
                   name="invoiceNumber"
                   placeholder="Invoice Number"
                   label="Invoice Number"
+                  required
                   autoComplete="off"
                   component={RegularTextFieldRedux}
                   className={classes.field}

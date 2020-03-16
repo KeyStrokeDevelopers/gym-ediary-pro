@@ -148,11 +148,10 @@ class PurchaseForm extends React.Component {
       priceDetails.discountP = discountP;
       priceDetails.discount = discount;
     }
-
     return (
       <div>
         <form onSubmit={handleSubmit((data) => this.handleAddToCart(data, priceDetails))}>
-          <section className={css.bodyForm}>
+          <section>
             <div>
               {(productTypeData && productTypeData.length >= 1)
                 && (
@@ -188,15 +187,15 @@ class PurchaseForm extends React.Component {
                       onChange={this.selectedBrand}
                     >
                       {
-                        selectedData.map((data, index) => <MenuItem key={index + Math.random()} value={data._id}>{`${data.brand.value}=>${data.modelNo}`}</MenuItem>)
+                        selectedData.map((data, index) => <MenuItem key={index + Math.random()} value={data._id}>{`${data.brand.value}=>${data.product.productType}=>${data.product.hsnCode}`}</MenuItem>)
                       }
                     </Field>
                   </FormControl>
                 )
               }
             </div>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '50%', marginRight: '10px' }}>
+            <div className={classes.row}>
+              <div className={classes.firstCol}>
                 <Field
                   name="quantity"
                   placeholder={mUnit ? `Quantity - ${mUnit}` : 'Quantity'}
@@ -214,7 +213,7 @@ class PurchaseForm extends React.Component {
                   }}
                 />
               </div>
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <FormControl className={classes.field}>
                   <InputLabel htmlFor="selection">Price Format</InputLabel>
                   <Field
@@ -231,8 +230,8 @@ class PurchaseForm extends React.Component {
                 </FormControl>
               </div>
             </div>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '50%', marginRight: '10px' }}>
+            <div className={classes.row}>
+              <div className={classes.firstCol}>
                 <Field
                   name="price"
                   placeholder="Price"
@@ -250,7 +249,7 @@ class PurchaseForm extends React.Component {
                   }}
                 />
               </div>
-              <div style={{ width: '50%' }}>
+              <div className={classes.secondCol}>
                 <Field
                   name="discountFirst"
                   placeholder='Discount % - "If Any"'
@@ -280,7 +279,7 @@ class PurchaseForm extends React.Component {
                 <div style={{ width: '80%' }}>
                   Basic Price
                   </div>
-                <div style={{ width: '20%', textAlign: 'right', paddingRight: '5px' }}>
+                <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
                   <span style={{
                     borderRadius: '10px', padding: '2px 10px', backgroundColor: 'green', color: '#ffffff'
                   }}
@@ -301,7 +300,7 @@ class PurchaseForm extends React.Component {
                       {discount}
                       )
                                     </div>
-                    <div style={{ width: '20%', textAlign: 'right', paddingRight: '5px' }}>
+                    <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
                       <span style={{
                         borderRadius: '10px', padding: '2px 10px', backgroundColor: 'green', color: '#ffffff'
                       }}
@@ -319,7 +318,7 @@ class PurchaseForm extends React.Component {
                 <div style={{ width: '80%' }}>
                   {gstLabel}
                 </div>
-                <div style={{ width: '20%', textAlign: 'right', paddingRight: '5px' }}>
+                <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
                   <span style={{
                     borderRadius: '10px', padding: '2px 10px', backgroundColor: 'green', color: '#ffffff'
                   }}
@@ -332,7 +331,7 @@ class PurchaseForm extends React.Component {
                 <div style={{ width: '80%' }}>
                   Cost Price
                   </div>
-                <div style={{ width: '20%', textAlign: 'right', paddingRight: '5px' }}>
+                <div style={{ width: '100px', textAlign: 'right', paddingRight: '5px' }}>
                   <span style={{
                     borderRadius: '10px', padding: '2px 10px', backgroundColor: '#ffffff', color: '#2196F3'
                   }}
@@ -343,7 +342,7 @@ class PurchaseForm extends React.Component {
               </div>
             </div>
           </section>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', marginTop: '15px' }}>
             <div style={{ alignItems: 'end' }}>
               <Button variant="contained" color="primary" type="submit" disabled={submitting}>
                 Add To Cart

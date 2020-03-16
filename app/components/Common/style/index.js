@@ -40,6 +40,11 @@ const styles = theme => ({
       color: theme.palette.secondary.light
     }
   },
+  searchable: {
+    flexGrow: 1,
+    height: '250px',
+    width: '100%'
+  },
   root: {
     flexGrow: 1,
     height: drawerHeight,
