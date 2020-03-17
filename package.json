@@ -139,7 +139,7 @@
     "jss-rtl": "^0.3.0",
     "keycode": "^2.2.0",
     "lodash": "^4.17.15",
-    "minimist": "1.2.0",
+    "minimist": "1.2.2",
     "moment": "^2.24.0",
     "mui-datatables": "^2.13.1",
     "node-emoji": "^1.10.0",
