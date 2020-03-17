@@ -1,6 +1,6 @@
 import {
   FETCH_STAFF_DATA, SEARCH_STAFF_DATA, EDIT_STAFF_DATA, ADD_STAFF_DATA, SET_STAFF_DETAILS_FIELD,
-  ERROR_STAFF_DATA, SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, FETCH_ACCESS_DATA, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA, CLOSE_STAFF_NOTIF, MARK_STAFF_ATTENDANCE
+  ERROR_STAFF_DATA, SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, FETCH_ACCESS_DATA, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA, CLOSE_STAFF_NOTIF, MARK_STAFF_ATTENDANCE, UPDATED_STAFF_DATA
 } from './actionConstants';
 import {
   addStaffApi, getStaffApi, updateStaffDataApi, deleteStaffDataApi, fetchAccessDataApi, changePasswordApi, getStaffAttendanceDataApi, markStaffAttendanceApi, fetchStaffAttendanceDataApi
@@ -8,6 +8,11 @@ import {
 
 const fetchStaffData = staffData => ({
   type: FETCH_STAFF_DATA,
+  payload: staffData
+});
+
+const updatedStaffData = staffData => ({
+  type: UPDATED_STAFF_DATA,
   payload: staffData
 });
 
@@ -107,7 +112,7 @@ export const getStaffData = () => (dispatch) => {
 
 export const updateStaffData = (data) => (dispatch) => {
   updateStaffDataApi(data).then((response) => {
-    dispatch(fetchStaffData(response.data));
+    dispatch(updatedStaffData(response.data));
   }).catch((err) => {
     dispatch(errorStaffData(err));
   });

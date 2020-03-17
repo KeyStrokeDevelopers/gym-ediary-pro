@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PURPOSE_DATA, SEARCH_PURPOSE_DATA, EDIT_PURPOSE_DATA, ADD_PURPOSE_DATA, SET_PURPOSE_DETAILS_FIELD, FETCH_ACCESS_DATA,
-  SHOW_DETAIL_PURPOSE, HIDE_DETAIL_PURPOSE, SUBMIT_PURPOSE_DATA, CLOSE_PURPOSE_FORM, LOADING_ACTION_PURPOSE, CLOSE_PURPOSE_NOTIF, ERROR_PURPOSE_DATA, ACTIVE_PURPOSE_DATA, DELETE_PURPOSE_DATA
+  SHOW_DETAIL_PURPOSE, HIDE_DETAIL_PURPOSE, SUBMIT_PURPOSE_DATA, CLOSE_PURPOSE_FORM, LOADING_ACTION_PURPOSE, CLOSE_PURPOSE_NOTIF, ERROR_PURPOSE_DATA, ACTIVE_PURPOSE_DATA, DELETE_PURPOSE_DATA, UPDATE_PURPOSE_DATA
 } from '../../actions/actionConstants';
 
 
@@ -34,6 +34,19 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0
+      };
+
+    case UPDATE_PURPOSE_DATA:
+      return {
+        ...state,
+        purposeList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Purpose data updated',
+        notifType: notifT.success,
+        openNoti: true,
       };
 
     case DELETE_PURPOSE_DATA:

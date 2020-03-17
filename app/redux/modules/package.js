@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PACKAGE_DATA, SEARCH_PACKAGE_DATA, EDIT_PACKAGE_DATA, ADD_PACKAGE_DATA, SET_PACKAGE_DETAILS_FIELD,
-  SHOW_DETAIL_PACKAGE, HIDE_DETAIL_PACKAGE, SUBMIT_PACKAGE_DATA, CLOSE_PACKAGE_FORM, LOADING_ACTION_PACKAGE, CLOSE_PACKAGE_NOTIF, ERROR_PACKAGE_DATA, DELETE_PACKAGE_DATA, ACTIVE_PACKAGE_DATA
+  SHOW_DETAIL_PACKAGE, HIDE_DETAIL_PACKAGE, SUBMIT_PACKAGE_DATA, CLOSE_PACKAGE_FORM, LOADING_ACTION_PACKAGE, CLOSE_PACKAGE_NOTIF, ERROR_PACKAGE_DATA, DELETE_PACKAGE_DATA, ACTIVE_PACKAGE_DATA, UPDATED_PACKAGE_DATA
 } from '../../actions/actionConstants';
 
 
@@ -33,6 +33,18 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0
+      };
+    case UPDATED_PACKAGE_DATA:
+      return {
+        ...state,
+        packageList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Package data updated',
+        notifType: notifT.success,
+        openNoti: true,
       };
     case DELETE_PACKAGE_DATA:
       return {

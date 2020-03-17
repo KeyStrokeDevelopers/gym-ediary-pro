@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PAYMENT_METHOD_DATA, SEARCH_PAYMENT_METHOD_DATA, EDIT_PAYMENT_METHOD_DATA, ADD_PAYMENT_METHOD_DATA, SET_PAYMENT_METHOD_DETAILS_FIELD,
-  SHOW_DETAIL_PAYMENT_METHOD, HIDE_DETAIL_PAYMENT_METHOD, SUBMIT_PAYMENT_METHOD_DATA, CLOSE_PAYMENT_METHOD_FORM, LOADING_ACTION_PAYMENT_METHOD, CLOSE_PAYMENT_METHOD_NOTIF, ERROR_PAYMENT_METHOD_DATA, DELETE_PAYMENT_METHOD_DATA, ACTIVE_PAYMENT_METHOD_DATA
+  SHOW_DETAIL_PAYMENT_METHOD, HIDE_DETAIL_PAYMENT_METHOD, SUBMIT_PAYMENT_METHOD_DATA, CLOSE_PAYMENT_METHOD_FORM, LOADING_ACTION_PAYMENT_METHOD, CLOSE_PAYMENT_METHOD_NOTIF, ERROR_PAYMENT_METHOD_DATA, DELETE_PAYMENT_METHOD_DATA, ACTIVE_PAYMENT_METHOD_DATA, UPDATE_PAYMENT_METHOD_DATA
 } from '../../actions/actionConstants';
 
 
@@ -33,6 +33,17 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0
+      };
+    case UPDATE_PAYMENT_METHOD_DATA:
+      return {
+        ...state,
+        paymentMethodList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        notifMsg: 'Payment method data Updated',
+        notifType: notifT.success,
+        openNoti: true,
       };
     case DELETE_PAYMENT_METHOD_DATA:
       return {

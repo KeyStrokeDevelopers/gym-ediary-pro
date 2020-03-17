@@ -146,7 +146,7 @@ class RegisterForm extends React.Component {
                 </FormControl>
               </div>
               <div>
-                <FormControl className={classes.field}>
+                <FormControl style={{ width: '100%', textAlign: 'left' }}>
                   <InputLabel htmlFor="selection">Select State</InputLabel>
                   <Field
                     name="branchState"

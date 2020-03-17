@@ -1,6 +1,6 @@
 import {
   FETCH_PACKAGE_DATA, SEARCH_PACKAGE_DATA, EDIT_PACKAGE_DATA, ADD_PACKAGE_DATA, SET_PACKAGE_DETAILS_FIELD,
-  ERROR_PACKAGE_DATA, SHOW_DETAIL_PACKAGE, HIDE_DETAIL_PACKAGE, SUBMIT_PACKAGE_DATA, CLOSE_PACKAGE_FORM, LOADING_ACTION_PACKAGE, CLOSE_PACKAGE_NOTIF, DELETE_PACKAGE_DATA, ACTIVE_PACKAGE_DATA
+  ERROR_PACKAGE_DATA, SHOW_DETAIL_PACKAGE, HIDE_DETAIL_PACKAGE, SUBMIT_PACKAGE_DATA, CLOSE_PACKAGE_FORM, LOADING_ACTION_PACKAGE, CLOSE_PACKAGE_NOTIF, DELETE_PACKAGE_DATA, ACTIVE_PACKAGE_DATA, UPDATED_PACKAGE_DATA
 } from './actionConstants';
 import {
   addPackageApi, getPackageApi, updatePackageDataApi, deletePackageDataApi, activePackageDataApi
@@ -8,6 +8,11 @@ import {
 
 const fetchPackageData = packageData => ({
   type: FETCH_PACKAGE_DATA,
+  payload: packageData
+});
+
+const setUpdatedPackageData = packageData => ({
+  type: UPDATED_PACKAGE_DATA,
   payload: packageData
 });
 
@@ -88,7 +93,7 @@ export const getPackageData = () => (dispatch) => {
 
 export const updatePackageData = (data) => (dispatch) => {
   updatePackageDataApi(data).then((response) => {
-    dispatch(fetchPackageData(response.data));
+    dispatch(setUpdatedPackageData(response.data));
   }).catch((err) => {
     dispatch(errorPackageData(err));
   });

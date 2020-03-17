@@ -113,6 +113,7 @@ export const getGymInfoData = () => (dispatch) => {
 
 export const updateGymInfoData = (data) => (dispatch) => {
   updateGymInfoApi(data).then((response) => {
+    console.log('response --response .data ----***----', response.data);
     dispatch(updateGymData(response.data));
   }).catch((err) => {
     dispatch(errorAddMemberData(err));

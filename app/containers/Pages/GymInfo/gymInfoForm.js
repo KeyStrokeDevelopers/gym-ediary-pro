@@ -52,20 +52,20 @@ class GymInfoForm extends React.Component {
   };
 
 
-  componentDidMount() {
-    const { gymInfoData } = this.props;
-    this.setState({ gymInfoData });
-    this.props.initialize(gymInfoData);
-  }
+  // componentDidMount() {
+  //   const { gymInfoData } = this.props;
+  //   this.setState({ gymInfoData });
+  //   this.props.initialize(gymInfoData);
+  // }
 
-  componentDidUpdate = () => {
-    const { gymInfoData } = this.props;
-    if (gymInfoData !== this.state.gymInfoData) {
-      this.props.initialize(gymInfoData);
-      this.setState(gymInfoData);
-    }
+  // componentDidUpdate = () => {
+  //   const { gymInfoData } = this.props;
+  //   if (gymInfoData !== this.state.gymInfoData) {
+  //     this.props.initialize(gymInfoData);
+  //     this.setState(gymInfoData);
+  //   }
 
-  }
+  // }
 
   handleEditImage = () => {
     this.setState({ editImage: true, deleteImage: false });
@@ -127,7 +127,6 @@ class GymInfoForm extends React.Component {
       reset,
       pristine,
       submitting,
-      addMemberData,
       itemSelected,
       handleSubmit,
       onDrop,
@@ -135,13 +134,11 @@ class GymInfoForm extends React.Component {
       gymInfoData,
       imgAvatar
     } = this.props;
-    const { fillValueFromEnquiry, editImage, deleteImage, nutritionValue, workOutValue, workOutIndex, value } = this.state;
-
-    fillValueEnquiry = Object.assign({}, fillValueFromEnquiry);
+    const { deleteImage, nutritionValue, workOutIndex, value } = this.state;
     let dropzoneRef;
     const acceptedFiles = ['image/jpeg', 'image/png', 'image/bmp'];
     const fileSizeLimit = 300000;
-    const isImageSave = addMemberData && addMemberData.length >= 1 ? addMemberData[itemSelected].profileImage : '';
+    const isImageSave = gymInfoData && Object.keys(gymInfoData).length >= 1 ? gymInfoData.branchLogo : '';
     let imageUrl;
     if (isImageSave) {
       imageUrl = `${SERVER_URL}${isImageSave}`;

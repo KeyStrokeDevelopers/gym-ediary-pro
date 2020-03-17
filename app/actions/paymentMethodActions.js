@@ -1,6 +1,6 @@
 import {
   FETCH_PAYMENT_METHOD_DATA, SEARCH_PAYMENT_METHOD_DATA, EDIT_PAYMENT_METHOD_DATA, ADD_PAYMENT_METHOD_DATA, SET_PAYMENT_METHOD_DETAILS_FIELD,
-  ERROR_PAYMENT_METHOD_DATA, SHOW_DETAIL_PAYMENT_METHOD, HIDE_DETAIL_PAYMENT_METHOD, SUBMIT_PAYMENT_METHOD_DATA, CLOSE_PAYMENT_METHOD_FORM, LOADING_ACTION_PAYMENT_METHOD, CLOSE_PAYMENT_METHOD_NOTIF, DELETE_PAYMENT_METHOD_DATA, ACTIVE_PAYMENT_METHOD_DATA
+  ERROR_PAYMENT_METHOD_DATA, SHOW_DETAIL_PAYMENT_METHOD, HIDE_DETAIL_PAYMENT_METHOD, SUBMIT_PAYMENT_METHOD_DATA, CLOSE_PAYMENT_METHOD_FORM, LOADING_ACTION_PAYMENT_METHOD, CLOSE_PAYMENT_METHOD_NOTIF, DELETE_PAYMENT_METHOD_DATA, ACTIVE_PAYMENT_METHOD_DATA, UPDATE_PAYMENT_METHOD_DATA
 } from './actionConstants';
 import {
   addPaymentMethodApi, getPaymentMethodApi, updatePaymentMethodDataApi, deletePaymentMethodDataApi, activePaymentMethodDataApi
@@ -8,6 +8,11 @@ import {
 
 const fetchPaymentMethodData = paymentMethod => ({
   type: FETCH_PAYMENT_METHOD_DATA,
+  payload: paymentMethod
+});
+
+const setUpdatePaymentMethodData = paymentMethod => ({
+  type: UPDATE_PAYMENT_METHOD_DATA,
   payload: paymentMethod
 });
 
@@ -89,7 +94,7 @@ export const getPaymentMethodData = () => (dispatch) => {
 
 export const updatePaymentMethodData = (data) => (dispatch) => {
   updatePaymentMethodDataApi(data).then((response) => {
-    dispatch(fetchPaymentMethodData(response.data));
+    dispatch(setUpdatePaymentMethodData(response.data));
   }).catch((err) => {
     dispatch(errorPaymentMethodData(err));
   });

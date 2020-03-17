@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_STAFF_DATA, SEARCH_STAFF_DATA, EDIT_STAFF_DATA, ADD_STAFF_DATA, SET_STAFF_DETAILS_FIELD, FETCH_ACCESS_DATA,
-  SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA, CLOSE_STAFF_NOTIF, ERROR_STAFF_DATA, MARK_STAFF_ATTENDANCE
+  SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA, CLOSE_STAFF_NOTIF, ERROR_STAFF_DATA, MARK_STAFF_ATTENDANCE, UPDATED_STAFF_DATA
 } from '../../actions/actionConstants';
 
 
@@ -36,6 +36,17 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         selectedIndex: 0,
         isLoading: false,
+      };
+    case UPDATED_STAFF_DATA:
+      return {
+        ...state,
+        staffList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        notifMsg: 'Staff data updated',
+        notifType: notifT.success,
+        openNoti: true
       };
 
     case SET_STAFF_ATTENDANCE_DATA:

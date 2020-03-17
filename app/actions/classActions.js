@@ -1,6 +1,6 @@
 import {
   FETCH_CLASS_DATA, SEARCH_CLASS_DATA, EDIT_CLASS_DATA, ADD_CLASS_DATA, SET_CLASS_DETAILS_FIELD,
-  ERROR_CLASS_DATA, SHOW_DETAIL_CLASS, HIDE_DETAIL_CLASS, SUBMIT_CLASS_DATA, CLOSE_CLASS_FORM, LOADING_ACTION_CLASS, CLOSE_CLASS_NOTIF, ACTIVE_CLASS_DATA, DELETE_CLASS_DATA
+  ERROR_CLASS_DATA, SHOW_DETAIL_CLASS, HIDE_DETAIL_CLASS, SUBMIT_CLASS_DATA, CLOSE_CLASS_FORM, LOADING_ACTION_CLASS, CLOSE_CLASS_NOTIF, ACTIVE_CLASS_DATA, DELETE_CLASS_DATA, UPDATE_CLASS_DATA
 } from './actionConstants';
 import {
   addClassApi, getClassApi, updateClassDataApi, deleteClassDataApi, activeClassDataApi
@@ -8,6 +8,11 @@ import {
 
 const fetchClassData = classData => ({
   type: FETCH_CLASS_DATA,
+  payload: classData
+});
+
+const updatedClassData = classData => ({
+  type: UPDATE_CLASS_DATA,
   payload: classData
 });
 
@@ -89,7 +94,7 @@ export const getClassData = () => (dispatch) => {
 
 export const updateClassData = (data) => (dispatch) => {
   updateClassDataApi(data).then((response) => {
-    dispatch(fetchClassData(response.data));
+    dispatch(updatedClassData(response.data));
   }).catch((err) => {
     dispatch(errorClassData(err));
   });

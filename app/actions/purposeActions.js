@@ -1,6 +1,6 @@
 import {
   FETCH_PURPOSE_DATA, SEARCH_PURPOSE_DATA, EDIT_PURPOSE_DATA, ADD_PURPOSE_DATA, SET_PURPOSE_DETAILS_FIELD,
-  ERROR_PURPOSE_DATA, SHOW_DETAIL_PURPOSE, HIDE_DETAIL_PURPOSE, SUBMIT_PURPOSE_DATA, CLOSE_PURPOSE_FORM, LOADING_ACTION_PURPOSE, FETCH_ACCESS_DATA, CLOSE_PURPOSE_NOTIF, ACTIVE_PURPOSE_DATA, DELETE_PURPOSE_DATA
+  ERROR_PURPOSE_DATA, SHOW_DETAIL_PURPOSE, HIDE_DETAIL_PURPOSE, SUBMIT_PURPOSE_DATA, CLOSE_PURPOSE_FORM, LOADING_ACTION_PURPOSE, FETCH_ACCESS_DATA, CLOSE_PURPOSE_NOTIF, ACTIVE_PURPOSE_DATA, DELETE_PURPOSE_DATA, UPDATE_PURPOSE_DATA
 } from './actionConstants';
 import {
   addPurposeApi, getPurposeApi, updatePurposeDataApi, deletePurposeDataApi, fetchAccessDataApi, getActivePurposeApi
@@ -8,6 +8,11 @@ import {
 
 const fetchPurposeData = purposeData => ({
   type: FETCH_PURPOSE_DATA,
+  payload: purposeData
+});
+
+const updatedPurposeData = purposeData => ({
+  type: UPDATE_PURPOSE_DATA,
   payload: purposeData
 });
 
@@ -102,7 +107,7 @@ export const getPurposeData = () => (dispatch) => {
 
 export const updatePurposeData = (data) => (dispatch) => {
   updatePurposeDataApi(data).then((response) => {
-    dispatch(fetchPurposeData(response.data));
+    dispatch(updatedPurposeData(response.data));
   }).catch((err) => {
     dispatch(errorPurposeData(err));
   });

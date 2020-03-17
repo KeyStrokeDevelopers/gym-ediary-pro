@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
-  FETCH_CLASS_DATA, SEARCH_CLASS_DATA, EDIT_CLASS_DATA, ADD_CLASS_DATA, SET_CLASS_DETAILS_FIELD, SHOW_DETAIL_CLASS, HIDE_DETAIL_CLASS, SUBMIT_CLASS_DATA, CLOSE_CLASS_FORM, LOADING_ACTION_CLASS, CLOSE_CLASS_NOTIF, ERROR_CLASS_DATA, ACTIVE_CLASS_DATA, DELETE_CLASS_DATA
+  FETCH_CLASS_DATA, SEARCH_CLASS_DATA, EDIT_CLASS_DATA, ADD_CLASS_DATA, SET_CLASS_DETAILS_FIELD, SHOW_DETAIL_CLASS, HIDE_DETAIL_CLASS, SUBMIT_CLASS_DATA, CLOSE_CLASS_FORM, LOADING_ACTION_CLASS, CLOSE_CLASS_NOTIF, ERROR_CLASS_DATA, ACTIVE_CLASS_DATA, DELETE_CLASS_DATA, UPDATE_CLASS_DATA
 } from '../../actions/actionConstants';
 
 
@@ -32,6 +32,18 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0
+      };
+    case UPDATE_CLASS_DATA:
+      return {
+        ...state,
+        classList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Class data updated',
+        notifType: notifT.success,
+        openNoti: true,
       };
     case DELETE_CLASS_DATA:
       return {

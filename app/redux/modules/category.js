@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_CATEGORY_DATA, SEARCH_CATEGORY_DATA, EDIT_CATEGORY_DATA, ADD_CATEGORY_DATA, SET_CATEGORY_DETAILS_FIELD,
-  SHOW_DETAIL_CATEGORY, HIDE_DETAIL_CATEGORY, SUBMIT_CATEGORY_DATA, CLOSE_CATEGORY_FORM, LOADING_ACTION_CATEGORY, CLOSE_CATEGORY_NOTIF, ERROR_CATEGORY_DATA, DELETE_CATEGORY_DATA, ACTIVE_CATEGORY_DATA
+  SHOW_DETAIL_CATEGORY, HIDE_DETAIL_CATEGORY, SUBMIT_CATEGORY_DATA, CLOSE_CATEGORY_FORM, LOADING_ACTION_CATEGORY, CLOSE_CATEGORY_NOTIF, ERROR_CATEGORY_DATA, DELETE_CATEGORY_DATA, ACTIVE_CATEGORY_DATA, UPDATED_CATEGORY_DATA
 } from '../../actions/actionConstants';
 
 
@@ -33,6 +33,17 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0
+      };
+    case UPDATED_CATEGORY_DATA:
+      return {
+        ...state,
+        categoryList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        notifMsg: 'Category data updated',
+        notifType: notifT.success,
+        openNoti: true,
       };
     case DELETE_CATEGORY_DATA:
       return {
