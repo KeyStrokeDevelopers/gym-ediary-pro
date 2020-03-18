@@ -58,9 +58,13 @@ class ProductTypeDataList extends React.Component {
       addFn,
     } = this.props;
 
+    let productTypeFilterData;
+    if (productTypeData && productTypeData.length >= 1) {
+      productTypeFilterData = is_active ? productTypeData.filter(item => item.status === 1) : productTypeData.filter(item => item.status === 0)
+    }
 
     const getItem = dataArray => dataArray.map((data, ind) => {
-      const index = productTypeData.indexOf(data);
+      const index = productTypeFilterData.indexOf(data);
       if (data.productType.toLowerCase().indexOf(keyword) === -1) {
         return false;
       }
@@ -111,12 +115,12 @@ class ProductTypeDataList extends React.Component {
               </div>
             </div>
             <div className={classes.total}>
-              {productTypeData ? productTypeData.length : '0'}
+              {productTypeFilterData ? productTypeFilterData.length : '0'}
               &nbsp;
               Product Type
               </div>
             <List>
-              {productTypeData && productTypeData.length >= 1 && getItem(productTypeData)}
+              {productTypeFilterData && productTypeFilterData.length >= 1 && getItem(productTypeFilterData)}
             </List>
           </div>
         </Drawer>

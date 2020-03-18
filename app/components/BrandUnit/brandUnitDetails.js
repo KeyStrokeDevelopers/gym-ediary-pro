@@ -60,9 +60,8 @@ class BrandUnitDetail extends React.Component {
     this.setState({ anchorElOpt: null });
   }
 
-  handleDelete = (data) => {
-    const { deleteBrandUnitData } = this.props;
-    deleteBrandUnitData(data);
+  handleDelete = (dataId) => {
+    this.setState({ open: true, deletedId: dataId });
   }
 
   handleDisagree = () => {
@@ -147,11 +146,13 @@ class BrandUnitDetail extends React.Component {
               <section className={classes.cover}>
                 <div className={classes.opt}>
                   <>
-                    <Tooltip title="Delete Record">
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(brandUnitFilterData[itemSelected])}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
+                    {is_active ?
+                      <Tooltip title="Delete Record">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(brandUnitFilterData[itemSelected]._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip> : ''
+                    }
                     <Tooltip title="Edit Record">
                       <IconButton aria-label="Edit" onClick={() => edit(brandUnitFilterData[itemSelected])}>
                         <Edit />

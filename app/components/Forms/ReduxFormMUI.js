@@ -133,7 +133,8 @@ export const DatePickerInput = ({
 
 export const TimePickerInput = ({
   change, input, timeValue, label, meta: { touched, error }, ...reset
-}) => (
+}) => {
+  return (
     <>
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <TimePicker
@@ -158,6 +159,7 @@ export const TimePickerInput = ({
       }
     </>
   );
+}
 
 export const renderToggleInput = (field) => (
   <div style={{ marginTop: '15px' }}>

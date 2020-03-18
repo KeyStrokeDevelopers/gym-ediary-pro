@@ -60,9 +60,8 @@ class ProductDetail extends React.Component {
     this.setState({ anchorElOpt: null });
   }
 
-  handleDelete = (data) => {
-    const { deleteProductData } = this.props;
-    deleteProductData(data);
+  handleDelete = (dataId) => {
+    this.setState({ open: true, deletedId: dataId });
   }
 
   handleDisagree = () => {
@@ -91,21 +90,27 @@ class ProductDetail extends React.Component {
       edit,
       showMobileDetail,
       hideDetail,
+      is_active
     } = this.props;
     const { anchorElOpt, open } = this.state;
 
-    const ListData = [];
+    let productDataFilterData;
     if (productData && productData.length >= 1) {
+      productDataFilterData = is_active ? productData.filter(item => item.status === 1) : productData.filter(item => item.status === 0)
+    }
+
+    const ListData = [];
+    if (productDataFilterData && productDataFilterData.length >= 1) {
       productDataField.map(data => {
-        if (productData[itemSelected][data.primary]) {
-          ListData.push({ primary: productData[itemSelected][data.primary], secondary: data.secondary, key: data.primary });
+        if (productDataFilterData[itemSelected][data.primary]) {
+          ListData.push({ primary: productDataFilterData[itemSelected][data.primary], secondary: data.secondary, key: data.primary });
         }
       });
     }
 
     return (
       <>
-        {productData && productData.length >= 1
+        {productDataFilterData && productDataFilterData.length >= 1
           ? (
             <main className={classNames(classes.content, showMobileDetail ? classes.detailPopup : '')}>
               <div>
@@ -136,13 +141,15 @@ class ProductDetail extends React.Component {
               <section className={classes.cover}>
                 <div className={classes.opt}>
                   <>
-                    <Tooltip title="Delete Record">
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(productData[itemSelected])}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
+                    {is_active &&
+                      <Tooltip title="Delete Record">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(productDataFilterData[itemSelected]._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    }
                     <Tooltip title="Edit Record">
-                      <IconButton aria-label="Edit" onClick={() => edit(productData[itemSelected])}>
+                      <IconButton aria-label="Edit" onClick={() => edit(productDataFilterData[itemSelected])}>
                         <Edit />
                       </IconButton>
                     </Tooltip>
@@ -162,7 +169,7 @@ class ProductDetail extends React.Component {
                     {optionsOpt.map(option => {
                       if (option === 'Delete Contact') {
                         return (
-                          <MenuItem key={option} selected={option === 'Edit Profile'} onClick={() => this.deleteContact(productData[itemSelected])}>
+                          <MenuItem key={option} selected={option === 'Edit Profile'} onClick={() => this.deleteContact(productDataFilterData[itemSelected])}>
                             {option}
                           </MenuItem>
                         );
@@ -189,9 +196,9 @@ class ProductDetail extends React.Component {
                     </Avatar>
                   </ListItemAvatar>
                   <Typography className={classes.userName} variant="h6">
-                    {productData[itemSelected].brand.value}
+                    {productDataFilterData[itemSelected].brand.value}
                     <Typography display="block" variant="caption">
-                      {productData[itemSelected].product.productType}
+                      {productDataFilterData[itemSelected].product.productType}
                     </Typography>
                   </Typography>
                 </Hidden>
@@ -205,9 +212,9 @@ class ProductDetail extends React.Component {
                       </Avatar>
                     </ListItemAvatar>
                     <Typography variant="h5">
-                      {productData[itemSelected].brand.value}
+                      {productDataFilterData[itemSelected].brand.value}
                       <Typography display="block" variant="caption">
-                        {productData[itemSelected].product.productType}
+                        {productDataFilterData[itemSelected].product.productType}
                       </Typography>
                     </Typography>
                   </div>

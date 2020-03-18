@@ -117,7 +117,7 @@ class Member extends React.Component {
             showDetails={showDetails}
             filterValue={filter_value}
             edit={edit}
-            isActive={is_active}
+            is_active={is_active}
             remove={remove}
             favorite={favorite}
           />
