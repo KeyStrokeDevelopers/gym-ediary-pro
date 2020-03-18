@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_ADD_MEMBER_DATA, SEARCH_ADD_MEMBER_DATA, EDIT_ADD_MEMBER_DATA, ADD_ADD_MEMBER_DATA, SET_ADD_MEMBER_DETAILS_FIELD, SHOW_DETAIL_ADD_MEMBER,
-  HIDE_DETAIL_ADD_MEMBER, SUBMIT_ADD_MEMBER_DATA, CLOSE_ADD_MEMBER_FORM, LOADING_ACTION_ADD_MEMBER, VIEW_PROFILE, SET_FILTER_VALUE, FETCH_GYM_INFO, CLOSE_ADD_MEMBER_NOTIF, ERROR_ADD_MEMBER_DATA, UPDATE_GYM_INFO
+  HIDE_DETAIL_ADD_MEMBER, SUBMIT_ADD_MEMBER_DATA, CLOSE_ADD_MEMBER_FORM, LOADING_ACTION_ADD_MEMBER, VIEW_PROFILE, SET_FILTER_VALUE, FETCH_GYM_INFO, CLOSE_ADD_MEMBER_NOTIF, ERROR_ADD_MEMBER_DATA, UPDATE_GYM_INFO, UPDATED_ADD_MEMBER_DATA
 } from '../../actions/actionConstants';
 
 
@@ -38,6 +38,18 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0
+      };
+    case UPDATED_ADD_MEMBER_DATA:
+      return {
+        ...state,
+        addMemberList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
       };
     case SEARCH_ADD_MEMBER_DATA:
       return {

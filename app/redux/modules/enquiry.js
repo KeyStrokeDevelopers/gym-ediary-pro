@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_ENQUIRY_DATA, SEARCH_ENQUIRY_DATA, EDIT_ENQUIRY_DATA, ADD_ENQUIRY_DATA, SET_ENQUIRY_DETAILS_FIELD,
-  SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, HANDLE_FROM_TO_FILTER, CLOSE_ENQUIRY_NOTIF, ERROR_ENQUIRY_DATA
+  SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, HANDLE_FROM_TO_FILTER, CLOSE_ENQUIRY_NOTIF, ERROR_ENQUIRY_DATA, UPDATE_ENQUIRY_DATA
 } from '../../actions/actionConstants';
 
 
@@ -34,6 +34,18 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0
+      };
+    case UPDATE_ENQUIRY_DATA:
+      return {
+        ...state,
+        enquiryList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
       };
     case SEARCH_ENQUIRY_DATA:
       return {

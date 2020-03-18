@@ -1,6 +1,6 @@
 import {
   FETCH_PRODUCT_TYPE_DATA, SEARCH_PRODUCT_TYPE_DATA, EDIT_PRODUCT_TYPE_DATA, ADD_PRODUCT_TYPE_DATA, SET_PRODUCT_TYPE_DETAILS_FIELD,
-  ERROR_PRODUCT_TYPE_DATA, SHOW_DETAIL_PRODUCT_TYPE, HIDE_DETAIL_PRODUCT_TYPE, SUBMIT_PRODUCT_TYPE_DATA, CLOSE_PRODUCT_TYPE_FORM, LOADING_ACTION_PRODUCT_TYPE, CLOSE_PRODUCT_TYPE_NOTIF
+  ERROR_PRODUCT_TYPE_DATA, SHOW_DETAIL_PRODUCT_TYPE, HIDE_DETAIL_PRODUCT_TYPE, SUBMIT_PRODUCT_TYPE_DATA, CLOSE_PRODUCT_TYPE_FORM, LOADING_ACTION_PRODUCT_TYPE, CLOSE_PRODUCT_TYPE_NOTIF, UPDATED_PRODUCT_TYPE_DATA
 } from './actionConstants';
 
 import {
@@ -9,6 +9,11 @@ import {
 
 const fetchProductTypeData = productTypeData => ({
   type: FETCH_PRODUCT_TYPE_DATA,
+  payload: productTypeData
+});
+
+const updatedProductTypeData = productTypeData => ({
+  type: UPDATED_PRODUCT_TYPE_DATA,
   payload: productTypeData
 });
 
@@ -80,7 +85,7 @@ export const getProductTypeData = () => (dispatch) => {
 
 export const updateProductTypeData = (data) => (dispatch) => {
   updateProductTypeDataApi(data).then((response) => {
-    dispatch(fetchProductTypeData(response.data));
+    dispatch(updatedProductTypeData(response.data));
   }).catch((err) => {
     dispatch(errorProductTypeData(err));
   });

@@ -1,6 +1,6 @@
 import {
   FETCH_BRAND_UNIT_DATA, SEARCH_BRAND_UNIT_DATA, EDIT_BRAND_UNIT_DATA, ADD_BRAND_UNIT_DATA, SET_BRAND_UNIT_DETAILS_FIELD,
-  ERROR_BRAND_UNIT_DATA, SHOW_DETAIL_BRAND_UNIT, HIDE_DETAIL_BRAND_UNIT, SUBMIT_BRAND_UNIT_DATA, CLOSE_BRAND_UNIT_FORM, LOADING_ACTION_BRAND_UNIT, CLOSE_BRAND_UNIT_NOTIF
+  ERROR_BRAND_UNIT_DATA, SHOW_DETAIL_BRAND_UNIT, HIDE_DETAIL_BRAND_UNIT, SUBMIT_BRAND_UNIT_DATA, CLOSE_BRAND_UNIT_FORM, LOADING_ACTION_BRAND_UNIT, CLOSE_BRAND_UNIT_NOTIF, UPDATED_BRAND_UNIT_DATA
 } from './actionConstants';
 
 import {
@@ -9,6 +9,11 @@ import {
 
 const fetchBrandUnitData = brandUnitData => ({
   type: FETCH_BRAND_UNIT_DATA,
+  payload: brandUnitData
+});
+
+const updatedBrandUnitData = brandUnitData => ({
+  type: UPDATED_BRAND_UNIT_DATA,
   payload: brandUnitData
 });
 
@@ -80,7 +85,7 @@ export const getBrandUnitData = () => (dispatch) => {
 
 export const updateBrandUnitData = (data) => (dispatch) => {
   updateBrandUnitDataApi(data).then((response) => {
-    dispatch(fetchBrandUnitData(response.data));
+    dispatch(updatedBrandUnitData(response.data));
   }).catch((err) => {
     dispatch(errorBrandUnitData(err));
   });

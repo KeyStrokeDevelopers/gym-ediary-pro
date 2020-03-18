@@ -1,6 +1,6 @@
 import {
   FETCH_ADD_MEMBER_DATA, SEARCH_ADD_MEMBER_DATA, EDIT_ADD_MEMBER_DATA, ADD_ADD_MEMBER_DATA, SET_ADD_MEMBER_DETAILS_FIELD,
-  ERROR_ADD_MEMBER_DATA, SHOW_DETAIL_ADD_MEMBER, HIDE_DETAIL_ADD_MEMBER, SUBMIT_ADD_MEMBER_DATA, CLOSE_ADD_MEMBER_FORM, LOADING_ACTION_ADD_MEMBER, VIEW_PROFILE, SET_FILTER_VALUE, FETCH_GYM_INFO, CLOSE_ADD_MEMBER_NOTIF, UPDATE_GYM_INFO
+  ERROR_ADD_MEMBER_DATA, SHOW_DETAIL_ADD_MEMBER, HIDE_DETAIL_ADD_MEMBER, SUBMIT_ADD_MEMBER_DATA, CLOSE_ADD_MEMBER_FORM, LOADING_ACTION_ADD_MEMBER, VIEW_PROFILE, SET_FILTER_VALUE, FETCH_GYM_INFO, CLOSE_ADD_MEMBER_NOTIF, UPDATE_GYM_INFO, UPDATED_ADD_MEMBER_DATA
 } from './actionConstants';
 import history from '../utils/history';
 import {
@@ -9,6 +9,11 @@ import {
 
 const fetchAddMemberData = addMemberData => ({
   type: FETCH_ADD_MEMBER_DATA,
+  payload: addMemberData
+});
+
+const updatedAddMemberData = addMemberData => ({
+  type: UPDATED_ADD_MEMBER_DATA,
   payload: addMemberData
 });
 
@@ -113,7 +118,6 @@ export const getGymInfoData = () => (dispatch) => {
 
 export const updateGymInfoData = (data) => (dispatch) => {
   updateGymInfoApi(data).then((response) => {
-    console.log('response --response .data ----***----', response.data);
     dispatch(updateGymData(response.data));
   }).catch((err) => {
     dispatch(errorAddMemberData(err));
@@ -123,7 +127,7 @@ export const updateGymInfoData = (data) => (dispatch) => {
 
 export const updateAddMemberData = (data) => (dispatch) => {
   updateAddMemberDataApi(data).then((response) => {
-    dispatch(fetchAddMemberData(response.data));
+    dispatch(updatedAddMemberData(response.data));
   }).catch((err) => {
     dispatch(errorAddMemberData(err));
   });

@@ -1,6 +1,6 @@
 import {
   FETCH_ENQUIRY_DATA, SEARCH_ENQUIRY_DATA, EDIT_ENQUIRY_DATA, ADD_ENQUIRY_DATA, SET_ENQUIRY_DETAILS_FIELD,
-  ERROR_ENQUIRY_DATA, SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, HANDLE_FROM_TO_FILTER, CLOSE_ENQUIRY_NOTIF
+  ERROR_ENQUIRY_DATA, SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, HANDLE_FROM_TO_FILTER, CLOSE_ENQUIRY_NOTIF, UPDATE_ENQUIRY_DATA,
 } from './actionConstants';
 import {
   addEnquiryApi, getEnquiryApi, updateEnquiryDataApi, deleteEnquiryDataApi
@@ -8,6 +8,11 @@ import {
 
 const fetchEnquiryData = enquiryData => ({
   type: FETCH_ENQUIRY_DATA,
+  payload: enquiryData
+});
+
+const updatedEnquiryData = enquiryData => ({
+  type: UPDATE_ENQUIRY_DATA,
   payload: enquiryData
 });
 
@@ -85,7 +90,7 @@ export const getEnquiryData = () => (dispatch) => {
 
 export const updateEnquiryData = (data) => (dispatch) => {
   updateEnquiryDataApi(data).then((response) => {
-    dispatch(fetchEnquiryData(response.data));
+    dispatch(updatedEnquiryData(response.data));
   }).catch((err) => {
     dispatch(errorEnquiryData(err));
   });

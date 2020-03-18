@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PRODUCT_TYPE_DATA, SEARCH_PRODUCT_TYPE_DATA, EDIT_PRODUCT_TYPE_DATA, ADD_PRODUCT_TYPE_DATA, SET_PRODUCT_TYPE_DETAILS_FIELD,
-  SHOW_DETAIL_PRODUCT_TYPE, HIDE_DETAIL_PRODUCT_TYPE, SUBMIT_PRODUCT_TYPE_DATA, CLOSE_PRODUCT_TYPE_FORM, LOADING_ACTION_PRODUCT_TYPE, CLOSE_PRODUCT_TYPE_NOTIF, ERROR_PRODUCT_TYPE_DATA
+  SHOW_DETAIL_PRODUCT_TYPE, HIDE_DETAIL_PRODUCT_TYPE, SUBMIT_PRODUCT_TYPE_DATA, CLOSE_PRODUCT_TYPE_FORM, LOADING_ACTION_PRODUCT_TYPE, CLOSE_PRODUCT_TYPE_NOTIF, ERROR_PRODUCT_TYPE_DATA, UPDATED_PRODUCT_TYPE_DATA
 } from '../../actions/actionConstants';
 
 
@@ -33,6 +33,18 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0
+      };
+    case UPDATED_PRODUCT_TYPE_DATA:
+      return {
+        ...state,
+        productTypeList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
       };
     case SEARCH_PRODUCT_TYPE_DATA:
       return {
