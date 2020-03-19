@@ -54,6 +54,7 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false,
         notifMsg: 'Category data deleted',
         notifType: notifT.success,
+        selectedIndex: 0,
         openNoti: true,
       };
     case ACTIVE_CATEGORY_DATA:

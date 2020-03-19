@@ -121,6 +121,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         notifMsg: action.payload,
         notifType: notifT.error,
+        selectedIndex: 0,
         openNoti: true
       };
     }
