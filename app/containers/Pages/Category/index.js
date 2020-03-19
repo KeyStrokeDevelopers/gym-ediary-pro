@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
-import Typography from '@material-ui/core/Typography';
 import {
   getCategoryData,
   submitCategoryData,
@@ -73,6 +72,7 @@ class Category extends React.Component {
       closeNotif,
       deleteCategoryData,
       activeCategoryData,
+      categoryType,
       isLoading
     } = this.props;
     const isCategoryData = categoryData.length >= 1;
@@ -99,6 +99,7 @@ class Category extends React.Component {
             showDetail={showDetail}
             search={search}
             is_active={is_active}
+            categoryType={categoryType}
             keyword={keyword}
           />
           <CategoryDetail
@@ -110,6 +111,7 @@ class Category extends React.Component {
             itemSelected={itemSelected}
             edit={edit}
             isActive={is_active}
+            categoryType={categoryType}
             remove={remove}
             favorite={favorite}
           />
@@ -145,6 +147,7 @@ const mapStateToProps = state => {
     openNoti: categoryReducer.openNoti,
     formValue: categoryReducer.formValues,
     is_active: categoryReducer.isActive,
+    categoryType: categoryReducer.categoryType,
     isLoading: categoryReducer.isLoading
   });
 };

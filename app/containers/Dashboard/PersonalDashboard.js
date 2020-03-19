@@ -38,7 +38,6 @@ class PersonalDashboard extends PureComponent {
       closeNotif } = this.props;
     return (
       <div>
-        hello test
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />

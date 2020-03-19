@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import { reduxForm } from 'redux-form/immutable';
+import { reduxForm, Field } from 'redux-form/immutable';
 import classNames from 'classnames';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,6 +15,10 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import SearchIcon from '@material-ui/icons/Search';
 import PermContactCalendar from '@material-ui/icons/PermContactCalendar';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import { SelectRedux } from '../Forms/ReduxFormMUI';
 import Add from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import styles from './expenseIncome-jss';
@@ -22,14 +26,29 @@ import styles from './expenseIncome-jss';
 class ExpenseIncomeDataList extends React.Component {
   state = {
     filter: 1,
+    paymentType: 'Expenditure'
   };
+
+  componentDidMount = () => {
+    const { isActive } = this.props;
+    const { paymentType } = this.state;
+    isActive({ is_active: true, paymentType });
+    this.props.initialize({ expenditureIncome: 'Expenditure' });
+  }
 
   handleChange = (event, value) => {
     this.setState({ filter: value });
+    const { paymentType } = this.state;
     const is_active = value === 1;
     const { isActive } = this.props;
-    isActive(is_active);
+    isActive({ is_active, paymentType });
   };
+
+  handleExpenditureIncome = (e, paymentType) => {
+    const { isActive, is_active } = this.props;
+    isActive({ is_active, paymentType });
+    this.setState({ paymentType })
+  }
 
   render() {
     const {
@@ -42,14 +61,17 @@ class ExpenseIncomeDataList extends React.Component {
       clippedRight,
       addExpenseIncomeData,
       is_active,
+      paymentType,
       addFn, total
     } = this.props;
-    const { filter } = this.state;
+    const { filter, filterType } = this.state;
+    console.log('payment type -----', paymentType)
+    console.log('is_active ----', is_active)
     let expenseIncomeData;
-
     if (expenseIncomeDataList && expenseIncomeDataList.length >= 1) {
-      expenseIncomeData = is_active ? expenseIncomeDataList.filter(item => item.status === 1) : expenseIncomeDataList;
+      expenseIncomeData = is_active ? expenseIncomeDataList.filter(item => item.status === 1 && item.paymentType === paymentType) : expenseIncomeDataList.filter(item => item.status === 0 && item.paymentType === paymentType);
     }
+    console.log('expenseIncomeData==---', expenseIncomeData)
     const getItem = dataArray => dataArray.map((data, ind) => {
       const index = expenseIncomeData.indexOf(data);
       if (data.paymentMethod['paymentMethod'].toLowerCase().indexOf(keyword) === -1) {
@@ -69,8 +91,6 @@ class ExpenseIncomeDataList extends React.Component {
         </ListItem>
       );
     });
-
-
     return (
       <Fragment>
         <Drawer
@@ -82,6 +102,22 @@ class ExpenseIncomeDataList extends React.Component {
           }}
         >
           <div>
+            <form>
+              <div style={{ margin: '10px' }}>
+                <FormControl className={classes.field} style={{ width: '100%' }}>
+                  <InputLabel htmlFor="selection">Select Expenditure or Income</InputLabel>
+                  <Field
+                    name="expenditureIncome"
+                    component={SelectRedux}
+                    placeholder="Select Expenditure or Income"
+                    onChange={this.handleExpenditureIncome}
+                  >
+                    <MenuItem value="Expenditure">Expenditure</MenuItem>
+                    <MenuItem value="Income">Income</MenuItem>
+                  </Field>
+                </FormControl>
+              </div>
+            </form>
             <div className={classNames(classes.toolbar, clippedRight && classes.clippedRight)}>
               <div className={classes.flex}>
                 <div className={classes.searchWrapper}>

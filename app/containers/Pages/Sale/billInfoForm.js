@@ -6,12 +6,14 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import css from 'dan-styles/Form.scss';
 import FormControl from '@material-ui/core/FormControl';
 import { getPaymentMethodData } from 'dan-actions/paymentMethodActions';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 import { setBillInfoData, setPaidAmount } from 'dan-actions/saleActions.js';
 import styles from './sale-jss';
 // import NumberSuggest from '../../../components/Common/helpers/autoCompleteNumber';
 // import NameSuggest from '../../../components/Common/helpers/autoCompleteName';
 import { validate } from '../../../components/Forms/helpers/formValidation';
-import { RegularTextFieldRedux, DatePickerInput } from '../../../components/Forms/ReduxFormMUI';
+import { RegularTextFieldRedux, DatePickerInput, SelectRedux } from '../../../components/Forms/ReduxFormMUI';
 
 
 class BillInfoForm extends Component {

@@ -89,13 +89,14 @@ class ExpenseIncomeDetail extends React.Component {
       showMobileDetail,
       is_active,
       hideDetail,
+      paymentType
     } = this.props;
     const { anchorElOpt, open } = this.state;
 
     let viewExpenseIncomeData;
 
     if (expenseIncomeData && expenseIncomeData.length >= 1) {
-      viewExpenseIncomeData = is_active ? expenseIncomeData.filter(item => item.status === 1) : expenseIncomeData;
+      viewExpenseIncomeData = is_active ? expenseIncomeData.filter(item => item.status === 1 && item.paymentType === paymentType) : expenseIncomeData.filter(item => item.status === 0 && item.paymentType === paymentType);
     }
     return (
       <>
@@ -130,16 +131,16 @@ class ExpenseIncomeDetail extends React.Component {
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
-                  <>
-                    {is_active &&
+                  {is_active &&
+                    <>
                       <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewExpenseIncomeData[itemSelected]._id)}>
                         <DeleteIcon />
                       </IconButton>
-                    }
-                    <IconButton aria-label="Edit" onClick={() => edit(viewExpenseIncomeData[itemSelected])}>
-                      <Edit />
-                    </IconButton>
-                  </>
+                      <IconButton aria-label="Edit" onClick={() => edit(viewExpenseIncomeData[itemSelected])}>
+                        <Edit />
+                      </IconButton>
+                    </>
+                  }
                   <Menu
                     id="long-menu"
                     anchorEl={anchorElOpt}

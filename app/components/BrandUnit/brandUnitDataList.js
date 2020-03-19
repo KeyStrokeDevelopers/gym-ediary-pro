@@ -33,14 +33,17 @@ class BrandUnitDataList extends React.Component {
   };
 
   componentDidMount = () => {
+    const { isActive } = this.props;
+    const { entryType } = this.state;
+    isActive({ is_active: 1, entryType });
     this.props.initialize({ brandUnit: 'Brand' });
   }
 
   handleChange = (event, value) => {
     this.setState({ filter: value });
+    const { entryType } = this.state;
     const is_active = value;
     const { isActive } = this.props;
-    const { entryType } = this.state;
     isActive({ is_active, entryType });
   };
 
@@ -52,7 +55,7 @@ class BrandUnitDataList extends React.Component {
   handleBrandUnit = (e, entryType) => {
     this.setState({ entryType });
     const { isActive, is_active } = this.props;
-    isActive({ is_active, entryType });
+    isActive({ entryType, is_active });
   }
 
   getFilterData = (value, memberData) => {

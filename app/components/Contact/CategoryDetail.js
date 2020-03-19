@@ -112,11 +112,12 @@ class CategoryDetail extends React.Component {
       showMobileDetail,
       isActive,
       hideDetail,
+      categoryType
     } = this.props;
     const { anchorElOpt, open, openActive } = this.state;
     let viewCategoryData;
     if (categoryData && categoryData.length >= 1) {
-      viewCategoryData = isActive ? categoryData.filter(item => item.status === 1) : categoryData.filter(item => item.status === 0);
+      viewCategoryData = isActive ? categoryData.filter(item => item.status === 1 && item.categoryType === categoryType) : categoryData.filter(item => item.status === 0 && item.categoryType === categoryType);
     }
 
     if (viewCategoryData && viewCategoryData.length >= 1) {

@@ -65,7 +65,7 @@ class AddExpenseIncomeForm extends React.Component {
               <FormControl className={classes.field} style={{ width: '100%' }}>
                 <InputLabel htmlFor="selection">Select Category Type</InputLabel>
                 <Field
-                  name="categoryType"
+                  name="paymentType"
                   component={SelectRedux}
                   placeholder="Select Category Type"
                   onChange={this.handleCategoryType}
@@ -73,7 +73,6 @@ class AddExpenseIncomeForm extends React.Component {
                   <MenuItem value="">None</MenuItem>
                   <MenuItem value="Expenditure">EXPENDITURE CATEGORY</MenuItem>
                   <MenuItem value="Income">EXTRA INCOME CATEGORY</MenuItem>
-
                 </Field>
               </FormControl>
             </div>

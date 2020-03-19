@@ -20,7 +20,8 @@ const initialState = {
   notifType: '', // success or error
   openNoti: true,
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  paymentType: 'Expenditure'
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -106,7 +107,8 @@ export default function reducer(state = initialState, action = {}) {
     case SET_EXPENSE_INCOME_DETAILS_FIELD: {
       return {
         ...state,
-        isActive: action.payload,
+        isActive: action.payload.is_active,
+        paymentType: action.payload.paymentType,
         selectedIndex: 0
 
       };

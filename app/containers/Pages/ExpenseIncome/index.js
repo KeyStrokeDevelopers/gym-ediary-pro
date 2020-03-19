@@ -78,6 +78,7 @@ class ExpenseIncome extends React.Component {
       openNoti,
       closeNotif,
       deleteExpenseIncomeData,
+      paymentType,
       isLoading
     } = this.props;
     return (
@@ -103,6 +104,7 @@ class ExpenseIncome extends React.Component {
             showDetail={showDetail}
             search={search}
             is_active={is_active}
+            paymentType={paymentType}
             keyword={keyword}
           />
           <ExpenseIncomeDetail
@@ -113,6 +115,7 @@ class ExpenseIncome extends React.Component {
             itemSelected={itemSelected}
             edit={edit}
             is_active={is_active}
+            paymentType={paymentType}
             remove={remove}
             favorite={favorite}
           />
@@ -155,6 +158,7 @@ const mapStateToProps = state => {
     formValue: expenseIncomeReducer.formValues,
     is_active: expenseIncomeReducer.isActive,
     isLoading: expenseIncomeReducer.isLoading,
+    paymentType: expenseIncomeReducer.paymentType,
     paymentMethodData: paymentMethodReducer.paymentMethodList,
     categoryData: categoryReducer.categoryList,
 

@@ -20,7 +20,8 @@ const initialState = {
   notifType: '', // success or error
   openNoti: true,
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  categoryType: 'Expenditure'
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -131,7 +132,8 @@ export default function reducer(state = initialState, action = {}) {
     case SET_CATEGORY_DETAILS_FIELD: {
       return {
         ...state,
-        isActive: action.payload,
+        isActive: action.payload.is_active,
+        categoryType: action.payload.categoryType,
         selectedIndex: 0
 
       };

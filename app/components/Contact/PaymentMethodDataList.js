@@ -23,6 +23,11 @@ class PaymentMethodDataList extends React.Component {
     filter: 1,
   };
 
+  componentDidMount = () => {
+    const { isActive } = this.props;
+    isActive(1);
+  }
+
   handleChange = (event, value) => {
     this.setState({ filter: value });
     const is_active = value === 1;
