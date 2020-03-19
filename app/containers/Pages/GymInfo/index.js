@@ -41,7 +41,6 @@ class GymInfo extends React.Component {
       openNoti,
       closeNotif,
     } = this.props;
-
     return (
       <div>
         <Helmet>
@@ -70,7 +69,7 @@ const mapStateToProps = state => {
   const addMemberReducer = state.get('addMember');
   return ({
     // force: state, // force state from reducer
-    avatarInit: addMemberReducer.avatarInit,
+    avatarInit: addMemberReducer.gymBranchLogo,
     gymInfoData: addMemberReducer.gymInfo,
     messageNotif: addMemberReducer.notifMsg,
     notifType: addMemberReducer.notifType,

@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
@@ -135,7 +134,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: false,
-        formValues: Map([]),
+        formValues: {},
         avatarInit: ''
       };
 

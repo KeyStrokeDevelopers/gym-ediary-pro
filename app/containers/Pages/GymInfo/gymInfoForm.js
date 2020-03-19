@@ -130,7 +130,6 @@ class GymInfoForm extends React.Component {
       itemSelected,
       handleSubmit,
       onDrop,
-      formValue,
       gymInfoData,
       imgAvatar
     } = this.props;
@@ -138,17 +137,10 @@ class GymInfoForm extends React.Component {
     let dropzoneRef;
     const acceptedFiles = ['image/jpeg', 'image/png', 'image/bmp'];
     const fileSizeLimit = 300000;
-    const isImageSave = gymInfoData && Object.keys(gymInfoData).length >= 1 ? gymInfoData.branchLogo : '';
-    let imageUrl;
-    if (isImageSave) {
-      imageUrl = `${SERVER_URL}${isImageSave}`;
-    }
+
     const imgPreview = (img) => {
       if (deleteImage) {
         return null;
-      }
-      if (imageUrl && formValue && (Object.keys(formValue).length >= 1)) {
-        return imageUrl;
       }
       if (typeof img !== 'string' && img !== '' && imgAvatar) {
         return URL.createObjectURL(imgAvatar);

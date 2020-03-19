@@ -48,6 +48,7 @@ class GymInfoEdit extends React.Component {
       isLoading,
     } = this.props;
     const { img } = this.state;
+    console.log('avatarInit--***99****', avatarInit)
     return (
       <div>
         <GymInfoForm
