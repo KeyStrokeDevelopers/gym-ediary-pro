@@ -26,8 +26,8 @@ class StaffDataList extends React.Component {
   };
 
   componentDidMount = () => {
-    const { isActive } = this.props;
-    isActive(1);
+    const { isActiveData } = this.props;
+    isActiveData(1);
   }
 
   handleChange = (event, value) => {

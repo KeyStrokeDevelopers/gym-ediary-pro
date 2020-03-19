@@ -13,6 +13,7 @@ import {
   searchBrandUnitData,
   updateBrandUnitData,
   deleteBrandUnitData,
+  activeBrandUnitData,
   addBrandUnitData,
   setDetailField,
   loadingAction,
@@ -74,6 +75,7 @@ class BrandUnitMain extends React.Component {
       openNoti,
       closeNotif,
       deleteBrandUnitData,
+      activeBrandUnitData,
       entryType,
       isLoading
     } = this.props;
@@ -111,6 +113,7 @@ class BrandUnitMain extends React.Component {
             itemSelected={itemSelected}
             showDetails={showDetails}
             filterValue={filter_value}
+            activeBrandUnitData={activeBrandUnitData}
             edit={edit}
             is_active={is_active}
             entryType={entryType}
@@ -164,6 +167,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addBrandUnitData()),
   close: () => dispatch(closeAction()),
   deleteBrandUnitData: (data) => dispatch(deleteBrandUnitData(data)),
+  activeBrandUnitData: (data) => dispatch(activeBrandUnitData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),

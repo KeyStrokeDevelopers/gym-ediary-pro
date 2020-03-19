@@ -5,6 +5,8 @@ const addProductApi = (data) => axios.post(`${API_URL}/product`, data, getConfig
 
 const getProductApi = () => axios.get(`${API_URL}/product`, getConfig());
 
+const activeProductDataApi = (dataId) => axios.get(`${API_URL}/product/active/${dataId}`, getConfig());
+
 const updateProductDataApi = (data) => axios.put(`${API_URL}/product`, data, getConfig());
 
 const fetchProductQuantityApi = (productId) => axios.get(`${API_URL}/product/${productId}`, getConfig());
@@ -19,5 +21,6 @@ export {
   getProductApi,
   updateProductDataApi,
   deleteProductDataApi,
-  fetchProductQuantityApi
+  fetchProductQuantityApi,
+  activeProductDataApi
 };

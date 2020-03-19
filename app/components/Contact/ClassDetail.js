@@ -182,7 +182,7 @@ class ClassDetail extends React.Component {
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
-                  {isActive && (
+                  {isActive ? (
                     <>
                       <Tooltip title="Delete Class Data">
                         <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewClassData[itemSelected]._id)}>
@@ -195,15 +195,13 @@ class ClassDetail extends React.Component {
                         </IconButton>
                       </Tooltip>
                     </>
-                  )
-                  }
-                  {!isActive && (
-                    <Tooltip title="Active Class Data">
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewClassData[itemSelected]._id)}>
-                        <PlaylistAddCheckIcon />
-                      </IconButton>
-                    </Tooltip>
-                  )
+                  ) : (
+                      <Tooltip title="Active Class Data">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewClassData[itemSelected]._id)}>
+                          <PlaylistAddCheckIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )
                   }
                   <Menu
                     id="long-menu"

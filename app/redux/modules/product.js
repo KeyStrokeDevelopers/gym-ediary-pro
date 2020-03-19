@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PRODUCT_SHOPING_DATA, SEARCH_PRODUCT_SHOPING_DATA, EDIT_PRODUCT_SHOPING_DATA, ADD_PRODUCT_SHOPING_DATA, SET_PRODUCT_SHOPING_DETAILS_FIELD,
-  SHOW_DETAIL_PRODUCT_SHOPING, SUBMIT_PRODUCT_SHOPING_DATA, CLOSE_PRODUCT_SHOPING_FORM, LOADING_ACTION_PRODUCT_SHOPING, HIDE_DETAIL_PRODUCT_SHOPING, FETCH_PRODUCT_QUANTITY, CLOSE_PRODUCT_SHOPING_NOTIF, ERROR_PRODUCT_SHOPING_DATA, UPDATE_PRODUCT_SHOPING_DATA
+  SHOW_DETAIL_PRODUCT_SHOPING, SUBMIT_PRODUCT_SHOPING_DATA, CLOSE_PRODUCT_SHOPING_FORM, LOADING_ACTION_PRODUCT_SHOPING, HIDE_DETAIL_PRODUCT_SHOPING, FETCH_PRODUCT_QUANTITY, CLOSE_PRODUCT_SHOPING_NOTIF, ERROR_PRODUCT_SHOPING_DATA, UPDATE_PRODUCT_SHOPING_DATA, DELETE_PRODUCT_SHOPING_DATA, ACTIVE_PRODUCT_SHOPING_DATA
 } from '../../actions/actionConstants';
 
 
@@ -44,6 +44,30 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false,
         selectedIndex: 0,
         notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
+      };
+    case DELETE_PRODUCT_SHOPING_DATA:
+      return {
+        ...state,
+        productList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Product data deleted',
+        notifType: notifT.success,
+        openNoti: true
+      };
+    case ACTIVE_PRODUCT_SHOPING_DATA:
+      return {
+        ...state,
+        productList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Product data activated',
         notifType: notifT.success,
         openNoti: true
       };

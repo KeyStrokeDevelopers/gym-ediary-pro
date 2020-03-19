@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_BRAND_UNIT_DATA, SEARCH_BRAND_UNIT_DATA, EDIT_BRAND_UNIT_DATA, ADD_BRAND_UNIT_DATA, SET_BRAND_UNIT_DETAILS_FIELD,
-  SHOW_DETAIL_BRAND_UNIT, HIDE_DETAIL_BRAND_UNIT, SUBMIT_BRAND_UNIT_DATA, CLOSE_BRAND_UNIT_FORM, LOADING_ACTION_BRAND_UNIT, CLOSE_BRAND_UNIT_NOTIF, ERROR_BRAND_UNIT_DATA, UPDATED_BRAND_UNIT_DATA
+  SHOW_DETAIL_BRAND_UNIT, HIDE_DETAIL_BRAND_UNIT, SUBMIT_BRAND_UNIT_DATA, CLOSE_BRAND_UNIT_FORM, LOADING_ACTION_BRAND_UNIT, CLOSE_BRAND_UNIT_NOTIF, ERROR_BRAND_UNIT_DATA, UPDATED_BRAND_UNIT_DATA, DELETE_BRAND_UNIT_DATA, ACTIVE_BRAND_UNIT_DATA
 } from '../../actions/actionConstants';
 
 
@@ -44,6 +44,30 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false,
         selectedIndex: 0,
         notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
+      };
+    case DELETE_BRAND_UNIT_DATA:
+      return {
+        ...state,
+        brandUnitList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Brand Unit data deleted',
+        notifType: notifT.success,
+        openNoti: true
+      };
+    case ACTIVE_BRAND_UNIT_DATA:
+      return {
+        ...state,
+        brandUnitList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Brand Unit data activated',
         notifType: notifT.success,
         openNoti: true
       };

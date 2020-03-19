@@ -27,40 +27,10 @@ class Attendance extends Component {
         disablePadding: true,
         label: 'Date'
       }, {
-        id: 'staffName',
-        //  numeric: true,
-        disablePadding: false,
-        label: 'Staff Name'
-      }, {
-        id: 'staffCode',
-        //  numeric: true,
-        disablePadding: false,
-        label: 'Staff Code'
-      }, {
-        id: 'staffAccessLevel',
-        //  numeric: true,
-        disablePadding: false,
-        label: 'Staff Access Level'
-      }, {
         id: 'staffAttendance',
         //  numeric: true,
         disablePadding: false,
         label: 'Attendance'
-      }, {
-        id: 'staffAddress',
-        //  numeric: true,
-        disablePadding: false,
-        label: 'Staff Address'
-      }, {
-        id: 'staffContact',
-        //  numeric: true,
-        disablePadding: false,
-        label: 'Contact'
-      }, {
-        id: 'staffEmail',
-        //  numeric: true,
-        disablePadding: false,
-        label: 'Email'
       }
     ],
     page: 0,

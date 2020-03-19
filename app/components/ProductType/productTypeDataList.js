@@ -25,6 +25,11 @@ class ProductTypeDataList extends React.Component {
     filterValue: 'All'
   };
 
+  componentDidMount = () => {
+    const { isActive } = this.props;
+    isActive(true);
+  }
+
   handleChange = (event, value) => {
     this.setState({ filter: value });
     const is_active = value === 1;
@@ -54,6 +59,7 @@ class ProductTypeDataList extends React.Component {
       search,
       keyword,
       clippedRight,
+      productTypeViewData,
       is_active,
       addFn,
     } = this.props;

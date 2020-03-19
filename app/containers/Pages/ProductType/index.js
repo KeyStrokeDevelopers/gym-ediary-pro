@@ -13,6 +13,7 @@ import {
   searchProductTypeData,
   updateProductTypeData,
   deleteProductTypeData,
+  activeProductTypeData,
   addProductTypeData,
   setDetailField,
   loadingAction,
@@ -72,6 +73,7 @@ class Member extends React.Component {
       openNoti,
       closeNotif,
       deleteProductTypeData,
+      activeProductTypeData,
       isLoading
     } = this.props;
     return (
@@ -94,6 +96,7 @@ class Member extends React.Component {
             clippedRight
             itemSelected={itemSelected}
             productTypeData={productTypeData}
+            productTypeViewData={add}
             isActive={isActive}
             showDetail={showDetail}
             search={search}
@@ -105,6 +108,7 @@ class Member extends React.Component {
             hideDetail={hideDetail}
             productTypeData={productTypeData}
             deleteProductTypeData={deleteProductTypeData}
+            activeProductTypeData={activeProductTypeData}
             itemSelected={itemSelected}
             showDetails={showDetails}
             filterValue={filter_value}
@@ -158,6 +162,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addProductTypeData()),
   close: () => dispatch(closeAction()),
   deleteProductTypeData: (data) => dispatch(deleteProductTypeData(data)),
+  activeProductTypeData: (data) => dispatch(activeProductTypeData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),

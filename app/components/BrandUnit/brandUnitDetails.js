@@ -20,6 +20,7 @@ import Edit from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import Divider from '@material-ui/core/Divider';
 import AccountBalance from '@material-ui/icons/AccountBalance';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -44,6 +45,8 @@ class BrandUnitDetail extends React.Component {
     anchorElOpt: null,
     open: false,
     deletedId: null,
+    openActive: false,
+    activeId: null
   };
 
   handleClickOpt = event => {
@@ -75,6 +78,21 @@ class BrandUnitDetail extends React.Component {
     this.setState({ open: false });
   }
 
+  handleActive = (dataId) => {
+    this.setState({ openActive: true, activeId: dataId });
+  }
+
+  handleActiveDisagree = () => {
+    this.setState({ openActive: false, activeId: null });
+  }
+
+  handleActiveAgree = () => {
+    const { activeBrandUnitData } = this.props;
+    const { activeId } = this.state;
+    activeBrandUnitData(activeId);
+    this.setState({ openActive: false });
+  }
+
   getFilterData = (value, memberData) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
@@ -96,7 +114,7 @@ class BrandUnitDetail extends React.Component {
       is_active,
       hideDetail,
     } = this.props;
-    const { anchorElOpt, open } = this.state;
+    const { anchorElOpt, open, openActive } = this.state;
 
     let brandUnitFilterData;
     if (brandUnitData && brandUnitData.length >= 1) {
@@ -142,23 +160,52 @@ class BrandUnitDetail extends React.Component {
                       </Button>
                   </DialogActions>
                 </Dialog>
+                <Dialog
+                  open={openActive}
+                  onClose={this.handleActiveDisagree}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {'Active Brand Unit Data'}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure for active ?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleActiveDisagree} color="primary">
+                      Disagree
+                    </Button>
+                    <Button onClick={this.handleActiveAgree} color="primary" autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
-                  <>
-                    {is_active ?
+                  {is_active ?
+                    (<>
                       <Tooltip title="Delete Record">
                         <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(brandUnitFilterData[itemSelected]._id)}>
                           <DeleteIcon />
                         </IconButton>
-                      </Tooltip> : ''
-                    }
-                    <Tooltip title="Edit Record">
-                      <IconButton aria-label="Edit" onClick={() => edit(brandUnitFilterData[itemSelected])}>
-                        <Edit />
-                      </IconButton>
-                    </Tooltip>
-                  </>
+                      </Tooltip>
+                      <Tooltip title="Edit Record">
+                        <IconButton aria-label="Edit" onClick={() => edit(brandUnitFilterData[itemSelected])}>
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
+                    </>) : (
+                      <Tooltip title="Active Category Data">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(brandUnitFilterData[itemSelected]._id)}>
+                          <PlaylistAddCheckIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )
+                  }
                   <Menu
                     id="long-menu"
                     anchorEl={anchorElOpt}

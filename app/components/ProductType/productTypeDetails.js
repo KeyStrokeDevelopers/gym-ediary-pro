@@ -24,6 +24,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import productTypeDataField from './productTypeField';
@@ -45,6 +46,8 @@ class ProductTypeDetail extends React.Component {
     anchorElOpt: null,
     open: false,
     deletedId: null,
+    openActive: false,
+    activeId: null
   };
 
   handleClickOpt = event => {
@@ -76,6 +79,21 @@ class ProductTypeDetail extends React.Component {
     this.setState({ open: false });
   }
 
+  handleActive = (dataId) => {
+    this.setState({ openActive: true, activeId: dataId });
+  }
+
+  handleActiveDisagree = () => {
+    this.setState({ openActive: false, activeId: null });
+  }
+
+  handleActiveAgree = () => {
+    const { activeProductTypeData } = this.props;
+    const { activeId } = this.state;
+    activeProductTypeData(activeId);
+    this.setState({ openActive: false });
+  }
+
   getFilterData = (value, memberData) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
@@ -93,7 +111,7 @@ class ProductTypeDetail extends React.Component {
       hideDetail,
       is_active
     } = this.props;
-    const { anchorElOpt, open } = this.state;
+    const { anchorElOpt, open, openActive } = this.state;
     const ListData = [];
 
 
@@ -140,23 +158,52 @@ class ProductTypeDetail extends React.Component {
                       </Button>
                   </DialogActions>
                 </Dialog>
+                <Dialog
+                  open={openActive}
+                  onClose={this.handleActiveDisagree}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {'Active Product Type Data'}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure for active ?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleActiveDisagree} color="primary">
+                      Disagree
+                    </Button>
+                    <Button onClick={this.handleActiveAgree} color="primary" autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
-                  <>
-                    {is_active &&
+                  {is_active ?
+                    (<>
                       <Tooltip title="Delete Record">
                         <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(productTypeFilterData[itemSelected]._id)}>
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
-                    }
-                    <Tooltip title="Edit Record">
-                      <IconButton aria-label="Edit" onClick={() => edit(productTypeFilterData[itemSelected])}>
-                        <Edit />
-                      </IconButton>
-                    </Tooltip>
-                  </>
+                      <Tooltip title="Edit Record">
+                        <IconButton aria-label="Edit" onClick={() => edit(productTypeFilterData[itemSelected])}>
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
+                    </>) : (
+                      <Tooltip title="Active Category Data">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(productTypeFilterData[itemSelected]._id)}>
+                          <PlaylistAddCheckIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )
+                  }
                   <Menu
                     id="long-menu"
                     anchorEl={anchorElOpt}

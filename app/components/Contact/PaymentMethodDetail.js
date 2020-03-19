@@ -179,7 +179,7 @@ class PaymentMethodDetail extends React.Component {
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
-                  {isActive && (
+                  {isActive ? (
                     <>
                       <Tooltip title="Delete Payment Method">
                         <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewPaymentMethodData[itemSelected]._id)}>
@@ -192,15 +192,13 @@ class PaymentMethodDetail extends React.Component {
                         </IconButton>
                       </Tooltip>
                     </>
-                  )
-                  }
-                  {!isActive && (
-                    <Tooltip title="Active Payment Method">
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewPaymentMethodData[itemSelected]._id)}>
-                        <PlaylistAddCheckIcon />
-                      </IconButton>
-                    </Tooltip>
-                  )
+                  ) : (
+                      <Tooltip title="Active Payment Method">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewPaymentMethodData[itemSelected]._id)}>
+                          <PlaylistAddCheckIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )
                   }
                   <Menu
                     id="long-menu"

@@ -3,6 +3,8 @@ import { API_URL, getConfig } from '../../components/Common/constant';
 
 const addBrandUnitApi = (data) => axios.post(`${API_URL}/brandUnit`, data, getConfig());
 
+const activeBrandUnitDataApi = (dataId) => axios.get(`${API_URL}/brandUnit/active/${dataId}`, getConfig());
+
 const getBrandUnitApi = () => axios.get(`${API_URL}/brandUnit`, getConfig());
 
 const updateBrandUnitDataApi = (data) => axios.put(`${API_URL}/brandUnit`, data, getConfig());
@@ -16,5 +18,6 @@ export {
   addBrandUnitApi,
   getBrandUnitApi,
   updateBrandUnitDataApi,
-  deleteBrandUnitDataApi
+  deleteBrandUnitDataApi,
+  activeBrandUnitDataApi,
 };

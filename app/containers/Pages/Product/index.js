@@ -13,6 +13,7 @@ import {
   searchProductData,
   updateProductData,
   deleteProductData,
+  activeProductData,
   setDetailField,
   loadingAction,
   hideDetailAction,
@@ -80,6 +81,7 @@ class Member extends React.Component {
       openNoti,
       closeNotif,
       deleteProductData,
+      activeProductData,
       isLoading
     } = this.props;
     return (
@@ -113,6 +115,7 @@ class Member extends React.Component {
             hideDetail={hideDetail}
             productData={productData}
             deleteProductData={deleteProductData}
+            activeProductData={activeProductData}
             itemSelected={itemSelected}
             showDetails={showDetails}
             filterValue={filter_value}
@@ -175,6 +178,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addProductData()),
   close: () => dispatch(closeAction()),
   deleteProductData: (data) => dispatch(deleteProductData(data)),
+  activeProductData: (data) => dispatch(activeProductData(data)),
   // remove: bindActionCreators(removeAction, dispatch),
   // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),

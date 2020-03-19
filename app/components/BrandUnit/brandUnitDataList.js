@@ -34,6 +34,11 @@ class BrandUnitDataList extends React.Component {
 
   componentDidMount = () => {
     const { isActive } = this.props;
+    isActive(true);
+  }
+
+  componentDidMount = () => {
+    const { isActive } = this.props;
     const { entryType } = this.state;
     isActive({ is_active: 1, entryType });
     this.props.initialize({ brandUnit: 'Brand' });

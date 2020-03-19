@@ -1,10 +1,10 @@
 import {
   FETCH_PRODUCT_TYPE_DATA, SEARCH_PRODUCT_TYPE_DATA, EDIT_PRODUCT_TYPE_DATA, ADD_PRODUCT_TYPE_DATA, SET_PRODUCT_TYPE_DETAILS_FIELD,
-  ERROR_PRODUCT_TYPE_DATA, SHOW_DETAIL_PRODUCT_TYPE, HIDE_DETAIL_PRODUCT_TYPE, SUBMIT_PRODUCT_TYPE_DATA, CLOSE_PRODUCT_TYPE_FORM, LOADING_ACTION_PRODUCT_TYPE, CLOSE_PRODUCT_TYPE_NOTIF, UPDATED_PRODUCT_TYPE_DATA
+  ERROR_PRODUCT_TYPE_DATA, SHOW_DETAIL_PRODUCT_TYPE, HIDE_DETAIL_PRODUCT_TYPE, SUBMIT_PRODUCT_TYPE_DATA, CLOSE_PRODUCT_TYPE_FORM, LOADING_ACTION_PRODUCT_TYPE, CLOSE_PRODUCT_TYPE_NOTIF, UPDATED_PRODUCT_TYPE_DATA, DELETE_PRODUCT_TYPE_DATA, ACTIVE_PRODUCT_TYPE_DATA
 } from './actionConstants';
 
 import {
-  addProductTypeApi, getProductTypeApi, updateProductTypeDataApi, deleteProductTypeDataApi
+  addProductTypeApi, getProductTypeApi, updateProductTypeDataApi, deleteProductTypeDataApi, activeProductTypeDataApi
 } from '../api/productType';
 
 const fetchProductTypeData = productTypeData => ({
@@ -14,6 +14,16 @@ const fetchProductTypeData = productTypeData => ({
 
 const updatedProductTypeData = productTypeData => ({
   type: UPDATED_PRODUCT_TYPE_DATA,
+  payload: productTypeData
+});
+
+const deleteAction = productTypeData => ({
+  type: DELETE_PRODUCT_TYPE_DATA,
+  payload: productTypeData
+});
+
+const activeAction = productTypeData => ({
+  type: ACTIVE_PRODUCT_TYPE_DATA,
   payload: productTypeData
 });
 
@@ -93,7 +103,15 @@ export const updateProductTypeData = (data) => (dispatch) => {
 
 export const deleteProductTypeData = (data) => (dispatch) => {
   deleteProductTypeDataApi(data).then((response) => {
-    dispatch(fetchProductTypeData(response.data));
+    dispatch(deleteAction(response.data));
+  }).catch((err) => {
+    dispatch(errorProductTypeData(err));
+  });
+};
+
+export const activeProductTypeData = (data) => (dispatch) => {
+  activeProductTypeDataApi(data).then((response) => {
+    dispatch(activeAction(response.data));
   }).catch((err) => {
     dispatch(errorProductTypeData(err));
   });

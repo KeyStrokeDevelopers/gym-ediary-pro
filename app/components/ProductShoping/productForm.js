@@ -11,7 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import styles from './product-jss';
-import { validate } from '../Forms/helpers/formValidation';
+import { validate, number } from '../Forms/helpers/formValidation';
 import { RegularTextFieldRedux, SelectRedux } from '../Forms/ReduxFormMUI';
 
 class ProductForm extends React.Component {
@@ -108,6 +108,7 @@ class ProductForm extends React.Component {
                 autoComplete="off"
                 component={RegularTextFieldRedux}
                 className={classes.field}
+                validate={number}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -142,6 +143,7 @@ class ProductForm extends React.Component {
                 autoComplete="off"
                 component={RegularTextFieldRedux}
                 className={classes.field}
+                validate={number}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -157,6 +159,7 @@ class ProductForm extends React.Component {
                 placeholder='MINIMUM SELLING PRICE e.g. "23700"'
                 label='MINIMUM SELLING PRICE e.g. "23700"'
                 component={RegularTextFieldRedux}
+                validate={number}
                 autoComplete="off"
                 className={classes.field}
                 InputProps={{
