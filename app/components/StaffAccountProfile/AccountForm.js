@@ -10,9 +10,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Work from '@material-ui/icons/Work';
-import { validate } from '../Forms/helpers/formValidation';
+import { validate, number } from '../Forms/helpers/formValidation';
 import { RegularTextFieldRedux, DatePickerInput, SelectRedux } from '../Forms/ReduxFormMUI';
 import styles from '../Common/style';
+import moment from 'moment'
 
 
 class AccountForm extends React.Component {
@@ -26,8 +27,14 @@ class AccountForm extends React.Component {
   }
 
   componentDidMount = () => {
-    const { staffData } = this.props;
-    this.props.initialize({ staff: staffData._id });
+    const { staffData, paymentMethodData, formValues } = this.props;
+    if (formValues && Object.keys(formValues).length >= 1 && paymentMethodData) {
+      const data = paymentMethodData.filter((item) => item.paymentMethod === formValues.paymentMethod);
+      this.props.initialize({ _id: formValues._id, staff: staffData._id, paymentMethod: data[0]._id, date: formValues.date, amount: formValues.amount, description: formValues.description });
+      this.setState({ date: formValues.date });
+      return;
+    }
+    this.props.initialize({ staff: staffData._id, });
   }
 
   render() {
@@ -40,8 +47,6 @@ class AccountForm extends React.Component {
       handleSubmit
     } = this.props;
     const { date } = this.state;
-
-
     return (
       <div>
         <form onSubmit={handleSubmit}>
@@ -63,6 +68,7 @@ class AccountForm extends React.Component {
                 autoComplete="off"
                 label="Amount"
                 className={classes.field}
+                validate={number}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -136,9 +142,7 @@ const AccountFormRedux = reduxForm({
 })(AccountForm);
 
 const Account = connect(
-  state => ({
-    //initialValues: state.get('account').formValues
-  })
+  null, null
 )(AccountFormRedux);
 
 

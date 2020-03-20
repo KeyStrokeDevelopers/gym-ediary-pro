@@ -8,7 +8,9 @@ import {
   getAccountData,
   submitSalaryData,
   getSalaryData,
+  updateSalaryData,
   addAccountData,
+  editAccountData,
   closeAction,
   deleteAccountData,
   loadingAction,
@@ -20,12 +22,15 @@ import AccountList from '../../../components/StaffAccountProfile/AccountList';
 import Account from '../../../components/StaffAccountProfile/Account';
 import PrintDetail from './printDetail'
 import StyledNotif from '../../../components/Notification/StyledNotif';
+import moment from 'moment';
 
 class AccountProfile extends React.Component {
   state = {
     mobileOpen: false,
     openPrint: false,
-    printData: null
+    printData: null,
+    fromDate: moment(new Date).format('YYYY-MM-DD'),
+    toDate: moment(new Date).format('YYYY-MM-DD')
   };
 
   componentDidMount() {
@@ -41,10 +46,11 @@ class AccountProfile extends React.Component {
 
   submitSalaryData = (data, avatar) => {
     const {
-      submitData, formValue, updateData, loading, staffData
+      submitData, formValues, updateData, loading
     } = this.props;
-    if (Object.keys(formValue).length >= 1) {
-      updateData(data);
+    const { fromDate, toDate } = this.state;
+    if (Object.keys(formValues).length >= 1) {
+      updateData({ data, fromDate, toDate });
     } else {
       loading();
       submitData(data);
@@ -57,6 +63,15 @@ class AccountProfile extends React.Component {
 
   handleClose = () => {
     this.setState({ openPrint: false });
+  }
+
+
+  handleFromDate = (fromDate) => {
+    this.setState({ fromDate })
+  }
+
+  handleToDate = (toDate) => {
+    this.setState({ toDate })
   }
 
 
@@ -74,7 +89,9 @@ class AccountProfile extends React.Component {
       staffData,
       salaryData,
       add, close,
-      paymentMethodData
+      paymentMethodData,
+      formValues,
+      editSalary,
     } = this.props;
     const { openPrint, printData } = this.state;
     const title = brand.name + ' - Email';
@@ -103,7 +120,10 @@ class AccountProfile extends React.Component {
             salaryData={salaryData}
             keyword={keyword}
             fetchSalaryData={fetchSalaryData}
+            setFromDate={this.handleFromDate}
+            setToDate={this.handleToDate}
             handlePrint={this.handlePrint}
+            editSalary={editSalary}
             moveTo={moveTo}
             remove={remove}
             toggleStar={toggleStar}
@@ -112,6 +132,7 @@ class AccountProfile extends React.Component {
             submitData={this.submitSalaryData}
             staffData={staffData}
             paymentMethodData={paymentMethodData}
+            formValues={formValues}
             open={open}
             add={add}
             closeForm={close}
@@ -131,12 +152,12 @@ const mapStateToProps = state => {
     salaryData: accountReducer.salaryList,
     itemSelected: accountReducer.selectedIndex,
     keyword: accountReducer.keywordValue,
+    formValues: accountReducer.formValues,
     open: accountReducer.openFrm,
     showMobileDetail: accountReducer.showMobileDetail,
     messageNotif: accountReducer.notifMsg,
     notifType: accountReducer.notifType,
     openNoti: accountReducer.openNoti,
-    formValue: accountReducer.formValues,
     occupationData: accountReducer.occupation,
     is_active: accountReducer.isActive,
     isLoading: accountReducer.isLoading,
@@ -149,11 +170,13 @@ const mapStateToProps = state => {
 const constDispatchToProps = dispatch => ({
   loading: () => dispatch(loadingAction()),
   add: () => dispatch(addAccountData()),
+  editSalary: (data) => dispatch(editAccountData(data)),
   close: () => dispatch(closeAction()),
   fetchAccountData: (memberId) => dispatch(getAccountData(memberId)),
   submitData: (data) => dispatch(submitSalaryData(data)),
   fetchSalaryData: (data) => dispatch(getSalaryData(data)),
   deleteAccount: (dataId) => dispatch(deleteAccountData(dataId)),
+  updateData: (data) => dispatch(updateSalaryData(data)),
   fetchPaymentMethodData: () => dispatch(getPaymentMethodData()),
   closeNotif: () => dispatch(closeNotifAction()),
 });

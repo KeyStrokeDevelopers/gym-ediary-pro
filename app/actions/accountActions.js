@@ -1,10 +1,10 @@
 import {
   FETCH_ACCOUNT_DATA, SEARCH_ACCOUNT_DATA, EDIT_ACCOUNT_DATA, ADD_ACCOUNT_DATA, SET_ACCOUNT_DETAILS_FIELD,
-  ERROR_ACCOUNT_DATA, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT, SUBMIT_SALARY_DATA, SET_SALARY_DATA, CLOSE_ACCOUNT_NOTIF
+  ERROR_ACCOUNT_DATA, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT, SUBMIT_SALARY_DATA, SET_SALARY_DATA, CLOSE_ACCOUNT_NOTIF, UPDATE_SALARY_DATA
 } from './actionConstants';
 
 import {
-  addAccountApi, getAccountApi, updateAccountDataApi, deleteAccountDataApi, addSalaryApi, getSalaryDataApi
+  addAccountApi, getAccountApi, updateAccountDataApi, deleteAccountDataApi, addSalaryApi, getSalaryDataApi, updateSalaryDataApi
 } from '../api/account';
 
 const fetchAccountData = accountData => ({
@@ -19,6 +19,11 @@ const submitAction = accountData => ({
 
 const submitSalaryAction = salaryData => ({
   type: SUBMIT_SALARY_DATA,
+  payload: salaryData
+});
+
+const updatedSalaryAction = salaryData => ({
+  type: UPDATE_SALARY_DATA,
   payload: salaryData
 });
 
@@ -91,6 +96,14 @@ export const submitSalaryData = (data) => (dispatch) => {
 export const getSalaryData = (data) => (dispatch) => {
   getSalaryDataApi(data).then((response) => {
     dispatch(setSalaryData(response.data));
+  }).catch((err) => {
+    dispatch(errorAccountData(err));
+  });
+};
+
+export const updateSalaryData = (data) => (dispatch) => {
+  updateSalaryDataApi(data).then((response) => {
+    dispatch(updatedSalaryAction(response.data));
   }).catch((err) => {
     dispatch(errorAccountData(err));
   });

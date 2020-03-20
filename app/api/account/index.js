@@ -5,6 +5,8 @@ const addAccountApi = (data) => axios.post(`${API_URL}/account`, data, getConfig
 
 const addSalaryApi = (data) => axios.post(`${API_URL}/account/salary`, data, getConfig());
 
+const updateSalaryDataApi = (data) => axios.post(`${API_URL}/account/editSalary`, data, getConfig());
+
 const getAccountApi = (memberId) => axios.get(`${API_URL}/account/${memberId}`, getConfig());
 
 const getSalaryDataApi = (data) => axios.post(`${API_URL}/account/getSalaryData`, data, getConfig());
@@ -22,5 +24,6 @@ export {
   updateAccountDataApi,
   addSalaryApi,
   deleteAccountDataApi,
-  getSalaryDataApi
+  getSalaryDataApi,
+  updateSalaryDataApi
 };

@@ -21,6 +21,11 @@ class AccountList extends Component {
     selected: [],
     columnData: [
       {
+        id: 'editSalary',
+        disablePadding: true,
+        label: 'Edit'
+      },
+      {
         id: 'date',
         disablePadding: true,
         label: 'Date'
@@ -59,20 +64,20 @@ class AccountList extends Component {
 
 
   handleFromDate = (fromDate) => {
-    const { fetchSalaryData, staffData } = this.props;
+    const { fetchSalaryData, staffData, setFromDate } = this.props;
     const { toDate } = this.state;
     fetchSalaryData({ staff: staffData._id, fromDate, toDate });
     this.setState({ fromDate });
-
+    setFromDate(fromDate);
   }
 
   handleToDate = (toDate) => {
-    const { fetchSalaryData, staffData } = this.props;
+    const { fetchSalaryData, staffData, setToDate } = this.props;
     const { fromDate } = this.state;
     fetchSalaryData({ staff: staffData._id, fromDate, toDate });
     this.setState({ toDate });
+    setToDate(toDate)
   }
-
 
   render() {
     const description = brand.desc;
@@ -90,7 +95,7 @@ class AccountList extends Component {
       toDate,
       title
     } = this.state;
-    const { classes, handlePrint, salaryData } = this.props;
+    const { classes, handlePrint, salaryData, editSalary } = this.props;
     return (
       <div style={{ width: '100%' }}>
         <Helmet>
@@ -133,6 +138,7 @@ class AccountList extends Component {
                 orderBy={orderBy}
                 selected={selected}
                 data={salaryData}
+                editSalary={editSalary}
                 page={page}
                 title={title}
                 rowsPerPage={rowsPerPage}

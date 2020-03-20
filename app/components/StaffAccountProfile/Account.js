@@ -18,6 +18,7 @@ class Account extends React.Component {
       inputChange,
       staffData,
       paymentMethodData,
+      formValues,
       submitData,
       add,
     } = this.props;
@@ -36,14 +37,17 @@ class Account extends React.Component {
           title="Pay Salary"
           extraSize
         >
-          <AccountForm
-            onSubmit={submitData}
-            onDrop={this.onDrop}
-            closeForm={closeForm}
-            staffData={staffData}
-            paymentMethodData={paymentMethodData}
-            inputChange={inputChange}
-          />
+          {paymentMethodData && open ?
+            <AccountForm
+              onSubmit={submitData}
+              onDrop={this.onDrop}
+              closeForm={closeForm}
+              staffData={staffData}
+              paymentMethodData={paymentMethodData}
+              formValues={formValues}
+              inputChange={inputChange}
+            /> : ''
+          }
         </FloatingPanel>
       </div>
     );

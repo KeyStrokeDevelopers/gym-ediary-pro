@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
-  FETCH_ACCOUNT_DATA, SEARCH_ACCOUNT_DATA, EDIT_ACCOUNT_DATA, ADD_ACCOUNT_DATA, SET_ACCOUNT_DETAILS_FIELD, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT, SUBMIT_SALARY_DATA, SET_SALARY_DATA, CLOSE_ACCOUNT_NOTIF, ERROR_ACCOUNT_DATA
+  FETCH_ACCOUNT_DATA, SEARCH_ACCOUNT_DATA, EDIT_ACCOUNT_DATA, ADD_ACCOUNT_DATA, SET_ACCOUNT_DETAILS_FIELD, SHOW_DETAIL_ACCOUNT, HIDE_DETAIL_ACCOUNT, SUBMIT_ACCOUNT_DATA, CLOSE_ACCOUNT_FORM, LOADING_ACTION_ACCOUNT, SUBMIT_SALARY_DATA, SET_SALARY_DATA, CLOSE_ACCOUNT_NOTIF, ERROR_ACCOUNT_DATA, UPDATE_SALARY_DATA
 } from '../../actions/actionConstants';
 
 
@@ -33,6 +33,18 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0
+      };
+    case UPDATE_SALARY_DATA:
+      return {
+        ...state,
+        openFrm: false,
+        formValues: {},
+        avatarInit: '',
+        salaryList: action.payload,
+        notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true,
+        isLoading: false
       };
     case SEARCH_ACCOUNT_DATA:
       return {
@@ -107,7 +119,10 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
-        isLoading: false
+        isLoading: false,
+        notifMsg: notifM.saved,
+        notifType: notifT.success,
+        openNoti: true,
       };
     }
 

@@ -16,6 +16,7 @@ import Radio from '@material-ui/core/Radio';
 import EnhancedTableToolbar from './tableParts/TableToolbar';
 import EnhancedTableHead from './tableParts/TableHeader';
 import PrintIcon from '@material-ui/icons/Print';
+import Button from '@material-ui/core/Button';
 
 const RadioButton = withStyles({
   root: {
@@ -198,7 +199,7 @@ class AdvTable extends React.Component {
     } = this.state;
 
     const {
-      columnData, paymentMethodData, title, checkbox, attendance, wished, handleCall, toggleChange, editPurchaseData, editSaleData, handlePrint
+      columnData, paymentMethodData, title, checkbox, attendance, wished, handleCall, toggleChange, editPurchaseData, editSaleData, handlePrint, editSalary
     } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - (page * rowsPerPage));
 
@@ -344,6 +345,12 @@ class AdvTable extends React.Component {
             <PrintIcon onClick={() => handlePrint(dataArray)} color="secondary" style={{ cursor: 'pointer' }} />
           );
         }
+      } else if (itemCell.id === 'editSalary') {
+        cellValue = (
+          <Button variant="contained" color="primary" type="button" onClick={() => editSalary(dataArray)}>
+            Edit
+          </Button>
+        );
       } else {
         cellValue = dataArray[itemCell.id];
       }
