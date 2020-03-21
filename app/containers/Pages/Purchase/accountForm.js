@@ -297,7 +297,9 @@ class AccountForm extends Component {
 
 const mapStateToProps = state => {
   const purchase = state.get('purchase');
+  const gymInfo = state.get('signIn').gymInfo;
   let initObj = {};
+  initObj.state = gymInfo.branchState;
   if (Object.keys(purchase.formValues).length >= 1) {
     initObj = purchase.formValues.accountData;
     initObj.date = purchase.formValues.date;
