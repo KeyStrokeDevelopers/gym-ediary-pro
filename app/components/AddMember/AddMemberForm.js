@@ -126,11 +126,12 @@ class AddMemberForm extends React.Component {
     const { selectedPackPrice, regFee, packDisc, gstPer } = this.state;
     const payable = selectedPackPrice + regFee - packDisc;
     const gstValue = Math.round(payable * gstPer / 100)
-    const { onSubmit } = this.props;
+    const { onSubmit, reset } = this.props;
     let submitData = data.set('packPrice', selectedPackPrice);
     submitData = submitData.set('gstValue', gstValue);
     submitData = submitData.set('gstPer', gstPer);
     onSubmit(submitData);
+    reset();
   }
 
   render() {

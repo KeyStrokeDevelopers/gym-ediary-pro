@@ -76,42 +76,21 @@ class EnquiryDetail extends React.Component {
     this.setState({ open: false });
   }
 
-  stringToDate = (_date, _format, _delimiter) => {
-    const formatLowerCase = _format.toLowerCase();
-    const formatItems = formatLowerCase.split(_delimiter);
-    const dateItems = _date.split(_delimiter);
-    const monthIndex = formatItems.indexOf('mm');
-    const dayIndex = formatItems.indexOf('dd');
-    const yearIndex = formatItems.indexOf('yyyy');
-    let month = parseInt(dateItems[monthIndex]);
-    month -= 1;
-    const formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
-    return formatedDate;
-  }
-
   sortByFollowUpDate = (a, b) => {
-    const first = this.stringToDate(a.followUpDate, 'dd/MM/yyyy', '/');
-    const second = this.stringToDate(b.followUpDate, 'dd/MM/yyyy', '/');
-    const firstDate = Date.parse(first);
-    const secondDate = Date.parse(second);
-    if (firstDate > secondDate) {
+    if (a.followUpDate > b.followUpDate) {
       return -1;
     }
-    if (firstDate < secondDate) {
+    if (a.followUpDate < b.followUpDate) {
       return 1;
     }
     return 0;
   }
 
   sortByEnquiryDate = (a, b) => {
-    const first = this.stringToDate(a.enqDate, 'dd/MM/yyyy', '/');
-    const second = this.stringToDate(b.enqDate, 'dd/MM/yyyy', '/');
-    const firstDate = Date.parse(first);
-    const secondDate = Date.parse(second);
-    if (firstDate > secondDate) {
+    if (a.enqDate > b.enqDate) {
       return -1;
     }
-    if (firstDate < secondDate) {
+    if (a.enqDate < b.enqDate) {
       return 1;
     }
     return 0;
@@ -123,10 +102,10 @@ class EnquiryDetail extends React.Component {
       enquiryData,
       itemSelected,
       edit,
-      favorite,
       showMobileDetail,
-      fromToDate,
-      isFollowUp,
+      dateFrom,
+      dateTo,
+      is_active,
       hideDetail,
     } = this.props;
     const { anchorElOpt, open } = this.state;
@@ -134,21 +113,16 @@ class EnquiryDetail extends React.Component {
 
     let enquiryDataView;
 
-    if (fromToDate.dateFrom && fromToDate.dateTo && enquiryData && enquiryData.length >= 1) {
-      enquiryDataView = enquiryData.filter(item => ((Date.parse(this.stringToDate(new Date(item.enqDate).toLocaleDateString(), 'dd/MM/yyyy', '/'))) <= fromToDate.dateTo)
-        && ((Date.parse(this.stringToDate(new Date(item.enqDate).toLocaleDateString(), 'dd/MM/yyyy', '/'))) >= fromToDate.dateFrom));
-    }
-
-    if (!enquiryDataView && !fromToDate.dateTo) {
-      enquiryDataView = enquiryData;
+    if (enquiryData && enquiryData.length >= 1) {
+      enquiryDataView = enquiryData.filter(item => item.enqDate <= dateTo && item.enqDate >= dateFrom);
     }
 
     if (enquiryDataView && enquiryDataView.length >= 1) {
-      viewEnquiryData = isFollowUp ? enquiryDataView.filter(item => item.followUp) : enquiryDataView;
+      viewEnquiryData = is_active ? enquiryDataView.filter(item => item.followUp) : enquiryDataView;
     }
 
     if (viewEnquiryData && viewEnquiryData.length >= 1) {
-      isFollowUp ? viewEnquiryData.sort(this.sortByFollowUpDate) : viewEnquiryData.sort(this.sortByEnquiryDate);
+      is_active ? viewEnquiryData.sort(this.sortByFollowUpDate) : viewEnquiryData.sort(this.sortByEnquiryDate);
     }
 
 
@@ -368,18 +342,22 @@ class EnquiryDetail extends React.Component {
                         <Work />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={viewEnquiryData[itemSelected].followUp} secondary="FOLLOW UP" />
+                    <ListItemText primary={viewEnquiryData[itemSelected].followUp ? 'Yes' : 'No'} secondary="FOLLOW UP" />
                   </ListItem>
                   <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewEnquiryData[itemSelected].followUpDate} secondary="FOLLOW UP DATE" />
-                  </ListItem>
-                  <Divider variant="inset" />
+                  {viewEnquiryData[itemSelected].followUpDate &&
+                    <>
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar className={classes.amberIcon}>
+                            <Work />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={new Date(viewEnquiryData[itemSelected].followUpDate).toLocaleDateString()} secondary="FOLLOW UP DATE" />
+                      </ListItem>
+                      <Divider variant="inset" />
+                    </>
+                  }
                   <ListItem>
                     <ListItemAvatar>
                       <Avatar className={classes.amberIcon}>

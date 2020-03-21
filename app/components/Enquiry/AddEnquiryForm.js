@@ -45,6 +45,12 @@ class AddEnquiryForm extends React.Component {
     this.setState({ followUpDate: date });
   }
 
+  handleSubmitData = (data) => {
+    const { onSubmit, reset } = this.props
+    onSubmit(data);
+    reset();
+  }
+
   render() {
     const {
       classes,
@@ -59,7 +65,7 @@ class AddEnquiryForm extends React.Component {
     const { age, dob, followUpDate } = this.state;
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleSubmitData)}>
           <section className={css.bodyForm}>
             <div>
               <Field

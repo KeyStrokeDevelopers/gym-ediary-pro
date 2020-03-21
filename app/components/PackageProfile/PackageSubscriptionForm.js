@@ -66,13 +66,14 @@ class PackageSubscriptionForm extends React.Component {
 
   handleSubmitData = (data) => {
     const { selectedPackPrice, packDisc, gstPer } = this.state;
-    const { onSubmit } = this.props;
+    const { onSubmit, reset } = this.props;
     const total = selectedPackPrice - packDisc;
     const gstValue = Math.round(total * gstPer / 100);
     let submitData = data.set('packPrice', selectedPackPrice);
     submitData = submitData.set('gstValue', gstValue);
     submitData = submitData.set('gstPer', gstPer);
     onSubmit(submitData);
+    reset();
   }
 
   render() {

@@ -50,6 +50,12 @@ class AddClassForm extends React.Component {
     this.setState({ classTo });
   }
 
+  handleSubmitData = (data) => {
+    const { onSubmit, reset } = this.props
+    onSubmit(data);
+    reset();
+  }
+
   render() {
     const {
       classes,
@@ -62,7 +68,7 @@ class AddClassForm extends React.Component {
     const { durationIn, classTo, classFrom } = this.state;
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleSubmitData)}>
           <section className={css.bodyForm}>
             <div>
               <Field

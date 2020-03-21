@@ -3,7 +3,7 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_ENQUIRY_DATA, SEARCH_ENQUIRY_DATA, EDIT_ENQUIRY_DATA, ADD_ENQUIRY_DATA, SET_ENQUIRY_DETAILS_FIELD,
-  SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, HANDLE_FROM_TO_FILTER, CLOSE_ENQUIRY_NOTIF, ERROR_ENQUIRY_DATA, UPDATE_ENQUIRY_DATA
+  SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, CLOSE_ENQUIRY_NOTIF, ERROR_ENQUIRY_DATA, UPDATE_ENQUIRY_DATA
 } from '../../actions/actionConstants';
 
 
@@ -21,7 +21,8 @@ const initialState = {
   openNoti: true,
   isActive: true,
   isLoading: false,
-  fromToDate: {}
+  dateFrom: '',
+  dateTo: ''
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -107,9 +108,10 @@ export default function reducer(state = initialState, action = {}) {
     case SET_ENQUIRY_DETAILS_FIELD: {
       return {
         ...state,
-        isActive: action.payload,
+        isActive: action.payload.is_active,
+        dateFrom: action.payload.dateFrom,
+        dateTo: action.payload.dateTo,
         selectedIndex: 0
-
       };
     }
 
@@ -117,13 +119,6 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         showMobileDetail: false
-      };
-    }
-
-    case HANDLE_FROM_TO_FILTER: {
-      return {
-        ...state,
-        fromToDate: action.payload
       };
     }
 

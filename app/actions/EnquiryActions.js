@@ -1,6 +1,6 @@
 import {
   FETCH_ENQUIRY_DATA, SEARCH_ENQUIRY_DATA, EDIT_ENQUIRY_DATA, ADD_ENQUIRY_DATA, SET_ENQUIRY_DETAILS_FIELD,
-  ERROR_ENQUIRY_DATA, SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, HANDLE_FROM_TO_FILTER, CLOSE_ENQUIRY_NOTIF, UPDATE_ENQUIRY_DATA,
+  ERROR_ENQUIRY_DATA, SHOW_DETAIL_ENQUIRY, HIDE_DETAIL_ENQUIRY, SUBMIT_ENQUIRY_DATA, CLOSE_ENQUIRY_FORM, LOADING_ACTION_ENQUIRY, CLOSE_ENQUIRY_NOTIF, UPDATE_ENQUIRY_DATA,
 } from './actionConstants';
 import {
   addEnquiryApi, getEnquiryApi, updateEnquiryDataApi, deleteEnquiryDataApi
@@ -23,11 +23,6 @@ const submitAction = (enquiryData) => ({
 
 export const addEnquiryData = () => ({
   type: ADD_ENQUIRY_DATA
-});
-
-export const dateFromTo = (date) => ({
-  type: HANDLE_FROM_TO_FILTER,
-  payload: date
 });
 
 export const closeAction = () => ({

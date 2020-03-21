@@ -19,69 +19,60 @@ import Add from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import { DatePickerInput } from '../Forms/ReduxFormMUI';
 import styles from './enquiry-jss';
+import moment from 'moment';
 
 class EnquiryDataList extends React.Component {
   state = {
     filter: 1,
-    dateFrom: null,
-    dateTo: null
+    dateFrom: moment(new Date()).format('YYYY-MM-DD'),
+    dateTo: moment(new Date()).format('YYYY-MM-DD')
   };
+
+  componentDidMount = () => {
+    const { isActive } = this.props;
+    const { dateFrom, dateTo } = this.state;
+    isActive({ is_active: true, dateFrom, dateTo });
+  }
 
   handleChange = (event, value) => {
     this.setState({ filter: value });
     const is_active = value === 1;
     const { isActive } = this.props;
-    isActive(is_active);
+    const { dateFrom, dateTo } = this.state;
+    isActive({ is_active, dateFrom, dateTo });
   };
 
   handleDateFrom = (e, date) => {
-    const fromDate = this.stringToDate(date.format('DD/MM/YYYY'), 'dd/MM/yyyy', '/');
-    this.setState({ dateFrom: Date.parse(fromDate) });
+    const { isActive, is_active } = this.props;
+    const { dateTo } = this.state;
+    const dateFrom = moment(new Date(date)).format('YYYY-MM-DD');
+    this.setState({ dateFrom });
+    isActive({ is_active, dateFrom, dateTo });
   }
 
   handleDateTo = (e, date) => {
-    const toDate = this.stringToDate(date.format('DD/MM/YYYY'), 'dd/MM/yyyy', '/');
+    const { isActive, is_active } = this.props;
     const { dateFrom } = this.state;
-    this.props.dateFromTo({ dateFrom, dateTo: Date.parse(toDate) });
-    this.setState({ dateTo: Date.parse(toDate) });
-  }
-
-  stringToDate = (_date, _format, _delimiter) => {
-    const formatLowerCase = _format.toLowerCase();
-    const formatItems = formatLowerCase.split(_delimiter);
-    const dateItems = _date.split(_delimiter);
-    const monthIndex = formatItems.indexOf('mm');
-    const dayIndex = formatItems.indexOf('dd');
-    const yearIndex = formatItems.indexOf('yyyy');
-    let month = parseInt(dateItems[monthIndex]);
-    month -= 1;
-    const formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
-    return formatedDate;
+    const dateTo = moment(new Date(date)).format('YYYY-MM-DD');
+    this.setState({ dateTo });
+    isActive({ is_active, dateFrom, dateTo });
   }
 
   sortByFollowUpDate = (a, b) => {
-    const first = this.stringToDate(a.followUpDate, 'dd/MM/yyyy', '/');
-    const second = this.stringToDate(b.followUpDate, 'dd/MM/yyyy', '/');
-    const firstDate = Date.parse(first);
-    const secondDate = Date.parse(second);
-    if (firstDate > secondDate) {
+    if (a.followUpDate > b.followUpDate) {
       return -1;
     }
-    if (firstDate < secondDate) {
+    if (a.followUpDate < b.followUpDate) {
       return 1;
     }
     return 0;
   }
 
   sortByEnquiryDate = (a, b) => {
-    const first = this.stringToDate(a.enqDate, 'dd/MM/yyyy', '/');
-    const second = this.stringToDate(b.enqDate, 'dd/MM/yyyy', '/');
-    const firstDate = Date.parse(first);
-    const secondDate = Date.parse(second);
-    if (firstDate > secondDate) {
+    if (a.enqDate > b.enqDate) {
       return -1;
     }
-    if (firstDate < secondDate) {
+    if (a.enqDate < b.enqDate) {
       return 1;
     }
     return 0;
@@ -97,26 +88,22 @@ class EnquiryDataList extends React.Component {
       keyword,
       clippedRight,
       addEnquiryData,
-      isFollowUp,
+      is_active,
       addFn
     } = this.props;
     const { filter, dateFrom, dateTo } = this.state;
     let enquiryData;
     let enquiryDataView;
-    if (dateFrom && dateTo && enquiryDataList && enquiryDataList.length >= 1) {
-      enquiryDataView = enquiryDataList.filter(item => ((Date.parse(this.stringToDate(new Date(item.enqDate).toLocaleDateString(), 'dd/MM/yyyy', '/'))) <= dateTo)
-        && ((Date.parse(this.stringToDate(new Date(item.enqDate).toLocaleDateString(), 'dd/MM/yyyy', '/'))) >= dateFrom));
-    }
-    if (!enquiryDataView && !dateTo) {
-      enquiryDataView = enquiryDataList;
+    if (enquiryDataList && enquiryDataList.length >= 1) {
+      enquiryDataView = enquiryDataList.filter(item => item.enqDate <= dateTo && item.enqDate >= dateFrom);
     }
 
     if (enquiryDataView && enquiryDataView.length >= 1) {
-      enquiryData = isFollowUp ? enquiryDataView.filter(item => item.followUp) : enquiryDataView;
+      enquiryData = is_active ? enquiryDataView.filter(item => item.followUp) : enquiryDataView;
     }
 
     if (enquiryData && enquiryData.length >= 1) {
-      isFollowUp ? enquiryData.sort(this.sortByFollowUpDate) : enquiryData.sort(this.sortByEnquiryDate);
+      is_active ? enquiryData.sort(this.sortByFollowUpDate) : enquiryData.sort(this.sortByEnquiryDate);
     }
 
 

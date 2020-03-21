@@ -65,7 +65,7 @@ class ClassSubscriptionForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
-    const { onSubmit, } = this.props;
+    const { onSubmit, reset } = this.props;
     const { selectedClassPrice, classDisc, gstPer } = this.state;
     const total = selectedClassPrice - classDisc;
     const gstValue = Math.round(total * gstPer / 100);
@@ -73,6 +73,7 @@ class ClassSubscriptionForm extends React.Component {
     submitData = submitData.set('gstValue', gstValue);
     submitData = submitData.set('gstPer', gstPer);
     onSubmit(submitData);
+    reset();
   }
 
   render() {

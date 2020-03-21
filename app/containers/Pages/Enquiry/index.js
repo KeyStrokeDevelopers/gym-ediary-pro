@@ -52,11 +52,6 @@ class Enquiry extends React.Component {
     }
   }
 
-  handleDateFromToFilter = (date) => {
-    const { dateFromTo } = this.props;
-    dateFromTo(date);
-  }
-
   render() {
     const title = brand.name + ' - Contact';
     const description = brand.desc;
@@ -88,7 +83,8 @@ class Enquiry extends React.Component {
       closeNotif,
       deleteEnquiryData,
       isLoading,
-      fromToDate
+      dateFrom,
+      dateTo
     } = this.props;
     return (
       <div>
@@ -111,9 +107,8 @@ class Enquiry extends React.Component {
             enquiryDataList={enquiryData}
             isActive={isActive}
             showDetail={showDetail}
-            dateFromTo={this.handleDateFromToFilter}
             search={search}
-            isFollowUp={is_active}
+            is_active={is_active}
             keyword={keyword}
           />
           <EnquiryDetail
@@ -123,8 +118,9 @@ class Enquiry extends React.Component {
             deleteEnquiryData={deleteEnquiryData}
             itemSelected={itemSelected}
             edit={edit}
-            isFollowUp={is_active}
-            fromToDate={fromToDate}
+            is_active={is_active}
+            dateFrom={dateFrom}
+            dateTo={dateTo}
             remove={remove}
             favorite={favorite}
           />
@@ -166,6 +162,8 @@ const mapStateToProps = state => {
     openNoti: enquiryReducer.openNoti,
     formValue: enquiryReducer.formValues,
     is_active: enquiryReducer.isActive,
+    dateFrom: enquiryReducer.dateFrom,
+    dateTo: enquiryReducer.dateTo,
     isLoading: enquiryReducer.isLoading,
     purposeData: purposeReducer.purposeList,
     packageData: packageReducer.packageList,

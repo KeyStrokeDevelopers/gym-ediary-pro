@@ -15,6 +15,13 @@ import { validate } from '../Forms/helpers/formValidation';
 import { RegularTextFieldRedux, SelectRedux } from '../Forms/ReduxFormMUI';
 
 class ProductTypeForm extends React.Component {
+
+  handleSubmitData = (data) => {
+    const { onSubmit, reset } = this.props
+    onSubmit(data);
+    reset();
+  }
+
   render() {
     const {
       classes,
@@ -26,7 +33,7 @@ class ProductTypeForm extends React.Component {
 
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleSubmitData)}>
           <section className={css.bodyForm}>
             <div>
               <FormControl className={classes.field}>

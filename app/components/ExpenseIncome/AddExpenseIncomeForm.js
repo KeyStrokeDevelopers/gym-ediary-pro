@@ -40,6 +40,12 @@ class AddExpenseIncomeForm extends React.Component {
     this.setState({ date });
   }
 
+  handleSubmitData = (data) => {
+    const { onSubmit, reset } = this.props
+    onSubmit(data);
+    reset();
+  }
+
   render() {
     const {
       classes,
@@ -59,7 +65,7 @@ class AddExpenseIncomeForm extends React.Component {
 
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleSubmitData)}>
           <section className={css.bodyForm}>
             <div>
               <FormControl className={classes.field} style={{ width: '100%' }}>

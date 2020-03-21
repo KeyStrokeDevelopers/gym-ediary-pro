@@ -12,6 +12,13 @@ import { validate } from '../Forms/helpers/formValidation';
 import styles from './contact-jss';
 
 class AddPaymentMethodForm extends React.Component {
+
+  handleSubmitData = (data) => {
+    const { onSubmit, reset } = this.props
+    onSubmit(data);
+    reset();
+  }
+
   render() {
     const {
       classes,
@@ -22,7 +29,7 @@ class AddPaymentMethodForm extends React.Component {
     } = this.props;
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleSubmitData)}>
           <section className={css.bodyForm}>
             <div>
               <Field

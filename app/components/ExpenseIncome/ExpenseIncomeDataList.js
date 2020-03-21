@@ -65,13 +65,10 @@ class ExpenseIncomeDataList extends React.Component {
       addFn, total
     } = this.props;
     const { filter, filterType } = this.state;
-    console.log('payment type -----', paymentType)
-    console.log('is_active ----', is_active)
     let expenseIncomeData;
     if (expenseIncomeDataList && expenseIncomeDataList.length >= 1) {
       expenseIncomeData = is_active ? expenseIncomeDataList.filter(item => item.status === 1 && item.paymentType === paymentType) : expenseIncomeDataList.filter(item => item.status === 0 && item.paymentType === paymentType);
     }
-    console.log('expenseIncomeData==---', expenseIncomeData)
     const getItem = dataArray => dataArray.map((data, ind) => {
       const index = expenseIncomeData.indexOf(data);
       if (data.paymentMethod['paymentMethod'].toLowerCase().indexOf(keyword) === -1) {

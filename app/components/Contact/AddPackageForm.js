@@ -31,6 +31,12 @@ class AddPackageForm extends React.Component {
     this.setState({ durationIn: duration });
   }
 
+  handleSubmitData = (data) => {
+    const { onSubmit, reset } = this.props
+    onSubmit(data);
+    reset();
+  }
+
   render() {
     const {
       classes,
@@ -42,7 +48,7 @@ class AddPackageForm extends React.Component {
     const { durationIn } = this.state;
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleSubmitData)}>
           <section className={css.bodyForm}>
             <div>
               <Field

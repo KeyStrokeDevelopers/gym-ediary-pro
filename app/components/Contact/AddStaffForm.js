@@ -125,9 +125,10 @@ class AddStaffForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
-    const { onSubmit, numberOfShift } = this.props;
+    const { onSubmit, numberOfShift, reset } = this.props;
     const submitData = data.set('numberOfShift', numberOfShift);
     onSubmit(submitData);
+    reset();
   }
 
   render() {

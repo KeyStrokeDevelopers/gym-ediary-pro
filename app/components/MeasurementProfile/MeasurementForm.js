@@ -60,6 +60,13 @@ class MeasurementForm extends React.Component {
     );
   }
 
+
+  handleSubmitData = (data) => {
+    const { onSubmit, reset } = this.props
+    onSubmit(data);
+    reset();
+  }
+
   render() {
     const {
       classes,
@@ -71,7 +78,7 @@ class MeasurementForm extends React.Component {
     const { measurementDate } = this.state;
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleSubmitData)}>
           <section className={css.bodyForm}>
             <div className={classes.picker}>
               <Field

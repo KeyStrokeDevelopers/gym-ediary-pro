@@ -37,6 +37,12 @@ class AccountForm extends React.Component {
     this.props.initialize({ staff: staffData._id, });
   }
 
+  handleSubmitData = (data) => {
+    const { onSubmit, reset } = this.props
+    onSubmit(data);
+    reset();
+  }
+
   render() {
     const {
       classes,
@@ -49,7 +55,7 @@ class AccountForm extends React.Component {
     const { date } = this.state;
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleSubmitData)}>
           <section className={css.bodyForm}>
             <div className={classes.picker}>
               <Field
