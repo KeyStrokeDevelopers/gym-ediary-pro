@@ -114,6 +114,7 @@ export const closeNotifAction = () => ({
 });
 
 export const submitPurchaseData = (data) => (dispatch) => {
+  console.log('purdata   submit purchase data hit ---***---', data);
   addPurchaseApi(data).then((response) => {
     dispatch(submitAction(response.data));
   }).catch((err) => {

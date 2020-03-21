@@ -6,6 +6,7 @@ class BillInfo extends Component {
   render() {
     const { cartData, gymInfoData
     } = this.props;
+    console.log('gym info data=---', gymInfoData)
     let taxableAmount = 0;
     let totalDiscount = 0;
     let gstValue = 0;
@@ -35,8 +36,8 @@ class BillInfo extends Component {
 
     let gstLabel = '';
     let gymInfoState;
-    if (gymInfoData && gymInfoData.length >= 1) {
-      gymInfoState = gymInfoData[0].branchState;
+    if (gymInfoData && Object.keys(gymInfoData).length >= 1) {
+      gymInfoState = gymInfoData.branchState;
       if (gymInfoState === 'Chandigarh' || gymInfoState === 'Dadra and Nagar Haveli' || gymInfoState === 'Lakshadweep' || gymInfoState === 'Daman and Diu' || gymInfoState === 'Puducherry' || gymInfoState === 'Delhi' || gymInfoState === 'Andaman and Nicobar Islands') {
         gstLabel = 'UGST';
       }
@@ -156,13 +157,14 @@ class BillInfo extends Component {
 
 const mapStateToProps = state => {
   const purchaseReducer = state.get('purchase');
+  const signReducer = state.get('signIn');
   return ({
     billData: purchaseReducer.billInfoData,
     cartData: purchaseReducer.cartList,
     accountData: purchaseReducer.accountData,
     discount: purchaseReducer.discount,
     discountInValue: purchaseReducer.discountInValue,
-    gymInfoData: purchaseReducer.gymInfoData
+    gymInfoData: signReducer.gymInfo
   });
 };
 

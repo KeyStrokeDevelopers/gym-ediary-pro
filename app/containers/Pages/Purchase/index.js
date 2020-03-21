@@ -136,6 +136,8 @@ class Checkout extends React.Component {
     purchaseRecord.orderSummary = cartList;
     purchaseRecord.accountInfo = billInfoData;
 
+    console.log('isPurchaseSubmited------', isPurchaseSubmited)
+
     return (
       <Fragment>
         <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />

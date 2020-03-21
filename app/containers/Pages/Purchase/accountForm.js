@@ -31,11 +31,13 @@ class AccountForm extends Component {
   componentDidMount = () => {
     const { accountInfo, initObj } = this.props;
     if (Object.keys(accountInfo).length >= 1) {
+      accountInfo.date = this.state.date;
       this.props.initialize(accountInfo);
       const dob = accountInfo.get('dobWish');
       const anniversary = accountInfo.get('anniversaryWish');
       this.setState({ dob, anniversary });
     } else if (Object.keys(initObj).length >= 1) {
+      initObj.date = this.state.date;
       this.props.initialize(initObj);
       const dob = initObj.dobWish;
       const anniversary = initObj.anniversaryWish;

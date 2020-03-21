@@ -12,6 +12,7 @@ const validate = values => {
     // Category Form Field
     'categoryType',
     'category',
+    'state',
 
     // Package Form Field
     'packName',
