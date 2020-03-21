@@ -87,7 +87,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     case EDIT_STAFF_DATA: {
       const formValue = {
-        accessLevel: action.payload.accessLevel._id, staffName: action.payload.staffName, staffAddress: action.payload.staffAddress, staffEmail: action.payload.staffEmail, staffContact: action.payload.staffContact, staffDob: action.payload.staffDob, salaryDate: action.payload.salaryDate, staffJoiningDate: action.payload.staffJoiningDate, staffCode: action.payload.staffCode
+        accessLevel: action.payload.accessLevel._id, staffName: action.payload.staffName, staffAddress: action.payload.staffAddress, staffEmail: action.payload.staffEmail, staffContact: action.payload.staffContact, staffDob: action.payload.staffDob, salaryDate: action.payload.salaryDate, staffJoiningDate: action.payload.staffJoiningDate, staffCode: action.payload.staffCode, _id: state.staffList[state.selectedIndex]._id
       };
       return {
         ...state,

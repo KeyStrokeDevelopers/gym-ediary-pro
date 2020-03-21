@@ -139,8 +139,9 @@ export const TimePickerInput = ({
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <TimePicker
           label={label}
-          {...input}
+          // {...input}
           {...reset}
+          onChange={(value) => input.onChange(value.valueOf())}
           value={timeValue}
           style={{ width: '100%' }}
           error={touched && Boolean(error)}

@@ -56,7 +56,8 @@ class AddStaffForm extends React.Component {
   componentDidUpdate = () => {
     const { formValues } = this.props;
     if (formValues !== this.state.formValues) {
-      this.setState({ formValues: formValues, dob: formValues.staffDob, salaryDate: formValues.salaryDate, joiningDate: formValues.staffJoiningDate })
+      this.setState({ formValues: formValues, dob: formValues.staffDob, salaryDate: formValues.salaryDate, joiningDate: formValues.staffJoiningDate, shiftFrom1: formValues.shiftFrom1, shiftFrom2: formValues.shiftFrom2, shiftFrom3: formValues.shiftFrom3, shiftTo1: formValues.shiftTo1, shiftTo2: formValues.shiftTo2, shiftTo3: formValues.shiftTo3 });
+      this.props.initialize(formValues);
     }
   }
 
@@ -144,7 +145,7 @@ class AddStaffForm extends React.Component {
       imgAvatar
     } = this.props;
     const {
-      showPassword, joiningDate, dob, salaryDate, deleteImage, editImage, numberOfShift, shiftFrom1, shiftTo1, shiftFrom2, shiftTo2, shiftFrom3, shiftTo3
+      showPassword, joiningDate, dob, salaryDate, numberOfShift, shiftFrom1, shiftTo1, shiftFrom2, shiftTo2, shiftFrom3, shiftTo3
     } = this.state;
     let dropzoneRef;
     const acceptedFiles = ['image/jpeg', 'image/png', 'image/bmp'];
@@ -155,7 +156,6 @@ class AddStaffForm extends React.Component {
       imageUrl = `${SERVER_URL}${isImageSave}`;
     }
     const imgPreview = img => {
-      console.log('img----', img)
       if (typeof img !== 'string' && img !== '' && img) {
         return URL.createObjectURL(imgAvatar);
       }
@@ -494,11 +494,7 @@ const AddStaffFormRedux = reduxForm({
   keepDirtyOnReinitialize: true
 })(AddStaffForm);
 
-const AddStaffInit = connect(
-  state => ({
-    initialValues: state.get('staff').formValues
-  })
-)(AddStaffFormRedux);
+const AddStaffInit = connect(null, null)(AddStaffFormRedux);
 
 
 export default withStyles(styles)(AddStaffInit);
