@@ -498,9 +498,11 @@ const GymInfoFormRedux = reduxForm({
   keepDirtyOnReinitialize: true
 })(GymInfoForm);
 
-const mapStateToProps = (state) => ({
-  initialValues: state.get('addMember').gymInfo,
-});
+const mapStateToProps = (state) => {
+  return ({
+    initialValues: state.get('addMember').gymInfo,
+  });
+}
 
 const GymInfoInit = connect(
   mapStateToProps
