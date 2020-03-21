@@ -1,5 +1,6 @@
 import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
+import { SERVER_URL } from '../../components/Common/constant';
 import {
   FETCH_STAFF_DATA, SEARCH_STAFF_DATA, EDIT_STAFF_DATA, ADD_STAFF_DATA, SET_STAFF_DETAILS_FIELD, FETCH_ACCESS_DATA,
   SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA, CLOSE_STAFF_NOTIF, ERROR_STAFF_DATA, MARK_STAFF_ATTENDANCE, UPDATED_STAFF_DATA
@@ -84,15 +85,20 @@ export default function reducer(state = initialState, action = {}) {
         keywordValue: action.payload.toLowerCase(),
         isLoading: false
       };
-    case EDIT_STAFF_DATA:
+    case EDIT_STAFF_DATA: {
+      const formValue = {
+        accessLevel: action.payload.accessLevel._id, staffName: action.payload.staffName, staffAddress: action.payload.staffAddress, staffEmail: action.payload.staffEmail, staffContact: action.payload.staffContact, staffDob: action.payload.staffDob, salaryDate: action.payload.salaryDate, staffJoiningDate: action.payload.staffJoiningDate, staffCode: action.payload.staffCode
+      };
       return {
         ...state,
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
-        formValues: action.payload,
-        isLoading: false
+        formValues: formValue,
+        isLoading: false,
+        avatarInit: action.payload.staffImage ? `${SERVER_URL}${action.payload.staffImage}` : ''
         // .set('avatarInit', action.item.get('avatar'));
       };
+    }
     case ADD_STAFF_DATA:
       return {
         ...state,

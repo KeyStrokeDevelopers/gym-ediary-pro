@@ -50,7 +50,15 @@ class AddStaffForm extends React.Component {
     shiftTo2: null,
     shiftFrom3: null,
     shiftTo3: null,
+    formValues: {}
   };
+
+  componentDidUpdate = () => {
+    const { formValues } = this.props;
+    if (formValues !== this.state.formValues) {
+      this.setState({ formValues: formValues, dob: formValues.staffDob, salaryDate: formValues.salaryDate, joiningDate: formValues.staffJoiningDate })
+    }
+  }
 
   handleClickShowPassword = () => {
     const { showPassword } = this.state;
@@ -147,16 +155,8 @@ class AddStaffForm extends React.Component {
       imageUrl = `${SERVER_URL}${isImageSave}`;
     }
     const imgPreview = img => {
-      if (deleteImage && !imageUrl) {
-        return null;
-      }
-      if (deleteImage && imageUrl) {
-        return imageUrl;
-      }
-      if (imageUrl && !editImage) {
-        return imageUrl;
-      }
-      if (typeof img !== 'string' && img !== '') {
+      console.log('img----', img)
+      if (typeof img !== 'string' && img !== '' && img) {
         return URL.createObjectURL(imgAvatar);
       }
       return img;

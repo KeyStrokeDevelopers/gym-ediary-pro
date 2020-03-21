@@ -18,10 +18,12 @@ class AddContact extends React.Component {
     super(props);
     this.state = {
       img: null,
-      files: []
+      files: [],
+      hitDelete: false
     };
     this.onDrop = this.onDrop.bind(this);
   }
+
 
   onDrop(filesVal) {
     const { files } = this.state;
@@ -31,12 +33,12 @@ class AddContact extends React.Component {
     if (oldFiles.length > filesLimit) {
       console.log('Cannot upload more than ' + filesLimit + ' items.');
     } else {
-      this.setState({ img: filesVal[0] });
+      this.setState({ img: filesVal[0], hitDelete: false });
     }
   }
 
   handleDeleteImdage = () => {
-    this.setState({ files: [], img: null });
+    this.setState({ files: [], img: null, hitDelete: true });
   }
 
   sendValues = (values) => {
@@ -66,7 +68,7 @@ class AddContact extends React.Component {
       staffData,
       formTest
     } = this.props;
-    const { img } = this.state;
+    const { img, hitDelete } = this.state;
     const branch = '';
     return (
       <div>
@@ -117,7 +119,7 @@ class AddContact extends React.Component {
               <AddStaffForm
                 onSubmit={this.sendValues}
                 onDrop={this.onDrop}
-                imgAvatar={img === null ? avatarInit : img}
+                imgAvatar={img === null && !hitDelete ? avatarInit : img}
                 isLoading={isLoading}
                 staffData={staffData}
                 itemSelected={itemSelected}
