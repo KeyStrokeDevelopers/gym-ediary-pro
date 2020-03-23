@@ -99,7 +99,7 @@ class CategoryDataList extends React.Component {
           button
           key={ind}
           className={index === itemSelected ? classes.selected : ''}
-          onClick={() => showDetail(data)}
+          onClick={() => showDetail(index)}
         >
           <ListItemAvatar>
             <Avatar alt="Vfgf" src="" className={classes.avatar} />
