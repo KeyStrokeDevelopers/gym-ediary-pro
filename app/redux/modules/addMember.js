@@ -95,8 +95,6 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case SHOW_DETAIL_ADD_MEMBER:
-      // const addMemberData = state.isActive ? state.addMemberList : state.addMemberList.filter(item => new Date(item.registertionDate).toLocaleDateString() === new Date().toLocaleDateString());
-      // const index = addMemberData.indexOf(action.payload);
       return {
         ...state,
         selectedIndex: action.payload,

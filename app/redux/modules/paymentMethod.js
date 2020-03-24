@@ -78,10 +78,8 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
-        // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
         isLoading: false
-        // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_PAYMENT_METHOD_DATA:
       return {
@@ -111,11 +109,9 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case SHOW_DETAIL_PAYMENT_METHOD: {
-      const paymentMethodData = state.isActive ? state.paymentMethodList.filter(item => item.status === 1) : state.paymentMethodList.filter(item => item.status === 0);
-      const index = paymentMethodData.indexOf(action.payload);
       return {
         ...state,
-        selectedIndex: index,
+        selectedIndex: action.payload,
         showMobileDetail: true,
       };
     }

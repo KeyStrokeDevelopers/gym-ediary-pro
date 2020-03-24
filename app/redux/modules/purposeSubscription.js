@@ -77,11 +77,9 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case SHOW_DETAIL_PURPOSE_SUBSCRIPTION: {
-      const purposeSubscriptionData = state.isActive ? state.purposeSubscriptionList.filter(item => item.status === 1) : state.purposeSubscriptionList.filter(item => item.status === 0);
-      const index = purposeSubscriptionData.indexOf(action.payload);
       return {
         ...state,
-        selectedIndex: index,
+        selectedIndex: action.payload,
         showMobileDetail: true,
       };
     }

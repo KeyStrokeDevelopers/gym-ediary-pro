@@ -81,10 +81,8 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
-        // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
         isLoading: false
-        // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_PRODUCT_SHOPING_DATA:
       return {

@@ -123,11 +123,9 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case SHOW_DETAIL_STAFF: {
-      const staffData = state.isActive ? state.staffList.filter(item => item.status === 1) : state.staffList.filter(item => item.status === 0);
-      const index = staffData.indexOf(action.payload);
       return {
         ...state,
-        selectedIndex: index,
+        selectedIndex: action.payload,
         showMobileDetail: true,
       };
     }

@@ -45,10 +45,8 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
-        // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
         isLoading: false
-        // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_MEDIA_DATA:
       return {
@@ -78,11 +76,9 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case SHOW_DETAIL_MEDIA: {
-      const mediaData = state.isActive ? state.mediaList.filter(item => item.status === 1) : state.mediaList.filter(item => item.status === 0);
-      const index = mediaData.indexOf(action.payload);
       return {
         ...state,
-        selectedIndex: index,
+        selectedIndex: action.payload,
         showMobileDetail: true,
       };
     }

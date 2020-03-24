@@ -80,7 +80,7 @@ class StaffDataList extends React.Component {
           button
           key={ind}
           className={index === itemSelected ? classes.selected : ''}
-          onClick={() => showDetail(data)}
+          onClick={() => showDetail(index)}
         >
           <ListItemAvatar>
             {data.staffImage

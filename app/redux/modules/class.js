@@ -79,10 +79,8 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
-        // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
         isLoading: false
-        // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_CLASS_DATA:
       return {
@@ -158,25 +156,6 @@ export default function reducer(state = initialState, action = {}) {
         selectedIndex: 0
       };
     }
-
-    // case DELETE_CLASS_DATA:
-    //     return state.withMutations((mutableState) => {
-    //         const index = state.get('contactList').indexOf(action.item);
-    //         mutableState
-    //             .update('contactList', contactList => contactList.splice(index, 1))
-    //             .set('notifMsg', notif.removed);
-    //     });
-    // case TOGGLE_FAVORITE_CLASS:
-    //     return state.withMutations((mutableState) => {
-    //         const index = state.get('contactList').indexOf(action.item);
-    //         mutableState.update('contactList', contactList => contactList
-    //             .setIn([index, 'favorited'], !state.getIn(['contactList', index, 'favorited']))
-    //         );
-    //     });
-    // case CLOSE_NOTIF:
-    //     return state.withMutations((mutableState) => {
-    //         mutableState.set('notifMsg', '');
-    //     });
 
 
     default:

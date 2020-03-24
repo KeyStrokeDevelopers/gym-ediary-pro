@@ -83,10 +83,8 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
-        // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
         isLoading: false
-        // .set('avatarInit', action.item.get('avatar'));
       };
     case ADD_PURPOSE_DATA:
       return {
@@ -116,11 +114,9 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case SHOW_DETAIL_PURPOSE: {
-      const purposeData = state.isActive ? state.purposeList.filter(item => item.status === 1) : state.purposeList.filter(item => item.status === 0);
-      const index = purposeData.indexOf(action.payload);
       return {
         ...state,
-        selectedIndex: index,
+        selectedIndex: action.payload,
         showMobileDetail: true,
       };
     }
