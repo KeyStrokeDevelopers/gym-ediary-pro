@@ -94,6 +94,17 @@ class ClassDetail extends React.Component {
     this.setState({ openActive: false });
   }
 
+  formatAMPM = (mValue) => {
+    const date = new Date(mValue)
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  }
 
   sortByPrice = (a, b) => {
     if (a.classPrice < a.classPrice) {
@@ -122,7 +133,6 @@ class ClassDetail extends React.Component {
     if (classData && classData.length >= 1) {
       viewClassData = isActive ? classData.filter(item => item.status === 1) : classData.filter(item => item.status === 0);
     }
-
     if (viewClassData && viewClassData.length >= 1) {
       viewClassData.sort(this.sortByPrice);
     }
@@ -287,24 +297,32 @@ class ClassDetail extends React.Component {
                     <ListItemText primary={viewClassData[itemSelected].classPrice} secondary="CLASS PRICE" />
                   </ListItem>
                   <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewClassData[itemSelected].classFrom} secondary="CLASS FROM" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar className={classes.amberIcon}>
-                        <Work />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={viewClassData[itemSelected].classTo} secondary="CLASS TO" />
-                  </ListItem>
-                  <Divider variant="inset" />
+                  {viewClassData[itemSelected].classFrom &&
+                    <>
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar className={classes.amberIcon}>
+                            <Work />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={this.formatAMPM(viewClassData[itemSelected].classFrom)} secondary="CLASS FROM" />
+                      </ListItem>
+                      <Divider variant="inset" />
+                    </>
+                  }
+                  {viewClassData[itemSelected].classTo &&
+                    <>
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar className={classes.amberIcon}>
+                            <Work />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={this.formatAMPM(viewClassData[itemSelected].classTo)} secondary="CLASS TO" />
+                      </ListItem>
+                      <Divider variant="inset" />
+                    </>
+                  }
                   <ListItem>
                     <ListItemAvatar>
                       <Avatar className={classes.amberIcon}>

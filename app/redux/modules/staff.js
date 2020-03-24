@@ -86,17 +86,13 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false
       };
     case EDIT_STAFF_DATA: {
-      const formValue = {
-        accessLevel: action.payload.accessLevel._id, staffName: action.payload.staffName, staffAddress: action.payload.staffAddress, staffEmail: action.payload.staffEmail, staffContact: action.payload.staffContact, staffDob: action.payload.staffDob, salaryDate: action.payload.salaryDate, staffJoiningDate: action.payload.staffJoiningDate, staffCode: action.payload.staffCode, _id: state.staffList[state.selectedIndex]._id
-      };
+      const formValue = Object.assign({}, action.payload, { accessLevel: action.payload.accessLevel._id }, { _id: state.staffList[state.selectedIndex]._id });
       return {
         ...state,
         openFrm: true,
-        // .set('selectedId', action.item.get('id'))
         formValues: formValue,
         isLoading: false,
         avatarInit: action.payload.staffImage ? `${SERVER_URL}${action.payload.staffImage}` : ''
-        // .set('avatarInit', action.item.get('avatar'));
       };
     }
     case ADD_STAFF_DATA:

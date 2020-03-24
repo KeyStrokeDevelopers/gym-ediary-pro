@@ -44,7 +44,6 @@ class Classes extends React.Component {
       loading();
       submitData(data);
     }
-    const avatarPreview = avatar !== null ? avatarBase64 : dummy.user.avatar;
   }
 
   render() {
