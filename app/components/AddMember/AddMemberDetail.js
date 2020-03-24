@@ -250,7 +250,9 @@ class AddMemberDetail extends React.Component {
                 </Hidden>
                 <List style={{ maxHeight: '500px', overflow: 'scroll' }}>
                   {ListData.map((data, index) => {
-                    if (data.key === 'purpose') {
+                    if (data.key === '_id') {
+                      return null;
+                    } else if (data.key === 'purpose') {
 
                     } else if (data.key == 'classInfo') {
 

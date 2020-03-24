@@ -50,8 +50,16 @@ class AddMemberForm extends React.Component {
     anniversary: null,
     packageActivationDate: null,
     isBiometic: true,
-    gstPer: 0
+    gstPer: 0,
+    formValues: null
   };
+
+  componentDidUpdate = () => {
+    const { formValues } = this.props;
+    if (formValues !== this.state.formValues) {
+      this.setState({ formValues, dob: formValues.dob, anniversary: formValues.anniversary ? formValues.anniversary : null });
+    }
+  }
 
   handleDateOfBirth = (e, date) => {
     const age = getAge(date);
@@ -123,6 +131,7 @@ class AddMemberForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
+
     const { selectedPackPrice, regFee, packDisc, gstPer } = this.state;
     const payable = selectedPackPrice + regFee - packDisc;
     const gstValue = Math.round(payable * gstPer / 100)
@@ -131,7 +140,7 @@ class AddMemberForm extends React.Component {
     submitData = submitData.set('gstValue', gstValue);
     submitData = submitData.set('gstPer', gstPer);
     onSubmit(submitData);
-    reset();
+    //reset();
   }
 
   render() {

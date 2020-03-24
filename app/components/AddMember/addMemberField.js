@@ -5,7 +5,7 @@ const addMemberDataField = [
   { primary: 'fTitle', secondary: 'FTITLE' },
   { primary: 'favourOf', secondary: 'FAVOUR OF' },
   { primary: 'alternativeContact', secondary: 'ALTERNATIVE CONTACT' },
-  { primary: 'email', secondary: 'EMAIL' },
+  { primary: 'memberEmail', secondary: 'EMAIL' },
   { primary: 'dob', secondary: 'DATE OF BIRTH' },
   { primary: 'age', secondary: 'AGE' },
   { primary: 'address', secondary: 'ADDRESS' },
@@ -30,7 +30,8 @@ const addMemberDataField = [
   { primary: 'referredBy', secondary: 'REFERRED BY' },
   { primary: 'packActivation', secondary: 'PACKAGE ACTIVATION' },
   { primary: 'classActivation', secondary: 'CLASS ACTIVATION' },
-  { primary: 'status', secondary: 'STATUS' }
+  { primary: 'status', secondary: 'STATUS' },
+  { primary: '_id', secondary: '_id' }
 ];
 
 export default addMemberDataField;

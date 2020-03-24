@@ -44,22 +44,33 @@ class Member extends React.Component {
     fetchGymInfoData();
   }
 
+  createFormData = (data, avatar) => {
+    const formData = new FormData();
+    if (avatar) {
+      formData.append('addmImage', avatar);
+    }
+    addMemberDataField.map((memberData) => {
+      if (data.get(memberData.primary)) {
+        formData.set(memberData.primary, data.get(memberData.primary));
+      }
+      return null;
+    });
+    return formData;
+  }
+
   submitAddMemberData = (data, avatar) => {
     const {
       submitData, formValue, updateData, loading
     } = this.props;
     if (Object.keys(formValue).length >= 1) {
-      updateData(data);
+      let formData = this.createFormData(data, avatar);
+      formData.set('_id', data.get('_id'));
+      updateData(formData);
     } else {
-      const formData = new FormData();
-      formData.append('addmImage', avatar);
-      addMemberDataField.map((memberData) => {
-        if (data.get(memberData.primary)) {
-          formData.set(memberData.primary, data.get(memberData.primary));
-        }
-      });
+      const formData = this.createFormData(data, avatar);
       loading();
       submitData(formData);
+      return null;
     }
   }
 
@@ -152,6 +163,7 @@ class Member extends React.Component {
               itemSelected={itemSelected}
               occupationData={occupationData}
               enquiryData={enquiryData}
+              formValues={formValue}
               paymentMethodData={paymentMethodData}
               gymInfoData={gymInfoData}
               edit={(Object.keys(formValue).length >= 1)}

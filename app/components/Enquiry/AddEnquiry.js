@@ -52,6 +52,7 @@ class AddEnquiry extends React.Component {
       classData,
       edit,
       isLoading,
+      formValues
     } = this.props;
     const { img } = this.state;
     const branch = '';
@@ -68,6 +69,7 @@ class AddEnquiry extends React.Component {
             onDrop={this.onDrop}
             purposeData={purposeData}
             packageData={packageData}
+            formValues={formValues}
             classData={classData}
             imgAvatar={img === null ? avatarInit : img}
             isLoading={isLoading}

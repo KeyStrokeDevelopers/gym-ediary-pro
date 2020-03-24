@@ -26,7 +26,15 @@ class AddEnquiryForm extends React.Component {
     age: '0',
     dob: null,
     followUpDate: null,
+    formValues: null
   };
+
+  componentDidUpdate = () => {
+    const { formValues } = this.props;
+    if (formValues !== this.state.formValues) {
+      this.setState({ formValues: formValues, dob: formValues.dob, followUpDate: formValues.followUpDate ? formValues.followUpDate : null })
+    }
+  }
 
   handleMouseDownPassword = event => {
     event.preventDefault();

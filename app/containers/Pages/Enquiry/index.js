@@ -131,6 +131,7 @@ class Enquiry extends React.Component {
           closeForm={close}
           packageData={packageData}
           purposeData={purposeData}
+          formValues={formValue}
           classData={classData}
           type="enquiry"
           edit={(Object.keys(formValue).length >= 1)}

@@ -57,6 +57,7 @@ class AddMember extends React.Component {
       addMemberData,
       occupationData,
       paymentMethodData,
+      formValues,
       itemSelected,
       enquiryData,
       edit,
@@ -82,6 +83,7 @@ class AddMember extends React.Component {
             paymentMethodData={paymentMethodData}
             gymInfoData={gymInfoData}
             itemSelected={itemSelected}
+            formValues={formValues}
             onDeleteImage={this.handleDeleteImage}
             enquiryData={enquiryData}
             edit={edit}
