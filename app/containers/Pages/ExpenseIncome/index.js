@@ -14,6 +14,7 @@ import {
   searchExpenseIncomeData,
   updateExpenseIncomeData,
   deleteExpenseIncomeData,
+  activeExpenseIncomeData,
   setDetailField,
   loadingAction,
   hideDetailAction,
@@ -78,6 +79,7 @@ class ExpenseIncome extends React.Component {
       openNoti,
       closeNotif,
       deleteExpenseIncomeData,
+      activeExpenseIncomeData,
       paymentType,
       isLoading
     } = this.props;
@@ -112,6 +114,7 @@ class ExpenseIncome extends React.Component {
             hideDetail={hideDetail}
             expenseIncomeData={expenseIncomeData}
             deleteExpenseIncomeData={deleteExpenseIncomeData}
+            activeExpenseIncomeData={activeExpenseIncomeData}
             itemSelected={itemSelected}
             edit={edit}
             is_active={is_active}
@@ -175,6 +178,7 @@ const constDispatchToProps = dispatch => ({
   add: () => dispatch(addExpenseIncomeData()),
   close: () => dispatch(closeAction()),
   deleteExpenseIncomeData: (data) => dispatch(deleteExpenseIncomeData(data)),
+  activeExpenseIncomeData: (data) => dispatch(activeExpenseIncomeData(data)),
   fetchCategoryData: () => dispatch(getCategoryData()),
   fetchPaymentMethodData: () => dispatch(getPaymentMethodData()),
   isActive: (data) => dispatch(setDetailField(data)),

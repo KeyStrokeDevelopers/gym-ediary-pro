@@ -3,7 +3,8 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_EXPENSE_INCOME_DATA, SEARCH_EXPENSE_INCOME_DATA, EDIT_EXPENSE_INCOME_DATA, ADD_EXPENSE_INCOME_DATA, SET_EXPENSE_INCOME_DETAILS_FIELD,
-  SHOW_DETAIL_EXPENSE_INCOME, HIDE_DETAIL_EXPENSE_INCOME, SUBMIT_EXPENSE_INCOME_DATA, CLOSE_EXPENSE_INCOME_FORM, LOADING_ACTION_EXPENSE_INCOME, CLOSE_EXPENSE_INCOME_NOTIF, ERROR_EXPENSE_INCOME_DATA, UPDATED_EXPENSE_INCOME_DATA
+  SHOW_DETAIL_EXPENSE_INCOME, HIDE_DETAIL_EXPENSE_INCOME, SUBMIT_EXPENSE_INCOME_DATA, CLOSE_EXPENSE_INCOME_FORM, LOADING_ACTION_EXPENSE_INCOME, CLOSE_EXPENSE_INCOME_NOTIF, ERROR_EXPENSE_INCOME_DATA, UPDATED_EXPENSE_INCOME_DATA,
+  DELETE_EXPENSE_INCOME_DATA, ACTIVE_EXPENSE_INCOME_DATA
 } from '../../actions/actionConstants';
 
 
@@ -44,6 +45,30 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false,
         selectedIndex: 0,
         notifMsg: notifM.updated,
+        notifType: notifT.success,
+        openNoti: true
+      };
+    case DELETE_EXPENSE_INCOME_DATA:
+      return {
+        ...state,
+        expenseIncomeList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Expense Income data deleted',
+        notifType: notifT.success,
+        openNoti: true
+      };
+    case ACTIVE_EXPENSE_INCOME_DATA:
+      return {
+        ...state,
+        expenseIncomeList: action.payload,
+        formValues: {},
+        openFrm: false,
+        isLoading: false,
+        selectedIndex: 0,
+        notifMsg: 'Expense Income data activated',
         notifType: notifT.success,
         openNoti: true
       };

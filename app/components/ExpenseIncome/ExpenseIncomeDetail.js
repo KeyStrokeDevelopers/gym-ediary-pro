@@ -24,6 +24,8 @@ import Work from '@material-ui/icons/Work';
 import Language from '@material-ui/icons/Language';
 import Divider from '@material-ui/core/Divider';
 import AccountBalance from '@material-ui/icons/AccountBalance';
+import Tooltip from '@material-ui/core/Tooltip';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -48,6 +50,8 @@ class ExpenseIncomeDetail extends React.Component {
     anchorElOpt: null,
     open: false,
     deletedId: null,
+    openActive: null,
+    activeId: null
   };
 
   handleClickOpt = event => {
@@ -79,6 +83,21 @@ class ExpenseIncomeDetail extends React.Component {
     this.setState({ open: false });
   }
 
+  handleActive = (dataId) => {
+    this.setState({ openActive: true, activeId: dataId });
+  }
+
+  handleActiveDisagree = () => {
+    this.setState({ openActive: false, activeId: null });
+  }
+
+  handleActiveAgree = () => {
+    const { activeExpenseIncomeData } = this.props;
+    const { activeId } = this.state;
+    activeExpenseIncomeData(activeId);
+    this.setState({ openActive: false });
+  }
+
   render() {
     const {
       classes,
@@ -91,7 +110,7 @@ class ExpenseIncomeDetail extends React.Component {
       hideDetail,
       paymentType
     } = this.props;
-    const { anchorElOpt, open } = this.state;
+    const { anchorElOpt, open, openActive } = this.state;
 
     let viewExpenseIncomeData;
 
@@ -127,19 +146,52 @@ class ExpenseIncomeDetail extends React.Component {
                       </Button>
                   </DialogActions>
                 </Dialog>
+                <Dialog
+                  open={openActive}
+                  onClose={this.handleActiveDisagree}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {'Active Expense Income Data'}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Are you sure for active ?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleActiveDisagree} color="primary">
+                      Disagree
+                    </Button>
+                    <Button onClick={this.handleActiveAgree} color="primary" autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
 
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>
-                  {is_active &&
-                    <>
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewExpenseIncomeData[itemSelected]._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton aria-label="Edit" onClick={() => edit(viewExpenseIncomeData[itemSelected])}>
-                        <Edit />
-                      </IconButton>
-                    </>
+                  {is_active ?
+                    (<>
+                      <Tooltip title="Delete ExpenseIncome Data">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewExpenseIncomeData[itemSelected]._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Edit ExpenseIncome Data">
+                        <IconButton aria-label="Edit" onClick={() => edit(viewExpenseIncomeData[itemSelected])}>
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
+                    </>) : (
+                      <Tooltip title="Active ExpenseIncome Data">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewExpenseIncomeData[itemSelected]._id)}>
+                          <PlaylistAddCheckIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )
                   }
                   <Menu
                     id="long-menu"

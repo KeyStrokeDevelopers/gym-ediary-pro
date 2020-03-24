@@ -5,6 +5,8 @@ const addExpenseIncomeApi = (data) => axios.post(`${API_URL}/expenseIncome`, dat
 
 const getExpenseIncomeApi = () => axios.get(`${API_URL}/expenseIncome`, getConfig());
 
+const activeExpenseIncomeDataApi = (dataId) => axios.get(`${API_URL}/expenseIncome/active/${dataId}`, getConfig());
+
 const updateExpenseIncomeDataApi = (data) => axios.put(`${API_URL}/expenseIncome`, data, getConfig());
 
 const deleteExpenseIncomeDataApi = (dataId) => {
@@ -16,5 +18,6 @@ export {
   addExpenseIncomeApi,
   getExpenseIncomeApi,
   updateExpenseIncomeDataApi,
-  deleteExpenseIncomeDataApi
+  deleteExpenseIncomeDataApi,
+  activeExpenseIncomeDataApi
 };

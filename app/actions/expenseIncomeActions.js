@@ -1,9 +1,9 @@
 import {
   FETCH_EXPENSE_INCOME_DATA, SEARCH_EXPENSE_INCOME_DATA, EDIT_EXPENSE_INCOME_DATA, ADD_EXPENSE_INCOME_DATA, SET_EXPENSE_INCOME_DETAILS_FIELD,
-  ERROR_EXPENSE_INCOME_DATA, SHOW_DETAIL_EXPENSE_INCOME, HIDE_DETAIL_EXPENSE_INCOME, SUBMIT_EXPENSE_INCOME_DATA, CLOSE_EXPENSE_INCOME_FORM, LOADING_ACTION_EXPENSE_INCOME, CLOSE_EXPENSE_INCOME_NOTIF, UPDATED_EXPENSE_INCOME_DATA
+  ERROR_EXPENSE_INCOME_DATA, SHOW_DETAIL_EXPENSE_INCOME, HIDE_DETAIL_EXPENSE_INCOME, SUBMIT_EXPENSE_INCOME_DATA, CLOSE_EXPENSE_INCOME_FORM, LOADING_ACTION_EXPENSE_INCOME, CLOSE_EXPENSE_INCOME_NOTIF, UPDATED_EXPENSE_INCOME_DATA, DELETE_EXPENSE_INCOME_DATA, ACTIVE_EXPENSE_INCOME_DATA
 } from './actionConstants';
 import {
-  addExpenseIncomeApi, getExpenseIncomeApi, updateExpenseIncomeDataApi, deleteExpenseIncomeDataApi
+  addExpenseIncomeApi, getExpenseIncomeApi, updateExpenseIncomeDataApi, deleteExpenseIncomeDataApi, activeExpenseIncomeDataApi
 } from '../api/expenseIncome';
 
 const fetchExpenseIncomeData = expenseIncomeData => ({
@@ -13,6 +13,16 @@ const fetchExpenseIncomeData = expenseIncomeData => ({
 
 const updatedExpenseIncomeData = expenseIncomeData => ({
   type: UPDATED_EXPENSE_INCOME_DATA,
+  payload: expenseIncomeData
+});
+
+const deletedExpenseIncomeData = expenseIncomeData => ({
+  type: DELETE_EXPENSE_INCOME_DATA,
+  payload: expenseIncomeData
+});
+
+const activatedExpenseIncomeData = expenseIncomeData => ({
+  type: ACTIVE_EXPENSE_INCOME_DATA,
   payload: expenseIncomeData
 });
 
@@ -92,7 +102,16 @@ export const updateExpenseIncomeData = (data) => (dispatch) => {
 
 export const deleteExpenseIncomeData = (data) => (dispatch) => {
   deleteExpenseIncomeDataApi(data).then((response) => {
-    dispatch(fetchExpenseIncomeData(response.data));
+    dispatch(deletedExpenseIncomeData(response.data));
+  }).catch((err) => {
+    dispatch(errorExpenseIncomeData(err));
+  });
+};
+
+
+export const activeExpenseIncomeData = (data) => (dispatch) => {
+  activeExpenseIncomeDataApi(data).then((response) => {
+    dispatch(activatedExpenseIncomeData(response.data));
   }).catch((err) => {
     dispatch(errorExpenseIncomeData(err));
   });
