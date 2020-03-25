@@ -95,7 +95,7 @@ class EnquiryDataList extends React.Component {
     let enquiryData;
     let enquiryDataView;
     if (enquiryDataList && enquiryDataList.length >= 1) {
-      enquiryDataView = enquiryDataList.filter(item => item.enqDate <= dateTo && item.enqDate >= dateFrom);
+      enquiryDataView = enquiryDataList.filter(item => moment(new Date(item.enqDate)).format('YYYY-MM-DD') <= dateTo && moment(new Date(item.enqDate)).format('YYYY-MM-DD') >= dateFrom);
     }
 
     if (enquiryDataView && enquiryDataView.length >= 1) {

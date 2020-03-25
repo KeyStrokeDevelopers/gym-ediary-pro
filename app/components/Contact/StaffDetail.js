@@ -36,6 +36,7 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import FormControl from '@material-ui/core/FormControl';
 import { validate } from '../Forms/helpers/formValidation';
 import { RegularTextFieldRedux } from '../Forms/ReduxFormMUI';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import { connect } from 'react-redux';
 import { SERVER_URL } from '../Common/constant';
 import ViewStaffProfile from './ViewStaffProfile';
@@ -54,12 +55,14 @@ const ITEM_HEIGHT = 48;
 class StaffDetail extends React.Component {
   state = {
     anchorElOpt: null,
-    open: false,
+    open: null,
     deletedId: null,
     showPassword: false,
     openChangePassword: false,
     changePasswordId: null,
-    openProfile: false
+    openProfile: false,
+    openActive: null,
+    activeId: null
 
   };
 
@@ -83,6 +86,21 @@ class StaffDetail extends React.Component {
 
   handleDisagree = () => {
     this.setState({ open: false, deletedId: null });
+  }
+
+  handleActive = (dataId) => {
+    this.setState({ openActive: true, activeId: dataId });
+  }
+
+  handleActiveDisagree = () => {
+    this.setState({ openActive: false, activeId: null });
+  }
+
+  handleActiveAgree = () => {
+    const { activeStaffData } = this.props;
+    const { activeId } = this.state;
+    activeStaffData(activeId);
+    this.setState({ openActive: false });
   }
 
   handleMouseDownPassword = event => {
@@ -110,11 +128,11 @@ class StaffDetail extends React.Component {
   }
 
   handleResetPassword = (data) => {
-    const { changePassword } = this.props;
+    const { changePassword, reset } = this.props;
     const { changePasswordId } = this.state;
-    const newPassowrd = data.get('staffPassword');
     changePassword(data, changePasswordId);
     this.setState({ openChangePassword: false, changePasswordId: null });
+    reset();
   }
 
   handleViewProfile = () => {
@@ -148,7 +166,7 @@ class StaffDetail extends React.Component {
       logedUser
     } = this.props;
     const {
-      anchorElOpt, open, openChangePassword, showPassword, openProfile
+      anchorElOpt, open, openChangePassword, showPassword, openProfile, openActive
     } = this.state;
     let viewStaffData;
     if (staffData && staffData.length >= 1) {
@@ -189,6 +207,29 @@ class StaffDetail extends React.Component {
                   <Button onClick={this.handleAgree} color="primary" autoFocus>
                     Agree
                   </Button>
+                </DialogActions>
+              </Dialog>
+              <Dialog
+                open={openActive}
+                onClose={this.handleActiveDisagree}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {'Active Staff Data'}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Are you sure for active ?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleActiveDisagree} color="primary">
+                    Disagree
+                    </Button>
+                  <Button onClick={this.handleActiveAgree} color="primary" autoFocus>
+                    Agree
+                    </Button>
                 </DialogActions>
               </Dialog>
               <Dialog
@@ -242,26 +283,38 @@ class StaffDetail extends React.Component {
             </div>
             <section className={classes.cover}>
               <div className={classes.opt}>
-                {isActive && (
+                {isActive ? (
                   <>
                     <Tooltip title="View Profile">
                       <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleViewProfile()}>
                         <MoodIcon />
                       </IconButton>
                     </Tooltip>
-                    <IconButton aria-label="Edit" onClick={() => this.handleChangePassword(viewStaffData[itemSelected]._id)}>
-                      <VpnKeyIcon />
-                    </IconButton>
-                    {(logedUser._id !== viewStaffData[itemSelected]._id) &&
-                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewStaffData[itemSelected]._id)}>
-                        <DeleteIcon />
+                    <Tooltip title="Change Password">
+                      <IconButton aria-label="Edit" onClick={() => this.handleChangePassword(viewStaffData[itemSelected]._id)}>
+                        <VpnKeyIcon />
                       </IconButton>
+                    </Tooltip>
+                    {(logedUser._id !== viewStaffData[itemSelected]._id) &&
+                      <Tooltip title="Delete">
+                        <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleDelete(viewStaffData[itemSelected]._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
                     }
-                    <IconButton aria-label="Edit" onClick={() => edit(viewStaffData[itemSelected])}>
-                      <Edit />
-                    </IconButton>
+                    <Tooltip title="Edit Data">
+                      <IconButton aria-label="Edit" onClick={() => edit(viewStaffData[itemSelected])}>
+                        <Edit />
+                      </IconButton>
+                    </Tooltip>
                   </>
-                )
+                ) : (
+                    <Tooltip title="Activate Staff Data">
+                      <IconButton className={classes.favorite} aria-label="Favorite" onClick={() => this.handleActive(viewStaffData[itemSelected]._id)}>
+                        <PlaylistAddCheckIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )
                 }
                 <Menu
                   id="long-menu"

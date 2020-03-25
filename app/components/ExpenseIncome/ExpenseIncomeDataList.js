@@ -84,7 +84,7 @@ class ExpenseIncomeDataList extends React.Component {
           <ListItemAvatar>
             <Avatar alt="Vfgf" src="" className={classes.avatar} />
           </ListItemAvatar>
-          <ListItemText primary={data.amount} secondary={data.paymentMethod['paymentMethod']} />
+          <ListItemText primary={data.amount} secondary={data.catName['category']} />
         </ListItem>
       );
     });

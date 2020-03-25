@@ -5,6 +5,8 @@ const addStaffApi = (data) => axios.post(`${API_URL}/staffInfo`, data, configFor
 
 const getStaffApi = () => axios.get(`${API_URL}/staffInfo`, getConfig());
 
+const activeStaffDataApi = (dataId) => axios.get(`${API_URL}/staffInfo/active/${dataId}`, getConfig());
+
 const updateStaffDataApi = (data) => axios.put(`${API_URL}/staffInfo`, data, configForFilePost());
 
 const deleteStaffDataApi = (dataId) => {
@@ -31,5 +33,6 @@ export {
   getStaffAttendanceDataApi,
   markStaffAttendanceApi,
   fetchStaffAttendanceDataApi,
-  changePasswordApi
+  changePasswordApi,
+  activeStaffDataApi
 };

@@ -134,7 +134,7 @@ class ExpenseIncome extends React.Component {
           type="expenseIncome"
           edit={(Object.keys(formValue).length >= 1)}
           submit={this.submitExpenseIncomeData}
-          avatarInit={avatarInit}
+          formValues={formValue}
           isLoading={isLoading}
         />
       </div>

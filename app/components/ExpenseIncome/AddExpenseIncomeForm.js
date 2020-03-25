@@ -12,7 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { getAge } from '../Common/helpers';
 import styles from './expenseIncome-jss';
-import { validate } from '../Forms/helpers/formValidation';
+import { validate, number } from '../Forms/helpers/formValidation';
 import { TextFieldRedux, DatePickerInput, SelectRedux } from '../Forms/ReduxFormMUI';
 
 class AddExpenseIncomeForm extends React.Component {
@@ -20,8 +20,16 @@ class AddExpenseIncomeForm extends React.Component {
     tab: 0,
     age: '0',
     categoryType: '',
-    date: null
+    date: null,
+    formValues: null
   };
+
+  componentDidUpdate = () => {
+    const { formValues } = this.props;
+    if (formValues !== this.state.formValues) {
+      this.setState({ formValues, date: formValues.date, categoryType: formValues.paymentType });
+    }
+  }
 
   handleMouseDownPassword = event => {
     event.preventDefault();
@@ -128,8 +136,7 @@ class AddExpenseIncomeForm extends React.Component {
                 placeholder="Amount"
                 autoComplete="off"
                 label="Amount"
-                required
-                ref={this.saveRef}
+                validate={number}
                 className={classes.field}
                 InputProps={{
                   startAdornment: (
@@ -147,7 +154,6 @@ class AddExpenseIncomeForm extends React.Component {
                 placeholder="Description"
                 autoComplete="off"
                 label="Description"
-                ref={this.saveRef}
                 className={classes.field}
                 InputProps={{
                   startAdornment: (

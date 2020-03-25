@@ -39,7 +39,8 @@ export default function reducer(state = initialState, action = {}) {
     case LOGIN_ERROR:
       return {
         ...state,
-        notifMsg: 'Registered Number, Contact Number or Password is incorrect',
+        notifMsg: action.payload === 'Network Error' ? action.payload
+          : 'Registered Number, Contact Number or Password is incorrect',
         notifType: notifT.error,
         openNoti: true
       };

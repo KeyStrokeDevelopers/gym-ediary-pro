@@ -176,7 +176,6 @@ class CategoryDetail extends React.Component {
                     </Button>
                   </DialogActions>
                 </Dialog>
-
               </div>
               <section className={classes.cover}>
                 <div className={classes.opt}>

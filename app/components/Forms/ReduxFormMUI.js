@@ -142,7 +142,7 @@ export const TimePickerInput = ({
           // {...input}
           {...reset}
           onChange={(value) => input.onChange(value.valueOf())}
-          value={timeValue || input.value}
+          value={timeValue}
           style={{ width: '100%' }}
           error={touched && Boolean(error)}
         />

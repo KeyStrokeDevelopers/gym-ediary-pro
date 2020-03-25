@@ -206,7 +206,7 @@ class SaleForm extends React.Component {
                       onChange={this.selectedBrand}
                     >
                       {
-                        selectedData.map((data, index) => <MenuItem key={index + Math.random()} value={data._id}>{`${data.brand.value}=>${data.product.productType}=>${data.product.hsnCode}`}</MenuItem>)
+                        selectedData.map((data, index) => <MenuItem key={index + Math.random()} value={data._id}>{`${data.brand.value}=>${data.model}=>${data.product.hsnCode}=>${data.quantity}`}</MenuItem>)
                       }
                     </Field>
                   </FormControl>

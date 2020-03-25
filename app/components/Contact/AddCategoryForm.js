@@ -18,7 +18,6 @@ import styles from './contact-jss';
 class AddCategoryForm extends React.Component {
   state = {
     age: '',
-    // name: 'hai',
   };
 
   handleChange = event => {
@@ -27,7 +26,9 @@ class AddCategoryForm extends React.Component {
 
   handleSubmitData = (data) => {
     const { onSubmit, reset } = this.props
-    onSubmit(data);
+    const category = data.get('category').toUpperCase();
+    const formData = data.set('category', category);
+    onSubmit(formData);
     reset();
   }
 
@@ -58,7 +59,6 @@ class AddCategoryForm extends React.Component {
                   </MenuItem>
                   <MenuItem value="Expenditure">EXPENDITURE CATEGORY</MenuItem>
                   <MenuItem value="Income">EXTRA INCOME CATEGORY</MenuItem>
-
                 </Field>
               </FormControl>
             </div>
@@ -70,7 +70,6 @@ class AddCategoryForm extends React.Component {
                 placeholder="Category e.g Commission"
                 label="Category e.g Commission"
                 className={classes.field}
-                required
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

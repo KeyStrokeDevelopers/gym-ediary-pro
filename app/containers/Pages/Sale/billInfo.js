@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 class BillInfo extends Component {
   render() {
-    const { cartData, gymInfoData, paidAmount } = this.props;
+    const { cartData, gymInfoData, paidAmount, accountData } = this.props;
     let taxableAmount = 0;
     let totalDiscount = 0;
     let gstValue = 0;
@@ -35,14 +35,14 @@ class BillInfo extends Component {
 
     let gstLabel = '';
     let gymInfoState;
-    if (gymInfoData && gymInfoData.length >= 1) {
-      gymInfoState = gymInfoData[0].branchState;
+    if (gymInfoData && Object.keys(gymInfoData).length >= 1) {
+      gymInfoState = gymInfoData.branchState;
       if (gymInfoState === 'Chandigarh' || gymInfoState === 'Dadra and Nagar Haveli' || gymInfoState === 'Lakshadweep' || gymInfoState === 'Daman and Diu' || gymInfoState === 'Puducherry' || gymInfoState === 'Delhi' || gymInfoState === 'Andaman and Nicobar Islands') {
         gstLabel = 'UGST';
       }
-      // else if (gymInfoState === accountData.get('state')) {
-      //   gstLabel = 'SGST+CGST';
-      // } 
+      else if (gymInfoState === accountData.get('state')) {
+        gstLabel = 'SGST+CGST';
+      }
       else {
         gstLabel = 'IGST';
       }
@@ -186,7 +186,7 @@ const mapStateToProps = state => {
   return ({
     billData: saleReducer.billInfoData,
     cartData: saleReducer.cartList,
-    accountData: saleReducer.accountData,
+    accountData: saleReducer.customerData,
     discount: saleReducer.discount,
     discountInValue: saleReducer.discountInValue,
     gymInfoData: saleReducer.gymInfoData,

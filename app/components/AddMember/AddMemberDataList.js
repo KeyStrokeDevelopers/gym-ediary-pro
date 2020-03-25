@@ -76,7 +76,6 @@ class AddMemberDataList extends React.Component {
     if (addMemberFilterData && addMemberFilterData.length >= 1) {
       addMemberViewData = is_active ? addMemberFilterData : addMemberFilterData.filter(item => new Date(item.registertionDate).toLocaleDateString() === new Date().toLocaleDateString());
     }
-
     const getItem = dataArray => dataArray.map((data, ind) => {
       const index = addMemberViewData.indexOf(data);
       if (data.name.toLowerCase().indexOf(keyword) === -1) {

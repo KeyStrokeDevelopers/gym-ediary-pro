@@ -56,7 +56,7 @@ class AddStaffForm extends React.Component {
   componentDidUpdate = () => {
     const { formValues } = this.props;
     if (formValues !== this.state.formValues) {
-      this.setState({ formValues: formValues, dob: formValues.staffDob, salaryDate: formValues.salaryDate, joiningDate: formValues.staffJoiningDate, shiftFrom1: formValues.shiftFrom1, shiftFrom2: formValues.shiftFrom2, shiftFrom3: formValues.shiftFrom3, shiftTo1: formValues.shiftTo1, shiftTo2: formValues.shiftTo2, shiftTo3: formValues.shiftTo3 });
+      this.setState({ formValues: formValues, dob: formValues.staffDob ? formValues.staffDob : null, salaryDate: formValues.salaryDate ? formValues.salaryDate : null, joiningDate: formValues.staffJoiningDate ? formValues.staffJoiningDate : null, shiftFrom1: formValues.shiftFrom1 ? formValues.shiftFrom1 : null, shiftFrom2: formValues.shiftFrom2 ? formValues.shiftFrom2 : null, shiftFrom3: formValues.shiftFrom3 ? formValues.shiftFrom3 : null, shiftTo1: formValues.shiftTo1 ? formValues.shiftTo1 : null, shiftTo2: formValues.shiftTo2 ? formValues.shiftTo2 : null, shiftTo3: formValues.shiftTo3 ? formValues.shiftTo3 : null });
       this.props.initialize(formValues);
     }
   }
@@ -218,7 +218,6 @@ class AddStaffForm extends React.Component {
                 placeholder="Staff Name"
                 label="Staff Name"
                 autoComplete="off"
-                required
                 ref={this.saveRef}
                 className={classes.field}
                 InputProps={{
@@ -237,7 +236,6 @@ class AddStaffForm extends React.Component {
                 placeholder="Staff Email"
                 autoComplete="off"
                 label="Staff Email"
-                required
                 validate={email}
                 className={classes.field}
                 InputProps={{
@@ -256,7 +254,6 @@ class AddStaffForm extends React.Component {
                 autoComplete="off"
                 placeholder="Staff Contact"
                 label="Staff Contact"
-                required
                 validate={phoneNumber}
                 className={classes.field}
                 InputProps={{
@@ -302,7 +299,7 @@ class AddStaffForm extends React.Component {
                 </div>
               </div>
             }
-            {(numberOfShift >= 2) &&
+            {(numberOfShift >= 2 || shiftFrom2) &&
               <div style={{ display: 'flex' }}>
                 <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
                   <Field
@@ -329,7 +326,7 @@ class AddStaffForm extends React.Component {
                 </div>
               </div>
             }
-            {(numberOfShift >= 3) &&
+            {(numberOfShift >= 3 || shiftFrom3) &&
               <div style={{ display: 'flex' }}>
                 <div className={classes.picker} style={{ width: '50%', marginRight: '10px' }}>
                   <Field
@@ -363,7 +360,6 @@ class AddStaffForm extends React.Component {
                 placeholder="Address"
                 autoComplete="off"
                 label="Address"
-                required
                 className={classes.field}
                 InputProps={{
                   startAdornment: (
@@ -409,7 +405,6 @@ class AddStaffForm extends React.Component {
                 placeholder="Staff Code"
                 autoComplete="off"
                 label="Staff Code"
-                required
                 className={classes.field}
                 InputProps={{
                   startAdornment: (
@@ -459,7 +454,6 @@ class AddStaffForm extends React.Component {
                           </InputAdornment>
                         )
                       }}
-                      required
                       className={classes.field}
                     />
                   </FormControl>

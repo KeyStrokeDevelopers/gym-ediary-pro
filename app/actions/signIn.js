@@ -21,9 +21,14 @@ const setInitialStaffInfo = staffData => ({
   payload: staffData
 });
 
-const loginError = () => ({
-  type: types.LOGIN_ERROR
-});
+const loginError = (err) => {
+  window.localStorage.removeItem('token');
+  history.push('/login');
+  return ({
+    type: types.LOGIN_ERROR,
+    payload: err.message
+  });
+};
 
 export const closeNotifAction = () => ({
   type: types.CLOSE_LOGIN_NOTIF

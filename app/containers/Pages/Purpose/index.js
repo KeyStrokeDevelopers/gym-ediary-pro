@@ -11,6 +11,7 @@ import {
   closeAction,
   showDetailAction,
   editPurposeData,
+  copyPurposeData,
   searchPurposeData,
   updatePurposeData,
   deletePurposeData,
@@ -59,6 +60,8 @@ class Purpose extends React.Component {
       add,
       formValue,
       edit,
+      copyData,
+      copy,
       isActive,
       is_active,
       close,
@@ -109,6 +112,7 @@ class Purpose extends React.Component {
             activePurposeData={activePurposeData}
             itemSelected={itemSelected}
             edit={edit}
+            copy={copy}
             isActive={is_active}
             remove={remove}
             favorite={favorite}
@@ -119,6 +123,7 @@ class Purpose extends React.Component {
           openForm={open}
           formType="purpose"
           initFormValue={initValue}
+          copyData={copyData}
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
           submit={this.submitPurposeData}
@@ -133,10 +138,10 @@ class Purpose extends React.Component {
 const mapStateToProps = state => {
   const purposeReducer = state.get('purpose');
   return ({
-
     // force: state, // force state from reducer
     avatarInit: purposeReducer.avatarInit,
     purposeData: purposeReducer.purposeList,
+    copyData: purposeReducer.copyData,
     accessData: purposeReducer.accessList,
     itemSelected: purposeReducer.selectedIndex,
     keyword: purposeReducer.keywordValue,
@@ -159,6 +164,7 @@ const constDispatchToProps = dispatch => ({
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
   edit: (data) => dispatch(editPurposeData(data)),
+  copy: (data) => dispatch(copyPurposeData(data)),
   add: () => dispatch(addPurposeData()),
   close: () => dispatch(closeAction()),
   deletePurposeData: (data) => dispatch(deletePurposeData(data)),

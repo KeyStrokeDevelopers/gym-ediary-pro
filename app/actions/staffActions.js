@@ -3,7 +3,7 @@ import {
   ERROR_STAFF_DATA, SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, FETCH_ACCESS_DATA, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA, CLOSE_STAFF_NOTIF, MARK_STAFF_ATTENDANCE, UPDATED_STAFF_DATA
 } from './actionConstants';
 import {
-  addStaffApi, getStaffApi, updateStaffDataApi, deleteStaffDataApi, fetchAccessDataApi, changePasswordApi, getStaffAttendanceDataApi, markStaffAttendanceApi, fetchStaffAttendanceDataApi
+  addStaffApi, getStaffApi, updateStaffDataApi, deleteStaffDataApi, fetchAccessDataApi, changePasswordApi, getStaffAttendanceDataApi, markStaffAttendanceApi, fetchStaffAttendanceDataApi, activeStaffDataApi
 } from '../api/staff';
 
 const fetchStaffData = staffData => ({
@@ -13,7 +13,26 @@ const fetchStaffData = staffData => ({
 
 const updatedStaffData = staffData => ({
   type: UPDATED_STAFF_DATA,
-  payload: staffData
+  payload: staffData,
+  message: 'Staff data updated'
+});
+
+const changePasswordStaffData = staffData => ({
+  type: UPDATED_STAFF_DATA,
+  payload: staffData,
+  message: 'Staff data password changed'
+});
+
+const deletedStaffData = staffData => ({
+  type: UPDATED_STAFF_DATA,
+  payload: staffData,
+  message: 'Staff data deleted'
+});
+
+const activatedStaffData = staffData => ({
+  type: UPDATED_STAFF_DATA,
+  payload: staffData,
+  message: 'Staff data activated'
 });
 
 const submitAction = (staffData) => ({
@@ -120,7 +139,15 @@ export const updateStaffData = (data) => (dispatch) => {
 
 export const deleteStaffData = (data) => (dispatch) => {
   deleteStaffDataApi(data).then((response) => {
-    dispatch(fetchStaffData(response.data));
+    dispatch(deletedStaffData(response.data));
+  }).catch((err) => {
+    dispatch(errorStaffData(err));
+  });
+};
+
+export const activeStaffData = (data) => (dispatch) => {
+  activeStaffDataApi(data).then((response) => {
+    dispatch(activatedStaffData(response.data));
   }).catch((err) => {
     dispatch(errorStaffData(err));
   });
@@ -128,7 +155,7 @@ export const deleteStaffData = (data) => (dispatch) => {
 
 export const changePassword = (newPassword, staffId) => (dispatch) => {
   changePasswordApi(newPassword, staffId).then((response) => {
-    dispatch(fetchStaffData(response.data.staffData));
+    dispatch(changePasswordStaffData(response.data.staffData));
   }).catch((err) => {
     dispatch(errorStaffData(err));
   });

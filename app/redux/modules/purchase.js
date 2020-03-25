@@ -2,12 +2,13 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PURCHASE_DATA, SEARCH_PURCHASE_DATA, EDIT_PURCHASE_DATA, ADD_PURCHASE_DATA, SET_PURCHASE_DETAILS_FIELD,
-  SHOW_DETAIL_PURCHASE, HIDE_DETAIL_PURCHASE, SUBMIT_PURCHASE_DATA, CLOSE_PURCHASE_FORM, LOADING_ACTION_PURCHASE, SET_VALUE_IN_CART, RESET_CART, DELETE_CART_VALUE, SET_ACCOUNT_DATA, HANDLE_NEXT_STEP, HANDLE_BACK_STEP, SHOPING_AGAIN, SET_BILL_INFO_DATA, SET_DISCOUNT, SET_DISCOUNT_IN_VALUE, GET_GYM_INFO_DATA, CLOSE_PURCHASE_NOTIF, ERROR_PURCHASE_DATA
+  SHOW_DETAIL_PURCHASE, HIDE_DETAIL_PURCHASE, SUBMIT_PURCHASE_DATA, CLOSE_PURCHASE_FORM, LOADING_ACTION_PURCHASE, SET_VALUE_IN_CART, RESET_CART, DELETE_CART_VALUE, SET_ACCOUNT_DATA, HANDLE_NEXT_STEP, HANDLE_BACK_STEP, SHOPING_AGAIN, SET_BILL_INFO_DATA, SET_DISCOUNT, SET_DISCOUNT_IN_VALUE, GET_GYM_INFO_DATA, CLOSE_PURCHASE_NOTIF, ERROR_PURCHASE_DATA, HANDLE_STATE_CHANGE
 } from '../../actions/actionConstants';
 
 
 const initialState = {
   purchaseList: [],
+  state: '',
   cartList: [],
   activeStep: 0,
   formValues: {},
@@ -178,6 +179,13 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         discount: action.payload
+      };
+    }
+
+    case HANDLE_STATE_CHANGE: {
+      return {
+        ...state,
+        state: action.payload
       };
     }
 

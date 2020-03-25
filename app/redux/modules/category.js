@@ -44,6 +44,7 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false,
         notifMsg: 'Category data updated',
         notifType: notifT.success,
+        selectedIndex: 0,
         openNoti: true,
       };
     case DELETE_CATEGORY_DATA:

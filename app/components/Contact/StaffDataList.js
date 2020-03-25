@@ -145,10 +145,10 @@ class StaffDataList extends React.Component {
   }
 }
 
-StaffDataList.defaultProps = {
-  clippedRight: false,
-  addContact: () => { },
-  addFn: false,
-};
+// StaffDataList.defaultProps = {
+//   clippedRight: false,
+//   addContact: () => { },
+//   addFn: false,
+// };
 
 export default withStyles(styles)(StaffDataList);

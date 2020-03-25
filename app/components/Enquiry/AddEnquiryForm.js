@@ -82,8 +82,6 @@ class AddEnquiryForm extends React.Component {
                 placeholder="Member Name"
                 autoComplete="off"
                 label="Member Name"
-                required
-                ref={this.saveRef}
                 className={classes.field}
                 InputProps={{
                   startAdornment: (
@@ -101,7 +99,6 @@ class AddEnquiryForm extends React.Component {
                 autoComplete="off"
                 placeholder="Contact Number"
                 label="Contact Number"
-                required
                 validate={phoneNumber}
                 className={classes.field}
                 InputProps={{
@@ -120,7 +117,6 @@ class AddEnquiryForm extends React.Component {
                   <Field
                     name="fTitle"
                     component={SelectRedux}
-                    required
                     placeholder="Title"
                     onChange={this.selectedValue}
                   >
@@ -142,7 +138,6 @@ class AddEnquiryForm extends React.Component {
                   autoComplete="off"
                   placeholder="Favour Of & Name"
                   label="Favour Of & Name"
-                  required
                   className={classes.field}
                   InputProps={{
                     startAdornment: (
@@ -217,7 +212,6 @@ class AddEnquiryForm extends React.Component {
                 placeholder="Postal Address"
                 label="Address"
                 autoComplete="off"
-                required
                 multiline
                 className={classes.field}
                 InputProps={{
@@ -305,7 +299,6 @@ class AddEnquiryForm extends React.Component {
                 label="Response e.g- Call Me Later, Not Interested"
                 autoComplete="off"
                 className={classes.field}
-                required
                 multiline
                 InputProps={{
                   startAdornment: (

@@ -45,7 +45,7 @@ class AddExpenseIncome extends React.Component {
       classes,
       openForm,
       closeForm,
-      avatarInit,
+      formValues,
       addExpenseIncome,
       purposeData,
       packageData,
@@ -70,8 +70,8 @@ class AddExpenseIncome extends React.Component {
             purposeData={purposeData}
             packageData={packageData}
             paymentMethodData={paymentMethodData}
+            formValues={formValues}
             categoryData={categoryData}
-            imgAvatar={img === null ? avatarInit : img}
             isLoading={isLoading}
           />
         </FloatingPanel>

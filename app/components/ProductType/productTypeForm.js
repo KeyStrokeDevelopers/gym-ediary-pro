@@ -75,7 +75,6 @@ class ProductTypeForm extends React.Component {
                 <Field
                   name="gst"
                   component={SelectRedux}
-                  required
                   placeholder="GST %"
                   onChange={this.selectedValue}
                 >

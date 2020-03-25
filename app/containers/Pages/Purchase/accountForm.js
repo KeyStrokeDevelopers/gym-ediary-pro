@@ -68,6 +68,11 @@ class AccountForm extends Component {
     }
   }
 
+  handleStateChange = (state) => {
+    const { setState } = this.props;
+    setState(state);
+  }
+
   render() {
     const {
       classes,
@@ -170,6 +175,7 @@ class AccountForm extends Component {
                     component={SelectRedux}
                     required
                     placeholder="Select State"
+                    onChange={(e, state) => this.handleStateChange(state)}
                   >
                     {
                       (allIndianState && allIndianState.length >= 1) &&

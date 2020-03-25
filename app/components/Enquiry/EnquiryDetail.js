@@ -25,6 +25,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import moment from 'moment';
 import Button from '@material-ui/core/Button';
 
 
@@ -114,7 +115,7 @@ class EnquiryDetail extends React.Component {
     let enquiryDataView;
 
     if (enquiryData && enquiryData.length >= 1) {
-      enquiryDataView = enquiryData.filter(item => item.enqDate <= dateTo && item.enqDate >= dateFrom);
+      enquiryDataView = enquiryData.filter(item => moment(new Date(item.enqDate)).format('YYYY-MM-DD') <= dateTo && moment(new Date(item.enqDate)).format('YYYY-MM-DD') >= dateFrom);
     }
 
     if (enquiryDataView && enquiryDataView.length >= 1) {

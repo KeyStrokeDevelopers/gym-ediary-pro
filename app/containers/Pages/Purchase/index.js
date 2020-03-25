@@ -18,10 +18,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
 // import BillInfoForm from './billInfoForm';
 import {
-  handleNextStep, handleBack, shopingAgain, submitPurchaseData, resetCart, deletePurchaseData, closeNotifAction
-} from 'dan-actions/purchaseActions.js';
+  handleNextStep, handleBack, shopingAgain, submitPurchaseData, resetCart, deletePurchaseData, closeNotifAction, setState, getGymInfoData, setInCart
+} from 'dan-actions/purchaseActions';
 import { getVendorData } from 'dan-actions/accountInfoActions';
-import { getGymInfoData, setInCart } from 'dan-actions/purchaseActions';
 import BillInfo from './billInfo';
 import AccountForm from './accountForm';
 import PurchaseForm from './purchaseForm';
@@ -130,14 +129,12 @@ class Checkout extends React.Component {
       notifType,
       openNoti,
       closeNotif,
-      isPurchaseSubmited
+      isPurchaseSubmited,
+      setState
     } = this.props;
     const purchaseRecord = {};
     purchaseRecord.orderSummary = cartList;
     purchaseRecord.accountInfo = billInfoData;
-
-    console.log('isPurchaseSubmited------', isPurchaseSubmited)
-
     return (
       <Fragment>
         <StyledNotif close={() => closeNotif()} openNoti={openNoti} message={messageNotif} notifType={notifType} />
@@ -187,6 +184,7 @@ class Checkout extends React.Component {
                             <AccountForm
                               accountInfo={accountInfo}
                               accountInfoData={accountInfoData}
+                              setState={setState}
                             />
                           )}
                       </Grid>
@@ -261,7 +259,7 @@ const mapStateToProps = state => {
     messageNotif: purchaseReducer.notifMsg,
     isPurchaseSubmited: purchaseReducer.isSubmited,
     notifType: purchaseReducer.notifType,
-    openNoti: purchaseReducer.openNoti,
+    openNoti: purchaseReducer.openNoti
   });
 };
 
@@ -277,6 +275,7 @@ const mapDispatchToProps = dispatch => ({
   resetCart: () => dispatch(resetCart()),
   deletePurchaseData: (invoiceId) => dispatch(deletePurchaseData(invoiceId)),
   closeNotif: () => dispatch(closeNotifAction()),
+  setState: (state) => dispatch(setState(state))
 });
 
 const CheckoutMapped = connect(

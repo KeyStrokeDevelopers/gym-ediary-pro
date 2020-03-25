@@ -13,6 +13,7 @@ import {
   editStaffData,
   searchStaffData,
   updateStaffData,
+  activeStaffData,
   deleteStaffData,
   setDetailField,
   loadingAction,
@@ -97,6 +98,7 @@ class Staff extends React.Component {
       openNoti,
       closeNotif,
       delete_Staff_Data,
+      active_Staff_Data,
       isLoading
     } = this.props;
     return (
@@ -130,6 +132,7 @@ class Staff extends React.Component {
             changePassword={changePasswordData}
             staffData={staffData}
             deleteStaffData={delete_Staff_Data}
+            activeStaffData={active_Staff_Data}
             itemSelected={itemSelected}
             edit={edit}
             isActive={isActive}
@@ -183,12 +186,11 @@ const constDispatchToProps = dispatch => ({
   fetchAccess: () => dispatch(fetchAccessData()),
   showDetail: (data) => dispatch(showDetailAction(data)),
   hideDetail: () => dispatch(hideDetailAction()),
-  edit: (data) => {
-    return dispatch(editStaffData(data))
-  },
+  edit: (data) => dispatch(editStaffData(data)),
   add: () => dispatch(addStaffData()),
   close: () => dispatch(closeAction()),
   delete_Staff_Data: (data) => dispatch(deleteStaffData(data)),
+  active_Staff_Data: (dataId) => dispatch(activeStaffData(dataId)),
   isActiveData: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchStaffData(data)),
   closeNotif: () => dispatch(closeNotifAction()),

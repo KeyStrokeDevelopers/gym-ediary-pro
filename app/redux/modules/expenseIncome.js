@@ -78,13 +78,15 @@ export default function reducer(state = initialState, action = {}) {
         keywordValue: action.payload.toLowerCase(),
         isLoading: false
       };
-    case EDIT_EXPENSE_INCOME_DATA:
+    case EDIT_EXPENSE_INCOME_DATA: {
+      const formValue = Object.assign({}, action.payload, { catName: action.payload.catName._id, paymentMethod: action.payload.paymentMethod._id });
       return {
         ...state,
         openFrm: true,
-        formValues: action.payload,
+        formValues: formValue,
         isLoading: false
       };
+    }
     case ADD_EXPENSE_INCOME_DATA:
       return {
         ...state,

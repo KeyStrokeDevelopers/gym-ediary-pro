@@ -12,7 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import styles from './brandUnit-jss';
 import { validate } from '../Forms/helpers/formValidation';
-import { RegularTextFieldRedux, SelectRedux } from '../Forms/ReduxFormMUI';
+import { SelectRedux, TextFieldRedux } from '../Forms/ReduxFormMUI';
 
 class BrandUnitForm extends React.Component {
   state = {
@@ -25,7 +25,8 @@ class BrandUnitForm extends React.Component {
 
   handleSubmitData = (data) => {
     const { onSubmit, reset } = this.props
-    onSubmit(data);
+    const formData = data.set('value', data.get('value').toUpperCase());
+    onSubmit(formData);
     reset();
   }
 
@@ -49,7 +50,6 @@ class BrandUnitForm extends React.Component {
                 <Field
                   name="entryType"
                   component={SelectRedux}
-                  required
                   placeholder="Select Entry Type"
                   autoComplete="off"
                   onChange={this.selectedValue}
@@ -65,7 +65,7 @@ class BrandUnitForm extends React.Component {
                 placeholder={placeValue}
                 label={placeValue}
                 autoComplete="off"
-                component={RegularTextFieldRedux}
+                component={TextFieldRedux}
                 className={classes.field}
                 InputProps={{
                   startAdornment: (

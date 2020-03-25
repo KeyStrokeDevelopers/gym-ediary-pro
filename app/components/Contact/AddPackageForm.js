@@ -57,8 +57,6 @@ class AddPackageForm extends React.Component {
                 autoComplete="off"
                 placeholder="Package Name e.g. Monthly, Yearly"
                 label="Package Name e.g. Monthly, Yearly"
-                required
-                ref={this.saveRef}
                 className={classes.field}
                 InputProps={{
                   startAdornment: (
@@ -75,7 +73,6 @@ class AddPackageForm extends React.Component {
                 <Field
                   name="durationIn"
                   component={SelectRedux}
-                  required
                   placeholder="Select Duration In"
                   onChange={this.selectedValue}
                 >
@@ -92,7 +89,6 @@ class AddPackageForm extends React.Component {
                 autoComplete="off"
                 placeholder={`Duration In ${durationIn}`}
                 label={`Duration In ${durationIn}`}
-                required
                 validate={number}
                 className={classes.field}
                 InputProps={{
@@ -111,7 +107,6 @@ class AddPackageForm extends React.Component {
                 autoComplete="off"
                 placeholder="Package Price - 1000, 3000"
                 label="Package Price - 1000, 3000"
-                required
                 validate={number}
                 className={classes.field}
                 InputProps={{

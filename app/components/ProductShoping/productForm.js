@@ -45,7 +45,6 @@ class ProductForm extends React.Component {
                 <Field
                   name="product"
                   component={SelectRedux}
-                  required
                   autoComplete="off"
                   placeholder="Select Product Type"
                   onChange={this.selectedValue}
@@ -62,7 +61,6 @@ class ProductForm extends React.Component {
                 <Field
                   name="brand"
                   component={SelectRedux}
-                  required
                   placeholder="Select Brand Name"
                   autoComplete="off"
                   onChange={this.selectedValue}
@@ -131,7 +129,6 @@ class ProductForm extends React.Component {
                 <Field
                   name="measuringUnit"
                   component={SelectRedux}
-                  required
                   placeholder="Select Measuring Unit"
                   autoComplete="off"
                   onChange={this.selectedValue}
@@ -178,8 +175,6 @@ class ProductForm extends React.Component {
                 }}
               />
             </div>
-
-
           </section>
           <div className={css.buttonArea}>
             <Button variant="contained" color="secondary" type="submit" disabled={submitting}>

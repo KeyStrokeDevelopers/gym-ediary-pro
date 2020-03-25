@@ -3,12 +3,13 @@ import notifM from 'dan-api/ui/notifMessage';
 import notifT from 'dan-api/ui/notifType';
 import {
   FETCH_PURPOSE_DATA, SEARCH_PURPOSE_DATA, EDIT_PURPOSE_DATA, ADD_PURPOSE_DATA, SET_PURPOSE_DETAILS_FIELD, FETCH_ACCESS_DATA,
-  SHOW_DETAIL_PURPOSE, HIDE_DETAIL_PURPOSE, SUBMIT_PURPOSE_DATA, CLOSE_PURPOSE_FORM, LOADING_ACTION_PURPOSE, CLOSE_PURPOSE_NOTIF, ERROR_PURPOSE_DATA, ACTIVE_PURPOSE_DATA, DELETE_PURPOSE_DATA, UPDATE_PURPOSE_DATA
+  SHOW_DETAIL_PURPOSE, HIDE_DETAIL_PURPOSE, SUBMIT_PURPOSE_DATA, CLOSE_PURPOSE_FORM, LOADING_ACTION_PURPOSE, CLOSE_PURPOSE_NOTIF, ERROR_PURPOSE_DATA, ACTIVE_PURPOSE_DATA, DELETE_PURPOSE_DATA, UPDATE_PURPOSE_DATA, COPY_PURPOSE_DATA
 } from '../../actions/actionConstants';
 
 
 const initialState = {
   purposeList: [],
+  copyData: {},
   accessList: [],
   formValues: {},
   selectedIndex: 0,
@@ -86,6 +87,17 @@ export default function reducer(state = initialState, action = {}) {
         formValues: action.payload,
         isLoading: false
       };
+    case COPY_PURPOSE_DATA:
+      return {
+        ...state,
+        openFrm: true,
+        copyData: Object.assign({}, action.payload, { purposeName: '' }),
+        formValues: {},
+        isLoading: false,
+        notifMsg: 'Purpose data copy',
+        notifType: notifT.success,
+        openNoti: true,
+      };
     case ADD_PURPOSE_DATA:
       return {
         ...state,
@@ -100,6 +112,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: false,
         formValues: {},
+        copyData: {},
         avatarInit: '',
         purposeList: [...state.purposeList, action.payload],
         isLoading: false,

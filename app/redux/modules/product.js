@@ -77,13 +77,15 @@ export default function reducer(state = initialState, action = {}) {
         keywordValue: action.payload.toLowerCase(),
         isLoading: false
       };
-    case EDIT_PRODUCT_SHOPING_DATA:
+    case EDIT_PRODUCT_SHOPING_DATA: {
+      const formValue = Object.assign({}, action.payload, { brand: action.payload.brand._id }, { product: action.payload.product._id }, { measuringUnit: action.payload.measuringUnit._id });
       return {
         ...state,
         openFrm: true,
-        formValues: action.payload,
+        formValues: formValue,
         isLoading: false
       };
+    }
     case ADD_PRODUCT_SHOPING_DATA:
       return {
         ...state,

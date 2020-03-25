@@ -24,7 +24,6 @@ class AddContact extends React.Component {
     this.onDrop = this.onDrop.bind(this);
   }
 
-
   onDrop(filesVal) {
     const { files } = this.state;
     let oldFiles = files;
@@ -35,7 +34,7 @@ class AddContact extends React.Component {
     } else {
       this.setState({ img: filesVal[0], hitDelete: false });
     }
-  }
+  } s
 
   handleDeleteImdage = () => {
     this.setState({ files: [], img: null, hitDelete: true });
@@ -62,6 +61,7 @@ class AddContact extends React.Component {
       formType,
       accessData,
       edit,
+      copyData,
       itemSelected,
       initFormValue,
       isLoading,
@@ -99,7 +99,6 @@ class AddContact extends React.Component {
               <AddCategoryForm
                 onSubmit={this.sendValues}
                 onDrop={this.onDrop}
-                imgAvatar={img === null ? avatarInit : img}
                 isLoading={isLoading}
               />
             )
@@ -148,6 +147,7 @@ class AddContact extends React.Component {
                 onDrop={this.onDrop}
                 formTest={formTest}
                 initFormValue={initFormValue}
+                copyData={copyData}
                 imgAvatar={img === null ? avatarInit : img}
                 isLoading={isLoading}
               />

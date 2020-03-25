@@ -16,7 +16,8 @@ class ControlledEditor extends Component {
     super(props);
     this.state = {
       editorState: EditorState.createEmpty(),
-      isEditorChange: false
+      isEditorChange: false,
+      reset: false
 
     };
     this.props.onChange(
@@ -26,6 +27,7 @@ class ControlledEditor extends Component {
 
   componentDidMount() {
     const { initValue, onChange } = this.props;
+    const { value, resetEditor } = this.props;
     if (!(encodeURIComponent(initValue) === '%3Cp%3E%3C%2Fp%3E%0A') && initValue) {
       const stateValue = EditorState.createWithContent(
         ContentState.createFromBlockArray(
@@ -46,9 +48,12 @@ class ControlledEditor extends Component {
   }
 
   componentDidUpdate() {
-    const { value, initValue } = this.props;
+    const { value, initValue, resetEditor } = this.props;
+    if (resetEditor) {
+      this.setState({ editorState: EditorState.createEmpty() });
+      return;
+    }
     const { editorState, isEditorChange } = this.state;
-
     if ((initValue && (!(encodeURIComponent(initValue) === '%3Cp%3Eundefined%3C%2Fp%3E%0A'))) && !(isEditorChange)
       && !(encodeURIComponent(initValue) === '%3Cp%3E%3C%2Fp%3E%0A')) {
       const stateNewValue = EditorState.createWithContent(
@@ -59,7 +64,6 @@ class ControlledEditor extends Component {
       const stateValue = unemojify(
         draftToHtml(convertToRaw(editorState.getCurrentContent()))
       );
-
       const updateState = unemojify(
         draftToHtml(convertToRaw(stateNewValue.getCurrentContent()))
       );

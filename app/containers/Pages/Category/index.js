@@ -75,7 +75,6 @@ class Category extends React.Component {
       categoryType,
       isLoading
     } = this.props;
-    const isCategoryData = categoryData.length >= 1;
     return (
       <div>
         <Helmet>
@@ -123,7 +122,6 @@ class Category extends React.Component {
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
           submit={this.submitCategoryData}
-          avatarInit={avatarInit}
           isLoading={isLoading}
         />
       </div>
@@ -134,9 +132,6 @@ class Category extends React.Component {
 const mapStateToProps = state => {
   const categoryReducer = state.get('category');
   return ({
-
-    // force: state, // force state from reducer
-    avatarInit: categoryReducer.avatarInit,
     categoryData: categoryReducer.categoryList,
     itemSelected: categoryReducer.selectedIndex,
     keyword: categoryReducer.keywordValue,
@@ -163,8 +158,6 @@ const constDispatchToProps = dispatch => ({
   close: () => dispatch(closeAction()),
   deleteCategoryData: (data) => dispatch(deleteCategoryData(data)),
   activeCategoryData: (data) => dispatch(activeCategoryData(data)),
-  // remove: bindActionCreators(removeAction, dispatch),
-  // favorite: bindActionCreators(addToFavoriteAction, dispatch),
   isActive: (data) => dispatch(setDetailField(data)),
   search: (data) => dispatch(searchCategoryData(data)),
   loading: () => dispatch(loadingAction()),

@@ -8,6 +8,7 @@ const validate = values => {
     'shiftFrom1',
     'shiftTo1',
     'invoiceNumber',
+    'purposeName',
 
     // Category Form Field
     'categoryType',
@@ -47,11 +48,22 @@ const validate = values => {
 
     // purchase
     'product',
+    'brand',
+    'model',
+    'modelNo',
+    'minimumQty',
+    'measuringUnit',
+    'costPrice',
+    'sellingPrice',
     'brandProduct',
     'quantity',
     'priceFormat',
     'price',
     'productType',
+    'hsnCode',
+    'gst',
+    'entryType',
+    'value',
     'registerNumber',
     'userNumber',
     'branchPin',

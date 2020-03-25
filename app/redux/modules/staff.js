@@ -6,7 +6,6 @@ import {
   SHOW_DETAIL_STAFF, HIDE_DETAIL_STAFF, SUBMIT_STAFF_DATA, CLOSE_STAFF_FORM, LOADING_ACTION_STAFF, SET_STAFF_ATTENDANCE_DATA, SET_STAFF_PROFILE_ATTENDANCE_DATA, CLOSE_STAFF_NOTIF, ERROR_STAFF_DATA, MARK_STAFF_ATTENDANCE, UPDATED_STAFF_DATA
 } from '../../actions/actionConstants';
 
-
 const initialState = {
   staffList: [],
   accessList: [],
@@ -44,7 +43,8 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        notifMsg: 'Staff data updated',
+        selectedIndex: 0,
+        notifMsg: action.message,
         notifType: notifT.success,
         openNoti: true
       };

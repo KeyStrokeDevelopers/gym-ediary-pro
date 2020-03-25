@@ -15,7 +15,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import styles from './email-jss';
 import EditorField from './Editor/editorField';
+import ControlledEditor from './Editor/controlledEditor';
 import { TextFieldRedux } from '../Forms/ReduxFormMUI';
+import { validate } from '../Forms/helpers/formValidation';
 
 class AddPurposeForm extends React.Component {
   state = {
@@ -56,12 +58,16 @@ class AddPurposeForm extends React.Component {
       initialValue = editorValue[index];
     } else if (this.props.initFormValue[type]) {
       initialValue = this.props.initFormValue[type];
+    } else if (this.props.copyData[type]) {
+      initialValue = this.props.copyData[type];
     }
+
     return (
       <EditorField
         name={type}
         disabled={false}
         key={type}
+        reset={true}
         placeholder="Type here"
         initValue={initialValue}
         onChange={(data) => this.handleEditorChange(data, index)}
@@ -70,9 +76,12 @@ class AddPurposeForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
-    const { onSubmit, reset } = this.props
-    onSubmit(data);
+    const { onSubmit, reset } = this.props;
+    const formData = data.set('purposeName', data.get('purposeName').toUpperCase());
+    onSubmit(formData);
     reset();
+    this.setState({ editorValue: [] });
+    const checktest = <ControlledEditor resetEditor={true} />
   }
 
   render() {
@@ -84,7 +93,7 @@ class AddPurposeForm extends React.Component {
       handleSubmit
     } = this.props;
     const {
-      nutritionValue, workOutValue, workOutIndex, value
+      nutritionValue, workOutValue, workOutIndex, value, editorValue
     } = this.state;
     return (
       <div>
@@ -97,8 +106,6 @@ class AddPurposeForm extends React.Component {
                 autoComplete="off"
                 placeholder="Purpose Name"
                 label="Purpose Name"
-                required
-                ref={this.saveRef}
                 className={classes.field}
                 InputProps={{
                   startAdornment: (
@@ -212,14 +219,15 @@ class AddPurposeForm extends React.Component {
 
 const AddPurposeFormRedux = reduxForm({
   form: 'addPurposeForm',
-  // validate,
-  enableReinitialize: true
+  validate,
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
 })(AddPurposeForm);
 
 
 const AddPurposeInit = connect(
   state => ({
-    initialValues: state.get('purpose').formValues
+    initialValues: Object.keys(state.get('purpose').formValues).length >= 1 ? state.get('purpose').formValues : state.get('purpose').copyData
   })
 )(AddPurposeFormRedux);
 

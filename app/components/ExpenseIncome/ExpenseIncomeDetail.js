@@ -237,7 +237,7 @@ class ExpenseIncomeDetail extends React.Component {
                   <Typography className={classes.userName} variant="h6">
                     {viewExpenseIncomeData[itemSelected].amount}
                     <Typography display="block" variant="caption">
-                      {viewExpenseIncomeData[itemSelected].paymentMethod['paymentMethod']}
+                      {viewExpenseIncomeData[itemSelected].catName['category']}
                     </Typography>
                   </Typography>
                 </Hidden>
@@ -253,7 +253,7 @@ class ExpenseIncomeDetail extends React.Component {
                     <Typography variant="h5">
                       {viewExpenseIncomeData[itemSelected].amount}
                       <Typography display="block" variant="caption">
-                        {viewExpenseIncomeData[itemSelected].paymentMethod['paymentMethod']}
+                        {viewExpenseIncomeData[itemSelected].catName['category']}
                       </Typography>
                     </Typography>
                   </div>

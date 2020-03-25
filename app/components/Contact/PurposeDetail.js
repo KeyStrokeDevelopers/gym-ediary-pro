@@ -23,6 +23,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
@@ -97,6 +98,7 @@ class PurposeDetail extends React.Component {
       purposeData,
       itemSelected,
       edit,
+      copy,
       favorite,
       showMobileDetail,
       isActive,
@@ -175,6 +177,11 @@ class PurposeDetail extends React.Component {
                       <Tooltip title="Edit Purpose Data">
                         <IconButton aria-label="Edit" onClick={() => edit(viewPurposeData[itemSelected])}>
                           <Edit />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Copy Purpose Data">
+                        <IconButton aria-label="Edit" onClick={() => copy(viewPurposeData[itemSelected])}>
+                          <FileCopyIcon />
                         </IconButton>
                       </Tooltip>
                     </>

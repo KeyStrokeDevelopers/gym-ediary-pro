@@ -65,6 +65,7 @@ class AddClassForm extends React.Component {
       handleSubmit,
       staffData
     } = this.props;
+    const activeStaffData = staffData.filter(item => item.status === 1);
     const { durationIn, classTo, classFrom } = this.state;
     return (
       <div>
@@ -243,7 +244,7 @@ class AddClassForm extends React.Component {
                     {' '}
                   </MenuItem>
                   {
-                    staffData.length >= 1 && staffData.map((data, index) => <MenuItem key={index + Math.random()} value={data._id}>{data.staffName}</MenuItem>)
+                    activeStaffData.length >= 1 && activeStaffData.map((data, index) => <MenuItem key={index + Math.random()} value={data._id}>{data.staffName}</MenuItem>)
                   }
                 </Field>
               </FormControl>

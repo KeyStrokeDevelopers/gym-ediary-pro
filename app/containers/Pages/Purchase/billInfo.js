@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 
 class BillInfo extends Component {
   render() {
-    const { cartData, gymInfoData
+    const { cartData, gymInfoData, state
     } = this.props;
-    console.log('gym info data=---', gymInfoData)
     let taxableAmount = 0;
     let totalDiscount = 0;
     let gstValue = 0;
@@ -41,9 +40,9 @@ class BillInfo extends Component {
       if (gymInfoState === 'Chandigarh' || gymInfoState === 'Dadra and Nagar Haveli' || gymInfoState === 'Lakshadweep' || gymInfoState === 'Daman and Diu' || gymInfoState === 'Puducherry' || gymInfoState === 'Delhi' || gymInfoState === 'Andaman and Nicobar Islands') {
         gstLabel = 'UGST';
       }
-      // else if (gymInfoState === accountData.get('state')) {
-      //     gstLabel = 'SGST+CGST';
-      // }
+      else if (gymInfoState === state) {
+        gstLabel = 'SGST+CGST';
+      }
       else {
         gstLabel = 'IGST';
       }
@@ -163,6 +162,7 @@ const mapStateToProps = state => {
     cartData: purchaseReducer.cartList,
     accountData: purchaseReducer.accountData,
     discount: purchaseReducer.discount,
+    state: purchaseReducer.state,
     discountInValue: purchaseReducer.discountInValue,
     gymInfoData: signReducer.gymInfo
   });

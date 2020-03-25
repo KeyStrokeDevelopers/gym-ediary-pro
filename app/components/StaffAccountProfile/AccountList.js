@@ -90,12 +90,12 @@ class AccountList extends Component {
       defaultPerPage,
       filterText,
       columnData,
-      tableData,
       fromDate,
       toDate,
       title
     } = this.state;
     const { classes, handlePrint, salaryData, editSalary } = this.props;
+    const tableData = salaryData.filter(item => moment(new Date(item.date)).format('YYYY-MM-DD') >= fromDate && moment(new Date(item.date)).format('YYYY-MM-DD') <= toDate);
     return (
       <div style={{ width: '100%' }}>
         <Helmet>
@@ -130,14 +130,14 @@ class AccountList extends Component {
             />
           </div>
         </div>
-        {(salaryData)
+        {(tableData)
           && (
             <>
               <AdvTable
                 order={order}
                 orderBy={orderBy}
                 selected={selected}
-                data={salaryData}
+                data={tableData}
                 editSalary={editSalary}
                 page={page}
                 title={title}

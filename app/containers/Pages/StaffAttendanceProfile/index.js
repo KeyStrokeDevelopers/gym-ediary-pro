@@ -113,7 +113,7 @@ class Attendance extends Component {
             />
           </div>
         </div>
-        {(attendanceData.length >= 1)
+        {(attendanceData)
           ? (
             <>
               <AdvTable

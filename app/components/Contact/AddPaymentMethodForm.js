@@ -38,8 +38,6 @@ class AddPaymentMethodForm extends React.Component {
                 autoComplete="off"
                 placeholder="Payment Method"
                 label="Payment Method"
-                required
-                ref={this.saveRef}
                 className={classes.field}
                 InputProps={{
                   startAdornment: (
