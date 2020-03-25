@@ -76,7 +76,9 @@ const styles = theme => ({
 class SideReview extends Component {
   state = {
     openMenu: false,
-    open: false
+    open: false,
+    openDelete: false,
+    deleteItemIndex: null,
   }
 
   resetCart = () => {
@@ -84,9 +86,8 @@ class SideReview extends Component {
     resetCartValue();
   }
 
-  deleteFromCart = (index) => {
-    const { delete_Cart_Value } = this.props;
-    delete_Cart_Value(index);
+  deleteFromCart = (deleteItemIndex) => {
+    this.setState({ openDelete: true, deleteItemIndex })
   }
 
   handleMenuOpen = () => {
@@ -110,9 +111,25 @@ class SideReview extends Component {
     this.setState({ open: false });
   }
 
+  handleAgree = () => {
+    this.resetCart();
+    this.setState({ openDelete: false });
+  }
+
+  handleDisagreeDelete = () => {
+    this.setState({ openDelete: false });
+  }
+
+  handleAgreeDelete = () => {
+    const { delete_Cart_Value } = this.props;
+    const { deleteItemIndex } = this.state;
+    delete_Cart_Value(deleteItemIndex);
+    this.setState({ openDelete: false, deleteItemIndex: null });
+  }
+
   render() {
     const { classes, cartData } = this.props;
-    const { open } = this.state;
+    const { open, openDelete } = this.state;
     // const { openMenu } = this.state;
     let totalPrice = 0;
     const getCartItem = dataArray => dataArray.map((item, index) => {
@@ -164,6 +181,29 @@ class SideReview extends Component {
                 Disagree
                       </Button>
               <Button onClick={this.handleAgree} color="primary" autoFocus>
+                Agree
+                      </Button>
+            </DialogActions>
+          </Dialog>
+          <Dialog
+            open={openDelete}
+            onClose={this.handleDisagreeDelete}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {'Delete Item'}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Are you sure for delete item ?
+                      </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleDisagreeDelete} color="primary">
+                Disagree
+                      </Button>
+              <Button onClick={this.handleAgreeDelete} color="primary" autoFocus>
                 Agree
                       </Button>
             </DialogActions>
