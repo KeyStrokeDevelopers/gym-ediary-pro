@@ -80,7 +80,6 @@ export const getAccountInfoData = () => (dispatch) => {
 
 export const getCustomerData = () => (dispatch) => {
   getCustomerDataApi().then((response) => {
-    console.log('respose .data in customer get', response.data);
     dispatch(fetchAccountInfoData(response.data));
   }).catch((err) => {
     dispatch(errorAccountInfoData(err));
