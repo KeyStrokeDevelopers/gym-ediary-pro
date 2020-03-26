@@ -38,6 +38,8 @@ const validate = values => {
     'favourOf',
     'email',
     'address',
+    'regFee',
+    'packActivation',
 
     // class
     'className',
@@ -60,6 +62,7 @@ const validate = values => {
     'priceFormat',
     'price',
     'productType',
+    'paidAmount',
     'hsnCode',
     'gst',
     'entryType',

@@ -96,7 +96,7 @@ class AddMemberForm extends React.Component {
     });
   }
 
-  handlePackageSelected = (e, packId) => {
+  handlePackageSelected = (packId) => {
     const { packageData } = this.props;
     const selectedPackage = packageData.filter((selectedPackage) => selectedPackage._id === packId);
     if (selectedPackage) {
@@ -281,7 +281,6 @@ class AddMemberForm extends React.Component {
                   <Field
                     name="fTitle"
                     component={SelectRedux}
-                    required
                     placeholder="Title"
                   >
                     <MenuItem value="">None</MenuItem>
@@ -298,7 +297,6 @@ class AddMemberForm extends React.Component {
                   autoComplete="off"
                   placeholder="Favour Of & Name"
                   label="Favour Of & Name"
-                  required
                   className={classes.field}
                   InputProps={{
                     startAdornment: (
@@ -318,7 +316,6 @@ class AddMemberForm extends React.Component {
                 placeholder="Postal Address"
                 label="Address"
                 autoComplete="off"
-                required
                 multiline
                 className={classes.field}
                 InputProps={{
@@ -338,7 +335,6 @@ class AddMemberForm extends React.Component {
                     <Field
                       name="purpose"
                       component={SelectRedux}
-                      required
                       placeholder="Select Purpose"
                     >
                       {
@@ -356,7 +352,6 @@ class AddMemberForm extends React.Component {
                     autoComplete="off"
                     label="Registration Fees"
                     onChange={this.handleRegistrationFees}
-                    required
                     className={classes.field}
                     InputProps={{
                       startAdornment: (
@@ -373,7 +368,6 @@ class AddMemberForm extends React.Component {
                     <Field
                       name="gst"
                       component={SelectRedux}
-                      required
                       placeholder="GST %"
                       onChange={this.selectedGstPer}
                     >
@@ -391,8 +385,8 @@ class AddMemberForm extends React.Component {
                     <Field
                       name="packageInfo"
                       component={SelectRedux}
-                      required
                       placeholder="Select Package"
+                      onChange={(e, packId) => this.handlePackageSelected(packId)}
                     >
                       {
                         (packageData && packageData.length >= 1) &&
@@ -468,7 +462,6 @@ class AddMemberForm extends React.Component {
                     autoComplete="off"
                     onChange={this.handlePaidAmount}
                     className={classes.field}
-                    required
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -484,7 +477,6 @@ class AddMemberForm extends React.Component {
                     <Field
                       name="paymentMode"
                       component={SelectRedux}
-                      required
                       placeholder="Select Payment Mode"
                     >
                       {
@@ -616,7 +608,6 @@ class AddMemberForm extends React.Component {
                   <Field
                     name="bloodGroup"
                     component={SelectRedux}
-                    required
                     placeholder="Blood Group"
                   >
                     <MenuItem value="">Not Known</MenuItem>
@@ -637,7 +628,6 @@ class AddMemberForm extends React.Component {
                   <Field
                     name="maritalStatus"
                     component={SelectRedux}
-                    required
                     placeholder="MARITAL STATUS"
                   >
                     <MenuItem value="">Not Known</MenuItem>
