@@ -39,7 +39,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATED_ADD_MEMBER_DATA:
@@ -50,7 +49,6 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
-        isFormReset: true,
         notifMsg: notifM.updated,
         notifType: notifT.success,
         openNoti: true
@@ -119,7 +117,6 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         isActive: action.payload,
-        isFormReset: false,
         selectedIndex: 0,
         showDetails: {}
 

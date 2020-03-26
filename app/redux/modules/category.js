@@ -34,7 +34,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATED_CATEGORY_DATA:
@@ -44,7 +43,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         notifMsg: 'Category data updated',
         notifType: notifT.success,
         selectedIndex: 0,

@@ -33,7 +33,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATE_PAYMENT_METHOD_DATA:
@@ -43,7 +42,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         notifMsg: 'Payment method data Updated',
         notifType: notifT.success,
         openNoti: true,

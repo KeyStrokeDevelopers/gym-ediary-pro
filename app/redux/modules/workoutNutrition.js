@@ -32,7 +32,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0
       };
     case SEARCH_WORKOUT_NUTRITION_DATA:

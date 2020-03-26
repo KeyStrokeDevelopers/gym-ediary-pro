@@ -35,8 +35,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         selectedIndex: 0,
-        isLoading: false,
-        isFormReset: true,
+        isLoading: false
       };
     case UPDATED_STAFF_DATA:
       return {
@@ -46,7 +45,6 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         isLoading: false,
         selectedIndex: 0,
-        isFormReset: true,
         notifMsg: action.message,
         notifType: notifT.success,
         openNoti: true

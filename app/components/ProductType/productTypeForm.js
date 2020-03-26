@@ -24,7 +24,7 @@ class ProductTypeForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
-    const { onSubmit } = this.props
+    const { onSubmit } = this.props;
     onSubmit(data);
   }
 
@@ -116,7 +116,8 @@ class ProductTypeForm extends React.Component {
 const ProductTypeFormRedux = reduxForm({
   form: 'productTypeForm',
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
 })(ProductTypeForm);
 
 

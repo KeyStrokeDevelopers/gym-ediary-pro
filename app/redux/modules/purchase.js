@@ -40,7 +40,6 @@ export default function reducer(state = initialState, action = {}) {
         purchaseList: action.payload,
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0
       };
     case SEARCH_PURCHASE_DATA:

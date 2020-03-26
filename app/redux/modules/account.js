@@ -33,7 +33,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATE_SALARY_DATA:
@@ -42,7 +41,6 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
-        isFormReset: true,
         salaryList: action.payload,
         notifMsg: notifM.updated,
         notifType: notifT.success,

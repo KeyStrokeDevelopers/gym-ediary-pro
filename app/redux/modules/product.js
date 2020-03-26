@@ -33,7 +33,6 @@ export default function reducer(state = initialState, action = {}) {
         productList: action.payload,
         formValues: {},
         openFrm: false,
-        isFormReset: true,
         isLoading: false,
         selectedIndex: 0
       };
@@ -44,7 +43,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0,
         notifMsg: notifM.updated,
         notifType: notifT.success,

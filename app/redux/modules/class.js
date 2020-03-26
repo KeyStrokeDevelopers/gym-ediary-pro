@@ -32,7 +32,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATE_CLASS_DATA:
@@ -42,7 +41,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0,
         notifMsg: 'Class data updated',
         notifType: notifT.success,

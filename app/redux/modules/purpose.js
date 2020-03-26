@@ -36,7 +36,6 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
-        isFormReset: true,
       };
 
     case UPDATE_PURPOSE_DATA:
@@ -47,7 +46,6 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
-        isFormReset: true,
         notifMsg: 'Purpose data updated',
         notifType: notifT.success,
         openNoti: true,
@@ -61,7 +59,6 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
-        isFormReset: true,
         notifMsg: 'Purpose data deleted',
         notifType: notifT.success,
         openNoti: true,
@@ -99,7 +96,6 @@ export default function reducer(state = initialState, action = {}) {
         copyData: Object.assign({}, action.payload, { purposeName: '' }),
         formValues: {},
         isLoading: false,
-        isFormReset: false,
         notifMsg: 'Purpose data copy',
         notifType: notifT.success,
         openNoti: true,

@@ -33,7 +33,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATED_PACKAGE_DATA:
@@ -44,7 +43,6 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
-        isFormReset: false,
         notifMsg: 'Package data updated',
         notifType: notifT.success,
         openNoti: true,

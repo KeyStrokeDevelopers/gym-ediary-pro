@@ -17,6 +17,7 @@ class Product extends React.Component {
       product,
       productData,
       productTypeData,
+      isFormReset,
       submit,
       brandUnitData,
       edit,
@@ -35,6 +36,7 @@ class Product extends React.Component {
             onSubmit={submit}
             edit={edit}
             productTypeData={productTypeData}
+            isFormReset={isFormReset}
             brandUnitData={brandUnitData}
             productData={productData}
             isLoading={isLoading}

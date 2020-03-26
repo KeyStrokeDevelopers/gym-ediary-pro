@@ -16,6 +16,7 @@ class BrandUnit extends React.Component {
       closeForm,
       submit,
       brandUnit,
+      isFormReset,
       brandUnitData,
       edit,
       isLoading,
@@ -32,6 +33,7 @@ class BrandUnit extends React.Component {
           <BrandUnitForm
             onSubmit={submit}
             edit={edit}
+            isFormReset={isFormReset}
             brandUnitData={brandUnitData}
             isLoading={isLoading}
           />

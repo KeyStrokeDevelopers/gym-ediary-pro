@@ -19,15 +19,21 @@ class BrandUnitForm extends React.Component {
     entryType: 'Brand'
   }
 
+  componentDidUpdate = () => {
+    const { isFormReset, reset } = this.props
+    if (isFormReset) {
+      reset();
+    }
+  }
+
   selectedValue = (e, entryType) => {
     this.setState({ entryType });
   }
 
   handleSubmitData = (data) => {
-    const { onSubmit, reset } = this.props
+    const { onSubmit } = this.props
     const formData = data.set('value', data.get('value').toUpperCase());
     onSubmit(formData);
-    reset();
   }
 
   render() {

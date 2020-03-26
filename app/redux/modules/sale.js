@@ -43,7 +43,6 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
-        isFormReset: true,
       };
     case SEARCH_SALE_DATA:
       return {
@@ -161,7 +160,6 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         activeStep: 0,
         isSubmited: false,
-        isFormReset: false,
         cartList: [],
         formValues: {},
         customerData: {},

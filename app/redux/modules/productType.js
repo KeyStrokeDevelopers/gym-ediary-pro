@@ -33,7 +33,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATED_PRODUCT_TYPE_DATA:
@@ -43,7 +42,6 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        isFormReset: true,
         selectedIndex: 0,
         notifMsg: notifM.updated,
         notifType: notifT.success,
