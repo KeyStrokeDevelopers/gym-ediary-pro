@@ -77,11 +77,15 @@ class Checkout extends React.Component {
   };
 
   componentDidMount = () => {
-    const { fetchVendorInfo, fetchGymInfoData, resetCart } = this.props;
+    const { fetchVendorInfo, fetchGymInfoData, resetCart, setInCart } = this.props;
     fetchVendorInfo();
     fetchGymInfoData();
     if (this.props.match.params.type !== 'edit') {
       resetCart();
+    }
+    if (JSON.parse(window.localStorage.getItem('purchase'))) {
+      const cart_item = JSON.parse(window.localStorage.getItem('purchase'));
+      setInCart(cart_item);
     }
   }
 

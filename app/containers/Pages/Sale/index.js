@@ -78,11 +78,15 @@ class Checkout extends React.Component {
   };
 
   componentDidMount = () => {
-    const { fetchCustomerInfo, fetchGymInfoData, reset_Cart } = this.props;
+    const { fetchCustomerInfo, fetchGymInfoData, reset_Cart, set_In_Cart } = this.props;
     fetchCustomerInfo();
     fetchGymInfoData();
     if (this.props.match.params.type !== 'edit') {
       reset_Cart();
+    }
+    if (JSON.parse(window.localStorage.getItem('sale'))) {
+      const cart_item = JSON.parse(window.localStorage.getItem('sale'));
+      set_In_Cart(cart_item);
     }
   }
 
@@ -183,7 +187,7 @@ class Checkout extends React.Component {
                       {activeStep !== 0 && (
                         <Button onClick={handle_Back} className={classes.button}>
                           Back
-                      </Button>
+                        </Button>
                       )}
                       <div>
                         {(cartList && cartList.length >= 1)

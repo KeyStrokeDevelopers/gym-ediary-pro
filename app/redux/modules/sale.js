@@ -69,7 +69,8 @@ export default function reducer(state = initialState, action = {}) {
         isLoading: false
       };
 
-    case SUBMIT_SALE_DATA:
+    case SUBMIT_SALE_DATA: {
+      window.localStorage.removeItem('sale');
       return {
         ...state,
         openFrm: false,
@@ -82,11 +83,20 @@ export default function reducer(state = initialState, action = {}) {
         openNoti: true,
         isSubmited: true
       };
-    case SET_VALUE_IN_CART_SALE:
+    }
+    case SET_VALUE_IN_CART_SALE: {
+      let cartListItem;
+      if (action.payload.length >= 1) {
+        cartListItem = action.payload;
+      } else {
+        cartListItem = [...state.cartList, action.payload];
+        window.localStorage.setItem('sale', JSON.stringify(cartListItem));
+      }
       return {
         ...state,
-        cartList: [...state.cartList, action.payload],
+        cartList: cartListItem,
       };
+    }
     case LOADING_ACTION_SALE:
       return {
         ...state,
@@ -135,6 +145,7 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE_CART_VALUE_SALE: {
       const cartListCopy = [...state.cartList];
       cartListCopy.splice(action.payload, 1);
+      window.localStorage.setItem('sale', JSON.stringify(cartListCopy));
       return {
         ...state,
         cartList: cartListCopy
