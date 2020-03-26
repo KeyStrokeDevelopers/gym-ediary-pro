@@ -49,6 +49,7 @@ class AddEnquiry extends React.Component {
       addEnquiry,
       purposeData,
       packageData,
+      isFormReset,
       classData,
       edit,
       isLoading,
@@ -70,6 +71,7 @@ class AddEnquiry extends React.Component {
             purposeData={purposeData}
             packageData={packageData}
             formValues={formValues}
+            isFormReset={isFormReset}
             classData={classData}
             imgAvatar={img === null ? avatarInit : img}
             isLoading={isLoading}

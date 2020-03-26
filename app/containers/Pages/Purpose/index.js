@@ -74,6 +74,7 @@ class Purpose extends React.Component {
       notifType,
       openNoti,
       closeNotif,
+      isFormReset,
       deletePurposeData,
       activePurposeData,
       isLoading
@@ -122,6 +123,7 @@ class Purpose extends React.Component {
           addContact={add}
           openForm={open}
           formType="purpose"
+          isFormReset={isFormReset}
           initFormValue={initValue}
           copyData={copyData}
           edit={(Object.keys(formValue).length >= 1)}
@@ -153,7 +155,8 @@ const mapStateToProps = state => {
     formValue: purposeReducer.formValues,
     is_active: purposeReducer.isActive,
     isLoading: purposeReducer.isLoading,
-    initValue: purposeReducer.formValues
+    initValue: purposeReducer.formValues,
+    isFormReset: purposeReducer.isFormReset
   });
 };
 

@@ -69,6 +69,7 @@ class Sms extends React.Component {
       close,
       remove,
       favorite,
+      isFormReset,
       keyword,
       search,
       messageNotif,
@@ -119,6 +120,7 @@ class Sms extends React.Component {
           addContact={add}
           openForm={open}
           smsData={smsData}
+          isFormReset={isFormReset}
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
           submit={this.submitSmsData}
@@ -147,7 +149,8 @@ const mapStateToProps = state => {
     openNoti: smsReducer.openNoti,
     formValue: smsReducer.formValues,
     is_active: smsReducer.isActive,
-    isLoading: smsReducer.isLoading
+    isLoading: smsReducer.isLoading,
+    isFormReset: smsReducer.isFormReset
   });
 };
 

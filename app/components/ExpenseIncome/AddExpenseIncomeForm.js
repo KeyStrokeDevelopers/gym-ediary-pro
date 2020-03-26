@@ -25,9 +25,12 @@ class AddExpenseIncomeForm extends React.Component {
   };
 
   componentDidUpdate = () => {
-    const { formValues } = this.props;
+    const { formValues, isFormReset, reset } = this.props;
     if (formValues !== this.state.formValues) {
       this.setState({ formValues, date: formValues.date, categoryType: formValues.paymentType });
+    }
+    if (isFormReset) {
+      reset();
     }
   }
 
@@ -49,9 +52,8 @@ class AddExpenseIncomeForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
-    const { onSubmit, reset } = this.props
+    const { onSubmit } = this.props
     onSubmit(data);
-    reset();
   }
 
   render() {

@@ -76,6 +76,7 @@ class BrandUnitMain extends React.Component {
       closeNotif,
       deleteBrandUnitData,
       activeBrandUnitData,
+      isFormReset,
       entryType,
       isLoading
     } = this.props;
@@ -125,6 +126,7 @@ class BrandUnitMain extends React.Component {
           brandUnit={add}
           openForm={open}
           closeForm={close}
+          isFormReset={isFormReset}
           brandUnitData={brandUnitData}
           submit={this.submitBrandUnitData}
           isLoading={isLoading}
@@ -154,6 +156,7 @@ const mapStateToProps = state => {
     isLoading: brandUnitReducer.isLoading,
     showDetails: brandUnitReducer.showDetails,
     filter_value: brandUnitReducer.filterValue,
+    isFormReset: brandUnitReducer.isFormReset
   });
 };
 

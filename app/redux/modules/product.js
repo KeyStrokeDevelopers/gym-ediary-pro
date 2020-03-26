@@ -21,7 +21,8 @@ const initialState = {
   openNoti: true,
   isActive: true,
   productQuantity: 0,
-  isLoading: false
+  isLoading: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -32,6 +33,7 @@ export default function reducer(state = initialState, action = {}) {
         productList: action.payload,
         formValues: {},
         openFrm: false,
+        isFormReset: true,
         isLoading: false,
         selectedIndex: 0
       };
@@ -42,6 +44,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0,
         notifMsg: notifM.updated,
         notifType: notifT.success,
@@ -83,6 +86,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: formValue,
+        isFormReset: false,
         isLoading: false
       };
     }
@@ -91,6 +95,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: {},
+        isFormReset: false,
         avatarInit: '',
         isLoading: false
       };
@@ -101,6 +106,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         productList: action.payload,
         isLoading: false,
         notifMsg: notifM.saved,

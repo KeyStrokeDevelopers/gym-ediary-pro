@@ -69,6 +69,7 @@ class ExpenseIncome extends React.Component {
       remove,
       favorite,
       purposeData,
+      isFormReset,
       packageData,
       paymentMethodData,
       categoryData,
@@ -129,6 +130,7 @@ class ExpenseIncome extends React.Component {
           closeForm={close}
           packageData={packageData}
           purposeData={purposeData}
+          isFormReset={isFormReset}
           paymentMethodData={paymentMethodData}
           categoryData={categoryData}
           type="expenseIncome"
@@ -159,6 +161,7 @@ const mapStateToProps = state => {
     notifType: expenseIncomeReducer.notifType,
     openNoti: expenseIncomeReducer.openNoti,
     formValue: expenseIncomeReducer.formValues,
+    isFormReset: expenseIncomeReducer.isFormReset,
     is_active: expenseIncomeReducer.isActive,
     isLoading: expenseIncomeReducer.isLoading,
     paymentType: expenseIncomeReducer.paymentType,

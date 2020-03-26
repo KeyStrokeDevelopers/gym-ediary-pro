@@ -30,6 +30,10 @@ class AddClassForm extends React.Component {
     this.props.initialize({
       isMon: true, isTue: true, isWed: true, isThu: true, isFri: true
     });
+    const { isFormReset, reset } = this.props;
+    if (isFormReset) {
+      reset();
+    }
   }
 
   selectedValue = (e, value) => {
@@ -51,9 +55,8 @@ class AddClassForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
-    const { onSubmit, reset } = this.props
+    const { onSubmit } = this.props
     onSubmit(data);
-    reset();
   }
 
   render() {

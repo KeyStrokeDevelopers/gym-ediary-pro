@@ -20,14 +20,20 @@ class AddSmsForm extends React.Component {
     // name: 'hai',
   };
 
+  componentDidUpdate = () => {
+    const { isFormReset, reset } = this.props;
+    if (isFormReset) {
+      reset()
+    }
+  }
+
   handleChange = event => {
     this.setState({ age: event.target.value });
   };
 
   handleSubmitData = (data) => {
-    const { onSubmit, reset } = this.props
+    const { onSubmit } = this.props
     onSubmit(data);
-    reset();
   }
 
   render() {

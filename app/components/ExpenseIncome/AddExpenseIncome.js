@@ -50,6 +50,7 @@ class AddExpenseIncome extends React.Component {
       purposeData,
       packageData,
       paymentMethodData,
+      isFormReset,
       categoryData,
       edit,
       isLoading,
@@ -69,6 +70,7 @@ class AddExpenseIncome extends React.Component {
             onDrop={this.onDrop}
             purposeData={purposeData}
             packageData={packageData}
+            isFormReset={isFormReset}
             paymentMethodData={paymentMethodData}
             formValues={formValues}
             categoryData={categoryData}

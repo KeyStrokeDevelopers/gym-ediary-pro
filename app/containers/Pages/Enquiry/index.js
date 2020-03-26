@@ -81,6 +81,7 @@ class Enquiry extends React.Component {
       notifType,
       openNoti,
       closeNotif,
+      isFormReset,
       deleteEnquiryData,
       isLoading,
       dateFrom,
@@ -132,6 +133,7 @@ class Enquiry extends React.Component {
           packageData={packageData}
           purposeData={purposeData}
           formValues={formValue}
+          isFormReset={isFormReset}
           classData={classData}
           type="enquiry"
           edit={(Object.keys(formValue).length >= 1)}
@@ -162,6 +164,7 @@ const mapStateToProps = state => {
     notifType: enquiryReducer.notifType,
     openNoti: enquiryReducer.openNoti,
     formValue: enquiryReducer.formValues,
+    isFormReset: enquiryReducer.isFormReset,
     is_active: enquiryReducer.isActive,
     dateFrom: enquiryReducer.dateFrom,
     dateTo: enquiryReducer.dateTo,

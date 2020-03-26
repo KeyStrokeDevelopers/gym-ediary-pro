@@ -12,7 +12,8 @@ const initialState = {
   subscriptionInfo: {},
   notifMsg: '',
   notifType: '', // success or error
-  openNoti: true
+  openNoti: true,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {

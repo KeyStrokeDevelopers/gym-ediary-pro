@@ -70,6 +70,7 @@ class Member extends React.Component {
       search,
       messageNotif,
       notifType,
+      isFormReset,
       openNoti,
       closeNotif,
       deleteProductTypeData,
@@ -122,6 +123,7 @@ class Member extends React.Component {
           productType={add}
           openForm={open}
           closeForm={close}
+          isFormReset={isFormReset}
           productTypeData={productTypeData}
           submit={this.submitProductTypeData}
           isLoading={isLoading}
@@ -149,6 +151,7 @@ const mapStateToProps = state => {
     isLoading: productTypeReducer.isLoading,
     showDetails: productTypeReducer.showDetails,
     filter_value: productTypeReducer.filterValue,
+    isFormReset: productTypeReducer.isFormReset
   });
 };
 

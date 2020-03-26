@@ -54,10 +54,13 @@ class AddStaffForm extends React.Component {
   };
 
   componentDidUpdate = () => {
-    const { formValues } = this.props;
+    const { formValues, isFormReset, reset } = this.props;
     if (formValues !== this.state.formValues) {
       this.setState({ formValues: formValues, dob: formValues.staffDob ? formValues.staffDob : null, salaryDate: formValues.salaryDate ? formValues.salaryDate : null, joiningDate: formValues.staffJoiningDate ? formValues.staffJoiningDate : null, shiftFrom1: formValues.shiftFrom1 ? formValues.shiftFrom1 : null, shiftFrom2: formValues.shiftFrom2 ? formValues.shiftFrom2 : null, shiftFrom3: formValues.shiftFrom3 ? formValues.shiftFrom3 : null, shiftTo1: formValues.shiftTo1 ? formValues.shiftTo1 : null, shiftTo2: formValues.shiftTo2 ? formValues.shiftTo2 : null, shiftTo3: formValues.shiftTo3 ? formValues.shiftTo3 : null });
       this.props.initialize(formValues);
+    }
+    if (isFormReset) {
+      reset()
     }
   }
 
@@ -125,10 +128,9 @@ class AddStaffForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
-    const { onSubmit, numberOfShift, reset } = this.props;
+    const { onSubmit, numberOfShift } = this.props;
     const submitData = data.set('numberOfShift', numberOfShift);
     onSubmit(submitData);
-    reset();
   }
 
   render() {

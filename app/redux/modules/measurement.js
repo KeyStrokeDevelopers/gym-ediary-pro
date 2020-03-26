@@ -21,6 +21,7 @@ const initialState = {
   notifMsg: '',
   notifType: '', // success or error
   openNoti: true,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -32,6 +33,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case SEARCH_MEASUREMENT_DATA:
@@ -45,6 +47,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: action.payload,
+        isFormReset: false,
         isLoading: false
       };
     case ADD_MEASUREMENT_DATA:
@@ -52,6 +55,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: {},
+        isFormReset: false,
         avatarInit: '',
         isLoading: false
       };
@@ -62,6 +66,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         measurementList: [...state.measurementList, action.payload],
         isLoading: false,
         notifMsg: notifM.saved,

@@ -75,13 +75,18 @@ class AddPurposeForm extends React.Component {
     );
   }
 
+  componentDidUpdate = () => {
+    const { isFormReset, reset } = this.props;
+    if (isFormReset) {
+      reset();
+    }
+  }
+
   handleSubmitData = (data) => {
-    const { onSubmit, reset } = this.props;
+    const { onSubmit } = this.props;
     const formData = data.set('purposeName', data.get('purposeName').toUpperCase());
     onSubmit(formData);
-    reset();
     this.setState({ editorValue: [] });
-    const checktest = <ControlledEditor resetEditor={true} />
   }
 
   render() {

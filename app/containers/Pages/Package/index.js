@@ -74,6 +74,7 @@ class Package extends React.Component {
       closeNotif,
       deletePackageData,
       activePackageData,
+      isFormReset,
       isLoading
     } = this.props;
     const isPackageData = packageData.length >= 1;
@@ -119,6 +120,7 @@ class Package extends React.Component {
           addContact={add}
           openForm={open}
           formType="package"
+          isFormReset={isFormReset}
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
           submit={this.submitPackageData}
@@ -147,7 +149,8 @@ const mapStateToProps = state => {
     openNoti: packageReducer.openNoti,
     formValue: packageReducer.formValues,
     is_active: packageReducer.isActive,
-    isLoading: packageReducer.isLoading
+    isLoading: packageReducer.isLoading,
+    isFormReset: packageReducer.isFormReset
   });
 };
 

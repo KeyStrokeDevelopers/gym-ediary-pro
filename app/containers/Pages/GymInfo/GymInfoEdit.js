@@ -46,6 +46,7 @@ class GymInfoEdit extends React.Component {
       itemSelected,
       gymInfoData,
       isLoading,
+      isFormReset
     } = this.props;
     const { img } = this.state;
     console.log('avatarInit--***99****', avatarInit)
@@ -56,6 +57,7 @@ class GymInfoEdit extends React.Component {
           onDrop={this.onDrop}
           gymInfoData={gymInfoData}
           itemSelected={itemSelected}
+          isFormReset={isFormReset}
           onDeleteImage={this.handleDeleteImage}
           imgAvatar={img === null ? avatarInit : img}
           isLoading={isLoading}

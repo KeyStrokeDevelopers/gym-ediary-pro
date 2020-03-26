@@ -20,6 +20,13 @@ class AddSubscriptionForm extends React.Component {
     // name: 'hai',
   };
 
+  componentDidUpdate = () => {
+    const { isFormReset, reset } = this.props;
+    if (isFormReset) {
+      reset();
+    }
+  }
+
   handleChange = event => {
     this.setState({ age: event.target.value });
   };

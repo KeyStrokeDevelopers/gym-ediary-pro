@@ -22,7 +22,8 @@ const initialState = {
   isActive: true,
   isLoading: false,
   dateFrom: '',
-  dateTo: ''
+  dateTo: '',
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -34,6 +35,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATE_ENQUIRY_DATA:
@@ -44,6 +46,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
+        isFormReset: true,
         notifMsg: notifM.updated,
         notifType: notifT.success,
         openNoti: true
@@ -59,6 +62,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         formValues: formValue,
         isLoading: false
       };
@@ -69,6 +73,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         formValues: {},
         avatarInit: '',
+        isFormReset: false,
         isLoading: false
       };
 
@@ -78,6 +83,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         enquiryList: [...state.enquiryList, action.payload],
         isLoading: false,
         notifMsg: notifM.saved,

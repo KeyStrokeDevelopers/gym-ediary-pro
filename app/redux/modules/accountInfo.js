@@ -20,7 +20,8 @@ const initialState = {
   notifType: '', // success or error
   openNoti: true,
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -32,6 +33,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case SEARCH_ACCOUNT_INFO_DATA:
@@ -45,6 +47,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
+        isFormReset: false,
         formValues: action.payload,
         isLoading: false,
         // .set('avatarInit', action.item.get('avatar'));
@@ -53,6 +56,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         formValues: {},
         avatarInit: '',
         isLoading: false
@@ -64,6 +68,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         accountInfoList: [...state.accountInfoList, action.payload],
         isLoading: false,
         notifMsg: notifM.saved,

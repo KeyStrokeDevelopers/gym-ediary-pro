@@ -21,7 +21,8 @@ const initialState = {
   notifType: '', // success or error
   openNoti: true,
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -33,6 +34,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case FETCH_SMS_ACTIVE_DATA:
@@ -53,6 +55,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         formValues: action.payload,
         isLoading: false
       };
@@ -61,6 +64,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: {},
+        isFormReset: false,
         avatarInit: '',
         isLoading: false
       };
@@ -73,6 +77,7 @@ export default function reducer(state = initialState, action = {}) {
         avatarInit: '',
         smsList: [...state.smsList, action.payload],
         isLoading: false,
+        isFormReset: true,
         notifMsg: notifM.saved,
         notifType: notifT.success,
         openNoti: true

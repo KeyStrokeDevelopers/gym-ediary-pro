@@ -20,7 +20,8 @@ const initialState = {
   notifType: '', // success or error
   openNoti: true,
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -32,6 +33,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case SEARCH_CLASS_SUBSCRIPTION_DATA:
@@ -44,6 +46,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         formValues: action.payload,
         isLoading: false
       };
@@ -51,6 +54,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         formValues: {},
         avatarInit: '',
         isLoading: false
@@ -62,6 +66,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         classSubscriptionList: [...state.classSubscriptionList, action.payload],
         isLoading: false,
         notifMsg: notifM.saved,

@@ -22,7 +22,8 @@ const initialState = {
   notifType: '', // success or error
   openNoti: true,
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -35,15 +36,17 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         selectedIndex: 0,
         isLoading: false,
+        isFormReset: true,
       };
     case UPDATED_STAFF_DATA:
       return {
         ...state,
         staffList: action.payload,
         formValues: {},
-        openFrm: false,
+        openFrm: true,
         isLoading: false,
         selectedIndex: 0,
+        isFormReset: true,
         notifMsg: action.message,
         notifType: notifT.success,
         openNoti: true
@@ -91,6 +94,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: formValue,
+        isFormReset: false,
         isLoading: false,
         avatarInit: action.payload.staffImage ? `${SERVER_URL}${action.payload.staffImage}` : ''
       };
@@ -98,6 +102,7 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_STAFF_DATA:
       return {
         ...state,
+        isFormReset: false,
         openFrm: true,
         formValues: {},
         avatarInit: '',
@@ -110,6 +115,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         staffList: action.payload,
         isLoading: false,
         notifMsg: notifM.saved,

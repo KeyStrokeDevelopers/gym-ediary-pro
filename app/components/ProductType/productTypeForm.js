@@ -16,10 +16,16 @@ import { TextFieldRedux, SelectRedux } from '../Forms/ReduxFormMUI';
 
 class ProductTypeForm extends React.Component {
 
+  componentDidUpdate = () => {
+    const { isFormReset, reset } = this.props
+    if (isFormReset) {
+      reset();
+    }
+  }
+
   handleSubmitData = (data) => {
-    const { onSubmit, reset } = this.props
+    const { onSubmit } = this.props
     onSubmit(data);
-    reset();
   }
 
   render() {

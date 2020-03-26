@@ -61,6 +61,7 @@ class Category extends React.Component {
       formValue,
       isActive,
       is_active,
+      isFormReset,
       close,
       remove,
       favorite,
@@ -121,6 +122,7 @@ class Category extends React.Component {
           formType="category"
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
+          isFormReset={isFormReset}
           submit={this.submitCategoryData}
           isLoading={isLoading}
         />
@@ -141,6 +143,7 @@ const mapStateToProps = state => {
     notifType: categoryReducer.notifType,
     openNoti: categoryReducer.openNoti,
     formValue: categoryReducer.formValues,
+    isFormReset: categoryReducer.isFormReset,
     is_active: categoryReducer.isActive,
     categoryType: categoryReducer.categoryType,
     isLoading: categoryReducer.isLoading

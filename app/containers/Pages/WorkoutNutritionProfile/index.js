@@ -71,6 +71,7 @@ class WorkoutNutritionProfile extends React.Component {
       search,
       formValues,
       deleteWorkoutNutrition,
+      isFormReset,
       messageNotif,
       notifType,
       openNoti,
@@ -101,6 +102,7 @@ class WorkoutNutritionProfile extends React.Component {
             submitData={this.submitWorkoutNutritionData}
             workoutNutritionData={workoutNutritionData}
             memberData={memberData}
+            isFormReset={isFormReset}
             purposeData={purposeData}
             initFormValueForEdit={formValues}
             open={open}
@@ -132,6 +134,7 @@ const mapStateToProps = state => {
     messageNotif: workoutNutritionReducer.notifMsg,
     notifType: workoutNutritionReducer.notifType,
     openNoti: workoutNutritionReducer.openNoti,
+    isFormReset: workoutNutritionReducer.isFormReset,
     purposeData: state.get('purpose').purposeList
   });
 };

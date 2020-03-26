@@ -99,6 +99,7 @@ class Staff extends React.Component {
       closeNotif,
       delete_Staff_Data,
       active_Staff_Data,
+      isFormReset,
       isLoading
     } = this.props;
     return (
@@ -147,6 +148,7 @@ class Staff extends React.Component {
           formType="staff"
           closeForm={close}
           accessData={accessData}
+          isFormReset={isFormReset}
           staffData={staffData}
           initFormValue={formValue}
           itemSelected={itemSelected}
@@ -175,7 +177,8 @@ const mapStateToProps = state => {
     openNoti: staffReducer.openNoti,
     formValue: staffReducer.formValues,
     isActive: staffReducer.isActive,
-    isLoading: staffReducer.isLoading
+    isLoading: staffReducer.isLoading,
+    isFormReset: staffReducer.isFormReset
   });
 };
 

@@ -51,6 +51,7 @@ class AddMember extends React.Component {
       openForm,
       closeForm,
       avatarInit,
+      isFormReset,
       addMember,
       purposeData,
       packageData,
@@ -82,6 +83,7 @@ class AddMember extends React.Component {
             occupationData={occupationData}
             paymentMethodData={paymentMethodData}
             gymInfoData={gymInfoData}
+            isFormReset={isFormReset}
             itemSelected={itemSelected}
             formValues={formValues}
             onDeleteImage={this.handleDeleteImage}

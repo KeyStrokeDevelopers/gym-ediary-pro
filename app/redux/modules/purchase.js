@@ -28,7 +28,8 @@ const initialState = {
   isLoading: false,
   isSubmited: false,
   discount: 0,
-  discountInValue: 0
+  discountInValue: 0,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -39,6 +40,7 @@ export default function reducer(state = initialState, action = {}) {
         purchaseList: action.payload,
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case SEARCH_PURCHASE_DATA:
@@ -52,6 +54,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: action.payload,
+        isFormReset: false,
         isLoading: false
       };
     case ADD_PURCHASE_DATA:
@@ -59,6 +62,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         avatarInit: '',
+        isFormReset: false,
         isLoading: false
       };
 
@@ -69,6 +73,7 @@ export default function reducer(state = initialState, action = {}) {
         avatarInit: '',
         purchaseList: [...state.purchaseList, action.payload],
         isLoading: false,
+        isFormReset: true,
         notifMsg: notifM.saved,
         notifType: notifT.success,
         openNoti: true,

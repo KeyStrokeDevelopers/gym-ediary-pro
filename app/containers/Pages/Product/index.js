@@ -81,6 +81,7 @@ class Member extends React.Component {
       openNoti,
       closeNotif,
       deleteProductData,
+      isFormReset,
       activeProductData,
       isLoading
     } = this.props;
@@ -129,6 +130,7 @@ class Member extends React.Component {
           product={add}
           openForm={open}
           closeForm={close}
+          isFormReset={isFormReset}
           productTypeData={productTypeData}
           brandUnitData={brandUnitData}
           productData={productData}
@@ -156,6 +158,7 @@ const mapStateToProps = state => {
     notifType: productReducer.notifType,
     openNoti: productReducer.openNoti,
     formValue: productReducer.formValues,
+    isFormReset: productReducer.isFormReset,
     occupationData: productReducer.occupation,
     is_active: productReducer.isActive,
     isLoading: productReducer.isLoading,

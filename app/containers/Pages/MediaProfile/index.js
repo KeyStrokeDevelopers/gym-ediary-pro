@@ -66,6 +66,7 @@ class MediaProfile extends React.Component {
       memberData,
       add, close,
       messageNotif,
+      isFormReset,
       notifType,
       openNoti,
       closeNotif
@@ -96,6 +97,7 @@ class MediaProfile extends React.Component {
           <Media
             submitData={this.submitMediaData}
             memberData={memberData}
+            isFormReset={isFormReset}
             avatarInit={avatarInit}
             open={open}
             add={add}
@@ -127,6 +129,7 @@ const mapStateToProps = state => {
     messageNotif: mediaReducer.notifMsg,
     notifType: mediaReducer.notifType,
     openNoti: mediaReducer.openNoti,
+    isFormReset: mediaReducer.isFormReset,
   });
 };
 

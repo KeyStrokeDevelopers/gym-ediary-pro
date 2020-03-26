@@ -20,7 +20,8 @@ const initialState = {
   notifType: '', // success or error
   openNoti: true,
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -32,6 +33,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATED_PRODUCT_TYPE_DATA:
@@ -41,6 +43,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0,
         notifMsg: notifM.updated,
         notifType: notifT.success,
@@ -80,6 +83,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         formValues: action.payload,
         isLoading: false
       };
@@ -87,6 +91,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         formValues: {},
         avatarInit: '',
         isLoading: false
@@ -100,6 +105,7 @@ export default function reducer(state = initialState, action = {}) {
         avatarInit: '',
         productTypeList: [...state.productTypeList, action.payload],
         isLoading: false,
+        isFormReset: true,
         notifMsg: notifM.saved,
         notifType: notifT.success,
         openNoti: true

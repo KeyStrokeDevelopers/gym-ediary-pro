@@ -30,7 +30,8 @@ const initialState = {
   isSubmited: false,
   discount: 0,
   discountInValue: 0,
-  paidAmount: 0
+  paidAmount: 0,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -41,7 +42,8 @@ export default function reducer(state = initialState, action = {}) {
         saleList: action.payload,
         openFrm: false,
         isLoading: false,
-        selectedIndex: 0
+        selectedIndex: 0,
+        isFormReset: true,
       };
     case SEARCH_SALE_DATA:
       return {
@@ -55,6 +57,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
+        isFormReset: false,
         isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
@@ -62,6 +65,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         avatarInit: '',
         isLoading: false
       };
@@ -73,6 +77,7 @@ export default function reducer(state = initialState, action = {}) {
         avatarInit: '',
         saleList: [...state.saleList, action.payload],
         isLoading: false,
+        isFormReset: true,
         notifMsg: notifM.saved,
         notifType: notifT.success,
         openNoti: true,
@@ -156,6 +161,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         activeStep: 0,
         isSubmited: false,
+        isFormReset: false,
         cartList: [],
         formValues: {},
         customerData: {},
@@ -196,7 +202,6 @@ export default function reducer(state = initialState, action = {}) {
 
     case SET_PAID_AMOUNT: {
       const paidAmount = action.payload === 'NaN' ? 0 : action.payload;
-
       return {
         ...state,
         paidAmount

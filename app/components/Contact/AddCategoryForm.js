@@ -24,12 +24,18 @@ class AddCategoryForm extends React.Component {
     this.setState({ age: event.target.value });
   };
 
+  componentDidUpdate = () => {
+    const { isFormReset, reset } = this.props;
+    if (isFormReset) {
+      reset();
+    }
+  }
+
   handleSubmitData = (data) => {
-    const { onSubmit, reset } = this.props
+    const { onSubmit } = this.props
     const category = data.get('category').toUpperCase();
     const formData = data.set('category', category);
     onSubmit(formData);
-    reset();
   }
 
   render() {

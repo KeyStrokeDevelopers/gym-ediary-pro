@@ -72,11 +72,11 @@ class PaymentMethod extends React.Component {
       notifType,
       openNoti,
       closeNotif,
+      isFormReset,
       deletePaymentMethodData,
       activePaymentMethodData,
       isLoading
     } = this.props;
-    const isPaymentMethodData = paymentMethodData.length >= 1;
     return (
       <div>
         <Helmet>
@@ -119,6 +119,7 @@ class PaymentMethod extends React.Component {
           addContact={add}
           openForm={open}
           formType="paymentMethod"
+          isFormReset={isFormReset}
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
           submit={this.submitPaymentMethodData}
@@ -146,7 +147,8 @@ const mapStateToProps = state => {
     openNoti: paymentMethodReducer.openNoti,
     formValue: paymentMethodReducer.formValues,
     is_active: paymentMethodReducer.isActive,
-    isLoading: paymentMethodReducer.isLoading
+    isLoading: paymentMethodReducer.isLoading,
+    isFormReset: paymentMethodReducer.isFormReset
   });
 };
 

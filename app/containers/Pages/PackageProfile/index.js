@@ -48,6 +48,7 @@ class PackageProfile extends React.Component {
       close,
       submitData,
       messageNotif,
+      isFormReset,
       notifType,
       openNoti,
       closeNotif,
@@ -81,6 +82,7 @@ class PackageProfile extends React.Component {
             subscribedPackageData={subscribedPackageData}
             paymentMethodData={paymentMethodData}
             inputChange={this.handleChange}
+            isFormReset={isFormReset}
             memberData={memberData}
             add={add}
             open={openFrm}
@@ -103,6 +105,7 @@ const mapStateToProps = state => {
     messageNotif: packageSubscriptionReducer.notifMsg,
     notifType: packageSubscriptionReducer.notifType,
     openNoti: packageSubscriptionReducer.openNoti,
+    isFormReset: packageSubscriptionReducer.isFormReset
 
   });
 }

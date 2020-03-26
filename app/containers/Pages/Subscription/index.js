@@ -73,6 +73,7 @@ class Subscription extends React.Component {
       openNoti,
       closeNotif,
       deleteSubscriptionData,
+      isFormReset,
       isLoading
     } = this.props;
     return (
@@ -115,6 +116,7 @@ class Subscription extends React.Component {
         <AddSubscription
           addContact={add}
           openForm={open}
+          isFormReset={isFormReset}
           masterPackageData={masterPackageData}
           closeForm={close}
           submit={this.submitSubscriptionData}
@@ -143,7 +145,8 @@ const mapStateToProps = state => {
     openNoti: subscriptionReducer.openNoti,
     formValue: subscriptionReducer.formValues,
     is_active: subscriptionReducer.isActive,
-    isLoading: subscriptionReducer.isLoading
+    isLoading: subscriptionReducer.isLoading,
+    isFormReset: subscriptionReducer.isFormReset
   });
 };
 

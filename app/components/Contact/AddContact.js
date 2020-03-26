@@ -57,6 +57,7 @@ class AddContact extends React.Component {
       openForm,
       closeForm,
       avatarInit,
+      isFormReset,
       addContact,
       formType,
       accessData,
@@ -89,6 +90,7 @@ class AddContact extends React.Component {
               <AddPackageForm
                 onSubmit={this.sendValues}
                 onDrop={this.onDrop}
+                isFormReset={isFormReset}
                 imgAvatar={img === null ? avatarInit : img}
                 isLoading={isLoading}
               />
@@ -98,6 +100,7 @@ class AddContact extends React.Component {
             && (
               <AddCategoryForm
                 onSubmit={this.sendValues}
+                isFormReset={isFormReset}
                 onDrop={this.onDrop}
                 isLoading={isLoading}
               />
@@ -107,6 +110,7 @@ class AddContact extends React.Component {
             && (
               <AddPaymentMethodForm
                 onSubmit={this.sendValues}
+                isFormReset={isFormReset}
                 onDrop={this.onDrop}
                 imgAvatar={img === null ? avatarInit : img}
                 isLoading={isLoading}
@@ -118,6 +122,7 @@ class AddContact extends React.Component {
               <AddStaffForm
                 onSubmit={this.sendValues}
                 onDrop={this.onDrop}
+                isFormReset={isFormReset}
                 imgAvatar={img === null && !hitDelete ? avatarInit : img}
                 isLoading={isLoading}
                 staffData={staffData}
@@ -134,6 +139,7 @@ class AddContact extends React.Component {
                 onSubmit={this.sendValues}
                 onDrop={this.onDrop}
                 imgAvatar={img === null ? avatarInit : img}
+                isFormReset={isFormReset}
                 isLoading={isLoading}
                 staffData={staffData}
                 onDeleteImage={this.handleDeleteImdage}
@@ -147,6 +153,7 @@ class AddContact extends React.Component {
                 onDrop={this.onDrop}
                 formTest={formTest}
                 initFormValue={initFormValue}
+                isFormReset={isFormReset}
                 copyData={copyData}
                 imgAvatar={img === null ? avatarInit : img}
                 isLoading={isLoading}

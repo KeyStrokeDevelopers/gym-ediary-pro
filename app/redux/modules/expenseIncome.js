@@ -22,7 +22,8 @@ const initialState = {
   openNoti: true,
   isActive: true,
   isLoading: false,
-  paymentType: 'Expenditure'
+  paymentType: 'Expenditure',
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -34,6 +35,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATED_EXPENSE_INCOME_DATA:
@@ -44,6 +46,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
+        isFormReset: true,
         notifMsg: notifM.updated,
         notifType: notifT.success,
         openNoti: true
@@ -84,6 +87,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: formValue,
+        isFormReset: false,
         isLoading: false
       };
     }
@@ -92,6 +96,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: {},
+        isFormReset: false,
         avatarInit: '',
         isLoading: false
       };
@@ -102,6 +107,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         expenseIncomeList: action.payload,
         isLoading: false,
         notifMsg: notifM.saved,

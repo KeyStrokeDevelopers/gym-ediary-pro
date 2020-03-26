@@ -89,6 +89,7 @@ class Member extends React.Component {
       add,
       edit,
       isActive,
+      isFormReset,
       occupationData,
       formValue,
       filterValue,
@@ -164,6 +165,7 @@ class Member extends React.Component {
               occupationData={occupationData}
               enquiryData={enquiryData}
               formValues={formValue}
+              isFormReset={isFormReset}
               paymentMethodData={paymentMethodData}
               gymInfoData={gymInfoData}
               edit={(Object.keys(formValue).length >= 1)}
@@ -205,6 +207,7 @@ const mapStateToProps = state => {
     showDetails: addMemberReducer.showDetails,
     filter_value: addMemberReducer.filterValue,
     gymInfoData: addMemberReducer.gymInfo,
+    isFormReset: addMemberReducer.isFormReset,
     purposeData: purposeReducer.purposeList,
     packageData: packageReducer.packageList,
     classData: classReducer.classList,

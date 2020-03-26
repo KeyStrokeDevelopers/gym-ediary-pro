@@ -16,6 +16,7 @@ class ProductType extends React.Component {
       closeForm,
       submit,
       productType,
+      isFormReset,
       productTypeData,
       edit,
       isLoading,
@@ -31,6 +32,7 @@ class ProductType extends React.Component {
         <FloatingPanel openForm={openForm} branch={branch} closeForm={closeForm} edit={edit}>
           <ProductTypeForm
             onSubmit={submit}
+            isFormReset={isFormReset}
             edit={edit}
             productTypeData={productTypeData}
             isLoading={isLoading}

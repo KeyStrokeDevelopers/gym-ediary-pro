@@ -73,6 +73,7 @@ class Classes extends React.Component {
       openNoti,
       closeNotif,
       deleteClassData,
+      isFormReset,
       activeClassData,
       staffData,
       isLoading
@@ -119,6 +120,7 @@ class Classes extends React.Component {
         <AddContact
           addContact={add}
           openForm={open}
+          isFormReset={isFormReset}
           formType="class"
           edit={(Object.keys(formValue).length >= 1)}
           closeForm={close}
@@ -149,6 +151,7 @@ const mapStateToProps = state => {
     openNoti: classReducer.openNoti,
     formValue: classReducer.formValues,
     is_active: classReducer.isActive,
+    isFormReset: classReducer.isFormReset,
     isLoading: classReducer.isLoading
   });
 };

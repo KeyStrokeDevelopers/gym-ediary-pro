@@ -22,7 +22,8 @@ const initialState = {
   notifType: '', // success or error
   openNoti: true,
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -34,7 +35,8 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
-        selectedIndex: 0
+        selectedIndex: 0,
+        isFormReset: true,
       };
 
     case UPDATE_PURPOSE_DATA:
@@ -45,6 +47,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
+        isFormReset: true,
         notifMsg: 'Purpose data updated',
         notifType: notifT.success,
         openNoti: true,
@@ -58,6 +61,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
+        isFormReset: true,
         notifMsg: 'Purpose data deleted',
         notifType: notifT.success,
         openNoti: true,
@@ -85,6 +89,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: action.payload,
+        isFormReset: false,
         isLoading: false
       };
     case COPY_PURPOSE_DATA:
@@ -94,6 +99,7 @@ export default function reducer(state = initialState, action = {}) {
         copyData: Object.assign({}, action.payload, { purposeName: '' }),
         formValues: {},
         isLoading: false,
+        isFormReset: false,
         notifMsg: 'Purpose data copy',
         notifType: notifT.success,
         openNoti: true,
@@ -103,6 +109,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: {},
+        isFormReset: false,
         avatarInit: '',
         isLoading: false
       };
@@ -116,6 +123,7 @@ export default function reducer(state = initialState, action = {}) {
         avatarInit: '',
         purposeList: [...state.purposeList, action.payload],
         isLoading: false,
+        isFormReset: true,
         notifMsg: notifM.saved,
         notifType: notifT.success,
         openNoti: true

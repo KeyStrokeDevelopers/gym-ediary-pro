@@ -31,8 +31,11 @@ class WorkoutNutritionForm extends React.Component {
   };
 
   componentDidMount = () => {
-    const { memberData } = this.props;
+    const { memberData, isFormReset, reset } = this.props;
     this.props.initialize({ member: memberData._id });
+    if (isFormReset) {
+      reset();
+    }
   }
 
   handleNutritionChange = (event, nutritionValue) => {

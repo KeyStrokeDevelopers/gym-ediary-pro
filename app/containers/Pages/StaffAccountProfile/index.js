@@ -90,6 +90,7 @@ class AccountProfile extends React.Component {
       salaryData,
       add, close,
       paymentMethodData,
+      isFormReset,
       formValues,
       editSalary,
     } = this.props;
@@ -130,6 +131,7 @@ class AccountProfile extends React.Component {
           />
           <Account
             submitData={this.submitSalaryData}
+            isFormReset={isFormReset}
             staffData={staffData}
             paymentMethodData={paymentMethodData}
             formValues={formValues}
@@ -163,7 +165,8 @@ const mapStateToProps = state => {
     isLoading: accountReducer.isLoading,
     showDetails: accountReducer.showDetails,
     filter_value: accountReducer.filterValue,
-    paymentMethodData: paymentMethodReducer.paymentMethodList
+    paymentMethodData: paymentMethodReducer.paymentMethodList,
+    isFormReset: paymentMethodReducer.isFormReset
   });
 };
 

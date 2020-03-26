@@ -20,7 +20,8 @@ const initialState = {
   notifType: '', // success or error
   openNoti: true,
   isActive: true,
-  isLoading: false
+  isLoading: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -32,6 +33,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATE_SALARY_DATA:
@@ -40,6 +42,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         salaryList: action.payload,
         notifMsg: notifM.updated,
         notifType: notifT.success,
@@ -58,6 +61,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
+        isFormReset: false,
         isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
       };
@@ -67,6 +71,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         formValues: {},
         avatarInit: '',
+        isFormReset: false,
         isLoading: false
       };
 
@@ -76,6 +81,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         accountList: [...state.accountList, action.payload],
         notifMsg: notifM.saved,
         notifType: notifT.success,
@@ -120,6 +126,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         isLoading: false,
+        isFormReset: true,
         notifMsg: notifM.saved,
         notifType: notifT.success,
         openNoti: true,

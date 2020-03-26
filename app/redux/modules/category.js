@@ -21,7 +21,8 @@ const initialState = {
   openNoti: true,
   isActive: true,
   isLoading: false,
-  categoryType: 'Expenditure'
+  categoryType: 'Expenditure',
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -33,6 +34,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATED_CATEGORY_DATA:
@@ -42,6 +44,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         notifMsg: 'Category data updated',
         notifType: notifT.success,
         selectedIndex: 0,
@@ -81,6 +84,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
+        isFormReset: false,
         formValues: action.payload,
         isLoading: false
         // .set('avatarInit', action.item.get('avatar'));
@@ -89,6 +93,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         formValues: {},
         avatarInit: '',
         isLoading: false
@@ -102,6 +107,7 @@ export default function reducer(state = initialState, action = {}) {
         avatarInit: '',
         categoryList: [...state.categoryList, action.payload],
         isLoading: false,
+        isFormReset: true,
         notifMsg: notifM.saved,
         notifType: notifT.success,
         openNoti: true

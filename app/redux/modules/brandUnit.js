@@ -21,7 +21,8 @@ const initialState = {
   openNoti: true,
   isActive: 1,
   entryType: 'Brand',
-  isLoading: false
+  isLoading: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -33,6 +34,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATED_BRAND_UNIT_DATA:
@@ -43,6 +45,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
+        isFormReset: true,
         notifMsg: notifM.updated,
         notifType: notifT.success,
         openNoti: true
@@ -81,6 +84,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
+        isFormReset: false,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
         isLoading: false
@@ -91,6 +95,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: true,
         formValues: {},
+        isFormReset: false,
         avatarInit: '',
         isLoading: false
       };
@@ -101,6 +106,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         formValues: {},
         avatarInit: '',
+        isFormReset: true,
         brandUnitList: [...state.brandUnitList, action.payload],
         isLoading: false,
         notifMsg: notifM.saved,

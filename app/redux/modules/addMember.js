@@ -26,7 +26,8 @@ const initialState = {
   isLoading: false,
   filterValue: 'All',
   showDetails: {},
-  gymBranchLogo: null
+  gymBranchLogo: null,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -38,6 +39,7 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         openFrm: false,
         isLoading: false,
+        isFormReset: true,
         selectedIndex: 0
       };
     case UPDATED_ADD_MEMBER_DATA:
@@ -48,6 +50,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: false,
         isLoading: false,
         selectedIndex: 0,
+        isFormReset: true,
         notifMsg: notifM.updated,
         notifType: notifT.success,
         openNoti: true
@@ -64,6 +67,7 @@ export default function reducer(state = initialState, action = {}) {
         openFrm: true,
         // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
+        isFormReset: false,
         isLoading: false,
         // .set('avatarInit', action.item.get('avatar'));
       };
@@ -74,7 +78,8 @@ export default function reducer(state = initialState, action = {}) {
         formValues: {},
         avatarInit: '',
         occupation: action.payload,
-        isLoading: false
+        isLoading: false,
+        isFormReset: false,
       };
 
     case SUBMIT_ADD_MEMBER_DATA:
@@ -82,6 +87,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         openFrm: false,
         formValues: {},
+        isFormReset: true,
         addMemberList: [...state.addMemberList, action.payload],
         isLoading: false,
         notifMsg: notifM.saved,
@@ -113,6 +119,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         isActive: action.payload,
+        isFormReset: false,
         selectedIndex: 0,
         showDetails: {}
 

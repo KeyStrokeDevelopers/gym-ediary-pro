@@ -21,6 +21,7 @@ class AddSms extends React.Component {
       openForm,
       closeForm,
       addContact,
+      isFormReset,
       formType,
       smsData,
       edit
@@ -36,6 +37,7 @@ class AddSms extends React.Component {
         <FloatingPanel openForm={openForm} branch={branch} closeForm={closeForm} edit={edit}>
           <AddSmsForm
             onSubmit={this.sendValues}
+            isFormReset={isFormReset}
             smsData={smsData}
           />
         </FloatingPanel>

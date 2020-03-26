@@ -30,9 +30,12 @@ class AddEnquiryForm extends React.Component {
   };
 
   componentDidUpdate = () => {
-    const { formValues } = this.props;
+    const { formValues, isFormReset, reset } = this.props;
     if (formValues !== this.state.formValues) {
       this.setState({ formValues: formValues, dob: formValues.dob, followUpDate: formValues.followUpDate ? formValues.followUpDate : null })
+    }
+    if (isFormReset) {
+      reset();
     }
   }
 
@@ -54,9 +57,8 @@ class AddEnquiryForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
-    const { onSubmit, reset } = this.props
+    const { onSubmit } = this.props
     onSubmit(data);
-    reset();
   }
 
   render() {

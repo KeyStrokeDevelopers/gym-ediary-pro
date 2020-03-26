@@ -20,6 +20,7 @@ class AddSubscription extends React.Component {
       openForm,
       closeForm,
       addContact,
+      isFormReset,
       masterPackageData,
       formType,
       edit
@@ -35,6 +36,7 @@ class AddSubscription extends React.Component {
         <FloatingPanel openForm={openForm} branch={branch} closeForm={closeForm} edit={edit}>
           <AddSubscriptionForm
             onSubmit={this.sendValues}
+            isFormReset={isFormReset}
             masterPackageData={masterPackageData}
           />
         </FloatingPanel>

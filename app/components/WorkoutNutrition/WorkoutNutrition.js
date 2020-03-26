@@ -17,6 +17,7 @@ class WorkoutNutrition extends React.Component {
       closeForm,
       submitData,
       inputChange,
+      isFormReset,
       memberData,
       purposeData,
       initFormValueForEdit,
@@ -42,6 +43,7 @@ class WorkoutNutrition extends React.Component {
             onSubmit={submitData}
             closeForm={closeForm}
             purposeData={purposeData}
+            isFormReset={isFormReset}
             initFormValueForEdit={initFormValueForEdit}
             workoutNutritionData={workoutNutritionData}
             memberData={memberData}

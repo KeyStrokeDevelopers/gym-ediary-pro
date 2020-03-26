@@ -40,6 +40,7 @@ class GymInfo extends React.Component {
       notifType,
       openNoti,
       closeNotif,
+      isFormReset
     } = this.props;
     return (
       <div>
@@ -57,6 +58,7 @@ class GymInfo extends React.Component {
             gymInfoData={gymInfoData}
             submit={this.updateGymInfoData}
             avatarInit={avatarInit}
+            isFormReset={isFormReset}
             isLoading={isLoading}
           />
         }
@@ -74,6 +76,7 @@ const mapStateToProps = state => {
     messageNotif: addMemberReducer.notifMsg,
     notifType: addMemberReducer.notifType,
     openNoti: addMemberReducer.openNoti,
+    isFormReset: addMemberReducer.isFormReset
   });
 };
 

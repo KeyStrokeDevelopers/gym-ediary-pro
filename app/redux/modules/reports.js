@@ -19,6 +19,7 @@ const initialState = {
   openNoti: true,
   error: null,
   updated: false,
+  isFormReset: false,
 };
 
 export default function reducer(state = initialState, action = {}) {

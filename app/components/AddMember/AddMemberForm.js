@@ -55,9 +55,12 @@ class AddMemberForm extends React.Component {
   };
 
   componentDidUpdate = () => {
-    const { formValues } = this.props;
+    const { formValues, isFormReset, reset } = this.props;
     if (formValues !== this.state.formValues) {
       this.setState({ formValues, dob: formValues.dob, anniversary: formValues.anniversary ? formValues.anniversary : null });
+    }
+    if (isFormReset) {
+      reset();
     }
   }
 
@@ -131,7 +134,6 @@ class AddMemberForm extends React.Component {
   }
 
   handleSubmitData = (data) => {
-
     const { selectedPackPrice, regFee, packDisc, gstPer } = this.state;
     const payable = selectedPackPrice + regFee - packDisc;
     const gstValue = Math.round(payable * gstPer / 100)

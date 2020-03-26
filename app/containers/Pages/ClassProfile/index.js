@@ -53,6 +53,7 @@ class ClassProfile extends React.Component {
       availableClassData,
       subscribedClassData,
       paymentMethodData,
+      isFormReset,
       close,
       add,
       submitData
@@ -83,6 +84,7 @@ class ClassProfile extends React.Component {
             availableClassData={availableClassData}
             paymentMethodData={paymentMethodData}
             memberData={memberData}
+            isFormReset={isFormReset}
             inputChange={this.handleChange}
             add={add}
             open={openFrm}
@@ -110,6 +112,7 @@ const mapStateToProps = state => {
     messageNotif: classSubscriptionReducer.notifMsg,
     notifType: classSubscriptionReducer.notifType,
     openNoti: classSubscriptionReducer.openNoti,
+    isFormReset: classSubscriptionReducer.isFormReset
   });
 }
 

@@ -40,6 +40,7 @@ class MeasurementProfile extends React.Component {
       memberData,
       add, close,
       messageNotif,
+      isFormReset,
       notifType,
       openNoti,
       closeNotif,
@@ -67,6 +68,7 @@ class MeasurementProfile extends React.Component {
           />
           <Measurement
             submitData={submitData}
+            isFormReset={isFormReset}
             memberData={memberData}
             open={open}
             add={add}
@@ -91,6 +93,7 @@ const mapStateToProps = state => {
     messageNotif: measurementReducer.notifMsg,
     notifType: measurementReducer.notifType,
     openNoti: measurementReducer.openNoti,
+    isFormReset: measurementReducer.isFormReset
   });
 }
 const constDispatchToProps = dispatch => ({
