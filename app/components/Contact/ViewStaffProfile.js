@@ -15,8 +15,6 @@ import 'dan-styles/vendors/slick-carousel/slick-theme.css';
 import styles from './product-jss';
 import StaffProfile from '../../containers/Pages/StaffProfile';
 
-const getThumb = imgData.map(a => a.thumb);
-
 const Transition = React.forwardRef(function Transition(props, ref) { // eslint-disable-line
     return <Slide direction="up" ref={ref} {...props} />;
 });

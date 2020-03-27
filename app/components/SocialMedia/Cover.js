@@ -169,9 +169,9 @@ class Cover extends React.Component {
           <Typography className={classes.subheading} gutterBottom>
             {desc}
           </Typography>
-          <Button className={classes.button} size="large" variant="contained" color="secondary">
+          {/* <Button className={classes.button} size="large" variant="contained" color="secondary">
             Add to Connection
-          </Button>
+          </Button> */}
         </div>
       </div>
     );

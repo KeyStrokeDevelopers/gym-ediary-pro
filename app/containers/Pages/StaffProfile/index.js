@@ -20,6 +20,7 @@ import bgCover from 'dan-images/petal_bg.svg';
 import styles from 'dan-components/SocialMedia/jss/cover-jss';
 import AccountProfile from '../StaffAccountProfile';
 import Attendance from '../StaffAttendanceProfile';
+import { SERVER_URL } from '../../../components/Common/constant';
 
 function TabContainer(props) {
   const { children } = props;
@@ -66,9 +67,9 @@ class StaffProfile extends React.Component {
         </Helmet>
         <Cover
           coverImg={bgCover}
-          avatar={dummy.user.avatar}
-          name={dummy.user.name}
-          desc="Consectetur adipiscing elit."
+          avatar={`${SERVER_URL}${staffData.staffImage}`}
+          name={staffData.staffName}
+        //desc="Consectetur adipiscing elit."
         />
         <AppBar position="static" className={classes.profileTab} style={{ zIndex: 1 }}>
           <Tabs

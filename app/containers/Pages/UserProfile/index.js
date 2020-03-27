@@ -30,6 +30,7 @@ import MediaProfile from '../MediaProfile';
 import AccountProfile from '../AccountProfile';
 import Attendance from '../AttendanceProfile';
 import WorkoutNutritionProfile from '../WorkoutNutritionProfile';
+import { SERVER_URL } from '../../../components/Common/constant';
 
 function TabContainer(props) {
   const { children } = props;
@@ -74,11 +75,12 @@ class UserProfile extends React.Component {
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
         </Helmet>
+
         <Cover
           coverImg={bgCover}
-          avatar={dummy.user.avatar}
-          name={dummy.user.name}
-          desc="Consectetur adipiscing elit."
+          avatar={`${SERVER_URL}${memberData.profileImage}`}
+          name={memberData.name}
+        // desc="Consectetur adipiscing elit."
         />
         <AppBar position="static" className={classes.profileTab} style={{ zIndex: 1 }}>
           <Tabs
