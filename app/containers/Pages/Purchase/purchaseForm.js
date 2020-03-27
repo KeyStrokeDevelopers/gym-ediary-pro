@@ -15,7 +15,7 @@ import { getBrandUnitData } from 'dan-actions/brandUnitActions';
 import { getProductData } from 'dan-actions/productActions.js';
 import { setInCart } from 'dan-actions/purchaseActions.js';
 import styles from './purchase-jss';
-import { validate } from '../../../components/Forms/helpers/formValidation';
+import { validate, number } from '../../../components/Forms/helpers/formValidation';
 import { RegularTextFieldRedux, SelectRedux } from '../../../components/Forms/ReduxFormMUI';
 
 
@@ -203,6 +203,7 @@ class PurchaseForm extends React.Component {
                   autoComplete="off"
                   component={RegularTextFieldRedux}
                   onChange={this.handleQuantity}
+                  validate={number}
                   className={classes.field}
                   InputProps={{
                     startAdornment: (
@@ -219,7 +220,6 @@ class PurchaseForm extends React.Component {
                   <Field
                     name="priceFormat"
                     component={SelectRedux}
-                    required
                     placeholder="Price Format"
                     autoComplete="off"
                     onChange={this.selectedPriceFormat}
@@ -239,6 +239,7 @@ class PurchaseForm extends React.Component {
                   component={RegularTextFieldRedux}
                   autoComplete="off"
                   onChange={this.handlePrice}
+                  validate={number}
                   className={classes.field}
                   InputProps={{
                     startAdornment: (
@@ -257,6 +258,7 @@ class PurchaseForm extends React.Component {
                   autoComplete="off"
                   component={RegularTextFieldRedux}
                   onChange={this.handleDiscount}
+                  validate={number}
                   className={classes.field}
                   InputProps={{
                     startAdornment: (

@@ -162,7 +162,6 @@ class CustomerForm extends Component {
                   <Field
                     name="state"
                     component={SelectRedux}
-                    required
                     placeholder="Select State"
                   >
                     {

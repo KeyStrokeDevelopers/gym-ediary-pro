@@ -15,7 +15,7 @@ import { getBrandUnitData } from 'dan-actions/brandUnitActions';
 import { getProductData, fetchProductQuantity } from 'dan-actions/productActions.js';
 import { setInCart } from 'dan-actions/saleActions.js';
 import { RegularTextFieldRedux, SelectRedux } from '../../../components/Forms/ReduxFormMUI';
-import { validate } from '../../../components/Forms/helpers/formValidation';
+import { validate, number } from '../../../components/Forms/helpers/formValidation';
 import styles from './sale-jss';
 
 
@@ -179,7 +179,6 @@ class SaleForm extends React.Component {
                     <Field
                       name="productType"
                       component={SelectRedux}
-                      required
                       autoComplete="off"
                       placeholder="Select Product Type"
                       onChange={this.selectedProductTypeValue}
@@ -200,7 +199,6 @@ class SaleForm extends React.Component {
                     <Field
                       name="brandProduct"
                       component={SelectRedux}
-                      required
                       autoComplete="off"
                       placeholder="Select Brand and Product"
                       onChange={this.selectedBrand}
@@ -223,6 +221,7 @@ class SaleForm extends React.Component {
                   component={RegularTextFieldRedux}
                   onChange={this.handleQuantity}
                   validate={this.checkProductQuantity}
+                  validate={number}
                   className={classes.field}
                   InputProps={{
                     startAdornment: (
@@ -239,7 +238,6 @@ class SaleForm extends React.Component {
                   <Field
                     name="priceFormat"
                     component={SelectRedux}
-                    required
                     placeholder="Price Format"
                     autoComplete="off"
                     onChange={this.selectedPriceFormat}
@@ -259,6 +257,7 @@ class SaleForm extends React.Component {
                   component={RegularTextFieldRedux}
                   autoComplete="off"
                   onChange={this.handlePrice}
+                  validate={number}
                   className={classes.field}
                   InputProps={{
                     startAdornment: (
@@ -277,6 +276,7 @@ class SaleForm extends React.Component {
                   autoComplete="off"
                   component={RegularTextFieldRedux}
                   onChange={this.handleDiscount}
+                  validate={number}
                   className={classes.field}
                   InputProps={{
                     startAdornment: (

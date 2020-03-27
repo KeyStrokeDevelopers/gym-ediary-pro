@@ -19,7 +19,8 @@ class AddContact extends React.Component {
     this.state = {
       img: null,
       files: [],
-      hitDelete: false
+      hitDelete: false,
+      openForm: false
     };
     this.onDrop = this.onDrop.bind(this);
   }
@@ -38,6 +39,13 @@ class AddContact extends React.Component {
 
   handleDeleteImdage = () => {
     this.setState({ files: [], img: null, hitDelete: true });
+  }
+
+  componentDidUpdate = () => {
+    const { openForm } = this.props
+    if (openForm !== this.state.openForm) {
+      this.setState({ openForm, hitDelete: false })
+    }
   }
 
   sendValues = (values) => {

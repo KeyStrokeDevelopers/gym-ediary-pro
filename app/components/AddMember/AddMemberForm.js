@@ -45,7 +45,6 @@ class AddMemberForm extends React.Component {
     regFee: 0,
     fillValueFromEnquiry: '',
     editImage: false,
-    deleteImage: false,
     dob: null,
     anniversary: null,
     packageActivationDate: null,
@@ -126,7 +125,6 @@ class AddMemberForm extends React.Component {
   deleteImage = () => {
     const { onDeleteImage } = this.props;
     onDeleteImage();
-    this.setState({ deleteImage: true });
   }
 
   selectedGstPer = (e, gstPer) => {
@@ -137,12 +135,11 @@ class AddMemberForm extends React.Component {
     const { selectedPackPrice, regFee, packDisc, gstPer } = this.state;
     const payable = selectedPackPrice + regFee - packDisc;
     const gstValue = Math.round(payable * gstPer / 100)
-    const { onSubmit, reset } = this.props;
+    const { onSubmit } = this.props;
     let submitData = data.set('packPrice', selectedPackPrice);
     submitData = submitData.set('gstValue', gstValue);
     submitData = submitData.set('gstPer', gstPer);
     onSubmit(submitData);
-    //reset();
   }
 
   render() {
@@ -153,19 +150,16 @@ class AddMemberForm extends React.Component {
       submitting,
       purposeData,
       packageData,
-      addMemberData,
       paymentMethodData,
-      itemSelected,
       occupationData,
       enquiryData,
       handleSubmit,
       onDrop,
-      formValue,
       edit,
       imgAvatar
     } = this.props;
     const {
-      age, selectedPackPrice, fillValueFromEnquiry, packDisc, paidAmount, editImage, deleteImage, dob, anniversary, packageActivationDate, isBiometic, regFee, gstPer
+      age, selectedPackPrice, fillValueFromEnquiry, packDisc, paidAmount, dob, anniversary, packageActivationDate, isBiometic, regFee, gstPer
     } = this.state;
     const payable = selectedPackPrice + regFee - packDisc;
     const totalPayable = payable + Math.round(payable * gstPer / 100);
@@ -174,24 +168,14 @@ class AddMemberForm extends React.Component {
     let dropzoneRef;
     const acceptedFiles = ['image/jpeg', 'image/png', 'image/bmp'];
     const fileSizeLimit = 300000;
-    const isImageSave = addMemberData && addMemberData.length >= 1 ? addMemberData[itemSelected].profileImage : '';
-    let imageUrl;
-    if (isImageSave) {
-      imageUrl = `${SERVER_URL}${isImageSave}`;
-    }
     const fingerCodeWidth = isBiometic ? '50%' : '100%';
-    const imgPreview = (img) => {
-      if (deleteImage) {
-        return null;
-      }
-      if (imageUrl && formValue && (Object.keys(formValue).length >= 1)) {
-        return imageUrl;
-      }
-      if (typeof img !== 'string' && img !== '') {
+    const imgPreview = img => {
+      if (typeof img !== 'string' && img !== '' && img) {
         return URL.createObjectURL(imgAvatar);
       }
       return img;
     };
+
     return (
       <div>
         <form onSubmit={handleSubmit(this.handleSubmitData)}>

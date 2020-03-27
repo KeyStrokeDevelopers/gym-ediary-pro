@@ -13,7 +13,9 @@ class AddMember extends React.Component {
     super(props);
     this.state = {
       img: null,
-      files: []
+      files: [],
+      hitDelete: false,
+      openForm: false
     };
   }
 
@@ -31,7 +33,14 @@ class AddMember extends React.Component {
 
   handleDeleteImage = () => {
     const { img, files } = this.state;
-    this.setState({ files: [], img: null });
+    this.setState({ files: [], img: null, hitDelete: true });
+  }
+
+  componentDidUpdate = () => {
+    const { openForm } = this.props
+    if (openForm !== this.state.openForm) {
+      this.setState({ openForm, hitDelete: false, img: null })
+    }
   }
 
   sendValues = (values) => {
@@ -65,7 +74,8 @@ class AddMember extends React.Component {
       gymInfoData,
       isLoading,
     } = this.props;
-    const { img } = this.state;
+    const { img, hitDelete } = this.state;
+
     const branch = '';
     return (
       <div>
@@ -90,7 +100,7 @@ class AddMember extends React.Component {
             enquiryData={enquiryData}
             edit={edit}
             addMemberData={addMemberData}
-            imgAvatar={img === null ? avatarInit : img}
+            imgAvatar={img === null && !hitDelete ? avatarInit : img}
             isLoading={isLoading}
           />
         </FloatingPanel>

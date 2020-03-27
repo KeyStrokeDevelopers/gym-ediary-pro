@@ -79,11 +79,9 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case SHOW_DETAIL_MEASUREMENT: {
-      const measurementData = state.isActive ? state.measurementList.filter(item => item.status === 1) : state.measurementList.filter(item => item.status === 0);
-      const index = measurementData.indexOf(action.payload);
       return {
         ...state,
-        selectedIndex: index,
+        selectedIndex: action.payload,
         showMobileDetail: true,
       };
     }

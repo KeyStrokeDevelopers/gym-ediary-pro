@@ -28,17 +28,19 @@ class AccountForm extends Component {
   }
 
   componentDidMount = () => {
-    const { accountInfo, initObj } = this.props;
+    const { accountInfo, initObj, setState } = this.props;
     if (Object.keys(accountInfo).length >= 1) {
       this.props.initialize(accountInfo);
       const dob = accountInfo.get('dobWish');
       const anniversary = accountInfo.get('anniversaryWish');
       this.setState({ dob, anniversary });
+      setState(accountInfo.get('state'));
     } else if (Object.keys(initObj).length >= 1) {
       this.props.initialize(initObj);
       const dob = initObj.dobWish;
       const anniversary = initObj.anniversaryWish;
       const { date } = initObj;
+      setState(initObj.state);
       this.setState({ dob: dob ? dob : null, anniversary: anniversary ? anniversary : null, date: date ? date : null });
     }
   }

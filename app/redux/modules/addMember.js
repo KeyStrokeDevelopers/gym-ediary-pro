@@ -63,11 +63,10 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         openFrm: true,
-        // .set('selectedId', action.item.get('id'))
         formValues: action.payload,
         isFormReset: false,
         isLoading: false,
-        // .set('avatarInit', action.item.get('avatar'));
+        avatarInit: action.payload.profileImage ? `${SERVER_URL}${action.payload.profileImage}` : ''
       };
     case ADD_ADD_MEMBER_DATA:
       return {

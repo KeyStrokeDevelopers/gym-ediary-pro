@@ -42,7 +42,6 @@ class AddStaffForm extends React.Component {
     dob: null,
     salaryDate: null,
     editImage: false,
-    deleteImage: false,
     numberOfShift: 1,
     shiftFrom1: null,
     shiftTo1: null,
@@ -92,7 +91,6 @@ class AddStaffForm extends React.Component {
   deleteImage = () => {
     const { onDeleteImage } = this.props;
     onDeleteImage();
-    this.setState({ deleteImage: true });
   }
 
   selectedNumberOfShift = (e, numberOfShift) => {
@@ -142,9 +140,7 @@ class AddStaffForm extends React.Component {
       handleSubmit,
       accessData,
       formValues,
-      itemSelected,
       onDrop,
-      staffData,
       imgAvatar
     } = this.props;
     const {
@@ -153,11 +149,7 @@ class AddStaffForm extends React.Component {
     let dropzoneRef;
     const acceptedFiles = ['image/jpeg', 'image/png', 'image/bmp'];
     const fileSizeLimit = 300000;
-    const isImageSave = staffData && staffData.length >= 1 ? staffData[itemSelected].staffImage : '';
-    let imageUrl;
-    if (isImageSave) {
-      imageUrl = `${SERVER_URL}${isImageSave}`;
-    }
+
     const imgPreview = img => {
       if (typeof img !== 'string' && img !== '' && img) {
         return URL.createObjectURL(imgAvatar);

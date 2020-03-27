@@ -42,7 +42,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         staffList: action.payload,
         formValues: {},
-        openFrm: true,
+        openFrm: false,
         isLoading: false,
         selectedIndex: 0,
         notifMsg: action.message,
