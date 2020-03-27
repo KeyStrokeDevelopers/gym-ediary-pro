@@ -20,6 +20,7 @@ const validate = values => {
     'packDuration',
     'packPrice',
     'durationIn',
+    'date',
 
     // staff
     'staffDob',

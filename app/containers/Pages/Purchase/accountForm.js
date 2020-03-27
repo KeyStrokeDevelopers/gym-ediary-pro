@@ -19,11 +19,10 @@ import {
 } from '../../../components/Forms/ReduxFormMUI';
 import { ContentDivider } from '../../../components/Divider';
 import { allIndianState } from '../../../components/Common/constant';
-import moment from 'moment';
 
 class AccountForm extends Component {
   state = {
-    date: moment(new Date).format('YYYY-MM-DD'),
+    date: null,
     dob: null,
     anniversary: null
   }
@@ -31,18 +30,16 @@ class AccountForm extends Component {
   componentDidMount = () => {
     const { accountInfo, initObj } = this.props;
     if (Object.keys(accountInfo).length >= 1) {
-      accountInfo.date = this.state.date;
       this.props.initialize(accountInfo);
       const dob = accountInfo.get('dobWish');
       const anniversary = accountInfo.get('anniversaryWish');
       this.setState({ dob, anniversary });
     } else if (Object.keys(initObj).length >= 1) {
-      initObj.date = this.state.date;
       this.props.initialize(initObj);
       const dob = initObj.dobWish;
       const anniversary = initObj.anniversaryWish;
       const { date } = initObj;
-      this.setState({ dob, anniversary, date });
+      this.setState({ dob: dob ? dob : null, anniversary: anniversary ? anniversary : null, date: date ? date : null });
     }
   }
 
@@ -237,7 +234,7 @@ class AccountForm extends Component {
                   autoComplete="off"
                   disableFuture
                   component={DatePickerInput}
-                  onChange={this.handleDateOfBirth}
+                  onChange={() => this.handleDateOfBirth()}
                   dateValue={dob}
                 />
               </div>
@@ -253,7 +250,7 @@ class AccountForm extends Component {
                   label="ANNIVERSARY"
                   autoComplete="off"
                   component={DatePickerInput}
-                  onChange={this.handleAnniversary}
+                  onChange={() => this.handleAnniversary()}
                   dateValue={anniversary}
                 />
               </div>
@@ -266,11 +263,10 @@ class AccountForm extends Component {
                 <Field
                   name="date"
                   label="Date"
-                  required
                   disableFuture
                   component={DatePickerInput}
                   autoComplete="off"
-                  onChange={this.handleDate}
+                  onChange={() => this.handleDate()}
                   dateValue={date}
                 />
               </div>
@@ -279,7 +275,6 @@ class AccountForm extends Component {
                   name="invoiceNumber"
                   placeholder="Invoice Number"
                   label="Invoice Number"
-                  required
                   autoComplete="off"
                   component={RegularTextFieldRedux}
                   className={classes.field}
