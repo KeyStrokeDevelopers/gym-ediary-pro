@@ -97,7 +97,6 @@ class LoginForm extends React.Component {
                     component={TextFieldRedux}
                     placeholder="Registered Contact Number"
                     label="Registered Contact Number"
-                    required
                     autoComplete="off"
                     validate={phoneNumber}
                     className={classes.field}
@@ -112,7 +111,6 @@ class LoginForm extends React.Component {
                     autoComplete="off"
                     placeholder="Staff/User Contact Number"
                     label="Staff/User Contact Number"
-                    required
                     validate={phoneNumber}
                     className={classes.field}
                   />
@@ -139,7 +137,6 @@ class LoginForm extends React.Component {
                         </InputAdornment>
                       )
                     }}
-                    required
                     className={classes.field}
                   />
                 </FormControl>

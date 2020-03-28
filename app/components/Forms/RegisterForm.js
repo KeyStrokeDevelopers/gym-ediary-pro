@@ -112,7 +112,6 @@ class RegisterForm extends React.Component {
                     placeholder="GYM Name "
                     label="GYM Name"
                     autoComplete="off"
-                    required
                     className={classes.field}
                   />
                 </FormControl>
@@ -127,7 +126,6 @@ class RegisterForm extends React.Component {
                     multiline
                     rowsMax="4"
                     label="Postal Address - if Any"
-                    required
                     className={classes.field}
                   />
                 </FormControl>
@@ -140,7 +138,6 @@ class RegisterForm extends React.Component {
                     autoComplete="off"
                     placeholder="City"
                     label="City"
-                    required
                     className={classes.field}
                   />
                 </FormControl>
@@ -151,7 +148,6 @@ class RegisterForm extends React.Component {
                   <Field
                     name="branchState"
                     component={SelectRedux}
-                    required
                     placeholder="Select State"
                   >
                     {
@@ -169,7 +165,6 @@ class RegisterForm extends React.Component {
                     autoComplete="off"
                     placeholder="Pin Code"
                     label="Pin Code"
-                    required
                     validate={pinNumber}
                     className={classes.field}
                   />
@@ -183,7 +178,6 @@ class RegisterForm extends React.Component {
                     placeholder="GYM Contact Number"
                     autoComplete="off"
                     label="GYM Contact Number"
-                    required
                     validate={phoneNumber}
                     className={classes.field}
                   />
@@ -197,7 +191,6 @@ class RegisterForm extends React.Component {
                     autoComplete="off"
                     placeholder="Your Email"
                     label="Your Email"
-                    required
                     validate={email}
                     className={classes.field}
                   />
@@ -215,7 +208,6 @@ class RegisterForm extends React.Component {
                     autoComplete="off"
                     placeholder="Owner's Name"
                     label="Owner's Name"
-                    required
                     className={classes.field}
                   />
                 </FormControl>
@@ -228,7 +220,6 @@ class RegisterForm extends React.Component {
                     placeholder="Contact Number"
                     autoComplete="off"
                     label="Contact Number"
-                    required
                     validate={phoneNumber}
                     className={classes.field}
                   />
@@ -242,7 +233,6 @@ class RegisterForm extends React.Component {
                     autoComplete="off"
                     placeholder="Email Id"
                     label="Email Id"
-                    required
                     validate={email}
                     className={classes.field}
                   />
